@@ -2,11 +2,11 @@
 import Layout from "../layouts/Layout.astro";
 
 //microCMS呼び出し
-import { getBlogs } from "../library/microcms";
+import { getBlogs } from "../libs/microcms";
 const response = await getBlogs({ fields: ["id", "title"] });
 ---
 
-<Layout title="My first blog with Astro">
+<Layout title="miyata blog">
   <main>
     <ul>
       {

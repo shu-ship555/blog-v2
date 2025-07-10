@@ -1,14 +1,17 @@
+---
+const { pageTitle, pageDescription }=Astro.props;
+---
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{pageTitle}</title>
 	</head>
+
 	<body>
-		<h1 class="text-2xl bg-gray-200 p-4 font-bold text-indigo-900">タイトル</h1>
 		<slot />
 	</body>
 </html>
