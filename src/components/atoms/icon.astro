@@ -1,0 +1,31 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+export interface Props {
+  filename: string;
+  color?: string;
+  customClass?: string
+}
+
+const { filename, color, customClass } = Astro.props;
+
+const svgFilePath = path.resolve(process.cwd(), `public/img/${filename}.svg`);
+
+let svgContent : string = '';
+try {
+  svgContent = fs.readFileSync(svgFilePath, 'utf8');
+
+  if (color) {
+    svgContent = svgContent.replace(/fill="[^"]*"/g, `fill="${color}"`);
+  }
+
+} catch (error) {
+  console.error(`SVGファイルの読み込み中にエラーが発生しました: ${svgFilePath}`, error);
+  svgContent = `<svg viewBox="0 0 24 24" fill="red"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>`;
+}
+---
+
+<div class={`inline-block ${customClass}`}>
+  <Fragment set:html={svgContent} />
+</div>

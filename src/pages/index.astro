@@ -4,9 +4,11 @@ import Layout from "../layouts/Layout.astro";
 //microCMS呼び出し
 import { getBlogs } from "../libs/microcms";
 const response = await getBlogs({ fields: ["id", "title"] });
+import Header from "../components/organisms/header.astro";
 ---
 
 <Layout title="miyata blog">
+  <Header/>
   <main>
     <ul>
       {
