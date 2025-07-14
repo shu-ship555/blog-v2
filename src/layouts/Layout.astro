@@ -21,6 +21,10 @@ const {
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/assets/css/styles.css">
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -38,7 +42,8 @@ const {
     {ogImage && <meta name="twitter:image" content={ogImage} />}
   </head>
 
-  <body>
+  <body class="relative">
     <slot />
+		<script src="../assets/js/common.js"></script>
   </body>
 </html>

@@ -8,7 +8,11 @@ import Header from "../components/organisms/header.astro";
 ---
 
 <Layout title="miyata blog">
-  <Header/>
+    <Header navItems={[
+    { href: "/blog", text: "Blog" },
+    { href: "/about", text: "About" },
+    { href: "/contact", text: "Contact" },
+  ]} />
   <main>
     <ul>
       {

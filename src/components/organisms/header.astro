@@ -1,8 +1,36 @@
 ---
 import Icon from "../atoms/icon.astro";
+
+interface NavItem {
+  href: string;
+  text: string;
+}
+
+interface Props {
+  navItems?: NavItem[];
+}
+
+const { navItems = [] } = Astro.props;
 ---
 
 <header>
-  <div><Icon filename="logo" color="#0079C9" customClass="w-[80px]"/></div>
-  <nav></nav>
+  <div class="flex justify-between items-center max-w-[1216px] px-[48px] sm:px-[24px] w-full mx-auto pt-[44px] sm:pt-[20px] pb-[48px] sm:pb-[24px]">
+    <a href="/" class="opacity-hover duration"><Icon filename="logo" color="#0079C9" customClass="w-[88px] sm:w-[72px]"/></a>
+    <nav class="text-[16px] font-bold z-10">
+      <ol class="flex items-center gap-[48px]">
+        {navItems.map(item => (
+          <li class="leading-none sm:hidden"><a href={item.href} class="opacity-hover duration">{item.text}</a></li>
+        ))}
+        <li class="hidden leading-none sm:block js-open"><Icon filename="icon_menu" customClass="w-[32px]"/></li>
+        <li class="hidden leading-none js-close"><Icon filename="icon_x" customClass="w-[32px]"/></li>
+      </ol>
+    </nav>
+    <nav class="js-menu text-[16px] font-bold absolute inset-0 items-center justify-center hidden w-full h-screen bg-[#FAFAFA]/[0.64] sm:hidden backdrop-blur-sm pb-[24px]">
+      <ol class=" flex flex-col gap-[24px]">
+        {navItems.map(item => (
+          <li class="leading-none"><a href={item.href} class="opacity-hover duration">{item.text}</a></li>
+        ))}
+      </ol>
+    </nav>
+  </div>
 </header>
