@@ -1,27 +1,61 @@
 ---
 import Layout from "../layouts/Layout.astro";
-
-//microCMS呼び出し
-import { getBlogs } from "../libs/microcms";
-const response = await getBlogs({ fields: ["id", "title"] });
 import Header from "../components/organisms/header.astro";
+import { getBlogs, getCategoryList } from "../libs/microcms";
+import type { Category } from "@libs/microcms.ts";
+
+// 必要なデータだけを取得
+const [blogsResponse, categoriesResponse] = await Promise.all([
+	getBlogs({ fields: ["id", "title"] }),
+	getCategoryList(),
+]);
+
+const blogs = blogsResponse.contents;
+const categories = categoriesResponse.contents;
+
+interface Props {
+	categories: Category[];
+}
 ---
 
 <Layout title="miyata blog">
-    <Header navItems={[
-    { href: "/blog", text: "Blog" },
-    { href: "/about", text: "About" },
-    { href: "/contact", text: "Contact" },
-  ]} />
-  <main>
-    <ul>
-      {
-        response.contents.map((content: any) => (
-          <li>
-            <a href={content.id}>{content.title}</a>
-          </li>
-        ))
-      }
-    </ul>
-  </main>
+	<Header
+		navItems={[
+			{ href: "/blog", text: "Blog" },
+			{ href: "/about", text: "About" },
+			{ href: "/contact", text: "Contact" },
+		]}
+	/>
+	<main class="max-w-[1216px] px-[48px] mx-auto flex justify-between">
+		<ul class="flex gap-[36px]">
+			{
+				blogs.map((blog) => (
+					<li class="max-w-[408px] w-full" key={blog.id}>
+						<a href={`/blog/${blog.id}`}>{blog.title}</a>
+					</li>
+				))
+			}
+		</ul>
+		<div>
+			<p>カテゴリ</p>
+			<ul>
+				{
+					categories.length === 0 ? (
+						<li class="text-sm text-muted-foreground">カテゴリがありません</li>
+					) : (
+						categories.map((category) => (
+							<li key={category.id}>
+								<a
+									href={`/category/${category.id}`}
+									class="text-sm hover:underline"
+								>
+									{category.name}
+								</a>
+							</li>
+						))
+					)
+				}
+			</ul>
+		</div>
+	</main>
 </Layout>
