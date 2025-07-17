@@ -7,11 +7,6 @@ export default {
 		screens: {
 			'sm': { 'max': '640px' },
 		},
-		safelist: [
-			'opacity-hover',
-			'duration',
-			'inner',
-		],
 		extend: {},
 	},
 	plugins: [],
