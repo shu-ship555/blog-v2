@@ -26,6 +26,11 @@ export type SiteSettings = {
   title: string;
   description: string;
   about: string;
+	id: string;
+	createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  revisedAt: string;
 } & MicroCMSObjectContent; // オブジェクト形式のコンテンツ用
 
 // APIの呼び出し

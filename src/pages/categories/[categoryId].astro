@@ -1,0 +1,53 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getBlogs, getCategoryList } from "../../libs/microcms";
+import type { Blog, Category } from "../../libs/microcms";
+
+export async function getStaticPaths() {
+	const categoriesResponse = await getCategoryList({ fields: ["id"] });
+	return categoriesResponse.contents.map((category: Category) => ({
+		params: {
+			categoryId: category.id,
+		},
+	}));
+}
+
+const { categoryId } = Astro.params;
+
+const blogsResponse = await getBlogs({
+	filters: `categories.id[equals]${categoryId}`,
+});
+const blogs = blogsResponse.contents;
+
+const categoriesResponse = await getCategoryList({
+	filters: `id[equals]${categoryId}`,
+});
+const currentCategory = categoriesResponse.contents[0];
+---
+
+<Layout
+	title={`${currentCategory ? currentCategory.name : "カテゴリ"}のブログ記事`}
+>
+	<main>
+		<h1 class="title">
+			{
+				currentCategory
+					? `${currentCategory.name}のブログ記事`
+					: "カテゴリのブログ記事"
+			}
+		</h1>
+		{
+			blogs.length === 0 ? (
+				<p>このカテゴリにはまだ記事がありません。</p>
+			) : (
+				<ul>
+					{blogs.map((blog: Blog) => (
+						<li>
+							<a href={`/blogs/${blog.id}`}>{blog.title}</a>
+						</li>
+					))}
+				</ul>
+			)
+		}
+	</main>
+</Layout>

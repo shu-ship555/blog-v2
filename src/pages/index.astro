@@ -4,7 +4,6 @@ import Header from "../components/organisms/header.astro";
 import { getBlogs, getCategoryList } from "../libs/microcms";
 import type { Category } from "@libs/microcms.ts";
 
-// 必要なデータだけを取得
 const [blogsResponse, categoriesResponse] = await Promise.all([
 	getBlogs({ fields: ["id", "title"] }),
 	getCategoryList(),
@@ -26,12 +25,12 @@ interface Props {
 			{ href: "/contact", text: "Contact" },
 		]}
 	/>
-	<main class="max-w-[1216px] px-[48px] mx-auto flex justify-between">
+	<main class="flex justify-between inner">
 		<ul class="flex gap-[36px]">
 			{
 				blogs.map((blog) => (
-					<li class="max-w-[408px] w-full" key={blog.id}>
-						<a href={`/blog/${blog.id}`}>{blog.title}</a>
+					<li class="max-w-[408px] w-full">
+						<a href={`/blogs/${blog.id}`}>{blog.title}</a>
 					</li>
 				))
 			}
@@ -44,9 +43,9 @@ interface Props {
 						<li class="text-sm text-muted-foreground">カテゴリがありません</li>
 					) : (
 						categories.map((category) => (
-							<li key={category.id}>
+							<li>
 								<a
-									href={`/category/${category.id}`}
+									href={`/categories/${category.id}`}
 									class="text-sm hover:underline"
 								>
 									{category.name}
