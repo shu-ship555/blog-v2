@@ -12,10 +12,54 @@ export async function getStaticPaths() {
 	}));
 }
 
+
 const { categoryId } = Astro.params;
+// *** ここからデバッグコードを追加 ***
+console.log("------------------------------------");
+console.log("デバッグ開始:");
+console.log("Astro.paramsから取得したcategoryId:", categoryId); // ① Astroから取得したcategoryId
+
+// フィルタリングを適用して記事を取得し、その結果を確認する
+const filteredBlogsResponse = await getBlogs({
+  filters: `category.id[equals]${categoryId}`
+});
+
+console.log(`フィルタリング後の記事数（categoryId: ${categoryId}）:`, filteredBlogsResponse.contents.length);
+if (filteredBlogsResponse.contents.length > 0) {
+  console.log("フィルタリング後の最初の記事のタイトル:", filteredBlogsResponse.contents[0].title);
+  if (filteredBlogsResponse.contents[0].category && filteredBlogsResponse.contents[0].category.id) {
+    console.log("フィルタリング後の最初の記事のcategory.id:", filteredBlogsResponse.contents[0].category.id);
+    console.log("両者の比較結果（フィルタリング後）:", categoryId === filteredBlogsResponse.contents[0].category.id);
+  } else {
+    console.log("フィルタリング後の最初の記事にカテゴリ情報がありません。");
+  }
+} else {
+  console.log(`categoryId: ${categoryId} に一致する記事は見つかりませんでした。`);
+}
+console.log("デバッグ終了");
+
+console.log("\n====================================");
+console.log("全記事取得デバッグ開始:");
+
+const allBlogsResponse = await getBlogs({
+  limit: 100 // 全ての公開済み記事を取得するためにlimitを設定
+});
+
+console.log("--- 全ての公開済み記事のタイトルとカテゴリ情報 ---");
+if (allBlogsResponse.contents.length > 0) {
+  allBlogsResponse.contents.forEach((blog: Blog, index: number) => {
+    const categoryInfo = blog.category ? `(カテゴリID: ${blog.category.id}, カテゴリ名: ${blog.category.name})` : "(カテゴリなし)";
+    console.log(`${index + 1}. ${blog.title} ${categoryInfo}`);
+  });
+} else {
+  console.log("公開済みの記事がMicroCMSから見つかりませんでした。");
+}
+console.log("全記事取得デバッグ終了");
+console.log("====================================\n");
+// *** デバッグコードここまで ***
 
 const blogsResponse = await getBlogs({
-	filters: `categories.id[equals]${categoryId}`,
+	filters: `category.id[equals]${categoryId}`
 });
 const blogs = blogsResponse.contents;
 
@@ -29,7 +73,7 @@ const currentCategory = categoriesResponse.contents[0];
 	title={`${currentCategory ? currentCategory.name : "カテゴリ"}のブログ記事`}
 >
 	<main>
-		<h1 class="title">
+		<h1 class="text-2xl font-bold">
 			{
 				currentCategory
 					? `${currentCategory.name}のブログ記事`

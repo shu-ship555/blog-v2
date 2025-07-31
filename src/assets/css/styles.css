@@ -19,5 +19,5 @@ body {
 }
 
 .inner {
-  @apply max-w-[1440px] px-[48px] sm:px-[24px] w-full mx-auto;
+  @apply max-w-[1280px] px-[48px] sm:px-[24px] w-full mx-auto;
 }

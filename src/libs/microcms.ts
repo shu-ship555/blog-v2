@@ -15,6 +15,7 @@ const client = createClient({
 export type Blog = {
   title: string;
   content: string;
+	category: Category;
 } & MicroCMSListContent;
 
 export type Category = {
