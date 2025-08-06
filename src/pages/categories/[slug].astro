@@ -1,0 +1,65 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getBlogs, getCategoryList } from "../../libs/microcms";
+
+export async function getStaticPaths() {
+  const categoryResponse = await getCategoryList({
+    fields: ["slug"],
+  });
+  const categories = categoryResponse.contents;
+
+  return categories.map((category) => ({
+    params: { slug: category.slug },
+  }));
+}
+
+const categorySlug = Astro.params.slug;
+
+// 取得したslugを使って、まず該当するカテゴリの詳細情報を取得
+const categoryResponse = await getCategoryList({
+  filters: `slug[equals]${categorySlug}`,
+});
+const currentCategory = categoryResponse.contents[0];
+if (!currentCategory) {
+  return Astro.redirect('/404'); // 例: 404ページへリダイレクト
+}
+
+const blogResponse = await getBlogs({
+  filters: `category[equals]${currentCategory.id}`,
+  orders: '-publishedAt',
+  fields: ['id', 'title', 'category', 'publishedAt'],
+});
+const blogs = blogResponse.contents;
+---
+
+<Layout title={`${currentCategory.name} の記事一覧 | miyata blog`}>
+  <main class="py-8 inner">
+    <h1 class="mb-6 text-3xl font-bold">カテゴリ: {currentCategory.name}</h1>
+
+    {blogs.length === 0 ? (
+      <p class="text-gray-600">このカテゴリにはまだ記事がありません。</p>
+    ) : (
+      <ul class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {blogs.map((blog) => (
+          <li class="overflow-hidden transition-shadow duration-300 bg-white rounded-lg shadow-md hover:shadow-lg">
+            <a href={`/blogs/${blog.id}`} class="block p-6">
+              <h2 class="mb-2 text-xl font-semibold line-clamp-2">{blog.title}</h2>
+              {blog.category && (
+                <p class="text-sm text-blue-600">
+                  <a href={`/categories/${blog.category.slug}`} class="hover:underline">
+                    {blog.category.name}
+                  </a>
+                </p>
+              )}
+              {blog.publishedAt && (
+                <p class="mt-2 text-sm text-gray-500">
+                  公開日: {new Date(blog.publishedAt).toLocaleDateString('ja-JP')}
+                </p>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </main>
+</Layout>

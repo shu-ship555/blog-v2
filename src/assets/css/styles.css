@@ -21,3 +21,7 @@ body {
 .inner {
   @apply max-w-[1280px] px-[48px] sm:px-[24px] w-full mx-auto;
 }
+
+.bracket {
+	@apply relative before:content-['['] after:content-[']'];
+}

@@ -16,10 +16,25 @@ export type Blog = {
   title: string;
   content: string;
 	category: Category;
+	publishedAt: string;
+	description: string;
+	tag: Tag;
+	eyecatch: {
+    url: string;
+    height: number;
+    width: number;
+  };
+	readingTime: number;
 } & MicroCMSListContent;
 
 export type Category = {
   name: string;
+	slug: string;
+} & MicroCMSListContent;
+
+export type Tag = {
+  name: string;
+	slug: string;
 } & MicroCMSListContent;
 
 // Settingsの型定義をMicroCMSObjectContentを継承するように変更

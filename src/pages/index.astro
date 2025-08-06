@@ -3,9 +3,10 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/organisms/header.astro";
 import { getBlogs, getCategoryList } from "../libs/microcms";
 import type { Category } from "@libs/microcms.ts";
+import { formatDate } from "../../src/utils/date";
 
 const [blogsResponse, categoriesResponse] = await Promise.all([
-	getBlogs({ fields: ["id", "title"] }),
+	getBlogs(),
 	getCategoryList(),
 ]);
 
@@ -30,7 +31,15 @@ interface Props {
 			{
 				blogs.map((blog) => (
 					<li class="max-w-[408px] w-full">
-						<a href={`/blogs/${blog.id}`}>{blog.title}</a>
+						<a href={`/blogs/${blog.id}`} class="opacity-hover duration">
+						<div>{blog.eyecatch ? <img src={blog.eyecatch.url} alt={blog.title} /> : <img src="/public/img/dummyImage.png" alt={blog.title} /> }</div>
+						{blog.readingTime && <p class="font-bold text-[14px] leading-[1.28] tracking-[0.06em]">読了までの時間{blog.readingTime}分</p> }
+						<p class="font-bold text-[14px] leading-[1.28] tracking-[0.06em]">{blog.category.name}</p>
+						<p class="font-bold text-[16px] leading-[1.48] tracking-[0.06em]">{blog.title}</p>
+						<p class="font-bold text-[12px] leading-[1.28] tracking-[0.06em]">{blog.description}</p>
+						<p class="font-bold text-[10px] leading-[1] tracking-[0.06em]">{formatDate(blog.publishedAt)}</p>
+						<p class="font-bold text-[10px] leading-[1] tracking-[0.06em]">{blog.tag.name}</p>
+						</a>
 					</li>
 				))
 			}
@@ -45,7 +54,7 @@ interface Props {
 						categories.map((category) => (
 							<li>
 								<a
-									href={`/categories/${category.id}`}
+									href={`/categories/${category.slug}`}
 									class="text-sm hover:underline"
 								>
 									{category.name}
