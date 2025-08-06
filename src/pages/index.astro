@@ -13,6 +13,14 @@ const [blogsResponse, categoriesResponse] = await Promise.all([
 const blogs = blogsResponse.contents;
 const categories = categoriesResponse.contents;
 
+const categoryCounts = categories.map((category) => {
+	const count = blogs.filter((blog) => blog.category.id === category.id).length;
+	return {
+		...category,
+		count,
+	};
+});
+
 interface Props {
 	categories: Category[];
 }
@@ -32,13 +40,45 @@ interface Props {
 				blogs.map((blog) => (
 					<li class="max-w-[408px] w-full">
 						<a href={`/blogs/${blog.id}`} class="opacity-hover duration">
-						<div>{blog.eyecatch ? <img src={blog.eyecatch.url} alt={blog.title} /> : <img src="/public/img/dummyImage.png" alt={blog.title} /> }</div>
-						{blog.readingTime && <p class="font-bold text-[14px] leading-[1.28] tracking-[0.06em]">読了までの時間{blog.readingTime}分</p> }
-						<p class="font-bold text-[14px] leading-[1.28] tracking-[0.06em]">{blog.category.name}</p>
-						<p class="font-bold text-[16px] leading-[1.48] tracking-[0.06em]">{blog.title}</p>
-						<p class="font-bold text-[12px] leading-[1.28] tracking-[0.06em]">{blog.description}</p>
-						<p class="font-bold text-[10px] leading-[1] tracking-[0.06em]">{formatDate(blog.publishedAt)}</p>
-						<p class="font-bold text-[10px] leading-[1] tracking-[0.06em]">{blog.tag.name}</p>
+							<div>
+								{blog.eyecatch ? (
+									<img
+										src={blog.eyecatch.url}
+										alt={blog.title}
+										class="rounded-lg"
+									/>
+								) : (
+									<img
+										src="/public/img/dummyImage.png"
+										alt={blog.title}
+										class="rounded-lg"
+									/>
+								)}
+							</div>
+							<div class="p-[12px]">
+								<div class="flex gap-[10px]">
+								<p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] text-[#FFF] rounded-full" style={`background-color: ${blog.category.labelColor};`}>
+									{blog.category.name}
+								</p>
+									{blog.readingTime && (
+										<p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] bg-[#F6F6F6] rounded-full">
+											<span class="text-[#666]">読了までの時間：</span>{blog.readingTime}分
+										</p>
+									)}
+								</div>
+								<p class="font-bold text-[16px] leading-[1.48] tracking-[0.06em] mt-[12px]">
+									{blog.title}
+								</p>
+								<p class="font-medium text-[12px] leading-[1.48] tracking-[0.06em] mt-[8px]">
+									{blog.description}
+								</p>
+								<p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px]">
+									{formatDate(blog.publishedAt)}
+								</p>
+								<p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px]">
+									{blog.tag.name}
+								</p>
+							</div>
 						</a>
 					</li>
 				))
@@ -48,16 +88,17 @@ interface Props {
 			<p>カテゴリ</p>
 			<ul>
 				{
-					categories.length === 0 ? (
+					categoryCounts.length === 0 ? (
 						<li class="text-sm text-muted-foreground">カテゴリがありません</li>
 					) : (
-						categories.map((category) => (
+						categoryCounts.map((category) => (
 							<li>
 								<a
 									href={`/categories/${category.slug}`}
 									class="text-sm hover:underline"
 								>
 									{category.name}
+									<span class="bracket">{category.count}</span>
 								</a>
 							</li>
 						))

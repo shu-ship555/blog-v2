@@ -30,6 +30,8 @@ export type Blog = {
 export type Category = {
   name: string;
 	slug: string;
+	count: number;
+	labelColor: string;
 } & MicroCMSListContent;
 
 export type Tag = {
