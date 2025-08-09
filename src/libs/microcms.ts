@@ -71,6 +71,10 @@ export const getCategoryList = async (queries?: MicroCMSQueries) => {
   return client.getList<Category>({ endpoint: "categories", queries });
 };
 
+export const getTags = async (queries?: MicroCMSQueries) => {
+  return client.getList<Tag>({ endpoint: "tags", queries });
+};
+
 // 設定取得のデフォルト値
 const DEFAULT_SETTINGS: SiteSettings = {
   title: "あなたのサイトタイトルを設定してください",
