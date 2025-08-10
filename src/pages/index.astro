@@ -40,16 +40,16 @@ interface Props {
 <Layout title="miyata blog">
   <Header
     navItems={[
-      { href: "/blog", text: "Blog" },
-      { href: "/about", text: "About" },
-      { href: "/contact", text: "Contact" },
+      { href: "/blog", text: "Blog", name:"ブログ" },
+      { href: "/about", text: "About", name:"このサイトについて" },
+      { href: "/contact", text: "Contact", name:"お問い合わせ" },
     ]}
   />
-  <main class="flex justify-between inner pt-[160px] sm:pt-[96px] pb-[200px] sm:pb-[64px] sm:flex-col">
-    <ul class="flex gap-[36px] flex-wrap">
+  <main class="flex justify-between inner pt-[160px] sm:pt-[96px] pb-[200px] gap-[48px] sm:pb-[64px] sm:flex-col">
+    <ul class="flex gap-[36px] flex-wrap sm:gap-[28px]">
       {
         blogs.map((blog) => (
-          <li class="max-w-[408px] w-full">
+          <li class="max-w-[408px] sm:max-w-full w-full">
             <a href={`/blogs/${blog.id}`} class="opacity-hover duration">
               <div>
                 {blog.eyecatch ? (
@@ -66,27 +66,27 @@ interface Props {
                   />
                 )}
               </div>
-              <div class="p-[12px]">
-                <div class="flex gap-[10px]">
-                <p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] text-[#FFF] rounded-full" style={`background-color: ${blog.category.labelColor};`}>
+              <div class="p-[12px] sm:px-0 sm:pt-[10px] sm:pb-0">
+                <div class="flex gap-[10px] flex-wrap">
+                <p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] text-[#FFF] rounded-full sm:text-[10px] sm:pb-[4px]" style={`background-color: ${blog.category.labelColor};`}>
                   {blog.category.name}
                 </p>
                   {blog.readingTime && (
-                    <p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] bg-[#F6F6F6] rounded-full">
+                    <p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] bg-[#F6F6F6] rounded-full sm:text-[10px] sm:pb-[4px]">
                       <span class="text-[#666]">読了までの時間：</span>{blog.readingTime}分
                     </p>
                   )}
                 </div>
-                <p class="font-bold text-[16px] leading-[1.48] tracking-[0.06em] mt-[12px]">
+                <p class="font-bold text-[16px] leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[10px]">
                   {blog.title}
                 </p>
-                <p class="font-medium text-[12px] leading-[1.48] tracking-[0.06em] mt-[8px]">
+                <p class="font-medium text-[12px] leading-[1.48] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
                   {blog.description}
                 </p>
-                <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px]">
+                <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
                   {formatDate(blog.publishedAt)}
                 </p>
-                <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px]">
+                <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
                   {blog.tag.name}
                 </p>
               </div>
@@ -116,7 +116,7 @@ interface Props {
         }
       </ul>
       <p class="text-[20px] leading-none tracking-[0.06em] font-bold mt-[48px]">Tag｜タグ</p>
-      <ul class="mt-[24px] flex gap-x-[12px] flex-wrap">
+      <ul class="mt-[24px] flex gap-[12px] flex-wrap">
         {
           tagCounts.length === 0 ? (
             <li class="text-sm text-muted-foreground">タグがありません</li>

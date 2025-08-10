@@ -1,11 +1,11 @@
 ---
 import Icon from "../atoms/icon.astro";
 import { getBlogs, getCategoryList, getTags } from "../../libs/microcms";
-import type { Category, Tag } from "@libs/microcms.ts";
 
 interface NavItem {
 	href: string;
 	text: string;
+	name: string;
 }
 
 const [blogsResponse, categoriesResponse, tagsResponse] = await Promise.all([
@@ -56,7 +56,7 @@ const { navItems = [] } = Astro.props;
 				<ol class="flex items-center gap-[48px]">
 					{
 						navItems.map((item) => (
-							<li class="leading-none sm:hidden">
+							<li class="leading-none tracking-[0.06em] sm:hidden">
 								<a href={item.href} class="opacity-hover duration">
 									{item.text}
 								</a>
@@ -75,20 +75,20 @@ const { navItems = [] } = Astro.props;
 	</div>
 	<!-- nav2 -->
 </header>
-<nav class="text-[16px] z-30 font-bold w-full js-menu mx-auto inner absolute pt-[96px] hidden">
-	<ol class="flex flex-col gap-[28px] mx-auto">
+<nav class="text-[16px] z-30 font-bold w-full js-menu mx-auto inner absolute pt-[24vh] hidden">
+	<ol class="flex flex-col gap-[28px] mx-auto px-[12vw]">
 		{
 			navItems.map((item) => (
-				<li class="leading-none">
+				<li class="leading-none tracking-[0.06em]">
 					<a href={item.href} class="opacity-hover duration">
-						{item.text}
+						{item.text}｜{item.name}
 					</a>
 				</li>
 			))
 		}
 		<li><hr class="border border-[#666]" /></li>
 		<li class="shrink-0">
-			<p class="text-[16px] leading-none tracking-[0.06em] font-bold">
+			<p class="text-[16px] leading-none tracking-[0.06em] font-bold text-[#666]">
 				Category｜カテゴリ
 			</p>
 			<ul class="mt-[18px]">
@@ -107,7 +107,7 @@ const { navItems = [] } = Astro.props;
 					)
 				}
 			</ul>
-			<p class="text-[16px] leading-none tracking-[0.06em] font-bold mt-[28px]">
+			<p class="text-[16px] leading-none tracking-[0.06em] font-bold mt-[28px] text-[#666]">
 				Tag｜タグ
 			</p>
 			<ul class="mt-[18px] flex gap-[12px] flex-wrap">

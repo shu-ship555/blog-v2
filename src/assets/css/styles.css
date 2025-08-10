@@ -29,6 +29,9 @@ body {
 	@apply relative before:content-['['] after:content-[']'] align-[0.06em] before:pr-[0.24em] after:pl-[0.24em];
 }
 
+/* =======================
+ハンバーガーメニュー
+ ======================= */
 .is-active .js-open {
   @apply hidden; /* オープンボタンを非表示 */
 }
