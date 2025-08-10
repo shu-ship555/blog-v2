@@ -6,9 +6,9 @@ import type { Category, Tag } from "@libs/microcms.ts";
 import { formatDate } from "../../src/utils/date";
 
 const [blogsResponse, categoriesResponse, tagsResponse] = await Promise.all([
-  getBlogs(),
-  getCategoryList(),
-  getTags(),
+	getBlogs(),
+	getCategoryList(),
+	getTags(),
 ]);
 
 const blogs = blogsResponse.contents;
@@ -16,15 +16,17 @@ const categories = categoriesResponse.contents;
 const tags = tagsResponse.contents;
 
 const categoryCounts = categories.map((category) => {
-  const count = blogs.filter((blog) => blog.category.id === category.id).length;
-  return {
-    ...category,
-    count,
-  };
+	const count = blogs.filter((blog) => blog.category.id === category.id).length;
+	return {
+		...category,
+		count,
+	};
 });
 
 const tagCounts = tags.map((tag) => {
-  const count = blogs.filter((blog) => blog.tag.id === tag.id).length;
+  const count = blogs.filter((blog) =>
+    blog.tag.some((blogTag) => blogTag.id === tag.id)
+  ).length;
   return {
     ...tag,
     count,
@@ -32,108 +34,118 @@ const tagCounts = tags.map((tag) => {
 });
 
 interface Props {
-  categories: Category[];
-  tags: Tag[];
+	categories: Category[];
+	tags: Tag[];
 }
 ---
 
 <Layout title="miyata blog">
-  <Header
-    navItems={[
-      { href: "/blog", text: "Blog", name:"ブログ" },
-      { href: "/about", text: "About", name:"このサイトについて" },
-      { href: "/contact", text: "Contact", name:"お問い合わせ" },
-    ]}
-  />
-  <main class="flex justify-between inner pt-[160px] sm:pt-[96px] pb-[200px] gap-[48px] sm:pb-[64px] sm:flex-col">
-    <ul class="flex gap-[36px] flex-wrap sm:gap-[28px]">
-      {
-        blogs.map((blog) => (
-          <li class="max-w-[408px] sm:max-w-full w-full">
-            <a href={`/blogs/${blog.id}`} class="opacity-hover duration">
-              <div>
-                {blog.eyecatch ? (
-                  <img
-                    src={blog.eyecatch.url}
-                    alt={blog.title}
-                    class="rounded-lg"
-                  />
-                ) : (
-                  <img
-                    src="/public/img/dummyImage.png"
-                    alt={blog.title}
-                    class="rounded-lg"
-                  />
-                )}
-              </div>
-              <div class="p-[12px] sm:px-0 sm:pt-[10px] sm:pb-0">
-                <div class="flex gap-[10px] flex-wrap">
-                <p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] text-[#FFF] rounded-full sm:text-[10px] sm:pb-[4px]" style={`background-color: ${blog.category.labelColor};`}>
-                  {blog.category.name}
-                </p>
-                  {blog.readingTime && (
-                    <p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] bg-[#F6F6F6] rounded-full sm:text-[10px] sm:pb-[4px]">
-                      <span class="text-[#666]">読了までの時間：</span>{blog.readingTime}分
-                    </p>
-                  )}
-                </div>
-                <p class="font-bold text-[16px] leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[10px]">
-                  {blog.title}
-                </p>
-                <p class="font-medium text-[12px] leading-[1.48] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
-                  {blog.description}
-                </p>
-                <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
-                  {formatDate(blog.publishedAt)}
-                </p>
-                <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
-                  {blog.tag.name}
-                </p>
-              </div>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-    <div class="shrink-0 max-w-[240px] w-full sm:hidden">
-      <p class="text-[20px] leading-none tracking-[0.06em] font-bold">Category｜カテゴリ</p>
-      <ul class="mt-[24px]">
-        {
-          categoryCounts.length === 0 ? (
-            <li class="text-sm text-muted-foreground">カテゴリがありません</li>
-          ) : (
-            categoryCounts.map((category) => (
-              <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
-                <a
-                  href={`/categories/${category.slug}`}
-                >
-                  {category.name}
-                  <span class="bracket">{category.count}</span>
-                </a>
-              </li>
-            ))
-          )
-        }
-      </ul>
-      <p class="text-[20px] leading-none tracking-[0.06em] font-bold mt-[48px]">Tag｜タグ</p>
-      <ul class="mt-[24px] flex gap-[12px] flex-wrap">
-        {
-          tagCounts.length === 0 ? (
-            <li class="text-sm text-muted-foreground">タグがありません</li>
-          ) : (
-            tagCounts.map((tag) => (
-              <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration">
-                <a
-                  href={`/tags/${tag.slug}`}
-                >
-                  {tag.name}
-                  <span class="bracket">{tag.count}</span>
-                </a>
-              </li>
-            ))
-          )
-        }
-      </ul>
-    </div>
-  </main>
+	<Header
+		navItems={[
+			{ href: "/blog", text: "Blog", name: "ブログ" },
+			{ href: "/about", text: "About", name: "このサイトについて" },
+			{ href: "/contact", text: "Contact", name: "お問い合わせ" },
+		]}
+	/>
+	<main
+		class="flex justify-between inner pt-[160px] sm:pt-[96px] pb-[200px] gap-[48px] sm:pb-[64px] sm:flex-col"
+	>
+		<ul class="flex gap-[36px] flex-wrap sm:gap-[28px]">
+			{
+				blogs.map((blog) => (
+					<li class="max-w-[408px] sm:max-w-full w-full">
+						<a href={`/blogs/${blog.id}`} class="opacity-hover duration">
+							<div>
+								{blog.eyecatch ? (
+									<img
+										src={blog.eyecatch.url}
+										alt={blog.title}
+										class="rounded-lg"
+									/>
+								) : (
+									<img
+										src="/public/img/dummyImage.png"
+										alt={blog.title}
+										class="rounded-lg"
+									/>
+								)}
+							</div>
+							<div class="p-[12px] sm:px-0 sm:pt-[10px] sm:pb-0">
+								<div class="flex gap-[10px] flex-wrap">
+									<p
+										class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] text-[#FFF] rounded-full sm:text-[10px] sm:pb-[4px]"
+										style={`background-color: ${blog.category.labelColor};`}
+									>
+										{blog.category.name}
+									</p>
+									{blog.readingTime && (
+										<p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] bg-[#F6F6F6] rounded-full sm:text-[10px] sm:pb-[4px]">
+											<span class="text-[#666]">読了までの時間：</span>
+											{blog.readingTime}分
+										</p>
+									)}
+								</div>
+								<p class="font-bold text-[16px] leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[10px]">
+									{blog.title}
+								</p>
+								<p class="font-medium text-[12px] leading-[1.48] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
+									{blog.description}
+								</p>
+								<p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
+									{formatDate(blog.publishedAt)}
+								</p>
+								<div class="flex gap-[8px] flex-wrap">
+									{blog.tag.map((tag) => (
+										<p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
+											{tag.name}
+										</p>
+									))}
+								</div>
+							</div>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+		<div class="shrink-0 max-w-[240px] w-full sm:hidden">
+			<p class="text-[20px] leading-none tracking-[0.06em] font-bold">
+				Category｜カテゴリ
+			</p>
+			<ul class="mt-[24px]">
+				{
+					categoryCounts.length === 0 ? (
+						<li class="text-sm text-muted-foreground">カテゴリがありません</li>
+					) : (
+						categoryCounts.map((category) => (
+							<li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
+								<a href={`/categories/${category.slug}`}>
+									{category.name}
+									<span class="bracket">{category.count}</span>
+								</a>
+							</li>
+						))
+					)
+				}
+			</ul>
+			<p class="text-[20px] leading-none tracking-[0.06em] font-bold mt-[48px]">
+				Tag｜タグ
+			</p>
+			<ul class="mt-[24px] flex gap-[12px] flex-wrap">
+				{
+					tagCounts.length === 0 ? (
+						<li class="text-sm text-muted-foreground">タグがありません</li>
+					) : (
+						tagCounts.map((tag) => (
+							<li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration">
+								<a href={`/tags/${tag.slug}`}>
+									{tag.name}
+									<span class="bracket">{tag.count}</span>
+								</a>
+							</li>
+						))
+					)
+				}
+			</ul>
+		</div>
+	</main>
 </Layout>

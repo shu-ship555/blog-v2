@@ -1,45 +1,46 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getBlogs, getCategoryList } from "../../libs/microcms";
+import { getBlogs, getTags } from "../../libs/microcms";
 import { formatDate } from "../../../src/utils/date";
 
 export async function getStaticPaths() {
-  const categoryResponse = await getCategoryList({
+  const tagResponse = await getTags({
     fields: ["slug"],
   });
-  const categories = categoryResponse.contents;
+  const tags = tagResponse.contents;
 
-  return categories.map((category) => ({
-    params: { slug: category.slug },
+  return tags.map((tag) => ({
+    params: { slug: tag.slug },
   }));
 }
 
-const categorySlug = Astro.params.slug;
+const tagSlug = Astro.params.slug;
 
-const categoryResponse = await getCategoryList({
-  filters: `slug[equals]${categorySlug}`,
+// 取得したslugを使って、まず該当するカテゴリの詳細情報を取得
+const tagResponse = await getTags({
+  filters: `slug[equals]${tagSlug}`,
 });
-const currentCategory = categoryResponse.contents[0];
-if (!currentCategory) {
+const currentTag = tagResponse.contents[0];
+if (!currentTag) {
   return Astro.redirect('/404'); // 例: 404ページへリダイレクト
 }
 
 const blogResponse = await getBlogs({
-  filters: `category[equals]${currentCategory.id}`,
+  filters: `tag[equals]${currentTag.id}`,
   orders: '-publishedAt',
-  fields: ['id', 'title', 'category', 'publishedAt'],
+  fields: ['id', 'title', 'tag', 'publishedAt'],
 });
 const blogs = blogResponse.contents;
 ---
 
-<Layout title={`${currentCategory.name} の記事一覧 | miyata blog`}>
+<Layout title={`${currentTag.name} の記事一覧 | miyata blog`}>
   <main class="py-8 inner">
-    <h1 class="mb-6 text-3xl font-bold">Category｜{currentCategory.name}</h1>
+    <h1 class="mb-6 text-3xl font-bold">Tag｜{currentTag.name}</h1>
 
     {blogs.length === 0 ? (
       <p class="text-gray-600">このカテゴリにはまだ記事がありません。</p>
     ) : (
-      <ul class="flex gap-[36px] flex-wrap sm:gap-[28px]">
+    <ul class="flex gap-[36px] flex-wrap sm:gap-[28px]">
       {
         blogs.map((blog) => (
           <li class="max-w-[408px] sm:max-w-full w-full">
