@@ -18,7 +18,7 @@ export type Blog = {
 	category: Category;
 	publishedAt: string;
 	description: string;
-	tag: Tag;
+	tag: Tag[];
 	eyecatch: {
     url: string;
     height: number;
