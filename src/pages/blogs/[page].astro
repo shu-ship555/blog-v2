@@ -1,33 +1,45 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/organisms/header.astro";
-import Pager from "../components/organisms/pager.astro";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/organisms/header.astro";
+import Pager from "../../components/organisms/pager.astro";
 import {
 	getAllContents,
 	getBlogs,
 	getCategoryList,
 	getTags,
-} from "../libs/microcms";
+} from "../../libs/microcms";
 import type {
 	Blog,
 	Category,
 	Tag,
 	MicroCMSResponse,
-} from "../libs/microcms.d.ts";
-import { formatDate } from "../../src/utils/date";
+} from "../../libs/microcms.d.ts";
+import { formatDate } from "../../utils/date";
 
-// 1ページあたりの表示件数を定義
+// getStaticPaths 関数内で PER_PAGE を定義
+export async function getStaticPaths() {
+	const PER_PAGE = 10;
+	const blogsData: MicroCMSResponse<Blog> = await getBlogs();
+	const totalCount = blogsData.totalCount;
+
+	const paths = [];
+	// 1ページ目は index.astro で処理するため、2ページ目以降のパスを生成
+	for (let i = 2; i <= Math.ceil(totalCount / PER_PAGE); i++) {
+		paths.push({ params: { page: String(i) } });
+	}
+
+	return paths;
+}
+
+// ページ番号と記事を取得
 const PER_PAGE = 10;
 const page = Astro.params.page ? parseInt(Astro.params.page) : 1;
 const offset = (page - 1) * PER_PAGE;
 
-// ① 記事一覧表示のために、最初の10件の記事を取得
-const recentBlogsResponse: MicroCMSResponse<Blog> = await getBlogs({
-	limit: PER_PAGE,
-	offset: 0,
-});
+// 表示用には現在のページのブログ記事のみを取得
+const blogsResponse = await getBlogs({ limit: PER_PAGE, offset });
 
-// ② 件数カウントのために、すべての記事・カテゴリ・タグを取得
+// カウント用にはすべてのブログ、カテゴリ、タグを並行して取得
 const [allBlogsResponse, allCategoriesResponse, allTagsResponse] =
 	await Promise.all([
 		getAllContents<Blog>("blogs"),
@@ -35,8 +47,8 @@ const [allBlogsResponse, allCategoriesResponse, allTagsResponse] =
 		getAllContents<Tag>("tags"),
 	]);
 
-const blogs = recentBlogsResponse.contents;
-const allBlogs = allBlogsResponse.contents; // 全ブログ記事データ
+const blogs = blogsResponse.contents;
+const allBlogs = allBlogsResponse.contents;
 const categories = allCategoriesResponse.contents;
 const tags = allTagsResponse.contents;
 
@@ -63,16 +75,16 @@ const tagCounts = tags.map((tag) => {
 });
 ---
 
-<Layout title="miyata blog">
+<Layout title={`ブログ一覧 - ${page}ページ目`}>
 	<Header
 		navItems={[
-			{ href: "/blog", text: "Blog", name: "ブログ" },
+			{ href: "/", text: "Top", name: "トップ" },
 			{ href: "/about", text: "About", name: "このサイトについて" },
 			{ href: "/contact", text: "Contact", name: "お問い合わせ" },
 		]}
 	/>
 	<main class="inner pt-[160px] sm:pt-[96px] pb-[200px] sm:pb-[64px]">
-		<div class="flex justify-between gap-[56px] sm:flex-col">
+		<div class="flex justify-between gap-[48px] sm:flex-col">
 			<ul class="flex gap-[32px] flex-wrap sm:gap-[28px]">
 				{
 					blogs.map((blog) => (
@@ -143,10 +155,12 @@ const tagCounts = tags.map((tag) => {
 					<li
 						class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px] cursor-pointer"
 					>
-						2025年
+						全期間
 					</li>
 				</ul> -->
-				<p class="text-[20px] leading-none tracking-[0.06em] font-bold">
+				<p
+					class="text-[20px] leading-none tracking-[0.06em] font-bold"
+				>
 					Category｜カテゴリ
 				</p>
 				<ul class="mt-[24px]">

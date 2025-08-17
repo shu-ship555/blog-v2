@@ -12,6 +12,13 @@ const client = createClient({
 });
 
 // 型定義
+export type MicroCMSResponse<T> = {
+  contents: T[];
+  totalCount: number;
+  offset: number;
+  limit: number;
+};
+
 export type Blog = {
   title: string;
   content: string;
@@ -73,6 +80,35 @@ export const getCategoryList = async (queries?: MicroCMSQueries) => {
 
 export const getTags = async (queries?: MicroCMSQueries) => {
   return client.getList<Tag>({ endpoint: "tags", queries });
+};
+
+export const getAllContents = async <T>(endpoint: string, queries: MicroCMSQueries = {}) => {
+  const allContents: T[] = [];
+  let offset = queries.offset || 0;
+  const limit = 100;
+
+  while (true) {
+    // ここを修正: APIレスポンス全体の型を指定
+    const response = await client.get<MicroCMSResponse<T>>({
+      endpoint,
+      queries: {
+        ...queries,
+        offset,
+        limit,
+      },
+    });
+
+    allContents.push(...response.contents);
+
+    // totalCountはレスポンスのプロパティとしてアクセス
+    if (allContents.length >= response.totalCount) {
+      break;
+    }
+
+    offset += limit;
+  }
+
+  return { contents: allContents, totalCount: allContents.length };
 };
 
 // 設定取得のデフォルト値
