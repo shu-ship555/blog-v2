@@ -1,131 +1,133 @@
 ---
 import Icon from "../atoms/icon.astro";
-import { getBlogs, getCategoryList, getTags } from "../../libs/microcms";
+import { getCategoryList, getTags, getAllContents } from "../../libs/microcms";
+import type { Blog, Category, Tag } from "../../libs/microcms.d.ts";
 
 interface NavItem {
-	href: string;
-	text: string;
-	name: string;
+  href: string;
+  text: string;
+  name: string;
 }
 
-const [blogsResponse, categoriesResponse, tagsResponse] = await Promise.all([
-	getBlogs(),
-	getCategoryList(),
-	getTags(),
+// 修正：getAllContents を使用して全データを取得する
+const [allBlogsResponse, allCategoriesResponse, allTagsResponse] = await Promise.all([
+  getAllContents<Blog>("blogs"),
+  getAllContents<Category>("categories"),
+  getAllContents<Tag>("tags"),
 ]);
 
-const blogs = blogsResponse.contents;
-const categories = categoriesResponse.contents;
-const tags = tagsResponse.contents;
+const allBlogs = allBlogsResponse.contents;
+const categories = allCategoriesResponse.contents;
+const tags = allTagsResponse.contents;
 
 const categoryCounts = categories.map((category) => {
-	const count = blogs.filter((blog) => blog.category.id === category.id).length;
-	return {
-		...category,
-		count,
-	};
+  // 修正：全記事データ (allBlogs) を参照してカウントする
+  const count = allBlogs.filter((blog) => blog.category.id === category.id).length;
+  return {
+    ...category,
+    count,
+  };
 });
 
 const tagCounts = tags.map((tag) => {
-	const count = blogs.filter((blog) => blog.tag.id === tag.id).length;
-	return {
-		...tag,
-		count,
-	};
+  // 修正：全記事データ (allBlogs) を参照してカウントする
+  const count = allBlogs.filter((blog) => blog.tag.some((blogTag) => blogTag.id === tag.id)).length;
+  return {
+    ...tag,
+    count,
+  };
 });
 
 interface Props {
-	navItems?: NavItem[];
+  navItems?: NavItem[];
 }
 
 const { navItems = [] } = Astro.props;
 ---
 
-<header class="fixed z-50 w-full h-auto js-header">
-	<div class="pt-[44px] sm:pt-[20px] pb-[48px] sm:pb-[24px] inner">
-		<div class="flex justify-between">
-			<a href="/" class="z-10 opacity-hover duration"
-				><Icon
-					filename="logo"
-					color="#0079C9"
-					customClass="w-[88px] sm:w-[72px]"
-				/></a
-			>
-			<!-- nav1 -->
-			<nav class="text-[16px] font-bold flex justify-center items-center">
-				<ol class="flex items-center gap-[48px]">
-					{
-						navItems.map((item) => (
-							<li class="leading-none tracking-[0.06em] sm:hidden">
-								<a href={item.href} class="opacity-hover duration">
-									{item.text}
-								</a>
-							</li>
-						))
-					}
-					<li class="hidden leading-none sm:block js-open">
-						<Icon filename="icon_menu" customClass="w-[32px]" />
-					</li>
-					<li class="hidden leading-none js-close">
-						<Icon filename="icon_x" customClass="w-[32px]" />
-					</li>
-				</ol>
-			</nav>
-		</div>
-	</div>
-	<!-- nav2 -->
+<header class="fixed z-50 w-full h-auto bg-[#FFF]/[0.64] sm:bg-[#FFF]/[0] backdrop-blur-lg sm:backdrop-blur-0 js-header">
+  <div class="pt-[44px] sm:pt-[20px] pb-[48px] sm:pb-[24px] inner">
+    <div class="flex justify-between">
+      <a href="/" class="opacity-hover duration"
+        ><Icon
+          filename="logo"
+          color="#0079C9"
+          customClass="w-[88px] sm:w-[72px]"
+        /></a
+      >
+      <nav class="text-[16px] font-bold flex justify-center items-center">
+        <ol class="flex items-center gap-[48px]">
+          {
+            navItems.map((item) => (
+              <li class="leading-none tracking-[0.06em] sm:hidden">
+                <a href={item.href} class="opacity-hover duration">
+                  {item.text}
+                </a>
+              </li>
+            ))
+          }
+          <li class="hidden leading-none sm:block js-open">
+            <Icon filename="icon_menu" customClass="w-[32px]" />
+          </li>
+          <li class="hidden leading-none js-close">
+            <Icon filename="icon_x" customClass="w-[32px]" />
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </div>
 </header>
 <nav class="text-[16px] z-30 font-bold w-full js-menu mx-auto inner absolute pt-[24vh] hidden">
-	<ol class="flex flex-col gap-[40px] mx-auto px-[12vw]">
-		{
-			navItems.map((item) => (
-				<li class="leading-none tracking-[0.06em]">
-					<a href={item.href} class="opacity-hover duration">
-						{item.text}｜{item.name}
-					</a>
-				</li>
-			))
-		}
-		<li><hr class="border border-[#666]" /></li>
-		<li class="shrink-0">
-			<p class="text-[16px] leading-none tracking-[0.06em] font-bold text-[#666]">
-				Category｜カテゴリ
-			</p>
-			<ul class="mt-[18px]">
-				{
-					categoryCounts.length === 0 ? (
-						<li class="text-sm text-muted-foreground">カテゴリがありません</li>
-					) : (
-						categoryCounts.map((category) => (
-							<li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
-								<a href={`/categories/${category.slug}`}>
-									{category.name}
-									<span class="bracket">{category.count}</span>
-								</a>
-							</li>
-						))
-					)
-				}
-			</ul>
-			<p class="text-[16px] leading-none tracking-[0.06em] font-bold mt-[32px] text-[#666]">
-				Tag｜タグ
-			</p>
-			<ul class="mt-[18px] flex gap-[12px] flex-wrap">
-				{
-					tagCounts.length === 0 ? (
-						<li class="text-sm text-muted-foreground">タグがありません</li>
-					) : (
-						tagCounts.map((tag) => (
-							<li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] d">
-								<a href={`/tags/${tag.slug}`}>
-									{tag.name}
-									<span class="bracket">{tag.count}</span>
-								</a>
-							</li>
-						))
-					)
-				}
-			</ul>
-		</li>
-	</ol>
+  <ol class="flex flex-col gap-[40px] mx-auto px-[12vw]">
+    {
+      navItems.map((item) => (
+        <li class="leading-none tracking-[0.06em]">
+          <a href={item.href} class="opacity-hover duration">
+            {item.text}｜{item.name}
+          </a>
+        </li>
+      ))
+    }
+    <li><hr class="border border-[#666]" /></li>
+    <li class="shrink-0">
+      <p class="text-[16px] leading-none tracking-[0.06em] font-bold text-[#666]">
+        Category｜カテゴリ
+      </p>
+      <ul class="mt-[18px]">
+        {
+          categoryCounts.length === 0 ? (
+            <li class="text-sm text-muted-foreground">カテゴリがありません</li>
+          ) : (
+            categoryCounts.map((category) => (
+              <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
+                <a href={`/categories/${category.slug}`}>
+                  {category.name}
+                  <span class="bracket">{category.count}</span>
+                </a>
+              </li>
+            ))
+          )
+        }
+      </ul>
+      <p class="text-[16px] leading-none tracking-[0.06em] font-bold mt-[32px] text-[#666]">
+        Tag｜タグ
+      </p>
+      <ul class="mt-[18px] flex gap-[12px] flex-wrap">
+        {
+          tagCounts.length === 0 ? (
+            <li class="text-sm text-muted-foreground">タグがありません</li>
+          ) : (
+            tagCounts.map((tag) => (
+              <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] d">
+                <a href={`/tags/${tag.slug}`}>
+                  {tag.name}
+                  <span class="bracket">{tag.count}</span>
+                </a>
+              </li>
+            ))
+          )
+        }
+      </ul>
+    </li>
+  </ol>
 </nav>

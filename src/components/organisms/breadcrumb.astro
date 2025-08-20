@@ -1,0 +1,34 @@
+---
+import { getBlogs } from "../../libs/microcms";
+import Icon from "../atoms/icon.astro";
+
+const { blogId } = Astro.params;
+const blog = await getBlogs({ filters: `id[equals]${blogId}` });
+const blogData = blog.contents[0];
+const blogTitle = blog.contents[0].title;
+const category = blogData.category;
+---
+
+<div class="pt-[134px] sm:pt-[80px]">
+	<nav class="pt-[20px] sm:pt-[16px] pb-[24px] sm:pb-[18px] bg-[#FAFAFA]">
+		<ul class="flex flex-wrap items-center gap-[16px] sm:gap-[12px] inner">
+			<li class="text-[16px] sm:text-[12px] font-bold tracking-[0.04em] leading-none">
+				<a href="/" class="opacity-hover duration">Blog</a>
+			</li>
+			<Icon filename="icon_arrow_right" color="#333" customClass="w-[24px] shrink-0" />
+			{
+				category && (
+					<li class="text-[16px] sm:text-[12px] font-bold tracking-[0.04em] leading-none">
+						<a href={`/categories/${category.slug}`} class="opacity-hover duration">
+							{category.name}記事一覧
+						</a>
+					</li>
+				)
+			}
+			<Icon filename="icon_arrow_right" color="#333" customClass="w-[24px] shrink-0" />
+			<li class="text-[16px] sm:text-[12px] font-bold text-[#888] tracking-[0.04em] leading-none line-clamp-1">
+				<span>{blogTitle}</span>
+			</li>
+		</ul>
+	</nav>
+</div>

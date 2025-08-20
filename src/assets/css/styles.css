@@ -26,24 +26,27 @@ body {
 }
 
 .bracket {
-	@apply relative before:content-['['] after:content-[']'] align-[0.06em] before:pr-[0.24em] after:pl-[0.24em];
+	@apply relative before:content-['['] after:content-[']'] before:align-[0.06em] before:pr-[0.24em] after:pl-[0.24em] after:align-[0.06em];
 }
 
 /* =======================
 ハンバーガーメニュー
  ======================= */
-.is-active .js-open {
-  @apply hidden; /* オープンボタンを非表示 */
+.is-active{
+	@apply relative;
+}
+ .is-active .js-open {
+  @apply hidden;
 }
 
 .is-active .js-close {
-  @apply block; /* クローズボタンを表示 */
+  @apply block;
 }
 
 .is-active .js-menu {
-  @apply flex; /* メニューを表示 */
+  @apply flex;
 }
 
 .is-active .js-bg {
-  @apply block; /* 背景を表示 */
+  @apply block;
 }

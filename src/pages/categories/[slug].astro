@@ -1,195 +1,196 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getBlogs, getCategoryList, getTags } from "../../libs/microcms";
+import Pager from "../../components/organisms/pager.astro";
+import {
+  getBlogs,
+  getCategoryList,
+  getTags,
+  getAllContents,
+} from "../../libs/microcms";
+import type { Blog, Category, Tag, MicroCMSResponse } from "../../libs/microcms.d.ts";
 import { formatDate } from "../../../src/utils/date";
-import Header from "../../components/organisms/header.astro";
 
 export async function getStaticPaths() {
-	const categoryResponse = await getCategoryList({
-		fields: ["slug"],
-	});
-	const categories = categoryResponse.contents;
+  const categoryResponse = await getCategoryList({
+    fields: ["slug"],
+  });
+  const categories = categoryResponse.contents;
 
-	return categories.map((category) => ({
-		params: { slug: category.slug },
-	}));
+  return categories.map((category) => ({
+    params: { slug: category.slug },
+  }));
 }
 
 const categorySlug = Astro.params.slug;
 
 const categoryResponse = await getCategoryList({
-	filters: `slug[equals]${categorySlug}`,
+  filters: `slug[equals]${categorySlug}`,
 });
 const currentCategory = categoryResponse.contents[0];
 if (!currentCategory) {
-	return Astro.redirect("/404"); // 例: 404ページへリダイレクト
+  return Astro.redirect("/404");
 }
 
+// 該当カテゴリの記事一覧を取得
 const blogResponse = await getBlogs({
-	filters: `category[equals]${currentCategory.id}`,
-	orders: "-publishedAt",
-	fields: [
-		"id",
-		"title",
-		"category",
-		"publishedAt",
-		"eyecatch",
-		"readingTime",
-		"description",
-		"tag",
-	],
+  filters: `category[equals]${currentCategory.id}`,
+  orders: "-publishedAt",
+  fields: [
+    "id",
+    "title",
+    "category",
+    "publishedAt",
+    "eyecatch",
+    "readingTime",
+    "description",
+    "tag",
+  ],
 });
 
-const [categoriesResponse, tagsResponse] = await Promise.all([
-	getCategoryList(),
-	getTags(),
+// すべてのカテゴリ、タグ、そして「すべての記事」データを取得
+const [allBlogsResponse, allCategoriesResponse, allTagsResponse] = await Promise.all([
+  getAllContents<Blog>("blogs"),
+  getAllContents<Category>("categories"),
+  getAllContents<Tag>("tags"),
 ]);
 
 const blogs = blogResponse.contents;
-const categories = categoriesResponse.contents;
-const tags = tagsResponse.contents;
+const allBlogs = allBlogsResponse.contents; // 全ブログ記事データ
+const categories = allCategoriesResponse.contents;
+const tags = allTagsResponse.contents;
 
+// 取得した「全ブログ記事データ」を参照して、カテゴリの件数を正確に計算
 const categoryCounts = categories.map((category) => {
-	const count = blogs.filter((blog) => blog.category.id === category.id).length;
-	return {
-		...category,
-		count,
-	};
+  const count = allBlogs.filter((blog) => blog.category.id === category.id).length;
+  return {
+    ...category,
+    count,
+  };
 });
 
+// 取得した「全ブログ記事データ」を参照して、タグの件数を正確に計算
 const tagCounts = tags.map((tag) => {
-	const count = blogs.filter((blog) =>
-		blog.tag.some((blogTag) => blogTag.id === tag.id),
-	).length;
-	return {
-		...tag,
-		count,
-	};
+  const count = allBlogs.filter((blog) =>
+    blog.tag.some((blogTag) => blogTag.id === tag.id),
+  ).length;
+  return {
+    ...tag,
+    count,
+  };
 });
 ---
 
 <Layout title={`${currentCategory.name} の記事一覧 | miyata blog`}>
-	<Header
-		navItems={[
-			{ href: "/blog", text: "Blog", name: "ブログ" },
-			{ href: "/about", text: "About", name: "このサイトについて" },
-			{ href: "/contact", text: "Contact", name: "お問い合わせ" },
-		]}
-	/>
-	<main
-		class="inner pt-[160px] sm:pt-[96px] pb-[200px] gap-[48px] sm:pb-[64px]"
-	>
-		<h1 class="text-[32px] leading-none tracking-[0.06em] font-bold">
-			Category｜{currentCategory.name}
-		</h1>
-		<div class="flex justify-between sm:flex-col mt-[64px]">
-			{
-				blogs.length === 0 ? (
-					<p class="text-gray-600">このカテゴリにはまだ記事がありません。</p>
-				) : (
-					<ul class="flex gap-[36px] flex-wrap sm:gap-[28px]">
-						{blogs.map((blog) => (
-							<li class="max-w-[408px] sm:max-w-full w-full">
-								<a href={`/blogs/${blog.id}`} class="opacity-hover duration">
-									<div>
-										{blog.eyecatch ? (
-											<img
-												src={blog.eyecatch.url}
-												alt={blog.title}
-												class="rounded-lg"
-											/>
-										) : (
-											<img
-												src="/public/img/dummyImage.png"
-												alt={blog.title}
-												class="rounded-lg"
-											/>
-										)}
-									</div>
-									<div class="p-[12px] sm:px-0 sm:pt-[10px] sm:pb-0">
-										<div class="flex gap-[10px] flex-wrap">
-											<p
-												class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] text-[#FFF] rounded-full sm:text-[10px] sm:pb-[4px]"
-												style={`background-color: ${blog.category.labelColor};`}
-											>
-												{blog.category.name}
-											</p>
-											{blog.readingTime && (
-												<p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] bg-[#F6F6F6] rounded-full sm:text-[10px] sm:pb-[4px]">
-													<span class="text-[#666]">読了までの時間：</span>
-													{blog.readingTime}分
-												</p>
-											)}
-										</div>
-										<p class="font-bold text-[16px] leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[10px]">
-											{blog.title}
-										</p>
-										<p class="font-medium text-[12px] leading-[1.48] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
-											{blog.description}
-										</p>
-										<p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
-											{formatDate(blog.publishedAt)}
-										</p>
-										<div class="flex gap-[8px] flex-wrap">
-											{blog.tag.map((tag) => (
-												<p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
-													{tag.name}
-												</p>
-											))}
-										</div>
-									</div>
-								</a>
-							</li>
-						))}
-					</ul>
-				)
-			}
-			<div class="shrink-0 max-w-[240px] w-full sm:hidden">
-				<p
-					class="text-[20px] leading-none tracking-[0.06em] font-bold"
-				>
-					Category｜カテゴリ
-				</p>
-				<ul class="mt-[24px]">
-					{
-						categoryCounts.length === 0 ? (
-							<li class="text-sm text-muted-foreground">
-								カテゴリがありません
-							</li>
-						) : (
-							categoryCounts.map((category) => (
-								<li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
-									<a href={`/categories/${category.slug}`}>
-										{category.name}
-										<span class="bracket">{category.count}</span>
-									</a>
-								</li>
-							))
-						)
-					}
-				</ul>
-				<p
-					class="text-[20px] leading-none tracking-[0.06em] font-bold mt-[48px]"
-				>
-					Tag｜タグ
-				</p>
-				<ul class="mt-[24px] flex gap-[12px] flex-wrap">
-					{
-						tagCounts.length === 0 ? (
-							<li class="text-sm text-muted-foreground">タグがありません</li>
-						) : (
-							tagCounts.map((tag) => (
-								<li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration">
-									<a href={`/tags/${tag.slug}`}>
-										{tag.name}
-										<span class="bracket">{tag.count}</span>
-									</a>
-								</li>
-							))
-						)
-					}
-				</ul>
-			</div>
-		</div>
-	</main>
+  <main
+    class="inner pt-[160px] sm:pt-[96px] pb-[200px] gap-[48px] sm:pb-[64px]"
+  >
+    <h1 class="text-[32px] sm:text-[20px] leading-none tracking-[0.06em] font-bold">
+			Category <span class="bracket">{currentCategory.name}</span>
+    </h1>
+    <div class="flex justify-between sm:flex-col mt-[64px] sm:mt-[32px]">
+      {
+        blogs.length === 0 ? (
+          <p class="text-gray-600">このカテゴリにはまだ記事がありません。</p>
+        ) : (
+          <ul class="flex gap-[36px] flex-wrap sm:gap-[28px]">
+            {blogs.map((blog) => (
+              <li class="max-w-[408px] sm:max-w-full w-full">
+                <a href={`/blogs/${blog.id}`} class="opacity-hover duration">
+                  <div>
+                    {blog.eyecatch ? (
+                      <img
+                        src={blog.eyecatch.url}
+                        alt={blog.title}
+                        class="rounded-lg"
+                      />
+                    ) : (
+                      <img
+                        src="/public/img/dummyImage.png"
+                        alt={blog.title}
+                        class="rounded-lg"
+                      />
+                    )}
+                  </div>
+                  <div class="p-[12px] sm:px-0 sm:pt-[10px] sm:pb-0">
+                    <div class="flex gap-[10px] flex-wrap">
+                      <p
+                        class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] text-[#FFF] rounded-full sm:text-[10px] sm:pb-[4px]"
+                        style={`background-color: ${blog.category.labelColor};`}
+                      >
+                        {blog.category.name}
+                      </p>
+                      {blog.readingTime && (
+                        <p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] bg-[#F6F6F6] rounded-full sm:text-[10px] sm:pb-[4px]">
+                          <span class="text-[#666}">読了までの時間：</span>
+                          {blog.readingTime}分
+                        </p>
+                      )}
+                    </div>
+                    <p class="font-bold text-[16px] leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[10px]">
+                      {blog.title}
+                    </p>
+                    <p class="font-medium text-[12px] leading-[1.48] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
+                      {blog.description}
+                    </p>
+                    <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
+                      {formatDate(blog.publishedAt)}
+                    </p>
+                    <div class="flex gap-[8px] flex-wrap">
+                      {blog.tag.map((tag) => (
+                        <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
+                          {tag.name}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+      <div class="shrink-0 max-w-[240px] w-full sm:hidden">
+        <p class="text-[20px] leading-none tracking-[0.06em] font-bold">
+          Category｜カテゴリ
+        </p>
+        <ul class="mt-[24px]">
+          {
+            categoryCounts.length === 0 ? (
+              <li class="text-sm text-muted-foreground">
+                カテゴリがありません
+              </li>
+            ) : (
+              categoryCounts.map((category) => (
+                <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
+                  <a href={`/categories/${category.slug}`}>
+                    {category.name}
+                    <span class="bracket">{category.count}</span>
+                  </a>
+                </li>
+              ))
+            )
+          }
+        </ul>
+        <p class="text-[20px] leading-none tracking-[0.06em] font-bold mt-[48px]">
+          Tag｜タグ
+        </p>
+        <ul class="mt-[24px] flex gap-[12px] flex-wrap">
+          {
+            tagCounts.length === 0 ? (
+              <li class="text-sm text-muted-foreground">タグがありません</li>
+            ) : (
+              tagCounts.map((tag) => (
+                <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration">
+                  <a href={`/tags/${tag.slug}`}>
+                    {tag.name}
+                    <span class="bracket">{tag.count}</span>
+                  </a>
+                </li>
+              ))
+            )
+          }
+        </ul>
+      </div>
+    </div>
+  </main>
 </Layout>
