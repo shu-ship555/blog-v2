@@ -8,6 +8,11 @@ body {
 	font-feature-settings: "palt";
 }
 
+::selection {
+  background-color: #0079C9;
+  color: #ffffff;
+}
+
 /* =======================
 ユニーククラス
  ======================= */

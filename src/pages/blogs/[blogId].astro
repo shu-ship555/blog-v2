@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/atoms/icon.astro";
 import { getBlogs, getBlogDetail } from "../../libs/microcms";
 
 // 詳細記事ページの全パスを取得
@@ -15,32 +16,89 @@ export async function getStaticPaths() {
 //記事の詳細情報を取得
 const { blogId } = Astro.params;
 const blog = await getBlogDetail(blogId as string);
+
+// 日付をフォーマットする関数
+const formatDate = (dateString: string) => {
+	const date = new Date(dateString);
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1; // getMonth()は0から始まるため+1する
+	const day = date.getDate();
+	return `${year}年${month}月${day}日`;
+};
+
+// フォーマットした日付
+const publishedDate = formatDate(blog.publishedAt);
+const updatedDate = formatDate(blog.updatedAt);
 ---
 
 <Layout title=`${blog.title}` breadcrumb={true}>
-	<main class="inner pt-[160px] sm:pt-[96px] pb-[200px] sm:pb-[64px]">
-		<div class="flex gap-[10px] flex-wrap">
-			<p
-				class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] text-[#FFF] rounded-full sm:text-[10px] sm:pb-[4px]"
-				style={`background-color: ${blog.category.labelColor};`}
+	<main class="pt-[160px] sm:pt-[64px] pb-[200px] sm:pb-[64px]">
+		<div class="inner">
+			<div class="flex gap-[10px] flex-wrap">
+				<p
+					class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] text-[#FFF] rounded-full sm:text-[14px] sm:px-[12px] sm:pt-[6px] sm:pb-[8px]"
+					style={`background-color: ${blog.category.labelColor};`}
+				>
+					{blog.category.name}
+				</p>
+				{
+					blog.readingTime && (
+						<p class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] bg-[#F6F6F6] rounded-full sm:text-[14px] sm:px-[12px] sm:pt-[6px] sm:pb-[8px]">
+							<span class="text-[#666]">読了までの時間：</span>
+							{blog.readingTime}分
+						</p>
+					)
+				}
+			</div>
+			<h1
+				class="text-[40px] sm:text-[28px] font-black leading-[1.8] sm:leading-[1.48] tracking-[0.06em] mt-[16px] sm:mt-[12px]"
 			>
-				{blog.category.name}
+				{blog.title}
+			</h1>
+			<p
+				class="font-bold text-[28px] sm:text-[14px] leading-[1.64] sm:leading-[1.48] tracking-[0.06em] text-[#888] mt-[8px] sm:mt-[6px]"
+			>
+				{blog.description}
 			</p>
-			{
-				blog.readingTime && (
-					<p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] bg-[#F6F6F6] rounded-full sm:text-[10px] sm:pb-[4px]">
-						<span class="text-[#666]">読了までの時間：</span>
-						{blog.readingTime}分
-					</p>
-				)
-			}
+			<div
+				class="font-medium text-[20px] sm:text-[12px] leading-none tracking-[0.08em] text-[#888] flex items-center gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]"
+			>
+				<Icon filename="icon_date" customClass="w-[24px] sm:w-[16px]" color="#888" />{
+					publishedDate
+				}
+			</div>
+			<div
+				class="font-medium text-[20px] sm:text-[12px] leading-none tracking-[0.08em] text-[#888] flex items-center gap-[12px] sm:gap-[6px] mt-[8px] sm:mt-[6px]"
+			>
+				<Icon filename="icon_update" customClass="w-[24px] sm:w-[16px]" color="#888" /><span
+					>{updatedDate}</span
+				>
+			</div>
+			<div class="flex items-center gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]">
+				<Icon filename="icon_label" customClass="w-[24px] sm:w-[16px]" color="#888" />
+				<div class="flex gap-[8px] sm:gap-[4px]">
+					{
+						blog.tag.map((tag) => (
+							<a
+								href={`/tags/${tag.slug}`}
+								class="font-medium text-[16px] sm:text-[12px] text-[#888] leading-[1] tracking-[0.04em] bracket"
+							>
+								<span class="opacity-hover duration">#{tag.name}</span>
+							</a>
+						))
+					}
+				</div>
+			</div>
 		</div>
-		<h1 class="title">{blog.title}</h1>
-		<div class="eyecatch">
-			<img src=`${blog.eyecatch.url}` alt={blog.title} class="w-full" />
+		<div
+			class="mt-[32px] sm:mt-[16px] max-w-[1280px] sm:max-w-full px-[48px] sm:px-0 w-full mx-auto"
+		>
+			<img
+				src=`${blog.eyecatch.url}`
+				alt={blog.title}
+				class="w-full rounded-3xl sm:rounded-sm"
+			/>
 		</div>
-		<p class="publishedDate">公開日時：{blog.publishedAt}</p>
-		<p class="updateDate">最終更新日時：{blog.updatedAt}</p>
-		<div class="post" set:html={blog.content} />
+		<div class="post inner" set:html={blog.content} />
 	</main>
 </Layout>
