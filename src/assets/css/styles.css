@@ -1,3 +1,40 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/public/font/Montserrat-Bold.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/public/font/Montserrat-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/public/font/Montserrat-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/public/font/Montserrat-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/public/font/Montserrat-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/public/font/Montserrat-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +43,7 @@ body {
   font-family: "Montserrat", "Noto Sans JP", "游ゴシック体", "Yu Gothic", "游ゴシック Medium", "Yu Gothic Medium", -apple-system, BlinkMacSystemFont, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic ProW3", sans-serif;
 	color: #333;
 	font-feature-settings: "palt";
+	word-break: break-all;
 }
 
 ::selection {
@@ -34,6 +72,10 @@ body {
 	@apply relative before:content-['['] after:content-[']'] before:align-[0.06em] before:pr-[0.24em] after:pl-[0.24em] after:align-[0.06em];
 }
 
+.hashtag {
+	@apply relative before:content-['#'] after:pl-[0.12em];
+}
+
 /* =======================
 ハンバーガーメニュー
  ======================= */
@@ -54,4 +96,54 @@ body {
 
 .is-active .js-bg {
   @apply block;
+}
+
+
+/* =======================
+post
+ ======================= */
+.post h2 {
+	@apply font-bold text-[40px] leading-[1.6] tracking-[0.06em] mt-[120px];
+}
+.post h3 {
+	@apply font-bold text-[32px] leading-[1.48] tracking-[0.06em] mt-[80px];
+}
+.post h4 {
+	@apply font-bold text-[24px] leading-[1.48] tracking-[0.06em] mt-[64px];
+}
+.post p {
+	@apply font-medium text-[20px] leading-[1.48] tracking-[0.06em] mt-[16px];
+}
+.post a {
+	@apply opacity-hover duration;
+}
+.post ul {
+	@apply mt-[16px];
+}
+.post ol  {
+	@apply mt-[16px];
+	counter-reset: list-counter;
+}
+.post ul li {
+	@apply relative before:content-['◼︎'] before:text-[0.48em] before:align-middle before:pr-[0.48em] before:mt-[0.72em]  text-[20px] font-medium leading-[1.48] tracking-[0.06em] mt-[12px] flex items-start;
+}
+.post ol li {
+	@apply relative before:pr-[0.48em] text-[20px] font-medium leading-[1.48] tracking-[0.06em] mt-[12px] flex items-start;
+	counter-increment: list-counter;
+}
+.post ol li:before {
+	content: counter(list-counter);
+}
+
+.post pre[class^="language-"] {
+	@apply px-[48px] pt-[48px] pb-[56px] bg-[#333] text-[#FFF] rounded-xl mt-[32px];
+}
+.post figure img {
+	@apply rounded-xl mt-[32px];
+}
+.post figure figcaption {
+	@apply text-[16px] text-[#666] leading-[1.24] tracking-[0.04em] mt-[12px];
+}
+.post .button {
+	@apply leading-[1.48] text-[20px] w-full pt-[32px] pb-[34px] rounded-xl bg-[#0079C9] text-[#FFF] font-bold block text-center mt-[80px];
 }

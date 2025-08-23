@@ -17,6 +17,7 @@ const {
 } = Astro.props;
 
 import '../assets/css/styles.css';
+import '../assets/css/prism.css';
 import Header from "../components/organisms/header.astro";
 import Footer from "../components/organisms/footer.astro";
 import Breadcrumb from "../components/organisms/breadcrumb.astro";
@@ -30,7 +31,7 @@ import Breadcrumb from "../components/organisms/breadcrumb.astro";
     <meta name="generator" content={Astro.generator} />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -60,5 +61,6 @@ import Breadcrumb from "../components/organisms/breadcrumb.astro";
 		<Footer />
 		<div class="bg-[#FFF]/[0.64] backdrop-blur-lg absolute h-full w-full top-0 hidden js-bg"></div>
 		<script src="../assets/js/common.js"></script>
+		<script src="../assets/js/prism.js"></script>
   </body>
 </html>

@@ -51,7 +51,7 @@ const updatedDate = formatDate(blog.updatedAt);
 				}
 			</div>
 			<h1
-				class="text-[40px] sm:text-[28px] font-black leading-[1.8] sm:leading-[1.48] tracking-[0.06em] mt-[16px] sm:mt-[12px]"
+				class="text-[48px] sm:text-[28px] font-black leading-[1.48] sm:leading-[1.32] tracking-[0.06em] mt-[16px] sm:mt-[12px]"
 			>
 				{blog.title}
 			</h1>
@@ -83,7 +83,7 @@ const updatedDate = formatDate(blog.updatedAt);
 								href={`/tags/${tag.slug}`}
 								class="font-medium text-[16px] sm:text-[12px] text-[#888] leading-[1] tracking-[0.04em] bracket"
 							>
-								<span class="opacity-hover duration">#{tag.name}</span>
+								<span class="opacity-hover duration"><span class="hashtag"></span>{tag.name}</span>
 							</a>
 						))
 					}

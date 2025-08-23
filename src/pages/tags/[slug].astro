@@ -84,7 +84,7 @@ const tagCounts = tags.map((tag) => {
     class="inner pt-[160px] sm:pt-[96px] pb-[200px] gap-[48px] sm:pb-[64px]"
   >
     <h1 class="text-[32px] sm:text-[20px] leading-none tracking-[0.06em] font-bold">
-      Tag <span class="bracket">#{currentTag.name}</span>
+      Tag <span class="bracket"><span class="hashtag"></span>{currentTag.name}</span>
     </h1>
     <div class="flex justify-between sm:flex-col mt-[64px] sm:mt-[32px]">
       {
@@ -137,7 +137,7 @@ const tagCounts = tags.map((tag) => {
                     <div class="flex gap-[8px] flex-wrap">
                       {blog.tag.map((tag) => (
                         <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
-                          #{tag.name}
+                          <span class="hashtag"></span>{tag.name}
                         </p>
                       ))}
                     </div>
@@ -181,7 +181,7 @@ const tagCounts = tags.map((tag) => {
               tagCounts.map((tag) => (
                 <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration">
                   <a href={`/tags/${tag.slug}`}>
-                    #{tag.name}
+                    <span class="hashtag"></span>{tag.name}
                     <span class="bracket">{tag.count}</span>
                   </a>
                 </li>

@@ -120,7 +120,7 @@ const { navItems = [] } = Astro.props;
             tagCounts.map((tag) => (
               <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] d">
                 <a href={`/tags/${tag.slug}`}>
-                  {tag.name}
+                  <span class="hashtag"></span>{tag.name}
                   <span class="bracket">{tag.count}</span>
                 </a>
               </li>
