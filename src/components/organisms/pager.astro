@@ -23,12 +23,12 @@ const totalCount = recentBlogsResponse.totalCount; // 全記事数
 			page > 1 && (
 				<a
 					href={page === 2 ? "/" : `/blogs/${page - 1}`}
-					class="flex items-center w-[40px] h-[40px] aspect-square rounded-md bg-white opacity-hover duration"
+					class="flex items-center w-[40px] h-[40px] aspect-square rounded-full bg-white opacity-hover duration"
 				>
 					<Icon
 						filename="icon_arrow_left"
 						color="#333"
-						customClass="w-[12px]"
+						customClass="w-[24px]"
 					/>
 				</a>
 			)
@@ -41,7 +41,7 @@ const totalCount = recentBlogsResponse.totalCount; // 全記事数
 			).map((p) => (
 				<a
 					href={p === 1 ? "/" : `/blogs/${p}`}
-					class={`w-[40px] h-[40px] aspect-square rounded-md flex items-center justify-center opacity-hover duration ${p === page ? "bg-[#0079C9] text-white" : "bg-white"}`}
+					class={`w-[40px] h-[40px] aspect-square rounded-full flex items-center justify-center opacity-hover duration ${p === page ? "bg-[#0079C9] text-white" : "bg-white"}`}
 				>
 					<span>{p}</span>
 				</a>
@@ -52,12 +52,12 @@ const totalCount = recentBlogsResponse.totalCount; // 全記事数
 			page < Math.ceil(totalCount / PER_PAGE) && (
 				<a
 					href={`/blogs/${page + 1}`}
-					class="flex items-center justify-center w-[40px] h-[40px] aspect-square rounded-md bg-white opacity-hover duration"
+					class="flex items-center justify-center w-[40px] h-[40px] aspect-square rounded-full bg-white opacity-hover duration"
 				>
 					<Icon
 						filename="icon_arrow_right"
 						color="#333"
-						customClass="w-[12px]"
+						customClass="w-[24px]"
 					/>
 				</a>
 			)

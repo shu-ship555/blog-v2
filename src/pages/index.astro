@@ -1,12 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Header from "../components/organisms/header.astro";
 import Pager from "../components/organisms/pager.astro";
 import {
 	getAllContents,
 	getBlogs,
-	getCategoryList,
-	getTags,
 } from "../libs/microcms";
 import type {
 	Blog,
@@ -18,8 +15,6 @@ import { formatDate } from "../../src/utils/date";
 
 // 1ページあたりの表示件数を定義
 const PER_PAGE = 10;
-const page = Astro.params.page ? parseInt(Astro.params.page) : 1;
-const offset = (page - 1) * PER_PAGE;
 
 // ① 記事一覧表示のために、最初の10件の記事を取得
 const recentBlogsResponse: MicroCMSResponse<Blog> = await getBlogs({

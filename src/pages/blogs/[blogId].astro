@@ -1,6 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Icon from "../../components/atoms/icon.astro";
+import { formatDate } from "../../utils/date";
+import { wrapTablesWithDiv, processHeadings } from "../../utils/htmlProcessor";
 import { getBlogs, getBlogDetail } from "../../libs/microcms";
 
 // 詳細記事ページの全パスを取得
@@ -17,18 +19,19 @@ export async function getStaticPaths() {
 const { blogId } = Astro.params;
 const blog = await getBlogDetail(blogId as string);
 
-// 日付をフォーマットする関数
-const formatDate = (dateString: string) => {
-	const date = new Date(dateString);
-	const year = date.getFullYear();
-	const month = date.getMonth() + 1; // getMonth()は0から始まるため+1する
-	const day = date.getDate();
-	return `${year}年${month}月${day}日`;
-};
+// 1. 目次用データを抽出し、見出しにIDを付与
+const processedContent = processHeadings(blog.content);
+// 2. 加工済みのHTMLをさらに処理し、テーブルをdivで囲む
+const finalHtml = wrapTablesWithDiv(processedContent.processedHtml);
+const toc = processedContent.toc;
 
 // フォーマットした日付
 const publishedDate = formatDate(blog.publishedAt);
 const updatedDate = formatDate(blog.updatedAt);
+
+// HTMLを加工
+const contentHtml = blog.content;
+const processedHtml = wrapTablesWithDiv(contentHtml);
 ---
 
 <Layout title=`${blog.title}` breadcrumb={true}>
@@ -51,31 +54,41 @@ const updatedDate = formatDate(blog.updatedAt);
 				}
 			</div>
 			<h1
-				class="text-[48px] sm:text-[28px] font-black leading-[1.48] sm:leading-[1.32] tracking-[0.06em] mt-[16px] sm:mt-[12px]"
+				class="text-[48px] sm:text-[24px] font-black leading-[1.48] sm:leading-[1.32] tracking-[0.06em] mt-[16px] sm:mt-[12px] line-clamp-3"
 			>
 				{blog.title}
 			</h1>
 			<p
-				class="font-bold text-[28px] sm:text-[14px] leading-[1.64] sm:leading-[1.48] tracking-[0.06em] text-[#888] mt-[8px] sm:mt-[6px]"
+				class="font-bold text-[28px] sm:text-[14px] leading-[1.64] sm:leading-[1.48] tracking-[0.06em] text-[#888] mt-[8px] sm:mt-[6px] line-clamp-2"
 			>
 				{blog.description}
 			</p>
 			<div
 				class="font-medium text-[20px] sm:text-[12px] leading-none tracking-[0.08em] text-[#888] flex items-center gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]"
 			>
-				<Icon filename="icon_date" customClass="w-[24px] sm:w-[16px]" color="#888" />{
-					publishedDate
-				}
+				<Icon
+					filename="icon_date"
+					customClass="w-[24px] sm:w-[16px]"
+					color="#888"
+				/>{publishedDate}
 			</div>
 			<div
 				class="font-medium text-[20px] sm:text-[12px] leading-none tracking-[0.08em] text-[#888] flex items-center gap-[12px] sm:gap-[6px] mt-[8px] sm:mt-[6px]"
 			>
-				<Icon filename="icon_update" customClass="w-[24px] sm:w-[16px]" color="#888" /><span
-					>{updatedDate}</span
-				>
+				<Icon
+					filename="icon_update"
+					customClass="w-[24px] sm:w-[16px]"
+					color="#888"
+				/><span>{updatedDate}</span>
 			</div>
-			<div class="flex items-center gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]">
-				<Icon filename="icon_label" customClass="w-[24px] sm:w-[16px]" color="#888" />
+			<div
+				class="flex items-center gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]"
+			>
+				<Icon
+					filename="icon_label"
+					customClass="w-[24px] sm:w-[16px]"
+					color="#888"
+				/>
 				<div class="flex gap-[8px] sm:gap-[4px]">
 					{
 						blog.tag.map((tag) => (
@@ -83,7 +96,10 @@ const updatedDate = formatDate(blog.updatedAt);
 								href={`/tags/${tag.slug}`}
 								class="font-medium text-[16px] sm:text-[12px] text-[#888] leading-[1] tracking-[0.04em] bracket"
 							>
-								<span class="opacity-hover duration"><span class="hashtag"></span>{tag.name}</span>
+								<span class="opacity-hover duration">
+									<span class="hashtag" />
+									{tag.name}
+								</span>
 							</a>
 						))
 					}
@@ -99,6 +115,27 @@ const updatedDate = formatDate(blog.updatedAt);
 				class="w-full rounded-3xl sm:rounded-sm"
 			/>
 		</div>
-		<div class="post inner" set:html={blog.content} />
+		<div class="flex justify-between gap-[64px] inner mt-[160px] sm:flex-col">
+			<div
+				class="max-w-[800px] w-full sm:maw-w-full post"
+				set:html={processedHtml}
+			/>
+			{
+				toc.length > 0 && (
+					<aside class="max-w-[320px] w-full sm:maw-w-full">
+						<h2 class="text-[32px] leading-[1.48] tracking-[0.06em] font-black">目次｜Index</h2>
+						<nav>
+							<ul class="px-[40px] pt-[40px] pb-[48px] bg-[#F6F6F6] rounded-xl mt-[16px]">
+								{toc.map((item) => (
+									<li class={`level-${item.level}`}>
+										<a href={`#${item.id}`} class="opacity-hover duration" >{item.text}</a>
+									</li>
+								))}
+							</ul>
+						</nav>
+					</aside>
+				)
+			}
+		</div>
 	</main>
 </Layout>
