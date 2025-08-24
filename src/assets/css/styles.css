@@ -195,7 +195,7 @@ post
 	@apply leading-[1.48] text-[20px] w-full pt-[32px] pb-[34px] rounded-xl bg-[#0079C9] text-[#FFF] font-bold block text-center mt-[80px] sm:hidden;
 }
 .post .buttonSp{
-	@apply hidden sm:block sm:fixed sm:bottom-0 sm:text-[16px] sm:pt-[20px] sm:pb-[24px] sm:bg-[#0079C9] sm:backdrop-blur-lg sm:text-[#FFF] sm:w-full sm:leading-[1.48] sm:text-center sm:rounded-none sm:-ml-[24px];
+	@apply sm:fixed sm:bottom-0 sm:text-[16px] sm:pt-[20px] sm:pb-[24px] sm:bg-[#0079C9]/[0.92] sm:backdrop-blur-lg sm:text-[#FFF] sm:w-full sm:leading-[1.48] sm:text-center sm:rounded-none sm:-ml-[24px] sm:z-[1];
 }
 .post .marker {
 	@apply bg-[#FAFAFA] font-bold text-[0.88em] text-[#E81F00] px-[0.48em] pt-[0.16em] pb-[0.24em];

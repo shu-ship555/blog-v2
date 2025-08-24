@@ -96,8 +96,7 @@ const processedHtml = wrapTablesWithDiv(contentHtml);
 								href={`/tags/${tag.slug}`}
 								class="font-medium text-[16px] sm:text-[12px] text-[#888] leading-[1] tracking-[0.04em] bracket"
 							>
-								<span class="opacity-hover duration">
-									<span class="hashtag" />
+								<span class="opacity-hover duration hashtag">
 									{tag.name}
 								</span>
 							</a>
@@ -115,14 +114,14 @@ const processedHtml = wrapTablesWithDiv(contentHtml);
 				class="w-full rounded-3xl sm:rounded-sm"
 			/>
 		</div>
-		<div class="flex justify-between gap-[64px] inner mt-[160px] sm:flex-col">
+		<div class="flex justify-between gap-[64px] inner mt-[160px] sm:flex-col-reverse">
 			<div
-				class="max-w-[800px] w-full sm:maw-w-full post"
+				class="post"
 				set:html={processedHtml}
 			/>
 			{
 				toc.length > 0 && (
-					<aside class="max-w-[320px] w-full sm:maw-w-full">
+					<aside class="max-w-[320px] sm:max-w-full">
 						<h2 class="text-[32px] leading-[1.48] tracking-[0.06em] font-black">目次｜Index</h2>
 						<nav>
 							<ul class="px-[40px] pt-[40px] pb-[48px] bg-[#F6F6F6] rounded-xl mt-[16px]">
