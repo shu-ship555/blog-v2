@@ -77,8 +77,8 @@ const { navItems = [] } = Astro.props;
     </div>
   </div>
 </header>
-<nav class="text-[16px] z-30 font-bold w-full js-menu mx-auto inner absolute pt-[24vh] hidden">
-  <ol class="flex flex-col gap-[40px] mx-auto px-[12vw]">
+<nav class="text-[16px] z-30 font-bold w-full js-menu mx-auto pt-[24vh] inner absolute left-1/2 -translate-x-1/2 hidden">
+  <ol class="flex flex-col gap-[40px] mx-auto">
     {
       navItems.map((item) => (
         <li class="leading-none tracking-[0.06em]">
