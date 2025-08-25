@@ -39,14 +39,14 @@ const processedHtml = wrapTablesWithDiv(contentHtml);
 		<div class="inner">
 			<div class="flex gap-[10px] flex-wrap">
 				<p
-					class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] text-[#FFF] rounded-full sm:text-[14px] sm:px-[12px] sm:pt-[6px] sm:pb-[8px]"
+					class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] text-[#FFF] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[8px] sm:pb-[10px]"
 					style={`background-color: ${blog.category.labelColor};`}
 				>
 					{blog.category.name}
 				</p>
 				{
 					blog.readingTime && (
-						<p class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] bg-[#F6F6F6] rounded-full sm:text-[14px] sm:px-[12px] sm:pt-[6px] sm:pb-[8px]">
+						<p class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] bg-[#F6F6F6] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[8px] sm:pb-[10px]">
 							<span class="text-[#666]">読了までの時間：</span>
 							{blog.readingTime}分
 						</p>
