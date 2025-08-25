@@ -78,7 +78,7 @@ const { navItems = [] } = Astro.props;
   </div>
 </header>
 <nav class="text-[16px] z-30 font-bold w-full js-menu mx-auto pt-[24vh] inner absolute left-1/2 -translate-x-1/2 hidden">
-  <ol class="flex flex-col gap-[40px] mx-auto">
+  <ol class="flex flex-col gap-[40px] sm:gap-[28px] mx-auto">
     {
       navItems.map((item) => (
         <li class="leading-none tracking-[0.06em]">
@@ -109,7 +109,7 @@ const { navItems = [] } = Astro.props;
           )
         }
       </ul>
-      <p class="text-[16px] leading-none tracking-[0.06em] font-bold mt-[32px] text-[#666]">
+      <p class="text-[16px] leading-none tracking-[0.06em] font-bold mt-[32px] sm:mt-[20px] text-[#666]">
         Tag｜タグ
       </p>
       <ul class="mt-[18px] flex gap-[12px] flex-wrap">
