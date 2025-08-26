@@ -1,0 +1,152 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Icon from "../../components/atoms/icon.astro";
+import { formatDate } from "../../utils/date";
+import { wrapTablesWithDiv, processHeadings } from "../../utils/htmlProcessor";
+import { getBlogs } from "../../libs/microcms";
+
+// 詳細記事ページの全パスを取得
+export async function getStaticPaths() {
+const response = await getBlogs({ limit: 100 });
+  return response.contents.map((content) => ({
+    params: {
+      slug: content.id,
+    },
+  	props: {
+      blog: content,
+    },
+  }));
+}
+
+// 記事の詳細情報を取得
+const { blog } = Astro.props;
+
+// 1. 目次用データを抽出し、見出しにIDを付与
+const { processedHtml, toc } = processHeadings(blog.content);
+
+// 2. 加工済みのHTMLをさらに処理し、テーブルをdivで囲む
+const finalHtml = wrapTablesWithDiv(processedHtml);
+
+// フォーマットした日付
+const publishedDate = formatDate(blog.publishedAt);
+const updatedDate = formatDate(blog.updatedAt);
+---
+
+<Layout title={blog.title} breadcrumb={true} blog={blog as any}>
+  <main class="pt-[160px] sm:pt-[64px] pb-[200px] sm:pb-[64px]">
+    <div class="inner">
+      <div class="flex gap-[10px] flex-wrap">
+        <p
+          class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] text-[#FFF] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[8px] sm:pb-[10px]"
+          style={`background-color: ${blog.category.labelColor};`}
+        >
+          {blog.category.name}
+        </p>
+        {
+          blog.readingTime && (
+            <p class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] bg-[#F6F6F6] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[8px] sm:pb-[10px]">
+              <span class="text-[#666]">読了までの時間：</span>
+              {blog.readingTime}分
+            </p>
+          )
+        }
+      </div>
+      <h1
+        class="text-[48px] sm:text-[24px] font-black leading-[1.48] sm:leading-[1.4] tracking-[0.06em] mt-[16px] sm:mt-[12px] line-clamp-3"
+      >
+        {blog.title}
+      </h1>
+      <p
+        class="font-bold text-[28px] sm:text-[14px] leading-[1.4] sm:leading-[1.32] tracking-[0.06em] text-[#888] mt-[8px] sm:mt-[6px] line-clamp-2"
+      >
+        {blog.description}
+      </p>
+      <div
+        class="font-medium text-[20px] sm:text-[12px] leading-none tracking-[0.08em] text-[#888] flex items-center gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]"
+      >
+        <Icon
+          filename="icon_date"
+          customClass="w-[24px] sm:w-[16px]"
+          color="#888"
+        />{publishedDate}
+      </div>
+      <div
+        class="font-medium text-[20px] sm:text-[12px] leading-none tracking-[0.08em] text-[#888] flex items-center gap-[12px] sm:gap-[6px] mt-[8px] sm:mt-[6px]"
+      >
+        <Icon
+          filename="icon_update"
+          customClass="w-[24px] sm:w-[16px]"
+          color="#888"
+        /><span>{updatedDate}</span>
+      </div>
+      <div
+        class="flex items-center gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]"
+      >
+        <Icon
+          filename="icon_label"
+          customClass="w-[24px] sm:w-[16px]"
+          color="#888"
+        />
+        <div class="flex gap-[8px] sm:gap-[4px]">
+          {
+            blog.tag.map((tag) => (
+              <a
+                href={`/tags/${tag.slug}`}
+                class="font-medium text-[16px] sm:text-[12px] text-[#888] leading-[1] tracking-[0.04em] bracket"
+              >
+                <span class="opacity-hover duration hashtag">
+                  {tag.name}
+                </span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+    <div
+       class="mt-[32px] sm:mt-[16px] max-w-[1280px] sm:max-w-[430px] px-[48px] sm:px-0 w-full mx-auto"
+     >
+       {
+         blog.eyecatch ? (
+           <img
+             src={blog.eyecatch.url}
+             alt={blog.title}
+             class="w-full rounded-3xl sm:rounded-sm"
+           />
+         ) : (
+           <img
+             src="/img/dummyImage.png"
+             alt={blog.title}
+             class="w-full rounded-3xl sm:rounded-sm"
+           />
+         )
+       }
+     </div>
+    <div class="flex justify-between gap-[80px] sm:gap-[64px] inner mt-[160px] sm:mt-[80px] sm:flex-col-reverse">
+      <div
+        class="max-w-[784px] w-full sm:max-w-full post"
+        set:html={finalHtml}
+      />
+      {
+        toc.length > 0 && (
+          <aside class="max-w-[320px] w-full sm:max-w-full">
+            <h2 class="text-[32px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-black">
+              目次｜Index
+            </h2>
+            <nav>
+              <ul class="px-[40px] sm:px-[20px] pt-[40px] sm:pt-[20px] pb-[48px] sm:pb-[24px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px]">
+                {toc.map((item) => (
+                  <li class={`level-${item.level}`}>
+                    <a href={`#${item.id}`} class="opacity-hover duration" >
+                      {item.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </aside>
+        )
+      }
+    </div>
+  </main>
+</Layout>

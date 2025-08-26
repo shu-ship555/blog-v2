@@ -6,6 +6,8 @@ export interface Props {
   ogImage?: string;
   pageUrl?: string;
 	breadcrumb?: boolean;
+	blog?: any;
+	category?: any;
 }
 
 const {
@@ -14,6 +16,8 @@ const {
   ogImage,
   pageUrl = Astro.url.href,
 	breadcrumb = false,
+	blog,
+	category,
 } = Astro.props;
 
 import '../assets/css/styles.css';
@@ -56,7 +60,7 @@ import Breadcrumb from "../components/organisms/breadcrumb.astro";
 		]}
 	/>
   <body class="relative">
-		{ breadcrumb && <Breadcrumb />}
+		{ breadcrumb && <Breadcrumb blog={blog} category={category}  />}
     <slot />
 		<Footer />
 		<div class="bg-[#FFF]/[0.64] backdrop-blur-lg absolute h-full w-full top-0 hidden js-bg"></div>

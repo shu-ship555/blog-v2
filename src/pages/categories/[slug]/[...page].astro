@@ -1,69 +1,54 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Pager from "../../components/organisms/pager.astro";
+import Layout from "../../../layouts/Layout.astro";
+import Pager from "../../../components/organisms/pager.astro";
 import {
   getBlogs,
   getCategoryList,
   getTags,
   getAllContents,
-} from "../../libs/microcms";
-import type { Blog, Category, Tag, MicroCMSResponse } from "../../libs/microcms.d.ts";
-import { formatDate } from "../../../src/utils/date";
+} from "../../../libs/microcms";
+import type { Blog, Category, Tag } from "../../../libs/microcms.ts";
+import { formatDate } from "../../../../src/utils/date";
+import type { GetStaticPathsOptions } from "astro";
 
-export async function getStaticPaths() {
-  const categoryResponse = await getCategoryList({
-    fields: ["slug"],
-  });
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+  const categoryResponse = await getCategoryList();
   const categories = categoryResponse.contents;
+  const allBlogsResponse = await getAllContents("blogs");
+  const allBlogs = allBlogsResponse.contents;
 
-  return categories.map((category) => ({
-    params: { slug: category.slug },
-  }));
+  return categories.flatMap(category => {
+    const blogsInThisCategory = allBlogs.filter(blog => blog.category.id === category.id);
+    const totalCount = allBlogs.length;
+
+    return paginate(blogsInThisCategory, {
+      pageSize: 10,
+      params: { slug: category.slug },
+      props: {
+        category: category,
+        allBlogs: allBlogs,
+        totalCount: totalCount,
+      },
+    });
+  });
 }
 
-const categorySlug = Astro.params.slug;
+const { page, category, allBlogs, totalCount } = Astro.props;
 
-const categoryResponse = await getCategoryList({
-  filters: `slug[equals]${categorySlug}`,
-});
-const currentCategory = categoryResponse.contents[0];
-if (!currentCategory) {
-  return Astro.redirect("/404");
-}
+const blogs = page.data as Blog[];
 
-// 該当カテゴリの記事一覧を取得
-const blogResponse = await getBlogs({
-  filters: `category[equals]${currentCategory.id}`,
-  orders: "-publishedAt",
-  fields: [
-    "id",
-    "title",
-    "category",
-    "publishedAt",
-    "eyecatch",
-    "readingTime",
-    "description",
-    "tag",
-  ],
-});
-
-// すべてのカテゴリ、タグ、そして「すべての記事」データを取得
-const [allBlogsResponse, allCategoriesResponse, allTagsResponse] = await Promise.all([
-  getAllContents<Blog>("blogs"),
+const [allCategoriesResponse, allTagsResponse] = await Promise.all([
   getAllContents<Category>("categories"),
   getAllContents<Tag>("tags"),
 ]);
-
-const blogs = blogResponse.contents;
-const allBlogs = allBlogsResponse.contents; // 全ブログ記事データ
 const categories = allCategoriesResponse.contents;
 const tags = allTagsResponse.contents;
 
 // 取得した「全ブログ記事データ」を参照して、カテゴリの件数を正確に計算
-const categoryCounts = categories.map((category) => {
-  const count = allBlogs.filter((blog) => blog.category.id === category.id).length;
+const categoryCounts = categories.map((cat) => {
+  const count = allBlogs.filter((blog) => blog.category.id === cat.id).length;
   return {
-    ...category,
+    ...cat,
     count,
   };
 });
@@ -80,12 +65,12 @@ const tagCounts = tags.map((tag) => {
 });
 ---
 
-<Layout title={`${currentCategory.name} の記事一覧 | miyata blog`}>
+<Layout title={`${category.name} の記事一覧 | miyata blog`} breadcrumb={true} category={category} >
   <main
     class="inner pt-[160px] sm:pt-[96px] pb-[200px] gap-[48px] sm:pb-[64px]"
   >
     <h1 class="text-[32px] sm:text-[20px] leading-none tracking-[0.06em] font-bold">
-			Category <span class="bracket">{currentCategory.name}</span>
+      Category <span class="bracket">{category.name}</span>
     </h1>
     <div class="flex justify-between sm:flex-col mt-[64px] sm:mt-[32px]">
       {
@@ -105,7 +90,7 @@ const tagCounts = tags.map((tag) => {
                       />
                     ) : (
                       <img
-                        src="/public/img/dummyImage.png"
+                        src="/img/dummyImage.png"
                         alt={blog.title}
                         class="rounded-lg"
                       />
@@ -160,11 +145,11 @@ const tagCounts = tags.map((tag) => {
                 カテゴリがありません
               </li>
             ) : (
-              categoryCounts.map((category) => (
+              categoryCounts.map((cat) => (
                 <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
-                  <a href={`/categories/${category.slug}`}>
-                    {category.name}
-                    <span class="bracket">{category.count}</span>
+                  <a href={`/categories/${cat.slug}`}>
+                    {cat.name}
+                    <span class="bracket">{cat.count}</span>
                   </a>
                 </li>
               ))
@@ -192,5 +177,6 @@ const tagCounts = tags.map((tag) => {
         </ul>
       </div>
     </div>
+    {blogs.length > 0 && <Pager page={page} totalCount={totalCount} />}
   </main>
 </Layout>
