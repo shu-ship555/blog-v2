@@ -175,6 +175,6 @@ const tagCounts = tags.map((tag) => {
         </ul>
       </div>
     </div>
-    <Pager page={pageData} totalCount={totalCount} />
+    {totalCount > 10 && <Pager page={pageData} totalCount={totalCount} />}
   </main>
 </Layout>

@@ -1,18 +1,33 @@
 ---
 import Icon from "../atoms/icon.astro";
 
-// `page`オブジェクトと`totalCount`をpropsとして受け取る
-const { page, totalCount } = Astro.props;
+const { page, totalCount, slug = null } = Astro.props;
 const PER_PAGE = 10;
 const lastPage = Math.ceil(totalCount / PER_PAGE);
+const isCategoryPage = slug !== null;
+const pathPrefix = isCategoryPage ? `/categories/${slug}` : "/blogs";
+
+// 最大表示ページ数
+const MAX_VISIBLE_PAGES = 4;
+
+// 表示開始ページ番号を計算
+let startPage = Math.max(1, page.currentPage - Math.floor(MAX_VISIBLE_PAGES / 2));
+// 表示終了ページ番号を計算
+let endPage = Math.min(lastPage, startPage + MAX_VISIBLE_PAGES - 1);
+
+// 終了ページが最大ページ数に満たない場合、開始ページを調整
+if (endPage - startPage + 1 < MAX_VISIBLE_PAGES) {
+  startPage = Math.max(1, endPage - MAX_VISIBLE_PAGES + 1);
+}
 ---
 
-<div class="flex justify-center mt-[120px] sm:mt-[80px]">
-  <nav class="flex items-center gap-[12px]">
-    {
-      page.url.prev && (
+{totalCount > PER_PAGE && (
+  <div class="flex justify-center mt-[120px] sm:mt-[80px]">
+    <nav class="flex items-center gap-[12px]">
+      {/* 前のページへのリンク */}
+      {page.currentPage > 1 ? (
         <a
-          href={page.url.prev}
+          href={page.currentPage - 1 === 1 ? pathPrefix : `${pathPrefix}/${page.currentPage - 1}`}
           class="flex items-center w-[40px] h-[40px] aspect-square rounded-full bg-white opacity-hover duration"
         >
           <Icon
@@ -21,24 +36,39 @@ const lastPage = Math.ceil(totalCount / PER_PAGE);
             customClass="w-[24px]"
           />
         </a>
-      )
-    }
-
-    {
-      Array.from({ length: lastPage }, (_, i) => (
-        <a
-          href={i + 1 === 1 ? "/blogs" : `/blogs/${i + 1}`}
-          class={`w-[40px] h-[40px] aspect-square rounded-full flex items-center justify-center opacity-hover duration ${i + 1 === page.currentPage ? "bg-[#0079C9] text-white" : "bg-white"}`}
+      ) : (
+        <span
+          class="flex items-center w-[40px] h-[40px] aspect-square rounded-full bg-white opacity-40 cursor-not-allowed"
         >
-          <span>{i + 1}</span>
-        </a>
-      ))
-    }
+          <Icon
+            filename="icon_arrow_left"
+            color="#333"
+            customClass="w-[24px]"
+          />
+        </span>
+      )}
 
-    {
-      page.url.next && (
+      {/* ...の表示（開始ページが1より大きい場合） */}
+      {startPage > 1 && <span>...</span>}
+
+      {
+        Array.from({ length: endPage - startPage + 1 }, (_, i) => (
+          <a
+            href={startPage + i === 1 ? pathPrefix : `${pathPrefix}/${startPage + i}`}
+            class={`w-[40px] h-[40px] aspect-square rounded-full flex items-center justify-center opacity-hover duration ${startPage + i === page.currentPage ? "bg-[#0079C9] text-white" : "bg-white"}`}
+          >
+            <span>{startPage + i}</span>
+          </a>
+        ))
+      }
+
+      {/* ...の表示（終了ページがlastPageより小さい場合） */}
+      {endPage < lastPage && <span>...</span>}
+
+      {/* 次のページへのリンク */}
+      {page.currentPage < lastPage ? (
         <a
-          href={page.url.next}
+          href={`${pathPrefix}/${page.currentPage + 1}`}
           class="flex items-center justify-center w-[40px] h-[40px] aspect-square rounded-full bg-white opacity-hover duration"
         >
           <Icon
@@ -47,7 +77,17 @@ const lastPage = Math.ceil(totalCount / PER_PAGE);
             customClass="w-[24px]"
           />
         </a>
-      )
-    }
-  </nav>
-</div>
+      ) : (
+        <span
+          class="flex items-center justify-center w-[40px] h-[40px] aspect-square rounded-full bg-white opacity-40 cursor-not-allowed"
+        >
+          <Icon
+            filename="icon_arrow_right"
+            color="#333"
+            customClass="w-[24px]"
+          />
+        </span>
+      )}
+    </nav>
+  </div>
+)}
