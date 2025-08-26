@@ -1,37 +1,37 @@
 /* ローカル用 */
 @font-face {
   font-family: 'Montserrat';
-  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/Montserrat-Bold.woff2') format('woff2');
+  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/cli_test/Montserrat-Bold.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/Montserrat-Bold.woff2') format('woff2');
+  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/cli_test/Montserrat-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/Montserrat-Medium.woff2') format('woff2');
+  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/cli_test/Montserrat-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/Montserrat-Regular.woff2') format('woff2');
+  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/cli_test/Montserrat-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/Montserrat-Light.woff2') format('woff2');
+  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/cli_test/Montserrat-Light.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/Montserrat-Thin.woff2') format('woff2');
+  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/cli_test/Montserrat-Thin.woff2') format('woff2');
   font-weight: 100;
   font-style: normal;
 }
