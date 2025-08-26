@@ -54,12 +54,12 @@ const processedHtml = wrapTablesWithDiv(contentHtml);
 				}
 			</div>
 			<h1
-				class="text-[48px] sm:text-[24px] font-black leading-[1.48] tracking-[0.06em] mt-[16px] sm:mt-[12px] line-clamp-3"
+				class="text-[48px] sm:text-[24px] font-black leading-[1.48] sm:leading-[1.4] tracking-[0.06em] mt-[16px] sm:mt-[12px] line-clamp-3"
 			>
 				{blog.title}
 			</h1>
 			<p
-				class="font-bold text-[28px] sm:text-[14px] leading-[1.64] sm:leading-[1.48] tracking-[0.06em] text-[#888] mt-[8px] sm:mt-[6px] line-clamp-2"
+				class="font-bold text-[28px] sm:text-[14px] leading-[1.4] sm:leading-[1.32] tracking-[0.06em] text-[#888] mt-[8px] sm:mt-[6px] line-clamp-2"
 			>
 				{blog.description}
 			</p>
@@ -114,9 +114,9 @@ const processedHtml = wrapTablesWithDiv(contentHtml);
 				class="w-full rounded-3xl sm:rounded-sm"
 			/>
 		</div>
-		<div class="flex justify-between gap-[64px] sm:gap-[48px] inner mt-[160px] sm:mt-[80px] sm:flex-col-reverse">
+		<div class="flex justify-between gap-[80px] sm:gap-[64px] inner mt-[160px] sm:mt-[80px] sm:flex-col-reverse">
 			<div
-				class="max-w-[800px] w-full sm:maw-w-full post"
+				class="max-w-[784px] w-full sm:maw-w-full post"
 				set:html={processedHtml}
 			/>
 			{

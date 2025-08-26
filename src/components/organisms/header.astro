@@ -93,7 +93,7 @@ const { navItems = [] } = Astro.props;
       <p class="text-[16px] leading-none tracking-[0.06em] font-bold text-[#666]">
         Category｜カテゴリ
       </p>
-      <ul class="mt-[18px]">
+      <ul class="mt-[18px] sm:mt-[12px]">
         {
           categoryCounts.length === 0 ? (
             <li class="text-sm text-muted-foreground">カテゴリがありません</li>
@@ -112,7 +112,7 @@ const { navItems = [] } = Astro.props;
       <p class="text-[16px] leading-none tracking-[0.06em] font-bold mt-[32px] sm:mt-[20px] text-[#666]">
         Tag｜タグ
       </p>
-      <ul class="mt-[18px] flex gap-[12px] flex-wrap">
+      <ul class="mt-[18px] sm:mt-[12px] flex gap-[12px] flex-wrap">
         {
           tagCounts.length === 0 ? (
             <li class="text-sm text-muted-foreground">タグがありません</li>

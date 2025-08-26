@@ -1,37 +1,37 @@
 /* ローカル用 */
 @font-face {
   font-family: 'Montserrat';
-  src: url('/public/font/Montserrat-Bold.woff2') format('woff2');
+  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/Montserrat-Bold.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('/public/font/Montserrat-Bold.woff2') format('woff2');
+  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/Montserrat-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('/public/font/Montserrat-Medium.woff2') format('woff2');
+  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/Montserrat-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('/public/font/Montserrat-Regular.woff2') format('woff2');
+  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/Montserrat-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('/public/font/Montserrat-Light.woff2') format('woff2');
+  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/Montserrat-Light.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('/public/font/Montserrat-Thin.woff2') format('woff2');
+  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/Montserrat-Thin.woff2') format('woff2');
   font-weight: 100;
   font-style: normal;
 }
@@ -112,10 +112,10 @@ toc
 	@apply mt-0;
 }
  .level-2{
-	@apply mt-[16px] sm:mt-[12px] relative before:content-['○'] before:text-[0.48em] before:align-middle before:pr-[0.64em] before:mt-[0.8em]  text-[16px] sm:text-[12px] font-medium leading-[1.48] tracking-[0.06em] flex items-start;
+	@apply mt-[16px] sm:mt-[12px] relative before:content-['○'] before:text-[0.48em] before:align-middle before:pr-[0.64em] before:mt-[0.8em]  text-[16px] sm:text-[14px] font-bold leading-[1.48] tracking-[0.06em] flex items-start;
 }
 .level-3, .level-4{
-	@apply mt-[4px] sm:mt-[2px] ml-[24px] sm:ml-[12px] relative before:content-['└'] before:text-[0.64em] before:align-middle before:pr-[0.48em] before:mt-[0.48em] before:font-black  text-[16px] sm:text-[12px] font-medium leading-[1.48] tracking-[0.06em] flex items-start;
+	@apply mt-[4px] sm:mt-[2px] ml-[24px] sm:ml-[12px] relative before:content-['└'] before:text-[0.64em] before:align-middle before:pr-[0.48em] before:mt-[0.48em] before:font-black  text-[16px] sm:text-[14px] font-bold leading-[1.48] tracking-[0.06em] flex items-start;
 }
 
 /* =======================
@@ -149,10 +149,10 @@ post
 	@apply mt-0;
 }
 .post ul li {
-	@apply relative before:content-['◼︎'] before:text-[0.48em] before:align-middle before:pr-[0.48em] before:mt-[0.72em] text-[20px] sm:text-[16px] font-medium leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[6px] flex items-start;
+	@apply relative before:content-['◼︎'] before:text-[0.48em] before:align-middle before:pr-[0.48em] before:mt-[0.72em] text-[18px] sm:text-[14px] font-medium leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[6px] flex items-start;
 }
 .post ol li {
-	@apply relative before:pr-[0.48em] text-[20px] sm:text-[16px] font-medium leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[6px] flex items-start;
+	@apply relative before:pr-[0.48em] text-[18px] sm:text-[14px] font-medium leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[6px] flex items-start;
 	counter-increment: list-counter;
 }
 .post ol li:before {
@@ -160,7 +160,7 @@ post
 }
 
 .post pre[class^="language-"] {
-	@apply text-[16px] sm:text-[14px] px-[48px] sm:px-[24px] pt-[48px] sm:pt-[24px] pb-[56px] sm:pb-[28px] bg-[#333] text-[#FFF] rounded-xl sm:rounded-md mt-[32px] sm:mt-[16px];
+	@apply text-[16px] sm:text-[14px] px-[48px] sm:px-[24px] pt-[48px] sm:pt-[24px] pb-[56px] sm:pb-[28px] bg-[#333] text-[#FFF] rounded-xl sm:rounded-md sm:max-h-[480px] mt-[32px] sm:mt-[16px];
 }
 .post figure img {
 	@apply rounded-xl sm:rounded-none mt-[32px] sm:mt-[16px];
@@ -169,10 +169,10 @@ post
 	@apply text-[16px] sm:text-[12px] text-[#666] leading-[1.24] tracking-[0.04em] mt-[12px] sm:mt-[6px];
 }
 .post blockquote{
-	@apply text-[14px] sm:text-[12px] text-[#666] font-medium leading-[1.48] px-[24px] sm:px-[12px] pt-[24px] sm:pt-[12px] pb-[28px] sm:pb-[14px] border-2 border-dashed rounded-lg border-[#666] referencemark flex items-start mt-[16px] sm:mt-[8px];
+	@apply text-[14px] sm:text-[12px] text-[#666] font-medium px-[24px] sm:px-[12px] pt-[24px] sm:pt-[12px] pb-[28px] sm:pb-[14px] border-2 border-dashed rounded-lg border-[#666] referencemark flex items-start mt-[16px] sm:mt-[8px];
 }
 .post blockquote p{
-	@apply mt-0 text-[12px] sm:text-[10px] text-[#666] font-medium leading-[1.48] tracking-[0.04em];
+	@apply mt-0 text-[12px] sm:text-[10px] text-[#666] font-medium leading-[1.64] tracking-[0.04em];
 }
 .post hr {
 	@apply mt-[48px] sm:mt-[24px] mb-[48px] sm:mb-[24px];
