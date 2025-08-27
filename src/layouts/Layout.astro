@@ -1,13 +1,16 @@
 ---
 // src/layouts/Layout.astro
+import type { Blog, Category, Tag } from "../libs/microcms.ts";
+
 export interface Props {
   title: string;
   description?: string;
   ogImage?: string;
   pageUrl?: string;
-	breadcrumb?: boolean;
-	blog?: any;
-	category?: any;
+  breadcrumb?: boolean;
+  blog?: Blog;
+  category?: Category;
+  tag?: Tag; // 追加
 }
 
 const {
@@ -15,9 +18,10 @@ const {
   description = 'これはサイトのデフォルトの説明です。',
   ogImage,
   pageUrl = Astro.url.href,
-	breadcrumb = false,
-	blog,
-	category,
+  breadcrumb = false,
+  blog,
+  category,
+  tag, // 追加
 } = Astro.props;
 
 import '../assets/css/styles.css';
@@ -52,19 +56,19 @@ import Breadcrumb from "../components/organisms/breadcrumb.astro";
     <meta name="twitter:description" content={description} />
     {ogImage && <meta name="twitter:image" content={ogImage} />}
   </head>
-	<Header
-		navItems={[
-			{ href: "/blog", text: "Blog", name: "ブログ" },
-			{ href: "/about", text: "About", name: "このサイトについて" },
-			{ href: "/contact", text: "Contact", name: "お問い合わせ" },
-		]}
-	/>
   <body class="relative">
-		{ breadcrumb && <Breadcrumb blog={blog} category={category}  />}
+    <Header
+      navItems={[
+        { href: "/", text: "Blog", name: "ブログ", target: false },
+        // { href: "/about", text: "About", name: "このサイトについて", target: false },
+        { href: "https://adhesive-form-ca1.notion.site/134c792be686808c8bb0e4342fe0625d?pvs=105", text: "Contact", name: "お問い合わせ", target: true },
+      ]}
+    />
+    {breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} />}
     <slot />
-		<Footer />
-		<div class="bg-[#FFF]/[0.64] backdrop-blur-lg absolute h-full w-full top-0 hidden js-bg"></div>
-		<script src="../assets/js/common.js"></script>
-		<script src="../assets/js/prism.js"></script>
+    <Footer />
+    <div class="bg-[#FFF]/[0.64] backdrop-blur-lg absolute h-full w-full top-0 hidden js-bg"></div>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/prism.js"></script>
   </body>
 </html>

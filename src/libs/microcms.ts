@@ -59,36 +59,16 @@ export type SiteSettings = {
 } & MicroCMSObjectContent; // オブジェクト形式のコンテンツ用
 
 // APIの呼び出し
-export const getBlogs = async (queries?: MicroCMSQueries) => {
-  return client.getList<Blog>({ endpoint: "blogs", queries });
-};
-
-export const getBlogDetail = async (
-  contentId: string,
-  queries?: MicroCMSQueries
-) => {
-  return client.getListDetail<Blog>({
-    endpoint: "blogs",
-    contentId,
-    queries,
-  });
-};
-
-export const getCategoryList = async (queries?: MicroCMSQueries) => {
-  return client.getList<Category>({ endpoint: "categories", queries });
-};
-
-export const getTags = async (queries?: MicroCMSQueries) => {
-  return client.getList<Tag>({ endpoint: "tags", queries });
-};
-
-export const getAllContents = async <T>(endpoint: string, queries: MicroCMSQueries = {}) => {
+// 汎用: ページネーション対応
+export const getAllContents = async <T>(
+  endpoint: string,
+  queries: MicroCMSQueries = {}
+): Promise<MicroCMSResponse<T>> => {
   const allContents: T[] = [];
   let offset = queries.offset || 0;
   const limit = 100;
 
   while (true) {
-    // ここを修正: APIレスポンス全体の型を指定
     const response = await client.get<MicroCMSResponse<T>>({
       endpoint,
       queries: {
@@ -100,7 +80,6 @@ export const getAllContents = async <T>(endpoint: string, queries: MicroCMSQueri
 
     allContents.push(...response.contents);
 
-    // totalCountはレスポンスのプロパティとしてアクセス
     if (allContents.length >= response.totalCount) {
       break;
     }
@@ -108,8 +87,22 @@ export const getAllContents = async <T>(endpoint: string, queries: MicroCMSQueri
     offset += limit;
   }
 
-  return { contents: allContents, totalCount: allContents.length };
+  return { contents: allContents, totalCount: allContents.length, offset: 0, limit };
 };
+
+// 個別ショートカット関数（必要なら残す）
+export const getBlogs = (queries?: MicroCMSQueries) =>
+  client.getList<Blog>({ endpoint: "blogs", queries });
+
+export const getBlogDetail = (contentId: string, queries?: MicroCMSQueries) =>
+  client.getListDetail<Blog>({ endpoint: "blogs", contentId, queries });
+
+// ★ getCategoryList と getTags を統一
+export const getCategoryList = (queries?: MicroCMSQueries) =>
+  getAllContents<Category>("categories", queries);
+
+export const getTags = (queries?: MicroCMSQueries) =>
+  getAllContents<Tag>("tags", queries);
 
 // 設定取得のデフォルト値
 const DEFAULT_SETTINGS: SiteSettings = {

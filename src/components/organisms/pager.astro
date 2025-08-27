@@ -1,11 +1,19 @@
 ---
 import Icon from "../atoms/icon.astro";
 
-const { page, totalCount, slug = null } = Astro.props;
+const { page, totalCount, catSlug = null, tagSlug = null } = Astro.props;
 const PER_PAGE = 10;
 const lastPage = Math.ceil(totalCount / PER_PAGE);
-const isCategoryPage = slug !== null;
-const pathPrefix = isCategoryPage ? `/categories/${slug}` : "/blogs";
+
+const isCategoryPage = catSlug !== null;
+const isTagPage = tagSlug !== null;
+
+// pathPrefix をカテゴリ・タグ・ブログページで分岐
+const pathPrefix = isCategoryPage
+  ? `/categories/${catSlug}`
+  : isTagPage
+  ? `/tags/${tagSlug}`
+  : "/blogs";
 
 // 最大表示ページ数
 const MAX_VISIBLE_PAGES = 4;
@@ -20,7 +28,6 @@ if (endPage - startPage + 1 < MAX_VISIBLE_PAGES) {
   startPage = Math.max(1, endPage - MAX_VISIBLE_PAGES + 1);
 }
 ---
-
 {totalCount > PER_PAGE && (
   <div class="flex justify-center mt-[120px] sm:mt-[80px]">
     <nav class="flex items-center gap-[12px]">
@@ -30,37 +37,27 @@ if (endPage - startPage + 1 < MAX_VISIBLE_PAGES) {
           href={page.currentPage - 1 === 1 ? pathPrefix : `${pathPrefix}/${page.currentPage - 1}`}
           class="flex items-center w-[40px] h-[40px] aspect-square rounded-full bg-white opacity-hover duration"
         >
-          <Icon
-            filename="icon_arrow_left"
-            color="#333"
-            customClass="w-[24px]"
-          />
+          <Icon filename="icon_arrow_left" color="#333" customClass="w-[24px]" />
         </a>
       ) : (
-        <span
-          class="flex items-center w-[40px] h-[40px] aspect-square rounded-full bg-white opacity-40 cursor-not-allowed"
-        >
-          <Icon
-            filename="icon_arrow_left"
-            color="#333"
-            customClass="w-[24px]"
-          />
+        <span class="flex items-center w-[40px] h-[40px] aspect-square rounded-full bg-white opacity-40 cursor-not-allowed">
+          <Icon filename="icon_arrow_left" color="#333" customClass="w-[24px]" />
         </span>
       )}
 
       {/* ...の表示（開始ページが1より大きい場合） */}
       {startPage > 1 && <span>...</span>}
 
-      {
-        Array.from({ length: endPage - startPage + 1 }, (_, i) => (
-          <a
-            href={startPage + i === 1 ? pathPrefix : `${pathPrefix}/${startPage + i}`}
-            class={`w-[40px] h-[40px] aspect-square rounded-full flex items-center justify-center opacity-hover duration ${startPage + i === page.currentPage ? "bg-[#0079C9] text-white" : "bg-white"}`}
-          >
-            <span>{startPage + i}</span>
-          </a>
-        ))
-      }
+      {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
+        <a
+          href={startPage + i === 1 ? pathPrefix : `${pathPrefix}/${startPage + i}`}
+          class={`w-[40px] h-[40px] aspect-square rounded-full flex items-center justify-center opacity-hover duration ${
+            startPage + i === page.currentPage ? "bg-[#0079C9] text-white" : "bg-white"
+          }`}
+        >
+          <span>{startPage + i}</span>
+        </a>
+      ))}
 
       {/* ...の表示（終了ページがlastPageより小さい場合） */}
       {endPage < lastPage && <span>...</span>}
@@ -71,21 +68,11 @@ if (endPage - startPage + 1 < MAX_VISIBLE_PAGES) {
           href={`${pathPrefix}/${page.currentPage + 1}`}
           class="flex items-center justify-center w-[40px] h-[40px] aspect-square rounded-full bg-white opacity-hover duration"
         >
-          <Icon
-            filename="icon_arrow_right"
-            color="#333"
-            customClass="w-[24px]"
-          />
+          <Icon filename="icon_arrow_right" color="#333" customClass="w-[24px]" />
         </a>
       ) : (
-        <span
-          class="flex items-center justify-center w-[40px] h-[40px] aspect-square rounded-full bg-white opacity-40 cursor-not-allowed"
-        >
-          <Icon
-            filename="icon_arrow_right"
-            color="#333"
-            customClass="w-[24px]"
-          />
+        <span class="flex items-center justify-center w-[40px] h-[40px] aspect-square rounded-full bg-white opacity-40 cursor-not-allowed">
+          <Icon filename="icon_arrow_right" color="#333" customClass="w-[24px]" />
         </span>
       )}
     </nav>

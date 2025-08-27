@@ -12,12 +12,11 @@ import type { GetStaticPathsOptions } from "astro";
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const categoryResponse = await getCategoryList();
   const categories = categoryResponse.contents;
-  const allBlogsResponse = await getAllContents("blogs");
+  const allBlogsResponse = await getAllContents<Blog>("blogs");
   const allBlogs = allBlogsResponse.contents;
 
   return categories.flatMap(category => {
     const blogsInThisCategory = allBlogs.filter(blog => blog.category.id === category.id);
-    const totalCount = blogsInThisCategory.length;
 
     return paginate(blogsInThisCategory, {
       pageSize: 10,
@@ -31,7 +30,12 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   });
 }
 
-const { page, category, allBlogs, totalCount } = Astro.props;
+const { page, category, allBlogs, totalCount } = Astro.props as {
+  page: { data: Blog[] };
+  category: Category;
+  allBlogs: Blog[];
+  totalCount: number;
+};
 
 const blogs = page.data as Blog[];
 
@@ -65,9 +69,9 @@ const tagCounts = tags.map((tag) => {
 
 <Layout title={`${category.name} の記事一覧 | miyata blog`} breadcrumb={true} category={category} >
   <main
-    class="inner pt-[160px] sm:pt-[96px] pb-[200px] gap-[48px] sm:pb-[64px]"
+    class="inner pt-[96px] sm:pt-[48px] pb-[120px] gap-[48px] sm:pb-[64px]"
   >
-    <h1 class="text-[32px] sm:text-[20px] leading-none tracking-[0.06em] font-bold">
+    <h1 class="text-[32px] sm:text-[20px] leading-none tracking-[0.04em] font-black">
       Category <span class="bracket">{category.name}</span>
     </h1>
     <div class="flex justify-between sm:flex-col mt-[64px] sm:mt-[32px]">
@@ -109,7 +113,7 @@ const tagCounts = tags.map((tag) => {
                         </p>
                       )}
                     </div>
-                    <p class="font-bold text-[16px] leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[10px]">
+                    <p class="font-black text-[16px] leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[10px]">
                       {blog.title}
                     </p>
                     <p class="font-medium text-[12px] leading-[1.48] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
@@ -162,11 +166,11 @@ const tagCounts = tags.map((tag) => {
             tagCounts.length === 0 ? (
               <li class="text-sm text-muted-foreground">タグがありません</li>
             ) : (
-              tagCounts.map((tag) => (
+              tagCounts.map((t) => (
                 <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration">
-                  <a href={`/tags/${tag.slug}`}>
-                    <span class="hashtag"></span>{tag.name}
-                    <span class="bracket">{tag.count}</span>
+                  <a href={`/tags/${t.slug}`}>
+                    <span class="hashtag"></span>{t.name}
+                    <span class="bracket">{t.count}</span>
                   </a>
                 </li>
               ))
@@ -175,6 +179,6 @@ const tagCounts = tags.map((tag) => {
         </ul>
       </div>
     </div>
-    {blogs.length > 0 && <Pager page={page} totalCount={totalCount} slug={category.slug} />}
+    {blogs.length > 0 && <Pager page={page} totalCount={totalCount} catSlug={category.slug} />}
   </main>
 </Layout>

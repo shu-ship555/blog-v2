@@ -98,7 +98,7 @@ const tagCounts = tags.map((tag) => {
                       </p>
                     )}
                   </div>
-                  <p class="font-bold text-[16px] leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[10px]">
+                  <p class="font-black text-[16px] leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[10px]">
                     {blog.title}
                   </p>
                   <p class="font-medium text-[12px] leading-[1.48] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
@@ -133,11 +133,11 @@ const tagCounts = tags.map((tag) => {
                 カテゴリがありません
               </li>
             ) : (
-              categoryCounts.map((category) => (
+              categoryCounts.map((cat) => (
                 <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
-                  <a href={`/categories/${category.slug}`}>
-                    {category.name}
-                    <span class="bracket">{category.count}</span>
+                  <a href={`/categories/${cat.slug}`}>
+                    {cat.name}
+                    <span class="bracket">{cat.count}</span>
                   </a>
                 </li>
               ))
@@ -154,11 +154,11 @@ const tagCounts = tags.map((tag) => {
             tagCounts.length === 0 ? (
               <li class="text-sm text-muted-foreground">タグがありません</li>
             ) : (
-              tagCounts.map((tag) => (
+              tagCounts.map((t) => (
                 <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration">
-                  <a href={`/tags/${tag.slug}`}>
-                    {tag.name}
-                    <span class="bracket">{tag.count}</span>
+                  <a href={`/tags/${t.slug}`}>
+                    <span class="hashtag"></span>{t.name}
+                    <span class="bracket">{t.count}</span>
                   </a>
                 </li>
               ))
