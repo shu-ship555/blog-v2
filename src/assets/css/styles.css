@@ -1,36 +1,36 @@
 @font-face {
   font-family: 'Montserrat';
-  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/cli_test/Montserrat-Bold.woff2') format('woff2');
+  src: url('/font/Montserrat-Bold.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/cli_test/Montserrat-Bold.woff2') format('woff2');
+  src: url('/font/Montserrat-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/cli_test/Montserrat-Medium.woff2') format('woff2');
+  src: url('/font/Montserrat-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/cli_test/Montserrat-Regular.woff2') format('woff2');
+  src: url('/font/Montserrat-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/cli_test/Montserrat-Light.woff2') format('woff2');
+  src: url('/font/Montserrat-Light.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('https://blog-v2-src.s3.ap-northeast-1.amazonaws.com/cli_test/Montserrat-Thin.woff2') format('woff2');
+  src: url('/font/Montserrat-Thin.woff2') format('woff2');
   font-weight: 100;
   font-style: normal;
 }
@@ -133,7 +133,7 @@ post
 	@apply font-black text-[32px]  sm:text-[16px] leading-[1.48] tracking-[0.06em] mt-[64px]  sm:mt-[32px];
 }
 .post p {
-	@apply font-medium text-[20px] sm:text-[16px] leading-[1.64] sm:leading-[1.48] tracking-[0.06em] mt-[16px] sm:mt-[8px];
+	@apply font-medium text-[20px] sm:text-[16px] leading-[1.64] sm:leading-[1.48] tracking-[0.06em] sm:tracking-[0.04em] mt-[16px] sm:mt-[12px];
 }
 .post a {
 	@apply opacity-hover duration;
@@ -171,7 +171,7 @@ post
 	@apply text-[14px] sm:text-[12px] text-[#666] font-medium px-[24px] sm:px-[12px] pt-[24px] sm:pt-[12px] pb-[28px] sm:pb-[14px] border-2 border-dashed rounded-lg border-[#666] referencemark flex items-start mt-[16px] sm:mt-[8px];
 }
 .post blockquote p{
-	@apply mt-0 text-[12px] sm:text-[10px] text-[#666] font-medium leading-[1.64] tracking-[0.04em];
+	@apply mt-0 text-[12px] sm:text-[10px] text-[#666] font-medium leading-[1.64] tracking-[0.04em] sm:mt-[1px];
 }
 .post hr {
 	@apply mt-[48px] sm:mt-[24px] mb-[48px] sm:mb-[24px];
