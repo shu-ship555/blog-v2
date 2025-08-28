@@ -3,6 +3,7 @@ import type {
   MicroCMSQueries,
   MicroCMSListContent,
   MicroCMSObjectContent,
+	MicroCMSImage,
 } from "microcms-js-sdk";
 import { createClient } from "microcms-js-sdk";
 
@@ -11,12 +12,17 @@ const client = createClient({
   apiKey: import.meta.env.PUBLIC_MICROCMS_API_KEY,
 });
 
-// 型定義
 export type MicroCMSResponse<T> = {
   contents: T[];
   totalCount: number;
   offset: number;
   limit: number;
+};
+
+export type OGP = {
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: MicroCMSImage;
 };
 
 export type Blog = {
@@ -32,6 +38,7 @@ export type Blog = {
     width: number;
   };
 	readingTime: number;
+	ogp: OGP | null;
 } & MicroCMSListContent;
 
 export type Category = {
@@ -46,7 +53,6 @@ export type Tag = {
 	slug: string;
 } & MicroCMSListContent;
 
-// Settingsの型定義をMicroCMSObjectContentを継承するように変更
 export type SiteSettings = {
   title: string;
   description: string;
@@ -56,7 +62,7 @@ export type SiteSettings = {
   updatedAt: string;
   publishedAt: string;
   revisedAt: string;
-} & MicroCMSObjectContent; // オブジェクト形式のコンテンツ用
+} & MicroCMSObjectContent;
 
 // APIの呼び出し
 // 汎用: ページネーション対応
@@ -90,39 +96,14 @@ export const getAllContents = async <T>(
   return { contents: allContents, totalCount: allContents.length, offset: 0, limit };
 };
 
-// 個別ショートカット関数（必要なら残す）
 export const getBlogs = (queries?: MicroCMSQueries) =>
   client.getList<Blog>({ endpoint: "blogs", queries });
 
 export const getBlogDetail = (contentId: string, queries?: MicroCMSQueries) =>
   client.getListDetail<Blog>({ endpoint: "blogs", contentId, queries });
 
-// ★ getCategoryList と getTags を統一
 export const getCategoryList = (queries?: MicroCMSQueries) =>
   getAllContents<Category>("categories", queries);
 
 export const getTags = (queries?: MicroCMSQueries) =>
   getAllContents<Tag>("tags", queries);
-
-// 設定取得のデフォルト値
-const DEFAULT_SETTINGS: SiteSettings = {
-  title: "あなたのサイトタイトルを設定してください",
-  description: "あなたのサイトの説明を設定してください",
-  about: "ここにサイトについての文章を設定してください",
-  id: "default-settings", // ダミーのIDを追加
-  createdAt: "2023-01-01T00:00:00.000Z", // ダミーの日付を追加
-  updatedAt: "2023-01-01T00:00:00.000Z", // ダミーの日付を追加
-  publishedAt: "2023-01-01T00:00:00.000Z", // ダミーの日付を追加
-  revisedAt: "2023-01-01T00:00:00.000Z", // ダミーの日付を追加
-};
-
-export const getSiteSettings = async (): Promise<SiteSettings> => {
-  try {
-    // getListDetailではなくgetObjectを使用 (単一コンテンツの場合)
-    const data = await client.getObject<SiteSettings>({ endpoint: "settings" });
-    return data;
-  } catch (error: any) {
-    console.error("設定の取得に失敗しました。デフォルト設定を使用します。", error);
-    return DEFAULT_SETTINGS;
-  }
-};

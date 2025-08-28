@@ -14,16 +14,16 @@ const isTagPage = !!tag;
 ---
 
 <div class="pt-[134px] sm:pt-[80px]">
-  <nav class="pt-[20px] sm:pt-[16px] pb-[24px] sm:pb-[18px] bg-[#FAFAFA]">
+  <nav class="pt-[20px] sm:pt-[16px] pb-[24px] sm:pb-[18px] bg-[#FAFAFA] ">
     <ul class="flex flex-wrap items-center gap-[16px] sm:gap-[12px] inner">
-      <li class="text-[16px] sm:text-[12px] font-bold tracking-[0.04em] leading-none">
-        <a href="/" class="opacity-hover duration">トップ</a>
+      <li class="text-[16px] sm:text-[12px] font-bold tracking-[0.04em] leading-[1.48]">
+        <a href="/" class="opacity-hover duration"><Icon filename="icon_home" color="#333" customClass="w-[24px] sm:w-[16px] shrink-0" /></a>
       </li>
 
       {isCategoryPage && (
         <>
           <Icon filename="icon_arrow_right" color="#333" customClass="w-[24px] sm:w-[16px] shrink-0" />
-          <li class="text-[16px] sm:text-[12px] font-bold tracking-[0.04em] text-[#888] leading-none">
+          <li class="text-[16px] sm:text-[12px] font-bold tracking-[0.04em] text-[#888] leading-[1.48]">
             <span class="bracket">{category.name}</span> 記事一覧
           </li>
         </>
@@ -32,7 +32,7 @@ const isTagPage = !!tag;
       {isTagPage && (
         <>
           <Icon filename="icon_arrow_right" color="#333" customClass="w-[24px] sm:w-[16px] shrink-0" />
-          <li class="text-[16px] sm:text-[12px] font-bold tracking-[0.04em] text-[#888] leading-none">
+          <li class="text-[16px] sm:text-[12px] font-bold tracking-[0.04em] text-[#888] leading-[1.48]">
             <span class="bracket"><span class="hashtag"></span>{tag.name}</span> 記事一覧
           </li>
         </>

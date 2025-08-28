@@ -47,13 +47,11 @@ const [allCategoriesResponse, allTagsResponse] = await Promise.all([
 const categories = allCategoriesResponse.contents;
 const tags = allTagsResponse.contents;
 
-// カテゴリ件数
 const categoryCounts = categories.map((cat) => {
   const count = allBlogs.filter((blog) => blog.category.id === cat.id).length;
   return { ...cat, count };
 });
 
-// タグ件数
 const tagCounts = tags.map((t) => {
   const count = allBlogs.filter((blog) =>
     blog.tag.some((blogTag) => blogTag.id === t.id),

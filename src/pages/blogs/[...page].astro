@@ -13,19 +13,16 @@ import type {
 } from "../../libs/microcms.d.ts";
 import { formatDate } from "../../utils/date";
 
-// getStaticPaths 関数でページネーションのパスを生成
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const allBlogsResponse = await getBlogs({ limit: 100 });
 
-  // 全記事をpaginateに渡し、/blogs と /blogs/2 以降を自動生成させる
+
   return paginate(allBlogsResponse.contents, { pageSize: 10 });
 }
 
-// propsからページデータを受け取る
 const { page } = Astro.props;
 const blogs = page.data;
 
-// カウント用にはすべてのブログ、カテゴリ、タグを並行して取得
 const [allBlogsResponse, allCategoriesResponse, allTagsResponse] =
   await Promise.all([
     getAllContents<Blog>("blogs"),
@@ -37,7 +34,6 @@ const allBlogs = allBlogsResponse.contents;
 const categories = allCategoriesResponse.contents;
 const tags = allTagsResponse.contents;
 
-// 取得した「全ブログ記事データ」を参照して、カテゴリの件数を正確に計算
 const categoryCounts = categories.map((category) => {
   const count = allBlogs.filter(
     (blog) => blog.category.id === category.id,
@@ -48,7 +44,6 @@ const categoryCounts = categories.map((category) => {
   };
 });
 
-// 取得した「全ブログ記事データ」を参照して、タグの件数を正確に計算
 const tagCounts = tags.map((tag) => {
   const count = allBlogs.filter((blog) =>
     blog.tag.some((blogTag) => blogTag.id === tag.id),

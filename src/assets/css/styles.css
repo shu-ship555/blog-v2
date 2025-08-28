@@ -39,6 +39,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html{
+	scroll-behavior: smooth;
+}
+
 body {
   font-family: "Montserrat", "Noto Sans JP", "游ゴシック体", "Yu Gothic", "游ゴシック Medium", "Yu Gothic Medium", -apple-system, BlinkMacSystemFont, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic ProW3", sans-serif;
 	color: #333;
@@ -73,7 +77,7 @@ body {
 }
 
 .hashtag {
-	@apply relative before:content-['#'] after:pl-[0.12em];
+	@apply relative before:content-['#'] after:pl-[0.12em] align-bottom;
 }
 
 .referencemark {
@@ -106,15 +110,14 @@ body {
 /* =======================
 toc
  ======================= */
-
-.level-2:first-of-type{
+ .level-2:first-of-type{
 	@apply mt-0;
 }
  .level-2{
 	@apply mt-[16px] sm:mt-[12px] relative before:content-['○'] before:text-[0.48em] before:align-middle before:pr-[0.64em] before:mt-[0.8em]  text-[16px] sm:text-[14px] font-bold leading-[1.48] tracking-[0.06em] flex items-start;
 }
 .level-3, .level-4{
-	@apply mt-[4px] sm:mt-[2px] ml-[24px] sm:ml-[12px] relative before:content-['└'] before:text-[0.64em] before:align-middle before:pr-[0.48em] before:mt-[0.48em] before:font-black  text-[16px] sm:text-[14px] font-bold leading-[1.48] tracking-[0.06em] flex items-start;
+	@apply mt-[8px] sm:mt-[4px] ml-[24px] sm:ml-[12px] relative before:content-['└'] before:text-[0.64em] before:align-middle before:pr-[0.48em] before:mt-[0.48em] before:font-black  text-[16px] sm:text-[14px] font-bold leading-[1.48] tracking-[0.06em] flex items-start;
 }
 
 /* =======================
@@ -124,13 +127,13 @@ post
 	@apply mt-0;
  }
 .post h2 {
-	@apply font-black text-[40px] sm:text-[20px] leading-[1.6] tracking-[0.06em] mt-[120px] sm:mt-[60px] before:border-l-8 before:mr-[12px] before:rounded-full before:border-[#0079C9];
+	@apply font-black text-[40px] sm:text-[20px] leading-[1.6] tracking-[0.06em] mt-[120px] sm:mt-[60px] before:border-l-8 before:mr-[12px] before:rounded-full before:border-[#0079C9]  scroll-mt-[160px] sm:scroll-mt-[120px];
 }
 .post h3 {
-	@apply font-black text-[36px]  sm:text-[18px] leading-[1.48] tracking-[0.06em] mt-[96px] sm:mt-[48px];
+	@apply font-black text-[36px]  sm:text-[18px] leading-[1.48] tracking-[0.06em] mt-[96px] sm:mt-[48px]  scroll-mt-[160px] sm:scroll-mt-[120px];
 }
 .post h4 {
-	@apply font-black text-[32px]  sm:text-[16px] leading-[1.48] tracking-[0.06em] mt-[64px]  sm:mt-[32px];
+	@apply font-black text-[32px]  sm:text-[16px] leading-[1.48] tracking-[0.06em] mt-[72px]  sm:mt-[36px] scroll-mt-[160px] sm:scroll-mt-[120px];
 }
 .post p {
 	@apply font-medium text-[20px] sm:text-[16px] leading-[1.64] sm:leading-[1.48] tracking-[0.06em] sm:tracking-[0.04em] mt-[16px] sm:mt-[12px];

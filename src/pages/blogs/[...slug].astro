@@ -5,7 +5,6 @@ import { formatDate } from "../../utils/date";
 import { wrapTablesWithDiv, processHeadings } from "../../utils/htmlProcessor";
 import { getBlogs } from "../../libs/microcms";
 
-// 詳細記事ページの全パスを取得
 export async function getStaticPaths() {
 const response = await getBlogs({ limit: 100 });
   return response.contents.map((content) => ({
@@ -18,21 +17,24 @@ const response = await getBlogs({ limit: 100 });
   }));
 }
 
-// 記事の詳細情報を取得
 const { blog } = Astro.props;
 
-// 1. 目次用データを抽出し、見出しにIDを付与
 const { processedHtml, toc } = processHeadings(blog.content);
 
-// 2. 加工済みのHTMLをさらに処理し、テーブルをdivで囲む
 const finalHtml = wrapTablesWithDiv(processedHtml);
 
-// フォーマットした日付
 const publishedDate = formatDate(blog.publishedAt);
 const updatedDate = formatDate(blog.updatedAt);
 ---
 
-<Layout title={blog.title} breadcrumb={true} blog={blog as any}>
+<Layout
+  title={blog.title}
+  breadcrumb={true}
+  blog={blog as any}
+  ogTitle={blog.ogp?.ogTitle || blog.title}
+  ogDescription={blog.ogp?.ogDescription || blog.description}
+  ogImage={blog.ogp?.ogImage?.url || blog.eyecatch?.url || "/img/ogp.png"}
+>
   <main class="pt-[160px] sm:pt-[64px] pb-[200px] sm:pb-[64px]">
     <div class="inner">
       <div class="flex gap-[10px] flex-wrap">

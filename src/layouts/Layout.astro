@@ -5,23 +5,27 @@ import type { Blog, Category, Tag } from "../libs/microcms.ts";
 export interface Props {
   title: string;
   description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
   ogImage?: string;
   pageUrl?: string;
   breadcrumb?: boolean;
   blog?: Blog;
   category?: Category;
-  tag?: Tag; // 追加
+  tag?: Tag;
 }
 
 const {
-  title = 'デフォルトのタイトル',
-  description = 'これはサイトのデフォルトの説明です。',
-  ogImage,
+  title = 'miyata blog',
+  description = '広告代理店に勤めるフロントエンドエンジニアの個人ブログです',
+  ogTitle = title,
+  ogDescription = description,
+  ogImage = '/img/ogp.png',
   pageUrl = Astro.url.href,
   breadcrumb = false,
   blog,
   category,
-  tag, // 追加
+  tag,
 } = Astro.props;
 
 import '../assets/css/styles.css';
@@ -45,27 +49,31 @@ import Breadcrumb from "../components/organisms/breadcrumb.astro";
     <meta name="description" content={description} />
     <link rel="canonical" href={pageUrl} />
 
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+		<link rel="icon" href="/img/favicon.svg">
+
+    <!-- OGP -->
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:type" content="article" />
     <meta property="og:url" content={pageUrl} />
     {ogImage && <meta property="og:image" content={ogImage} />}
 
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
     {ogImage && <meta name="twitter:image" content={ogImage} />}
   </head>
   <body class="relative">
     <Header
       navItems={[
         { href: "/", text: "Blog", name: "ブログ", target: false },
-        // { href: "/about", text: "About", name: "このサイトについて", target: false },
         { href: "https://adhesive-form-ca1.notion.site/134c792be686808c8bb0e4342fe0625d?pvs=105", text: "Contact", name: "お問い合わせ", target: true },
       ]}
     />
     {breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} />}
     <slot />
+		{breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} />}
     <Footer />
     <div class="bg-[#FFF]/[0.64] backdrop-blur-lg absolute h-full w-full top-0 hidden js-bg"></div>
     <script src="../assets/js/common.js"></script>
