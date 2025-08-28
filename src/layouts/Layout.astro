@@ -73,7 +73,7 @@ import Breadcrumb from "../components/organisms/breadcrumb.astro";
     />
     {breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} />}
     <slot />
-		{breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} />}
+		{breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} scale={0.75} noMargin={true} backgroundColor="#FCFCFC" />}
     <Footer />
     <div class="bg-[#FFF]/[0.64] backdrop-blur-lg absolute h-full w-full top-0 hidden js-bg"></div>
     <script src="../assets/js/common.js"></script>

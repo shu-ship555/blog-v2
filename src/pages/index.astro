@@ -13,16 +13,15 @@ import type {
 } from "../libs/microcms.d.ts";
 import { formatDate } from "../../src/utils/date";
 
-// 1ページあたりの表示件数を定義
+
 const PER_PAGE = 10;
 
-// ① 記事一覧表示のために、最初の10件の記事を取得
 const recentBlogsResponse: MicroCMSResponse<Blog> = await getBlogs({
   limit: PER_PAGE,
   offset: 0,
 });
 
-// ② 件数カウントのために、すべての記事・カテゴリ・タグを取得
+
 const [allBlogsResponse, allCategoriesResponse, allTagsResponse] =
   await Promise.all([
     getAllContents<Blog>("blogs"),
@@ -35,7 +34,7 @@ const allBlogs = allBlogsResponse.contents;
 const categories = allCategoriesResponse.contents;
 const tags = allTagsResponse.contents;
 
-// ページネーション用のデータを手動で生成
+
 const totalCount = allBlogsResponse.totalCount;
 const lastPage = Math.ceil(totalCount / PER_PAGE);
 const pageData = {
@@ -47,7 +46,7 @@ const pageData = {
   },
 };
 
-// 取得した「全ブログ記事データ」を参照して、カテゴリの件数を正確に計算
+
 const categoryCounts = categories.map((category) => {
   const count = allBlogs.filter(
     (blog) => blog.category.id === category.id,
@@ -58,7 +57,7 @@ const categoryCounts = categories.map((category) => {
   };
 });
 
-// 取得した「全ブログ記事データ」を参照して、タグの件数を正確に計算
+
 const tagCounts = tags.map((tag) => {
   const count = allBlogs.filter((blog) =>
     blog.tag.some((blogTag) => blogTag.id === tag.id),
