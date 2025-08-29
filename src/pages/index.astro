@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Pager from "../components/organisms/Pager.astro";
+import Pager from "../components/organisms/pager.astro";
 import {
   getAllContents,
   getBlogs,
@@ -86,7 +86,7 @@ const tagCounts = tags.map((tag) => {
                     />
                   ) : (
                     <img
-                      src="/public/img/dummyImage.png"
+                      src="/img/dummyImage.png"
                       alt={blog.title}
                       class="rounded-lg"
                     />
