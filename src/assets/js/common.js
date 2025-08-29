@@ -1,31 +1,101 @@
 document.addEventListener('DOMContentLoaded', () => {
-	const openButton = document.querySelector('.js-open');
-	const closeButton = document.querySelector('.js-close');
-	const menuElement = document.querySelector('.js-menu');
-	const backgroundElement = document.querySelector('.js-bg');
+  // ハンバーガーメニューの開閉機能
+  const openButton = document.querySelector('.js-open');
+  const closeButton = document.querySelector('.js-close');
+  const menuElement = document.querySelector('.js-menu');
+  const backgroundElement = document.querySelector('.js-bg');
 
-	let scrollPosition = 0;
+  let scrollPosition = 0;
 
-	if (openButton && closeButton && menuElement && backgroundElement) {
-		const openMenu = () => {
-			scrollPosition = window.scrollY;
-			document.body.classList.add('is-active');
-			window.scrollTo({
-				top: 0,
-				behavior: 'smooth'
-			});
-		};
+  if (openButton && closeButton && menuElement && backgroundElement) {
+    const openMenu = () => {
+      scrollPosition = window.scrollY;
+      document.body.classList.add('is-active');
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    };
 
-		const closeMenu = () => {
-			document.body.classList.remove('is-active');
-			window.scrollTo({
-				top: scrollPosition,
-				behavior: 'smooth'
-			});
-		};
+    const closeMenu = () => {
+      document.body.classList.remove('is-active');
+      window.scrollTo({
+        top: scrollPosition,
+        behavior: 'smooth'
+      });
+    };
 
-		openButton.addEventListener('click', openMenu);
-		closeButton.addEventListener('click', closeMenu);
-		backgroundElement.addEventListener('click', closeMenu);
-	}
+    openButton.addEventListener('click', openMenu);
+    closeButton.addEventListener('click', closeMenu);
+    backgroundElement.addEventListener('click', closeMenu);
+  }
+
+
+
+  // --- 画像拡大モーダルの開閉機能 ---
+  const modalContainer = document.createElement('div');
+  document.body.appendChild(modalContainer);
+
+  let isModalOpen = false;
+
+  const closeModal = () => {
+    modalContainer.innerHTML = '';
+    isModalOpen = false;
+    document.removeEventListener('keydown', handleEscape);
+    document.body.classList.remove('modal-open');
+  };
+
+  const handleEscape = (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  };
+
+  const iconList = document.querySelector('.icon-list');
+  if (iconList) {
+    iconList.addEventListener('click', (e) => {
+			console.log(e.target);
+      if (e.target instanceof Element) {
+        const button = e.target.closest('.expand-btn');
+        if (button && !isModalOpen) {
+          const listItem = button.closest('li');
+          if (listItem) {
+            const img = listItem.querySelector('img');
+            if (img) {
+              const imgSrc = img.getAttribute('src');
+              const imgAlt = img.getAttribute('alt');
+
+              modalContainer.innerHTML = `
+                <div id="image-modal-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-[#000]/[0.48] backdrop-blur-md">
+                  <div class="relative p-[32px] sm:p-[24px] bg-white bg-[url('/img/grid.svg')] bg-center bg-no-repeat rounded-lg shadow-lg" tabindex="-1">
+                    <button id="close-modal-btn" class="absolute text-[32px] leading-none sm:text-[24px] font-bold text-[#0079C9] top-[6px] sm:top-[4px] right-[8px] sm:right-[6px] opacity-hover duration">
+                      &times;
+                    </button>
+										<div class="w-[120px] sm:w-[96px]"><img src="${imgSrc}" alt="${imgAlt}" class="max-w-full object-contain" /></div>
+                  </div>
+                </div>
+              `;
+
+              const closeModalBtn = document.getElementById('close-modal-btn');
+              const modalOverlay = document.getElementById('image-modal-overlay');
+
+              if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', closeModal);
+              }
+              if (modalOverlay) {
+                modalOverlay.addEventListener('click', (e) => {
+                  if (e.target === modalOverlay) {
+                    closeModal();
+                  }
+                });
+              }
+              document.addEventListener('keydown', handleEscape);
+              isModalOpen = true;
+              document.body.classList.add('modal-open');
+            }
+          }
+        }
+      }
+    });
+  }
 });

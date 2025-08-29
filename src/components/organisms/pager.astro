@@ -1,29 +1,24 @@
 ---
-import Icon from "../atoms/icon.astro";
+import Icon from "../atoms/Icon.astro";
 
-const { page, totalCount, catSlug = null, tagSlug = null } = Astro.props;
-const PER_PAGE = 10;
+const { page, totalCount, catSlug = null, tagSlug = null, perPage = 10, basePath = "/blogs" } = Astro.props;
+const PER_PAGE = perPage;
 const lastPage = Math.ceil(totalCount / PER_PAGE);
 
 const isCategoryPage = catSlug !== null;
 const isTagPage = tagSlug !== null;
 
-// pathPrefix をカテゴリ・タグ・ブログページで分岐
 const pathPrefix = isCategoryPage
   ? `/categories/${catSlug}`
   : isTagPage
   ? `/tags/${tagSlug}`
-  : "/blogs";
+  : basePath;
 
-// 最大表示ページ数
 const MAX_VISIBLE_PAGES = 4;
 
-// 表示開始ページ番号を計算
 let startPage = Math.max(1, page.currentPage - Math.floor(MAX_VISIBLE_PAGES / 2));
-// 表示終了ページ番号を計算
 let endPage = Math.min(lastPage, startPage + MAX_VISIBLE_PAGES - 1);
 
-// 終了ページが最大ページ数に満たない場合、開始ページを調整
 if (endPage - startPage + 1 < MAX_VISIBLE_PAGES) {
   startPage = Math.max(1, endPage - MAX_VISIBLE_PAGES + 1);
 }

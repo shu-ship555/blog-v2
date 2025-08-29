@@ -1,5 +1,5 @@
 ---
-import Icon from "../atoms/icon.astro";
+import Icon from "../atoms/Icon.astro";
 import { getAllContents } from "../../libs/microcms";
 import type { Blog, Category, Tag } from "../../libs/microcms.d.ts";
 
@@ -10,7 +10,6 @@ interface NavItem {
 	target?: boolean;
 }
 
-// 修正：getAllContents を使用して全データを取得する
 const [allBlogsResponse, allCategoriesResponse, allTagsResponse] =
 	await Promise.all([
 		getAllContents<Blog>("blogs"),
@@ -23,7 +22,7 @@ const categories = allCategoriesResponse.contents;
 const tags = allTagsResponse.contents;
 
 const categoryCounts = categories.map((category) => {
-	// 修正：全記事データ (allBlogs) を参照してカウントする
+
 	const count = allBlogs.filter(
 		(blog) => blog.category.id === category.id,
 	).length;
@@ -34,7 +33,7 @@ const categoryCounts = categories.map((category) => {
 });
 
 const tagCounts = tags.map((tag) => {
-	// 修正：全記事データ (allBlogs) を参照してカウントする
+
 	const count = allBlogs.filter((blog) =>
 		blog.tag.some((blogTag) => blogTag.id === tag.id),
 	).length;
@@ -146,7 +145,7 @@ const { navItems = [] } = Astro.props;
 				}
 			</ul>
 			<p
-				class="text-[16px] leading-none tracking-[0.06em] font-black mt-[32px] sm:mt-[24px]"
+				class="text-[16px] leading-none tracking-[0.06em] font-black mt-[32px] sm:mt-[28px]"
 			>
 				Tag｜タグ
 			</p>
