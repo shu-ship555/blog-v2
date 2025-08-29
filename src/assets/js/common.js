@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <button id="close-modal-btn" class="absolute text-[32px] leading-none sm:text-[24px] font-bold text-[#0079C9] top-[6px] sm:top-[4px] right-[8px] sm:right-[6px] opacity-hover duration">
                       &times;
                     </button>
-										<div class="w-[120px] sm:w-[96px]"><img src="${imgSrc}" alt="${imgAlt}" class="max-w-full object-contain" /></div>
+										<div class="w-[240px] sm:w-[120px]"><img src="${imgSrc}" alt="${imgAlt}" class="max-w-full object-contain" /></div>
                   </div>
                 </div>
               `;
