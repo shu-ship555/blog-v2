@@ -9,7 +9,7 @@ interface Props {
   scale?: 1 | 0.75;
   backgroundColor?: string;
   noMargin?: boolean;
-  isIconsPage?: boolean; // ← アイコンページ用フラグを追加
+  isIconsPage?: boolean;
 }
 
 const {
@@ -19,7 +19,7 @@ const {
   scale = 1,
   backgroundColor = "#FAFAFA",
   noMargin = false,
-  isIconsPage = false, // ← デフォルト false
+  isIconsPage = false,
 } = Astro.props;
 
 const isBlogPage = !!blog;
@@ -63,7 +63,7 @@ const currentClasses = scaleClasses[scale];
         <>
           <Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
           <li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
-            Icon List｜自作アイコン
+            Works｜制作物
           </li>
         </>
       )}

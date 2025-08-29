@@ -39,7 +39,6 @@
 <path d="M1 371H801" stroke="#F5F5F6" stroke-width="2"/>
 <path d="M1 381H801" stroke="#F5F5F6" stroke-width="2"/>
 <path d="M1 391H801" stroke="#F5F5F6" stroke-width="2"/>
-<path d="M1 401H801" stroke="#F5F5F6" stroke-width="2"/>
 <path d="M1 411H801" stroke="#F5F5F6" stroke-width="2"/>
 <path d="M1 421H801" stroke="#F5F5F6" stroke-width="2"/>
 <path d="M1 431H801" stroke="#F5F5F6" stroke-width="2"/>
@@ -120,7 +119,6 @@
 <path d="M431 1L431 801" stroke="#F5F5F6" stroke-width="2"/>
 <path d="M421 1L421 801" stroke="#F5F5F6" stroke-width="2"/>
 <path d="M411 1L411 801" stroke="#F5F5F6" stroke-width="2"/>
-<path d="M401 1L401 801" stroke="#F5F5F6" stroke-width="2"/>
 <path d="M391 1L391 801" stroke="#F5F5F6" stroke-width="2"/>
 <path d="M381 1L381 801" stroke="#F5F5F6" stroke-width="2"/>
 <path d="M371 1L371 801" stroke="#F5F5F6" stroke-width="2"/>
@@ -161,4 +159,6 @@
 <path d="M21 1L21 801" stroke="#F5F5F6" stroke-width="2"/>
 <path d="M11 1L11 801" stroke="#F5F5F6" stroke-width="2"/>
 <path d="M1 1L0.999965 801" stroke="#F5F5F6" stroke-width="2"/>
+<path d="M401 1L401 801" stroke="#E5E5E6" stroke-width="2" stroke-dasharray="4 4"/>
+<path d="M1 401L801 401" stroke="#E5E5E6" stroke-width="2" stroke-dasharray="4 4"/>
 </svg>

@@ -35,9 +35,13 @@ const { page, totalCount, perPage } = Astro.props as {
 const icons = page.data;
 ---
 
-<Layout title="アイコン一覧 | miyata blog" breadcrumb={true} isIconsPage={true}>
+<Layout title="制作物 | miyata blog" breadcrumb={true} isIconsPage={true}>
   <main class="inner pt-[96px] sm:pt-[48px] pb-[120px] sm:pb-[64px]">
-    <h1 class="text-[32px] sm:text-[20px] font-black leading-none tracking-[0.04em]">Icon List｜自作アイコン</h1>
+    <h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Works｜制作物</h1>
+		<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[48px] sm:mt-[32px]">
+		<div class="text-[16px] sm:text-[10px] font-black aspect-square w-[48px] sm:w-[24px] h-[48px] sm:h-[24px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"><span>1</span></div>
+    <h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">Icon<span class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[4px] sm:hidden">アイコン</span></h2>
+		</div>
 
     <ul class="icon-list flex flex-wrap justify-start gap-[48px] sm:gap-[32px] mt-[48px] sm:grid-cols-2">
       {icons.map((icon) => (
@@ -54,8 +58,8 @@ const icons = page.data;
       ))}
     </ul>
 
-    <div class="mt-[48px]">
+    <!-- <div class="mt-[48px]">
       <Pager page={page} totalCount={totalCount} basePath="/works" perPage={perPage} />
-    </div>
+    </div> -->
   </main>
 </Layout>

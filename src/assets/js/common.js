@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
               modalContainer.innerHTML = `
                 <div id="image-modal-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-[#000]/[0.48] backdrop-blur-md">
                   <div class="relative p-[32px] sm:p-[24px] bg-white bg-[url('/img/grid.svg')] bg-center bg-no-repeat rounded-lg shadow-lg" tabindex="-1">
-                    <button id="close-modal-btn" class="absolute text-[32px] leading-none sm:text-[24px] font-bold text-[#0079C9] top-[6px] sm:top-[4px] right-[8px] sm:right-[6px] opacity-hover duration">
+                    <button id="close-modal-btn" class="absolute text-[32px] leading-none sm:text-[24px] font-bold text-[#0079C9] top-[6px] sm:top-[2px] right-[12px] sm:right-[6px] opacity-hover duration">
                       &times;
                     </button>
 										<div class="w-[240px] sm:w-[120px]"><img src="${imgSrc}" alt="${imgAlt}" class="max-w-full object-contain" /></div>
