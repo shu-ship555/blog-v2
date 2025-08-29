@@ -12,7 +12,7 @@ type Icon = {
 };
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-	const ICONS_PER_PAGE = 12;
+	const ICONS_PER_PAGE = 64;
   const res = await getAllContents<Icon>("icons");
   const icons = res.contents;
 
@@ -55,7 +55,7 @@ const icons = page.data;
     </ul>
 
     <div class="mt-[48px]">
-      <Pager page={page} totalCount={totalCount} basePath="/icons" perPage={perPage} />
+      <Pager page={page} totalCount={totalCount} basePath="/works" perPage={perPage} />
     </div>
   </main>
 </Layout>
