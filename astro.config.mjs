@@ -10,7 +10,7 @@ export default defineConfig({
     partytown({
       config: {
         // GTM / GA4 イベント用
-        forward: ['dataLayer.push'],
+        forward: ['dataLayer.push', 'gtag'],
       },
     }),
   ],
