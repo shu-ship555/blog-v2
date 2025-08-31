@@ -17,8 +17,8 @@ export interface Props {
 }
 
 const {
-  title = 'miyata blog',
-  description = '広告代理店に勤めるフロントエンドエンジニアの個人ブログです',
+  title = 'デザイナーからエンジニアへ｜アラサーWeb制作者の成長ブログ｜miyata blog',
+  description = 'デザイナー挫折経験を持つアラサーWeb制作者が、Web制作におけるプログラミングやデザインの学習記録、AIの活用方法などを発信します。',
   ogTitle = title,
   ogDescription = description,
   ogImage = '/img/ogp.png',
@@ -63,6 +63,21 @@ import Breadcrumb from "../components/organisms/breadcrumb.astro";
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={ogDescription} />
     {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+		<!-- Google tag (gtag.js) -->
+		<script
+			is:inline
+			type="text/partytown"
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=G-KF973B2HFT"></script>
+		<script is:inline type="text/partytown">
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
+			gtag('config', 'G-KF973B2HFT');
+		</script>
   </head>
   <body class="relative">
     <Header
