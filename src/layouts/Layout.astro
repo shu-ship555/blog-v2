@@ -51,6 +51,14 @@ import Breadcrumb from "../components/organisms/breadcrumb.astro";
     <meta name="description" content={description} />
     <link rel="canonical" href={pageUrl} />
 
+		<!-- Google Tag Manager -->
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-WWX7F52P');</script>
+		<!-- End Google Tag Manager -->
+
     <!-- OGP -->
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
@@ -64,22 +72,12 @@ import Breadcrumb from "../components/organisms/breadcrumb.astro";
     <meta name="twitter:description" content={ogDescription} />
     {ogImage && <meta name="twitter:image" content={ogImage} />}
 
-		<!-- Google tag (gtag.js) -->
-		<script
-			is:inline
-			type="text/partytown"
-			async
-			src="https://www.googletagmanager.com/gtag/js?id=G-KF973B2HFT"></script>
-		<script is:inline type="text/partytown">
-			window.dataLayer = window.dataLayer || [];
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			gtag("js", new Date());
-			gtag('config', 'G-KF973B2HFT');
-		</script>
   </head>
   <body class="relative">
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WWX7F52P"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
     <Header
       navItems={[
         { href: "/", text: "Blog", name: "ブログ", target: false },

@@ -7,7 +7,11 @@ import partytown from '@astrojs/partytown';
 // https://astro.build/config
 export default defineConfig({
     output: 'static',
-  integrations: [tailwind(), partytown()],
+  integrations: [tailwind(), partytown({
+      config: {
+        forward: [["dataLayer.push"],"gtm.push"],
+      },
+    })],
 
   devToolbar: {
     enabled: false,
