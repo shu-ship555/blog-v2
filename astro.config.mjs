@@ -1,20 +1,13 @@
-// astro.config.mjs
+// @ts-check
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
-import partytown from '@astrojs/partytown';
 
+// https://astro.build/config
 export default defineConfig({
-  output: 'static',
-  integrations: [
-    tailwind(),
-    partytown({
-      config: {
-        // GTM / GA4 イベント用
-        forward: ['dataLayer.push', 'gtag'],
-      },
-    }),
-  ],
+	output: 'static',
+  integrations: [tailwind()],
+
   devToolbar: {
     enabled: false,
-  },
+  }
 });
