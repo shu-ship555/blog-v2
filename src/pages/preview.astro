@@ -6,7 +6,8 @@ import { wrapTablesWithDiv, processHeadings } from "../utils/htmlProcessor";
 import { createClient } from "microcms-js-sdk";
 
 // このページは SSR 専用
-export const prerender = false;
+// プレビュー表示をしたい時はfalseにする
+export const prerender = true;
 
 // SDK クライアントを初期化
 const client = createClient({
