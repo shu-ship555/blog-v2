@@ -122,10 +122,10 @@ toc
 	@apply mt-0;
 }
  .level-2{
-	@apply mt-[16px] sm:mt-[12px] relative before:content-['○'] before:text-[0.48em] before:align-middle before:pr-[0.64em] before:mt-[0.8em]  text-[16px] sm:text-[14px] font-bold leading-[1.48] tracking-[0.06em] flex items-start;
+	@apply break-normal mt-[16px] sm:mt-[12px] relative before:content-['○'] before:text-[0.48em] before:align-middle before:pr-[0.64em] before:mt-[0.8em]  text-[16px] sm:text-[14px] font-bold leading-[1.48] tracking-[0.06em] flex items-start;
 }
 .level-3, .level-4{
-	@apply mt-[8px] sm:mt-[4px] ml-[24px] sm:ml-[12px] relative before:content-['└'] before:text-[0.64em] before:align-middle before:pr-[0.48em] before:mt-[0.48em] before:font-black  text-[16px] sm:text-[14px] font-bold leading-[1.48] tracking-[0.06em] flex items-start;
+	@apply break-normal mt-[8px] sm:mt-[4px] ml-[24px] sm:ml-[12px] relative before:content-['└'] before:text-[0.64em] before:align-middle before:pr-[0.48em] before:mt-[0.48em] before:font-black  text-[14px] sm:text-[12px] font-normal leading-[1.48] tracking-[0.06em] flex items-start;
 }
 
 /* =======================
@@ -135,19 +135,22 @@ post
 	@apply mt-0;
  }
 .post h2 {
-	@apply font-black text-[40px] sm:text-[20px] leading-[1.6] tracking-[0.06em] mt-[120px] sm:mt-[60px] before:border-l-8 before:mr-[12px] before:rounded-full before:border-[#0079C9]  scroll-mt-[160px] sm:scroll-mt-[120px];
+	@apply break-normal font-black text-[36px] sm:text-[24px] leading-[1.48] tracking-[0.04em] mt-[120px] sm:mt-[60px] before:border-l-8 before:mr-[12px] before:rounded-full before:border-[#0079C9]  scroll-mt-[160px] sm:scroll-mt-[120px];
 }
 .post h3 {
-	@apply font-black text-[36px]  sm:text-[18px] leading-[1.48] tracking-[0.06em] mt-[96px] sm:mt-[48px]  scroll-mt-[160px] sm:scroll-mt-[120px];
+	@apply break-normal font-black text-[28px]  sm:text-[20px] leading-[1.48] tracking-[0.06em] mt-[96px] sm:mt-[48px]  scroll-mt-[160px] sm:scroll-mt-[120px];
 }
 .post h4 {
-	@apply font-black text-[32px]  sm:text-[16px] leading-[1.48] tracking-[0.06em] mt-[72px]  sm:mt-[36px] scroll-mt-[160px] sm:scroll-mt-[120px];
+	@apply break-normal font-black text-[20px]  sm:text-[16px] leading-[1.48] tracking-[0.06em] mt-[72px]  sm:mt-[36px] scroll-mt-[160px] sm:scroll-mt-[120px];
 }
 .post p {
-	@apply font-medium text-[20px] sm:text-[16px] leading-[1.64] sm:leading-[1.48] tracking-[0.06em] sm:tracking-[0.04em] mt-[16px] sm:mt-[12px];
+	@apply break-normal font-medium text-[20px] sm:text-[16px] leading-[1.64] tracking-[0.06em] sm:tracking-[0.04em] mt-[16px] sm:mt-[12px];
 }
 .post a {
 	@apply opacity-hover duration;
+}
+.post p a{
+	@apply opacity-hover duration text-[#0079C9] underline;
 }
 .post ul, .post ol {
 	@apply mt-[16px] sm:mt-[8px] px-[40px] sm:px-[20px] pt-[40px] sm:pt-[20px] pb-[48px] sm:pb-[24px] rounded-xl sm:rounded-md bg-[#FAFAFA];

@@ -10,10 +10,12 @@ export interface Props {
   ogImage?: string;
   pageUrl?: string;
   breadcrumb?: boolean;
+  header?: boolean;
   blog?: Blog;
   category?: Category;
   tag?: Tag;
   isIconsPage?: boolean;
+  isWorksPage?: boolean;
 }
 
 const {
@@ -24,10 +26,12 @@ const {
   ogImage = '/img/ogp.png',
   pageUrl = Astro.url.href,
   breadcrumb = false,
+  header = true,
   blog,
   category,
   tag,
   isIconsPage = false,
+  isWorksPage = false,
 } = Astro.props;
 
 import '../assets/css/styles.css';
@@ -78,16 +82,18 @@ import Breadcrumb from "../components/organisms/breadcrumb.astro";
 		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WWX7F52P"
 		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<!-- End Google Tag Manager (noscript) -->
-    <Header
-      navItems={[
-        { href: "/", text: "Blog", name: "ブログ", target: false },
-        { href: "/works", text: "Works", name: "制作物", target: false },
-        { href: "https://adhesive-form-ca1.notion.site/134c792be686808c8bb0e4342fe0625d?pvs=105", text: "Contact", name: "お問い合わせ", target: true },
-      ]}
-    />
-    {breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} isIconsPage={isIconsPage} />}
+		 {header &&
+			<Header
+				navItems={[
+					{ href: "/", text: "Blog", name: "ブログ", target: false },
+					{ href: "/works", text: "Works", name: "制作物", target: false },
+					{ href: "https://adhesive-form-ca1.notion.site/134c792be686808c8bb0e4342fe0625d?pvs=105", text: "Contact", name: "お問い合わせ", target: true },
+				]}
+			/>
+		 }
+    {breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} isIconsPage={isIconsPage}  isWorksPage={isWorksPage} />}
     <slot />
-    {breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} scale={0.75} noMargin={true} backgroundColor="#FCFCFC" isIconsPage={isIconsPage} />}
+    {breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} scale={0.75} noMargin={true} backgroundColor="#FCFCFC" isIconsPage={isIconsPage} isWorksPage={isWorksPage} />}
     <Footer />
     <div class="bg-[#FFF]/[0.64] backdrop-blur-lg absolute h-full w-full top-0 hidden js-bg"></div>
     <script src="../assets/js/common.js"></script>

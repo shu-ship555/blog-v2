@@ -3,7 +3,7 @@ import type {
   MicroCMSQueries,
   MicroCMSListContent,
   MicroCMSObjectContent,
-	MicroCMSImage,
+  MicroCMSImage,
 } from "microcms-js-sdk";
 import { createClient } from "microcms-js-sdk";
 
@@ -28,44 +28,46 @@ export type OGP = {
 export type Blog = {
   title: string;
   content: string;
-	category: Category;
-	publishedAt: string;
-	description: string;
-	tag: Tag[];
-	eyecatch: {
+  category: Category;
+  publishedAt: string;
+  description: string;
+  tag: Tag[];
+  eyecatch: {
     url: string;
     height: number;
     width: number;
   };
-	readingTime: number;
-	ogp: OGP | null;
+  readingTime: number;
+  ogp: OGP | null;
 } & MicroCMSListContent;
 
 export type Category = {
   name: string;
-	slug: string;
-	count: number;
-	labelColor: string;
+  slug: string;
+  count: number;
+  labelColor: string;
 } & MicroCMSListContent;
 
 export type Tag = {
   name: string;
-	slug: string;
+  slug: string;
 } & MicroCMSListContent;
 
 export type SiteSettings = {
   title: string;
   description: string;
   about: string;
-	id: string;
-	createdAt: string;
+  id: string;
+  createdAt: string;
   updatedAt: string;
   publishedAt: string;
   revisedAt: string;
 } & MicroCMSObjectContent;
 
-// APIの呼び出し
-// 汎用: ページネーション対応
+export const getContents = <T>(endpoint: string, queries?: MicroCMSQueries) => {
+  return client.getList<T>({ endpoint, queries });
+}
+
 export const getAllContents = async <T>(
   endpoint: string,
   queries: MicroCMSQueries = {}
@@ -99,8 +101,16 @@ export const getAllContents = async <T>(
 export const getBlogs = (queries?: MicroCMSQueries) =>
   client.getList<Blog>({ endpoint: "blogs", queries });
 
-export const getBlogDetail = (contentId: string, queries?: MicroCMSQueries) =>
-  client.getListDetail<Blog>({ endpoint: "blogs", contentId, queries });
+export const getBlogDetail = (
+  contentId: string,
+  queries: MicroCMSQueries = {}
+) => {
+  return client.getListDetail<Blog>({
+    endpoint: "blogs",
+    contentId,
+    queries,
+  });
+};
 
 export const getCategoryList = (queries?: MicroCMSQueries) =>
   getAllContents<Category>("categories", queries);

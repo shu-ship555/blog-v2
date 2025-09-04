@@ -1,7 +1,7 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Pager from "../../components/organisms/pager.astro";
-import { getAllContents } from "../../libs/microcms";
+import Layout from "../../../layouts/Layout.astro";
+import Pager from "../../../components/organisms/pager.astro";
+import { getAllContents } from "../../../libs/microcms";
 import type { GetStaticPathsOptions } from "astro";
 
 type Icon = {
@@ -38,15 +38,9 @@ const icons = page.data;
 
 <Layout title="Web制作の実績｜デザインもできるフロントエンドエンジニアのポートフォリオ" breadcrumb={true} isIconsPage={true}>
   <main class="inner pt-[96px] sm:pt-[48px] pb-[120px] sm:pb-[64px]">
-    <h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Works｜制作物</h1>
-		<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[48px] sm:mt-[32px]">
-		<div class="text-[16px] sm:text-[10px] font-black aspect-square w-[42px] sm:w-[20px] h-[42px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"><span>1</span></div>
-    <h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">Icon<span class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[4px] sm:hidden">アイコン</span></h2>
-		</div>
-
-    <ul class="icon-list flex flex-wrap justify-start gap-[48px] sm:gap-[32px] mt-[48px] sm:grid-cols-2">
+    <ul class="icon-list grid grid-cols-8 sm:grid-cols-2 gap-[48px] sm:gap-[32px]">
       {icons.map((icon) => (
-        <li class="w-full max-w-[106px] sm:max-w-[calc(50%_-_16px)] text-center relative">
+        <li class="relative text-center">
           <div class="expand-img max-w-[64px] sm:max-w-[48px] mx-auto duration">
             <img src={icon.image.url} alt={icon.title} class="w-full" />
           </div>
@@ -59,8 +53,8 @@ const icons = page.data;
       ))}
     </ul>
 
-    <!-- <div class="mt-[48px]">
-      <Pager page={page} totalCount={totalCount} basePath="/works" perPage={perPage} />
-    </div> -->
+    <div class="mt-[48px]">
+      <Pager page={page} totalCount={totalCount} basePath="/works/icon" perPage={perPage} />
+    </div>
   </main>
 </Layout>

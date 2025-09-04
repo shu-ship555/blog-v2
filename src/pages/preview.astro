@@ -1,30 +1,162 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Icon from "../components/atoms/icon.astro";
+import { formatDate } from "../utils/date";
+import { wrapTablesWithDiv, processHeadings } from "../utils/htmlProcessor";
+import { createClient } from "microcms-js-sdk";
+
+// このページは SSR 専用
+export const prerender = false;
+
+// SDK クライアントを初期化
+const client = createClient({
+  serviceDomain: import.meta.env.PUBLIC_MICROCMS_SERVICE_DOMAIN,
+  apiKey: import.meta.env.PUBLIC_MICROCMS_API_KEY,
+});
+
+const url = new URL(Astro.url);
+const contentId = url.searchParams.get("contentId");
+const draftKey = url.searchParams.get("draftKey");
+
+if (!contentId || !draftKey) {
+  throw new Error("contentId または draftKey が指定されていません。");
+}
+
+const blog = await client.get({
+  endpoint: "blogs",
+  contentId,
+  queries: { draftKey },
+});
+
+const { processedHtml, toc } = processHeadings(blog.content);
+const finalHtml = wrapTablesWithDiv(processedHtml);
+
+const publishedDate = formatDate(blog.publishedAt);
+const updatedDate = formatDate(blog.updatedAt);
 ---
 
-<Layout title="My first blog with Astro">
-  <main>
-    <h1 class="title"></h1>
-    <p class="publishedAt"></p>
-    <div class="post"></div>
+<Layout
+  title={blog.title}
+  breadcrumb={true}
+  blog={blog as any}
+  ogTitle={blog.ogp?.ogTitle || blog.title}
+  ogDescription={blog.ogp?.ogDescription || blog.description}
+  ogImage={blog.ogp?.ogImage?.url || blog.eyecatch?.url || "/img/ogp.png"}
+>
+  <main class="pt-[160px] sm:pt-[64px] pb-[200px] sm:pb-[64px]">
+    <div class="inner">
+      <div class="flex gap-[10px] flex-wrap">
+        <p
+          class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] text-[#FFF] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[8px] sm:pb-[10px]"
+          style={`background-color: ${blog.category.labelColor};`}
+        >
+          {blog.category.name}
+        </p>
+        {
+          blog.readingTime && (
+            <p class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] bg-[#F6F6F6] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[8px] sm:pb-[10px]">
+              <span class="text-[#666]">読了までの時間：</span>
+              {blog.readingTime}分
+            </p>
+          )
+        }
+      </div>
+      <h1
+        class="break-normal text-[48px] sm:text-[24px] font-black leading-[1.48] sm:leading-[1.32] tracking-[0.06em] mt-[16px] sm:mt-[12px] line-clamp-3"
+      >
+        {blog.title}
+      </h1>
+      <p
+        class="break-normal font-bold text-[28px] sm:text-[14px] leading-[1.64] sm:leading-[1.48] tracking-[0.06em] text-[#888] mt-[8px] sm:mt-[6px] line-clamp-3"
+      >
+        {blog.description}
+      </p>
+      <div
+        class="font-medium text-[20px] sm:text-[12px] leading-none tracking-[0.08em] text-[#888] flex items-center gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]"
+      >
+        <Icon
+          filename="icon_date"
+          customClass="w-[24px] sm:w-[16px] shrink-0"
+          color="#888"
+        />{publishedDate}
+      </div>
+      <div
+        class="font-medium text-[20px] sm:text-[12px] leading-none tracking-[0.08em] text-[#888] flex items-center gap-[12px] sm:gap-[6px] mt-[8px] sm:mt-[6px]"
+      >
+        <Icon
+          filename="icon_update"
+          customClass="w-[24px] sm:w-[16px] shrink-0"
+          color="#888"
+        /><span>{updatedDate}</span>
+      </div>
+      <div
+        class="flex items-center sm:items-start gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]"
+      >
+        <Icon
+          filename="icon_label"
+          customClass="w-[24px] sm:w-[16px] shrink-0"
+          color="#888"
+        />
+        <div class="flex gap-[8px] sm:gap-[4px] sm:flex-wrap">
+          {
+            blog.tag.map((tag) => (
+              <a
+                href={`/tags/${tag.slug}`}
+                class="font-medium text-[16px] sm:text-[12px] text-[#888] leading-[1] tracking-[0.04em] bracket"
+              >
+                <span class="opacity-hover duration hashtag">
+                  {tag.name}
+                </span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+    <div
+       class="mt-[32px] sm:mt-[16px] max-w-[1280px] sm:max-w-[430px] px-[48px] sm:px-0 w-full mx-auto"
+     >
+       {
+         blog.eyecatch ? (
+           <img
+             src={blog.eyecatch.url}
+             alt={blog.title}
+             class="w-full rounded-3xl sm:rounded-sm"
+           />
+         ) : (
+           <img
+             src="/img/dummyImage.png"
+             alt={blog.title}
+             class="w-full rounded-3xl sm:rounded-sm"
+           />
+         )
+       }
+     </div>
+    <div class="flex justify-between gap-[80px] sm:gap-[64px] inner mt-[160px] sm:mt-[80px] sm:flex-col-reverse">
+      <div
+        class="max-w-[784px] w-full sm:max-w-full post"
+        set:html={finalHtml}
+      />
+      {
+        toc.length > 0 && (
+          <aside class="max-w-[320px] w-full sm:max-w-full">
+            <h2 class="text-[32px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-black">
+              目次｜Index
+            </h2>
+            <nav class="px-[32px] sm:px-[16px] pt-[32px] sm:pt-[16px] pb-[36px] sm:pb-[18px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px] ">
+              <ul class="sm:max-h-[240px] sm:overflow-y-scroll">
+                {toc.map((item) => (
+                  <li class={`level-${item.level}`}>
+                    <a href={`#${item.id}`} class="opacity-hover duration" >
+                      {item.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </aside>
+        )
+      }
+    </div>
   </main>
 </Layout>
-<script>
-  import { getBlogDetail } from "../libs/microcms";
-  const params = new URLSearchParams(window.location.search);
-  const contentId = params.get("contentId");
-  const draftKey = params.get("draftKey");
-
-  if (contentId && draftKey) {
-    getBlogDetail(contentId, { draftKey }).then((data) => {
-      const titleElement = document.querySelector(".title");
-      const publishedAtElement = document.querySelector(".publishedAt");
-      const postElement = document.querySelector(".post");
-
-      titleElement && (titleElement.textContent = data.title);
-      publishedAtElement &&
-        (publishedAtElement.textContent = data.publishedAt ?? data.createdAt);
-      postElement && (postElement.innerHTML = data.content);
-    });
-  }
-</script>

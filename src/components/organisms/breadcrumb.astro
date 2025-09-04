@@ -10,6 +10,7 @@ interface Props {
   backgroundColor?: string;
   noMargin?: boolean;
   isIconsPage?: boolean;
+  isWorksPage?: boolean;
 }
 
 const {
@@ -20,6 +21,7 @@ const {
   backgroundColor = "#FAFAFA",
   noMargin = false,
   isIconsPage = false,
+  isWorksPage = false,
 } = Astro.props;
 
 const isBlogPage = !!blog;
@@ -59,11 +61,24 @@ const currentClasses = scaleClasses[scale];
         >
       </li>
 
-      {isIconsPage && (
+      {isWorksPage && (
         <>
           <Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
           <li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
             Works｜制作物
+          </li>
+        </>
+      )}
+
+      {isIconsPage && (
+        <>
+          <Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+          <li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
+            <a href="/works" class="flex opacity-hover duration">Works｜制作物</a>
+          </li>
+          <Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+          <li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+            Icon｜アイコン
           </li>
         </>
       )}

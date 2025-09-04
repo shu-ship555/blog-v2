@@ -54,12 +54,12 @@ const updatedDate = formatDate(blog.updatedAt);
         }
       </div>
       <h1
-        class="text-[48px] sm:text-[24px] font-black leading-[1.48] sm:leading-[1.4] tracking-[0.06em] mt-[16px] sm:mt-[12px] line-clamp-3"
+        class="break-normal text-[48px] sm:text-[24px] font-black leading-[1.48] sm:leading-[1.32] tracking-[0.06em] mt-[16px] sm:mt-[12px] line-clamp-3"
       >
         {blog.title}
       </h1>
       <p
-        class="font-bold text-[28px] sm:text-[14px] leading-[1.4] sm:leading-[1.32] tracking-[0.06em] text-[#888] mt-[8px] sm:mt-[6px] line-clamp-2"
+        class="break-normal font-bold text-[28px] sm:text-[14px] leading-[1.64] sm:leading-[1.48] tracking-[0.06em] text-[#888] mt-[8px] sm:mt-[6px] line-clamp-3"
       >
         {blog.description}
       </p>
@@ -68,7 +68,7 @@ const updatedDate = formatDate(blog.updatedAt);
       >
         <Icon
           filename="icon_date"
-          customClass="w-[24px] sm:w-[16px]"
+          customClass="w-[24px] sm:w-[16px] shrink-0"
           color="#888"
         />{publishedDate}
       </div>
@@ -77,19 +77,19 @@ const updatedDate = formatDate(blog.updatedAt);
       >
         <Icon
           filename="icon_update"
-          customClass="w-[24px] sm:w-[16px]"
+          customClass="w-[24px] sm:w-[16px] shrink-0"
           color="#888"
         /><span>{updatedDate}</span>
       </div>
       <div
-        class="flex items-center gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]"
+        class="flex items-center sm:items-start gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]"
       >
         <Icon
           filename="icon_label"
-          customClass="w-[24px] sm:w-[16px]"
+          customClass="w-[24px] sm:w-[16px] shrink-0"
           color="#888"
         />
-        <div class="flex gap-[8px] sm:gap-[4px]">
+        <div class="flex gap-[8px] sm:gap-[4px] sm:flex-wrap">
           {
             blog.tag.map((tag) => (
               <a
@@ -135,8 +135,8 @@ const updatedDate = formatDate(blog.updatedAt);
             <h2 class="text-[32px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-black">
               目次｜Index
             </h2>
-            <nav>
-              <ul class="px-[40px] sm:px-[20px] pt-[40px] sm:pt-[20px] pb-[48px] sm:pb-[24px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px]">
+            <nav class="px-[32px] sm:px-[16px] pt-[32px] sm:pt-[16px] pb-[36px] sm:pb-[18px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px] ">
+              <ul class="sm:max-h-[240px] sm:overflow-y-scroll">
                 {toc.map((item) => (
                   <li class={`level-${item.level}`}>
                     <a href={`#${item.id}`} class="opacity-hover duration" >
