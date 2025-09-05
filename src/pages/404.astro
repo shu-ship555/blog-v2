@@ -3,10 +3,16 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="My first blog with Astro" header={false}>
-  <main class="flex items-center justify-center h-[80vh] inner">
-    <h1 class="text-center text-[32px] sm:text-[24px] font-bold leading-[1.4]">
-			404 Not Found<br />
-			お探しのページは見つかりませんでした
+  <main class="flex flex-col items-center justify-center h-[88vh] inner">
+    <h1 class="text-center text-[#0079C9] text-[128px] sm:text-[64px] font-black leading-none tracking-[0.02em]">
+			404
 		</h1>
+		<p class="text-center text-[#0079C9] text-[40px] sm:text-[20px] font-black leading-none tracking-[0.04em] mt-[16px] sm:mt-[12px]">
+			Not Found
+		</p>
+		<p class="text-center text-[20px] sm:text-[16px] font-medium leading-none mt-[48px] sm:mt-[24px]">
+			お探しのページは見つかりませんでした
+		</p>
+		<a href="/" class="leading-[1.48] text-[20px] sm:text-[16px] w-[50%] sm:w-full pt-[32px] sm:pt-[16px] pb-[34px] sm:pb-[18px] rounded-xl sm:rounded-md bg-[#0079C9] text-[#FFF] font-bold block text-center mt-[80px] sm:mt-[40px] opacity-hover duration">ホームに戻る</a>
   </main>
 </Layout>

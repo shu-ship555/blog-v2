@@ -5,8 +5,8 @@ import {
   getAllContents,
 } from "../../../libs/microcms";
 import type { Blog, Category, Tag } from "../../../libs/microcms.ts";
-import { formatDate } from "../../../../src/utils/date";
 import type { GetStaticPathsOptions } from "astro";
+import Card from "../../../components/molecules/card.astro";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const allTagsResponse = await getAllContents<Tag>("tags");
@@ -72,64 +72,16 @@ const tagCounts = tags.map((t) => {
         blogs.length === 0 ? (
           <p class="text-gray-600">このタグにはまだ記事がありません。</p>
         ) : (
-          <ul class="flex gap-[36px] flex-wrap sm:gap-[28px]">
-            {blogs.map((blog) => (
-              <li class="max-w-[408px] sm:max-w-full w-full">
-                <a href={`/blogs/${blog.id}`} class="opacity-hover duration">
-                  <div>
-                    {blog.eyecatch ? (
-                      <img
-                        src={blog.eyecatch.url}
-                        alt={blog.title}
-                        class="rounded-lg"
-                      />
-                    ) : (
-                      <img
-                        src="/img/dummyImage.png"
-                        alt={blog.title}
-                        class="rounded-lg"
-                      />
-                    )}
-                  </div>
-                  <div class="p-[12px] sm:px-0 sm:pt-[10px] sm:pb-0">
-                    <div class="flex gap-[10px] flex-wrap">
-                      <p
-                        class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] text-[#FFF] rounded-full sm:text-[10px] sm:pb-[4px]"
-                        style={`background-color: ${blog.category.labelColor};`}
-                      >
-                        {blog.category.name}
-                      </p>
-                      {blog.readingTime && (
-                        <p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] bg-[#F6F6F6] rounded-full sm:text-[10px] sm:pb-[4px]">
-                          <span class="text-[#666]">読了までの時間：</span>
-                          {blog.readingTime}分
-                        </p>
-                      )}
-                    </div>
-                    <p class="font-black text-[16px] leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[10px]">
-                      {blog.title}
-                    </p>
-                    <p class="font-medium text-[12px] leading-[1.48] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
-                      {blog.description}
-                    </p>
-                    <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
-                      {formatDate(blog.publishedAt)}
-                    </p>
-                    <div class="flex gap-[8px] flex-wrap">
-                      {blog.tag.map((tag) => (
-                        <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
-                          <span class="hashtag"></span>{tag.name}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-                </a>
-              </li>
-            ))}
-          </ul>
+				<ul class="flex gap-[32px] flex-wrap sm:gap-[28px]">
+					{
+						blogs.map((blog) => (
+							<Card blog={blog} />
+						))
+					}
+				</ul>
         )
       }
-      <div class="shrink-0 max-w-[240px] w-full sm:hidden">
+      <div class="shrink-0 max-w-[280px] w-full sm:hidden">
         <p class="text-[20px] leading-none tracking-[0.06em] font-bold">
           Category｜カテゴリ
         </p>
