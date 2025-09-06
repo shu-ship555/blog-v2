@@ -122,10 +122,13 @@ toc
 	@apply mt-0;
 }
  .level-2{
-	@apply break-normal mt-[16px] sm:mt-[12px] relative before:content-['○'] before:text-[0.48em] before:align-middle before:pr-[0.64em] before:mt-[0.8em]  text-[16px] sm:text-[14px] font-bold leading-[1.48] tracking-[0.06em] flex items-start;
+	@apply break-normal mt-[16px] sm:mt-[12px] relative before:w-[8px] before:h-[8px] before:sm:w-[6px] before:sm:h-[6px] before:aspect-square before:rounded-full before:bg-[#333] before:mr-[0.64em] before:mt-[0.48em]  text-[16px] sm:text-[14px] font-black leading-[1.48] tracking-[0.06em] flex items-start;
 }
-.level-3, .level-4{
-	@apply break-normal mt-[8px] sm:mt-[4px] ml-[24px] sm:ml-[12px] relative before:content-['└'] before:text-[0.64em] before:align-middle before:pr-[0.48em] before:mt-[0.48em] before:font-black  text-[14px] sm:text-[12px] font-normal leading-[1.48] tracking-[0.06em] flex items-start;
+.level-3{
+	@apply break-normal mt-[8px] sm:mt-[4px] ml-[24px] sm:ml-[12px] relative before:border-b before:border-l before:w-[8px] before:h-[8px] before:sm:w-[6px] before:sm:h-[6px] before:aspect-square before:border-[#333] before:mt-[0.32em] before:mr-[0.64em] text-[14px] sm:text-[12px] font-bold leading-[1.48] tracking-[0.06em] flex items-start;
+}
+ .level-4{
+	@apply break-normal mt-[8px] sm:mt-[4px] ml-[40px] sm:ml-[28px] relative before:border-b before:border-l before:w-[8px] before:h-[8px] before:sm:w-[6px] before:sm:h-[6px] before:aspect-square before:border-[#333] before:mt-[0.32em] before:mr-[0.64em] text-[12px] sm:text-[10px] font-bold leading-[1.48] tracking-[0.06em] flex items-start;
 }
 
 /* =======================
