@@ -70,8 +70,9 @@ const tagCounts = tags.map((tag) => {
     class="inner pt-[96px] sm:pt-[48px] pb-[120px] gap-[48px] sm:pb-[64px]"
   >
     <h1 class="text-[32px] sm:text-[24px] leading-none tracking-[0.04em] font-black">
-      Category <span class="bracket">{category.name}</span>
+      Category <span class="bracket sm:hidden">{category.name}</span>
     </h1>
+		<p class="bracket hidden sm:block mt-[8px] text-[16px] leading-none tracking-[0.04em] font-black">{category.name}</p>
     <div class="flex justify-between sm:flex-col mt-[64px] sm:mt-[32px]">
       {
         blogs.length === 0 ? (
