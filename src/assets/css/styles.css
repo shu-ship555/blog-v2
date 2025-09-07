@@ -116,6 +116,17 @@ li:has(.expand-btn:hover) .expand-img {
 
 
 /* =======================
+ナビメニュー
+ ======================= */
+.nav-tip{
+	@apply opacity-0 invisible;
+}
+ .nav-active:hover .nav-tip {
+	@apply opacity-100 visible;
+}
+
+
+/* =======================
 toc
  ======================= */
  .level-2:first-of-type{

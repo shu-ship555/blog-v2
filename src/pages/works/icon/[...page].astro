@@ -12,7 +12,7 @@ type Icon = {
 };
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-	const ICONS_PER_PAGE = 64;
+	const ICONS_PER_PAGE = 48;
   const res = await getAllContents<Icon>("icons");
   const icons = res.contents;
 
@@ -38,7 +38,7 @@ const icons = page.data;
 
 <Layout title="Web制作の実績｜デザインもできるフロントエンドエンジニアのポートフォリオ" breadcrumb={true} isIconsPage={true}>
   <main class="inner pt-[96px] sm:pt-[48px] pb-[120px] sm:pb-[64px]">
-    <ul class="icon-list grid grid-cols-8 sm:grid-cols-2 gap-[48px] sm:gap-[32px]">
+    <ul class="icon-list grid grid-cols-8 sm:grid-cols-3 gap-[48px] sm:gap-[32px]">
       {icons.map((icon) => (
         <li class="relative text-center">
           <div class="expand-img max-w-[64px] sm:max-w-[48px] mx-auto duration">

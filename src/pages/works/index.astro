@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Icon from "../../components/atoms/icon.astro";
+import Navigation from "../../components/organisms/navigation.astro";
 import { getContents } from "../../libs/microcms";
 
 type Icon = {
@@ -25,8 +26,45 @@ const icons = res.contents;
 		>
 			Works｜制作物
 		</h1>
+		<div>
+			<Navigation
+				items={[
+					{
+						href: "/works/icon",
+						label: "Icon",
+						tooltip: "アイコン",
+						isActive: true,
+					},
+					{
+						href: "/works/image",
+						label: "Image",
+						subLabel: "Graph｜Banner",
+						tooltip: "画像 <span class='bracket'>グラフ｜バナー</span>",
+						isActive: false,
+					},
+					{
+						href: "/works/web",
+						label: "WebSite",
+						tooltip: "ウェブサイト",
+						isActive: false,
+					},
+					{
+						href: "/works/photo",
+						label: "Photo",
+						tooltip: "写真",
+						isActive: false,
+					},
+					{
+						href: "/works/illustration",
+						label: "Ilustration",
+						tooltip: "イラスト",
+						isActive: false,
+					},
+				]}
+			/>
+		</div>
 		<div
-			class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]"
+			class="flex items-center gap-[16px] sm:gap-[8px] mt-[144px] sm:mt-[40px]"
 		>
 			<div
 				class="text-[16px] sm:text-[10px] font-black aspect-square w-[42px] sm:w-[20px] h-[42px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"
@@ -66,9 +104,9 @@ const icons = res.contents;
 				href="/works/icon"
 				class="inline-block rounded-full font-bold text-[16px] sm:text-[14px] leading-none tracking-[0.06em] opacity-hover duration"
 				><span class="font-normal">VIEW</span> ICON <Icon
-					filename="icon_blank"
+					filename="icon_arrow_forward"
 					color="#0079C9"
-					customClass="w-[20px] sm:w-[16px] align-middle"
+					customClass="w-[20px] sm:w-[16px] align-text-top"
 				/></a
 			>
 		</div>
@@ -90,7 +128,11 @@ const icons = res.contents;
 				>
 			</h2>
 		</div>
-		<p class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded">In preparation｜準備中</p>
+		<p
+			class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded"
+		>
+			In preparation｜準備中
+		</p>
 		<div
 			class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]"
 		>
@@ -102,13 +144,60 @@ const icons = res.contents;
 			<h2
 				class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col"
 			>
-				<span>Web Site</span
-				><span
+				<span>WebSite</span><span
 					class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[8px] sm:hidden"
 					>ウェブサイト</span
 				>
 			</h2>
 		</div>
-		<p class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded">In preparation｜準備中</p>
+		<p
+			class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded"
+		>
+			In preparation｜準備中
+		</p>
+		<div
+			class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]"
+		>
+			<div
+				class="text-[16px] sm:text-[10px] font-black aspect-square w-[42px] sm:w-[20px] h-[42px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"
+			>
+				<span>4</span>
+			</div>
+			<h2
+				class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col"
+			>
+				<span>Photo</span><span
+					class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[8px] sm:hidden"
+					>写真</span
+				>
+			</h2>
+		</div>
+		<p
+			class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded"
+		>
+			In preparation｜準備中
+		</p>
+		<div
+			class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]"
+		>
+			<div
+				class="text-[16px] sm:text-[10px] font-black aspect-square w-[42px] sm:w-[20px] h-[42px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"
+			>
+				<span>5</span>
+			</div>
+			<h2
+				class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col"
+			>
+				<span>Illustration</span><span
+					class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[8px] sm:hidden"
+					>イラスト</span
+				>
+			</h2>
+		</div>
+		<p
+			class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded"
+		>
+			In preparation｜準備中
+		</p>
 	</main>
 </Layout>
