@@ -26,7 +26,7 @@ const icons = res.contents;
 		>
 			Works｜制作物
 		</h1>
-		<div>
+		<div class="mt-[48px] sm:mt-[24px]">
 			<Navigation
 				items={[
 					{
@@ -56,8 +56,14 @@ const icons = res.contents;
 					},
 					{
 						href: "/works/illustration",
-						label: "Ilustration",
+						label: "Illustration",
 						tooltip: "イラスト",
+						isActive: false,
+					},
+					{
+						href: "/works/app",
+						label: "Application",
+						tooltip: "アプリケーション",
 						isActive: false,
 					},
 				]}
@@ -191,6 +197,28 @@ const icons = res.contents;
 				<span>Illustration</span><span
 					class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[8px] sm:hidden"
 					>イラスト</span
+				>
+			</h2>
+		</div>
+		<p
+			class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded"
+		>
+			In preparation｜準備中
+		</p>
+		<div
+			class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]"
+		>
+			<div
+				class="text-[16px] sm:text-[10px] font-black aspect-square w-[42px] sm:w-[20px] h-[42px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"
+			>
+				<span>6</span>
+			</div>
+			<h2
+				class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col"
+			>
+				<span>Application</span><span
+					class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[8px] sm:hidden"
+					>アプリケーション</span
 				>
 			</h2>
 		</div>

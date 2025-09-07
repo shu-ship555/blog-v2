@@ -16,7 +16,7 @@ export interface Props {
 const { items } = Astro.props;
 ---
 <ul
-  class="sm:overflow-x-scroll sm:pb-[12px] sm:border-b sm:border-[#eee] flex mt-[48px] sm:mt-[24px] text-[20px] sm:text-[16px] font-bold leading-none tracking-[0.06em]"
+  class="sm:overflow-x-scroll sm:overflow-y-hidden sm:pb-[12px] sm:border-b sm:border-[#eee] flex text-[20px] sm:text-[16px] font-bold leading-none tracking-[0.06em]"
 >
   {items.map((item, index) => (
     <>
