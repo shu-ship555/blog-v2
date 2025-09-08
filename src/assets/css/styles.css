@@ -149,7 +149,7 @@ post
 	@apply mt-0;
  }
 .post h2 {
-	@apply break-normal font-black text-[36px] sm:text-[24px] leading-[1.48] tracking-[0.04em] mt-[120px] sm:mt-[60px] before:border-l-8 before:mr-[12px] before:rounded-full before:border-[#0079C9]  scroll-mt-[160px] sm:scroll-mt-[120px];
+	@apply break-normal font-black text-[36px] sm:text-[24px] leading-[1.48] tracking-[0.06em] mt-[120px] sm:mt-[60px] before:border-l-8 before:mr-[12px] before:rounded-full before:border-[#0079C9]  scroll-mt-[160px] sm:scroll-mt-[120px];
 }
 .post h3 {
 	@apply break-normal font-black text-[28px]  sm:text-[20px] leading-[1.48] tracking-[0.06em] mt-[96px] sm:mt-[48px]  scroll-mt-[160px] sm:scroll-mt-[120px];
@@ -183,6 +183,7 @@ post
 	counter-increment: list-counter;
 }
 .post ol li:before {
+	@apply font-bold;
 	content: counter(list-counter);
 }
 
@@ -193,13 +194,13 @@ post
 	@apply rounded-xl sm:rounded-none mt-[32px] sm:mt-[16px];
 }
 .post figure figcaption {
-	@apply text-[16px] sm:text-[12px] text-[#666] leading-[1.24] tracking-[0.04em] mt-[12px] sm:mt-[6px];
+	@apply text-[12px] sm:text-[12px] text-[#666] leading-[1.24] tracking-[0.04em] mt-[8px] sm:mt-[4px];
 }
 .post blockquote{
-	@apply text-[14px] sm:text-[12px] text-[#666] font-medium px-[24px] sm:px-[12px] pt-[24px] sm:pt-[12px] pb-[28px] sm:pb-[14px] border-2 border-dashed rounded-lg border-[#666] referencemark flex items-start mt-[16px] sm:mt-[8px];
+	@apply px-[24px] sm:px-[12px] pt-[24px] sm:pt-[12px] pb-[28px] sm:pb-[14px] border-2 border-dashed rounded-lg border-[#666] referencemark flex items-start mt-[16px] sm:mt-[8px];
 }
 .post blockquote p{
-	@apply mt-0 text-[12px] sm:text-[10px] text-[#666] font-medium leading-[1.64] tracking-[0.04em] sm:mt-[1px];
+	@apply mt-0 text-[14px] sm:text-[12px] text-[#666] font-medium leading-[1.64] tracking-[0.06em] sm:mt-[1px];
 }
 .post hr {
 	@apply mt-[48px] sm:mt-[24px] mb-[48px] sm:mb-[24px];
