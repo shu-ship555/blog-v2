@@ -132,11 +132,11 @@ const updatedDate = formatDate(blog.updatedAt);
       {
         toc.length > 0 && (
           <aside class="max-w-[320px] w-full sm:max-w-full">
-						<div class="sticky top-[194px] sm:static">
+						<div class="sticky top-[194px] sm:relative sm:top-0">
 							<h2 class="text-[32px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-black">
 								目次｜Index
 							</h2>
-							<nav class="z-[-20] relative px-[32px] sm:px-[16px] pt-[32px] sm:pt-[16px] pb-[36px] sm:pb-[18px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px] ">
+							<nav class="relative px-[32px] sm:px-[16px] pt-[32px] sm:pt-[16px] pb-[36px] sm:pb-[18px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px] ">
 								<ul class="max-h-[320px] sm:max-h-[240px] overflow-y-scroll">
 									{toc.map((item) => (
 										<li class={`level-${item.level}`}>
@@ -146,7 +146,7 @@ const updatedDate = formatDate(blog.updatedAt);
 										</li>
 									))}
 								</ul>
-								<div class="z-[-10] border border-[#ccc] absolute h-[calc(100%_-_66px_-_1.46em)] sm:h-[calc(100%_-_34px_-_1.28em)] top-[calc(32px_+_0.48em)] sm:top-[calc(16px_+_0.48em)] left-[35px] sm:left-[18px]"></div>
+								<div class="border border-[#0079C9] absolute h-[calc(100%_-_66px_-_1.46em)] sm:h-[calc(100%_-_34px_-_1.28em)] top-[calc(32px_+_0.48em)] sm:top-[calc(16px_+_0.48em)] left-[35px] sm:left-[18px]"></div>
 							</nav>
 						</div>
           </aside>
