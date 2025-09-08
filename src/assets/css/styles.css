@@ -221,8 +221,11 @@ post
 	@apply px-[24px] sm:px-[12px] pt-[24px] sm:pt-[12px] pb-[28px] sm:pb-[14px] sm:min-w-[160px] sm:w-full;
 }
 .post .button {
-	@apply leading-[1.48] text-[20px] sm:text-[16px] w-full pt-[32px] sm:pt-[16px] pb-[34px] sm:pb-[18px] rounded-xl sm:rounded-md bg-[#0079C9] text-[#FFF] font-bold block text-center mt-[80px] sm:mt-[40px];
+	@apply break-normal leading-[1.48] text-[20px] sm:text-[16px] w-full pt-[32px] px-[32px] sm:pt-[16px] pb-[34px] sm:pb-[18px] sm:px-[24px] rounded-xl sm:rounded-md bg-[#0079C9] text-[#FFF] font-bold flex justify-center sm:justify-start mt-[80px] sm:mt-[40px];
 }
 .post .marker {
 	@apply bg-[#F6F6F6] font-bold text-[0.88em] text-[#E81F00] px-[0.48em] pt-[0.08em] pb-[0.16em];
+}
+.post .bracket {
+	@apply relative before:content-['['] after:content-[']'] before:align-[0.06em] before:pr-[0.24em] after:pl-[0.24em] after:align-[0.06em];
 }
