@@ -103,44 +103,32 @@ document.addEventListener('DOMContentLoaded', () => {
 	const tocContainer = document.getElementById('scrollContainer');
 	const scrollIndicator = document.getElementById('scrollIndicator');
 
-    if (!tocContainer || !scrollIndicator) {
-      return;
-    }
+	if (!tocContainer || !scrollIndicator) {
+		return;
+	}
 
-    let scrollTimeout;
+	const checkScrollability = () => {
+		const isScrollable = tocContainer.scrollHeight > tocContainer.clientHeight;
 
-    const checkScrollability = () => {
-      const isScrollable = tocContainer.scrollHeight > tocContainer.clientHeight;
+		if (isScrollable) {
+			scrollIndicator.classList.add('is-scrollable');
+		} else {
+			scrollIndicator.classList.remove('is-scrollable');
+		}
+	};
 
-      if (isScrollable) {
-        scrollIndicator.classList.add('is-scrollable');
-      } else {
-        scrollIndicator.classList.remove('is-scrollable');
-        scrollIndicator.classList.remove('is-scrolling');
-      }
-    };
+	const resizeObserver = new ResizeObserver(() => {
+		checkScrollability();
+	});
+	resizeObserver.observe(tocContainer);
 
-    const resizeObserver = new ResizeObserver(() => {
-      checkScrollability();
-    });
-    resizeObserver.observe(tocContainer);
+	tocContainer.addEventListener('scroll', () => {
+		// 一度でもスクロールしたら即消す
+		if (tocContainer.scrollTop > 0) {
+			scrollIndicator.classList.remove('is-scrollable');
+		}
+	});
 
-    tocContainer.addEventListener('scroll', () => {
-      scrollIndicator.classList.add('is-scrolling');
-
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        const atBottom = tocContainer.scrollHeight - tocContainer.scrollTop === tocContainer.clientHeight;
-
-        if (atBottom) {
-          scrollIndicator.classList.remove('is-scrollable');
-          scrollIndicator.classList.remove('is-scrolling');
-        } else {
-          scrollIndicator.classList.remove('is-scrolling');
-        }
-      }, 160);
-    });
-
-    // 初期ロード時にスクロール可能かチェック
-    checkScrollability();
+	// 初期ロード時にスクロール可能かチェック
+	checkScrollability();
 });
