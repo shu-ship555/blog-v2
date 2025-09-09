@@ -143,6 +143,28 @@ toc
 }
 
 /* =======================
+toc-sscrollindicator
+ ======================= */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.16; }
+}
+
+#scrollIndicator {
+  @apply opacity-0 invisible transition-opacity duration-300;
+}
+
+#scrollIndicator.is-scrollable {
+  @apply visible opacity-100;
+  animation: blink 1.6s infinite;
+}
+
+#scrollIndicator.is-scrolling {
+  @apply opacity-0 invisible;
+  animation: none;
+}
+
+/* =======================
 post
  ======================= */
  .post > :first-child {

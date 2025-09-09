@@ -136,8 +136,8 @@ const updatedDate = formatDate(blog.updatedAt);
 							<h2 class="text-[32px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-black">
 								目次｜Index
 							</h2>
-							<nav class="relative px-[32px] sm:px-[16px] pt-[32px] sm:pt-[16px] pb-[36px] sm:pb-[18px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px] ">
-								<ul class="max-h-[320px] sm:max-h-[240px] overflow-y-scroll">
+							<nav class="relative px-[32px] sm:px-[28px] pt-[32px] sm:pt-[28px] pb-[36px] sm:pb-[32px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px] ">
+								<ul id="scrollContainer" class="max-h-[320px] sm:max-h-[240px] overflow-y-scroll">
 									{toc.map((item) => (
 										<li class={`level-${item.level}`}>
 											<a href={`#${item.id}`} class="opacity-hover duration" >
@@ -146,7 +146,12 @@ const updatedDate = formatDate(blog.updatedAt);
 										</li>
 									))}
 								</ul>
-								<div class="border border-[#0079C9] absolute h-[calc(100%_-_66px_-_1.46em)] sm:h-[calc(100%_-_34px_-_1.28em)] top-[calc(32px_+_0.48em)] sm:top-[calc(16px_+_0.48em)] left-[35px] sm:left-[18px]"></div>
+								<div id="scrollIndicator" class="absolute bottom-[10px] sm:bottom-[8px] left-1/2 -translate-x-1/2">
+									<div class="flex flex-col items-center justify-center sm:flex-row gap-[2px]">
+									<div class="bg-[#fff] rounded-full aspect-square w-[16px] sm:w-[14px] h-[16px] sm:h-[14px] flex items-center justify-center"><Icon filename="icon_arrow_down" customClass="w-[12px] sm:w-[10px] shrink-0" color="#0079C9"/></div>
+									<p class="text-[10px] leading-none tracking-[0.02em]">scroll</p>
+									</div>
+								</div>
 							</nav>
 						</div>
           </aside>

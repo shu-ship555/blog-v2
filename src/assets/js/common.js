@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   <div class="relative p-[48px] sm:p-[24px] bg-white bg-[url('/img/focusRectangle.svg')] bg-center bg-contain rounded-lg shadow-lg" tabindex="-1">
 										<div class="w-[240px] sm:w-[120px]"><img src="${imgSrc}" alt="${imgAlt}" class="max-w-full object-contain" /></div>
                   </div>
-									<button id="close-modal-btn" class="mt-[32px] px-[24px] pt-[12px] pb-[14px] leading-none bg-[#FFF] rounded-md text-[12px] sm:text-[10px] font-bold text-[#0079C9] top-[6px] sm:top-[2px] right-[12px] sm:right-[6px] opacity-hover duration">
+									<button id="close-modal-btn" class="mt-[32px] px-[24px] sm:px-[16px] pt-[12px] sm:pt-[10px] pb-[14px] sm:pb-[12px] leading-none bg-[#FFF] rounded-md text-[12px] sm:text-[10px] font-bold text-[#0079C9] top-[6px] sm:top-[2px] right-[12px] sm:right-[6px] opacity-hover duration">
 										<span class="inline-flex items-center gap-[8px] sm:gap-[4px]">閉じる <span class="text-[20px] sm:text-[16px]">&times;</span></span>
 									</button>
                 </div>
@@ -98,4 +98,49 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+	// --- 目次スクロールインジケーター ---
+	const tocContainer = document.getElementById('scrollContainer');
+	const scrollIndicator = document.getElementById('scrollIndicator');
+
+    if (!tocContainer || !scrollIndicator) {
+      return;
+    }
+
+    let scrollTimeout;
+
+    const checkScrollability = () => {
+      const isScrollable = tocContainer.scrollHeight > tocContainer.clientHeight;
+
+      if (isScrollable) {
+        scrollIndicator.classList.add('is-scrollable');
+      } else {
+        scrollIndicator.classList.remove('is-scrollable');
+        scrollIndicator.classList.remove('is-scrolling');
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      checkScrollability();
+    });
+    resizeObserver.observe(tocContainer);
+
+    tocContainer.addEventListener('scroll', () => {
+      scrollIndicator.classList.add('is-scrolling');
+
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const atBottom = tocContainer.scrollHeight - tocContainer.scrollTop === tocContainer.clientHeight;
+
+        if (atBottom) {
+          scrollIndicator.classList.remove('is-scrollable');
+          scrollIndicator.classList.remove('is-scrolling');
+        } else {
+          scrollIndicator.classList.remove('is-scrolling');
+        }
+      }, 160);
+    });
+
+    // 初期ロード時にスクロール可能かチェック
+    checkScrollability();
 });
