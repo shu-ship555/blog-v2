@@ -1,6 +1,6 @@
 <svg width="336" height="336" viewBox="0 0 336 336" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M32 40V28C32 25.7909 33.7909 24 36 24H48" stroke="#0079C9" stroke-width="4"/>
-<path d="M304 288L304 300C304 302.209 302.209 304 300 304L288 304" stroke="#0079C9" stroke-width="4"/>
-<path d="M288 24L300 24C302.209 24 304 25.7909 304 28L304 40" stroke="#0079C9" stroke-width="4"/>
-<path d="M48 304L36 304C33.7909 304 32 302.209 32 300L32 288" stroke="#0079C9" stroke-width="4"/>
+<path d="M32 40V26C32 24.8954 32.8954 24 34 24H48" stroke="#0079C9" stroke-width="4"/>
+<path d="M304 288L304 302C304 303.105 303.105 304 302 304L288 304" stroke="#0079C9" stroke-width="4"/>
+<path d="M288 24L302 24C303.105 24 304 24.8954 304 26L304 40" stroke="#0079C9" stroke-width="4"/>
+<path d="M48 304L34 304C32.8954 304 32 303.105 32 302L32 288" stroke="#0079C9" stroke-width="4"/>
 </svg>
