@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import Pager from "../../../components/organisms/pager.astro";
+import Icon from "../../../components/atoms/icon.astro";
 import { getAllContents } from "../../../libs/microcms";
 import type { GetStaticPathsOptions } from "astro";
 
@@ -44,10 +45,10 @@ const icons = page.data;
           <div class="expand-img max-w-[64px] sm:max-w-[48px] mx-auto duration">
             <img src={icon.image.url} alt={icon.title} class="w-full" />
           </div>
-          <p class="mt-[12px] text-[12px] sm:text-[10px] leading-none tracking-[0.06em] font-black">{icon.title}</p>
-          <p class="mt-[6px] bracket text-[10px] sm:text-[10px] leading-none tracking-[0.06em] font-bold">{icon.enTitle}</p>
-          <button class="expand-btn bg-[#F5F5F6] text-[10px] font-bold leading-none tracking-[0.04em] pt-[4px] pb-[6px] mt-[12px] block w-full text-[#0079C9] opacity-hover duration">
-            拡大
+          <p class="whitespace-nowrap mt-[12px] text-[12px] sm:text-[10px] leading-none tracking-[0.06em] font-black">{icon.title}</p>
+          <p class="whitespace-nowrap mt-[6px] bracket text-[10px] sm:text-[10px] leading-none tracking-[0.06em] font-bold">{icon.enTitle}</p>
+          <button class="expand-btn bg-[#F5F5F6] text-[12px] sm:text-[10px] font-bold leading-none tracking-[0.04em] pt-[4px] pb-[6px] mt-[12px] block w-full text-[#0079C9] opacity-hover duration">
+            拡大<Icon filename="icon_fullscreen" color="#0079C9" customClass="w-[12px] ml-[4px] sm:w-[10px] align-top sm:ml-[2px]"/>
           </button>
         </li>
       ))}
