@@ -5,6 +5,7 @@ import '../assets/css/prism.css';
 import Header from "../components/organisms/header.astro";
 import Footer from "../components/organisms/footer.astro";
 import Breadcrumb from "../components/organisms/breadcrumb.astro";
+import Navigation from "../components/organisms/navigation.astro";
 
 // 本番用サイトURL（環境変数）
 const siteUrl = "https://shumiyata.com/" ;
@@ -21,6 +22,7 @@ const {
   ogImage = '/img/ogp.png',
   pageUrl: propPageUrl,
   breadcrumb = false,
+  navigation = false,
   header = true,
   blog,
   category,
@@ -81,6 +83,7 @@ const pageUrl = propPageUrl || `${siteUrl}${pagePath}`;
         navItems={[
           { href: "/", text: "Blog", name: "ブログ", target: false },
           { href: "/works", text: "Works", name: "制作物", target: false },
+          { href: "https://suzuri.jp/shu-miyata/products", text: "Shop", name: "ショップ", target: true },
           { href: "https://adhesive-form-ca1.notion.site/134c792be686808c8bb0e4342fe0625d?pvs=105", text: "Contact", name: "お問い合わせ", target: true },
         ]}
       />
@@ -88,6 +91,51 @@ const pageUrl = propPageUrl || `${siteUrl}${pagePath}`;
 
     {breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} isIconsPage={isIconsPage} isWorksPage={isWorksPage} />}
     <slot />
+		<div class="pt-[48px] pb-[56px] sm:pt-[24px] sm:pb-[28px] inner">
+			{navigation &&
+			<Navigation
+				items={[
+					{
+						href: "/works/icon",
+						label: "Icon",
+						tooltip: "アイコン",
+						isActive: true,
+					},
+					{
+						href: "/works/image",
+						label: "Image",
+						subLabel: "Graph｜Banner",
+						tooltip: "画像 <span class='bracket'>グラフ｜バナー</span>",
+						isActive: false,
+					},
+					{
+						href: "/works/web",
+						label: "WebSite",
+						tooltip: "ウェブサイト",
+						isActive: false,
+					},
+					{
+						href: "/works/photo",
+						label: "Photo",
+						tooltip: "写真",
+						isActive: false,
+					},
+					{
+						href: "/works/illustration",
+						label: "Illustration",
+						tooltip: "イラスト",
+						isActive: false,
+					},
+					{
+						href: "/works/app",
+						label: "Application",
+						tooltip: "アプリケーション",
+						isActive: false,
+					},
+				]}
+			/>
+		}
+		</div>
     {breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} scale={0.75} noMargin={true} backgroundColor="#FCFCFC" isIconsPage={isIconsPage} isWorksPage={isWorksPage} />}
     <Footer />
     <div class="bg-[#FFF]/[0.64] backdrop-blur-lg absolute h-full w-full top-0 hidden js-bg"></div>
