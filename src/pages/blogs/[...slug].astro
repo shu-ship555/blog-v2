@@ -38,12 +38,13 @@ const updatedDate = formatDate(blog.updatedAt);
   <main class="pt-[160px] sm:pt-[64px] pb-[200px] sm:pb-[64px]">
     <div class="inner">
       <div class="flex gap-[10px] flex-wrap">
-        <p
-          class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] text-[#FFF] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[8px] sm:pb-[10px]"
+        <a
+          href={`/categories/${blog.category.slug}`}
+          class="opacity-hover duration font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] text-[#FFF] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[8px] sm:pb-[10px]"
           style={`background-color: ${blog.category.labelColor};`}
         >
           {blog.category.name}
-        </p>
+        </a>
         {
           blog.readingTime && (
             <p class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] bg-[#F6F6F6] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[8px] sm:pb-[10px]">
