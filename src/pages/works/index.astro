@@ -11,8 +11,28 @@ type Icon = {
 	image: { url: string; width: number; height: number };
 };
 
-const res = await getContents<Icon>("icons", { limit: 8 });
-const icons = res.contents;
+type Image = {
+	id: string;
+	title: string;
+	image: { url: string; width: number; height: number };
+	isPrivate: boolean;
+};
+
+const iconRes = await getContents<Icon>("icons", { limit: 8 });
+const icons = iconRes.contents;
+
+const imageRes = await getContents<Image>("images", {
+	filters: "category[equals]bc_8m_vla[or]category[equals]rx2zc1yisvb",
+	limit: 3,
+});
+const images = imageRes.contents;
+
+const illustRes = await getContents<Image>("images", {
+	filters: "category[equals]3bwm0_dzxu",
+	limit: 3,
+});
+console.log(illustRes.contents);
+const illustrations = illustRes.contents;
 ---
 
 <Layout
@@ -21,11 +41,7 @@ const icons = res.contents;
 	isWorksPage={true}
 >
 	<main class="inner pt-[96px] sm:pt-[48px] pb-[120px] sm:pb-[64px]">
-		<h1
-			class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]"
-		>
-			Works｜制作物
-		</h1>
+		<h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Works｜制作物</h1>
 		<div class="mt-[48px] sm:mt-[24px]">
 			<Navigation
 				items={[
@@ -38,26 +54,20 @@ const icons = res.contents;
 					{
 						href: "/works/image",
 						label: "Image",
-						subLabel: "Graph｜Banner",
-						tooltip: "画像 <span class='bracket'>グラフ｜バナー</span>",
-						isActive: false,
+						subLabel: "Graphic",
+						tooltip: "画像 <span class='bracket'>グラフィック</span>",
+						isActive: true,
+					},
+					{
+						href: "/works/image/category/illustration",
+						label: "Illustration",
+						tooltip: "イラスト",
+						isActive: true,
 					},
 					{
 						href: "/works/web",
 						label: "WebSite",
 						tooltip: "ウェブサイト",
-						isActive: false,
-					},
-					{
-						href: "/works/photo",
-						label: "Photo",
-						tooltip: "写真",
-						isActive: false,
-					},
-					{
-						href: "/works/illustration",
-						label: "Illustration",
-						tooltip: "イラスト",
 						isActive: false,
 					},
 					{
@@ -69,26 +79,17 @@ const icons = res.contents;
 				]}
 			/>
 		</div>
-		<div
-			class="flex items-center gap-[16px] sm:gap-[8px] mt-[144px] sm:mt-[40px]"
-		>
+		<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[144px] sm:mt-[40px]">
 			<div
 				class="text-[16px] sm:text-[10px] font-black aspect-square w-[48px] sm:w-[20px] h-[48px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"
 			>
 				<span>1</span>
 			</div>
-			<h2
-				class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col"
-			>
-				Icon<span
-					class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden"
-					>アイコン</span
-				>
+			<h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">
+				Icon<span class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden">アイコン</span>
 			</h2>
 		</div>
-		<ul
-			class="icon-list grid grid-cols-8 sm:grid-cols-3 gap-[48px] sm:gap-[32px] mt-[40px] sm:mt-[24px]"
-		>
+		<ul class="grid grid-cols-8 sm:grid-cols-3 gap-[48px] sm:gap-[32px] mt-[40px] sm:mt-[24px]">
 			{
 				icons.map((icon) => (
 					<li class="relative text-center">
@@ -112,119 +113,125 @@ const icons = res.contents;
 				><span class="font-normal">VIEW</span> ICON <Icon
 					filename="icon_arrow_forward"
 					color="#0079C9"
-					customClass="w-[20px] sm:w-[16px] align-text-top"
+					customClass="w-[20px] sm:w-[16px] align-[-4px] sm:align-[-2px]"
 				/></a
 			>
 		</div>
-		<div
-			class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]"
-		>
+		<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]">
 			<div
 				class="text-[16px] sm:text-[10px] font-black aspect-square w-[42px] sm:w-[20px] h-[42px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"
 			>
 				<span>2</span>
 			</div>
-			<h2
-				class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col"
-			>
-				<span>Image <span class="font-normal bracket">Graph｜Banner</span></span
-				><span
+			<h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">
+				<span>Image <span class="font-normal bracket">Graphic</span></span><span
 					class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden"
-					>画像 <span class="font-normal bracket">グラフ｜バナー</span></span
+					>画像 <span class="font-normal bracket">グラフィック</span></span
 				>
 			</h2>
 		</div>
-		<p
-			class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded"
-		>
-			In preparation｜準備中
-		</p>
-		<div
-			class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]"
-		>
+		<ul class="flex flex-wrap gap-[48px] sm:gap-[32px] mt-[40px] sm:mt-[24px]">
+			{
+				images.map((image) => (
+					<li class="relative">
+						<div class="w-[calc(1184px/3_-_32px)] sm:w-full aspect-square px-[32px] pt-[32px] pb-[36px]  sm:px-[24px] sm:pt-[24px] sm:pb-[28px] bg-[#fafafa] flex items-center justify-center">
+							<img src={image.image.url} alt={image.title} class="w-full" />
+						</div>
+						<p class="text-[16px] sm:text-[14px] mt-[16px] sm:mt-[12px] leading-[1.48] tracking-[0.06em] font-bold">
+							{image.title}
+						</p>
+						{image.isPrivate === true && (
+							<div class="absolute top-0 left-0 text-[10px] leading-none tracking-[0.04em] px-[12px] pt-[6px] pb-[8px] font-bold bg-[#eee]">
+								自主制作
+							</div>
+						)}
+					</li>
+				))
+			}
+		</ul>
+		<div class="mt-[40px] sm:mt-[24px] text-right">
+			<a
+				href="/works/image"
+				class="inline-block rounded-full font-bold text-[16px] sm:text-[14px] leading-none tracking-[0.06em] opacity-hover duration"
+				><span class="font-normal">VIEW</span> Image<span class="font-normal bracket">Graphic</span>
+				<Icon
+					filename="icon_arrow_forward"
+					color="#0079C9"
+					customClass="w-[20px] sm:w-[16px]  align-[-4px] sm:align-[-2px]"
+				/></a
+			>
+		</div>
+		<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]">
 			<div
 				class="text-[16px] sm:text-[10px] font-black aspect-square w-[42px] sm:w-[20px] h-[42px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"
 			>
 				<span>3</span>
 			</div>
-			<h2
-				class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col"
-			>
-				<span>WebSite</span><span
-					class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden"
-					>ウェブサイト</span
+			<h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">
+				<span>Illustration</span><span class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden"
+					>イラスト</span
 				>
 			</h2>
 		</div>
-		<p
-			class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded"
-		>
-			In preparation｜準備中
-		</p>
-		<div
-			class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]"
-		>
+		<ul class="flex flex-wrap gap-[48px] sm:gap-[32px] mt-[40px] sm:mt-[24px]">
+			{
+				illustrations.map((illust) => (
+					<li class="relative">
+						<div class="w-[calc(1184px/3_-_32px)] sm:w-full aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[24px] sm:pt-[24px] sm:pb-[28px] bg-[#fafafa] flex items-center justify-center">
+							<img src={illust.image.url} alt={illust.title} class="w-full" />
+						</div>
+						<p class="text-[16px] sm:text-[14px] mt-[16px] sm:mt-[12px] leading-[1.48] tracking-[0.06em] font-bold">
+							{illust.title}
+						</p>
+						{illust.isPrivate === true && (
+							<div class="absolute top-0 left-0 text-[10px] leading-none tracking-[0.04em] px-[12px] pt-[6px] pb-[8px] font-bold bg-[#eee]">
+								自主制作
+							</div>
+						)}
+					</li>
+				))
+			}
+		</ul>
+		<div class="mt-[40px] sm:mt-[24px] text-right">
+			<a
+				href="/works/image/category/illustration"
+				class="inline-block rounded-full font-bold text-[16px] sm:text-[14px] leading-none tracking-[0.06em] opacity-hover duration"
+				><span class="font-normal">VIEW</span> Illustration
+				<Icon
+					filename="icon_arrow_forward"
+					color="#0079C9"
+					customClass="w-[20px] sm:w-[16px]  align-[-4px] sm:align-[-2px]"
+				/></a
+			>
+		</div>
+		<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]">
 			<div
 				class="text-[16px] sm:text-[10px] font-black aspect-square w-[42px] sm:w-[20px] h-[42px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"
 			>
 				<span>4</span>
 			</div>
-			<h2
-				class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col"
-			>
-				<span>Photo</span><span
-					class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden"
-					>写真</span
+			<h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">
+				<span>WebSite</span><span class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden"
+					>ウェブサイト</span
 				>
 			</h2>
 		</div>
-		<p
-			class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded"
-		>
+		<p class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded">
 			In preparation｜準備中
 		</p>
-		<div
-			class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]"
-		>
+		<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]">
 			<div
 				class="text-[16px] sm:text-[10px] font-black aspect-square w-[42px] sm:w-[20px] h-[42px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"
 			>
 				<span>5</span>
 			</div>
-			<h2
-				class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col"
-			>
-				<span>Illustration</span><span
-					class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden"
-					>イラスト</span
-				>
-			</h2>
-		</div>
-		<p
-			class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded"
-		>
-			In preparation｜準備中
-		</p>
-		<div
-			class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[40px]"
-		>
-			<div
-				class="text-[16px] sm:text-[10px] font-black aspect-square w-[42px] sm:w-[20px] h-[42px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"
-			>
-				<span>6</span>
-			</div>
-			<h2
-				class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col"
-			>
-				<span>Application</span><span
-					class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden"
+			<h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">
+				<span>Application</span><span class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden"
 					>アプリケーション</span
 				>
 			</h2>
 		</div>
-		<p
-			class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded"
-		>
+		<p class="text-center bg-[#FAFAFA] mt-[40px] sm:mt-[24px] text-[16px] sm:text-[14px] p-[80px] pb-[96px] rounded">
 			In preparation｜準備中
 		</p>
 	</main>

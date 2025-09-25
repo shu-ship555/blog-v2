@@ -1,5 +1,4 @@
-# .editorconfig file
-
+# すべてのファイルに適用される共通設定
 root = true
 
 [*]
@@ -8,23 +7,10 @@ indent_size = 2
 tab_width = 2
 end_of_line = lf
 charset = utf-8
-trim_trailing_whitespace = true
 insert_final_newline = true
+max_line_length = 120
+trim_trailing_whitespace = true # 共通設定では有効にしておく
 
-[*.astro]
-indent_style = tab
-indent_size = 2
-tab_width = 2
-
-[*.js]
-indent_style = tab
-indent_size = 2
-tab_width = 2
-
-[*.{html,css}]
-indent_style = tab
-indent_size = 2
-tab_width = 2
-end_of_line = lf
-charset = utf-8
-trim_trailing_whitespace = true
+# HTML/Astroファイルの設定
+[*.{html,astro}]
+trim_trailing_whitespace = false # ✨ このファイルでは無効にする

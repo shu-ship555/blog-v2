@@ -113,6 +113,9 @@ body {
 li:has(.expand-btn:hover) .expand-img {
 	@apply scale-[108%] sm:scale-100;
 }
+li:has(.expand-btn:hover) .expand-img.ei-s {
+	@apply scale-[104%] sm:scale-100;
+}
 
 
 /* =======================
@@ -162,6 +165,13 @@ toc-sscrollindicator
 #scrollIndicator.is-scrolling {
   @apply opacity-0 invisible;
   animation: none;
+}
+
+/* =======================
+トグルボタン
+ ======================= */
+.toggle-checkbox:checked +  .toggle-bg {
+	@apply bg-[#0079C9];
 }
 
 /* =======================

@@ -1,34 +1,38 @@
 ---
 import type { LayoutProps } from "./LayoutProps.ts";
-import '../assets/css/styles.css';
-import '../assets/css/prism.css';
+import "../assets/css/styles.css";
+import "../assets/css/prism.css";
 import Header from "../components/organisms/header.astro";
 import Footer from "../components/organisms/footer.astro";
 import Breadcrumb from "../components/organisms/breadcrumb.astro";
 import Navigation from "../components/organisms/navigation.astro";
 
 // 本番用サイトURL（環境変数）
-const siteUrl = "https://shumiyata.com/" ;
+const siteUrl = "https://shumiyata.com/";
 const pagePath = Astro.url.pathname;
 
 // props を Partial<LayoutProps> として受け取り
 const props = Astro.props as Partial<LayoutProps>;
 
 const {
-  title = 'デザイナーからエンジニアへ｜アラサーWeb制作者の成長ブログ｜miyata blog',
-  description = 'デザイナー挫折経験を持つアラサーWeb制作者が、Web制作におけるプログラミングやデザインの学習記録、AIの活用方法などを発信します。',
-  ogTitle = title,
-  ogDescription = description,
-  ogImage = '/img/ogp.png',
-  pageUrl: propPageUrl,
-  breadcrumb = false,
-  navigation = false,
-  header = true,
-  blog,
-  category,
-  tag,
-  isIconsPage = false,
-  isWorksPage = false,
+	title = "デザイナーからエンジニアへ｜アラサーWeb制作者の成長ブログ｜miyata blog",
+	description = "デザイナー挫折経験を持つアラサーWeb制作者が、Web制作におけるプログラミングやデザインの学習記録、AIの活用方法などを発信します。",
+	ogTitle = title,
+	ogDescription = description,
+	ogImage = "/img/ogp.png",
+	pageUrl: propPageUrl,
+	breadcrumb = false,
+	navigation = false,
+	header = true,
+	blog,
+	category,
+	tag,
+	isIconsPage = false,
+	isImagesPage = false,
+	imageCategory,
+	imageSize,
+	imageTag,
+	isWorksPage = false,
 } = props;
 
 // canonical URL を props 優先で決定
@@ -37,109 +41,152 @@ const pageUrl = propPageUrl || `${siteUrl}${pagePath}`;
 
 <!doctype html>
 <html lang="ja">
-  <head>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WWX7F52P');</script>
-    <!-- End Google Tag Manager -->
+	<head>
+		<!-- Google Tag Manager -->
+		<script>
+			(function (w, d, s, l, i) {
+				w[l] = w[l] || [];
+				w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+				var f = d.getElementsByTagName(s)[0],
+					j = d.createElement(s),
+					dl = l != "dataLayer" ? "&l=" + l : "";
+				j.async = true;
+				j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+				f.parentNode.insertBefore(j, f);
+			})(window, document, "script", "dataLayer", "GTM-WWX7F52P");
+		</script>
+		<!-- End Google Tag Manager -->
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet" />
 
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={pageUrl} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={pageUrl} />
 
-    <!-- OGP -->
-    <meta property="og:title" content={ogTitle} />
-    <meta property="og:description" content={ogDescription} />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content={pageUrl} />
-    {ogImage && <meta property="og:image" content={ogImage} />}
+		<!-- OGP -->
+		<meta property="og:title" content={ogTitle} />
+		<meta property="og:description" content={ogDescription} />
+		<meta property="og:type" content="article" />
+		<meta property="og:url" content={pageUrl} />
+		{ogImage && <meta property="og:image" content={ogImage} />}
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={ogTitle} />
-    <meta name="twitter:description" content={ogDescription} />
-    {ogImage && <meta name="twitter:image" content={ogImage} />}
-  </head>
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={ogTitle} />
+		<meta name="twitter:description" content={ogDescription} />
+		{ogImage && <meta name="twitter:image" content={ogImage} />}
+	</head>
 
-  <body class="relative">
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WWX7F52P"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+	<body class="relative">
+		<!-- Google Tag Manager (noscript) -->
+		<noscript
+			><iframe
+				src="https://www.googletagmanager.com/ns.html?id=GTM-WWX7F52P"
+				height="0"
+				width="0"
+				style="display:none;visibility:hidden"></iframe></noscript
+		>
+		<!-- End Google Tag Manager (noscript) -->
 
-    {header &&
-      <Header
-        navItems={[
-          { href: "/", text: "Blog", name: "ブログ", target: false },
-          { href: "/works", text: "Works", name: "制作物", target: false },
-          { href: "https://suzuri.jp/shu-miyata/products", text: "Shop", name: "ショップ", target: true },
-          { href: "https://adhesive-form-ca1.notion.site/134c792be686808c8bb0e4342fe0625d?pvs=105", text: "Contact", name: "お問い合わせ", target: true },
-        ]}
-      />
-    }
-
-    {breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} isIconsPage={isIconsPage} isWorksPage={isWorksPage} />}
-    <slot />
-		<div class="pt-[48px] pb-[56px] sm:pt-[24px] sm:pb-[28px] inner">
-			{navigation &&
-			<Navigation
-				items={[
-					{
-						href: "/works/icon",
-						label: "Icon",
-						tooltip: "アイコン",
-						isActive: true,
-					},
-					{
-						href: "/works/image",
-						label: "Image",
-						subLabel: "Graph｜Banner",
-						tooltip: "画像 <span class='bracket'>グラフ｜バナー</span>",
-						isActive: false,
-					},
-					{
-						href: "/works/web",
-						label: "WebSite",
-						tooltip: "ウェブサイト",
-						isActive: false,
-					},
-					{
-						href: "/works/photo",
-						label: "Photo",
-						tooltip: "写真",
-						isActive: false,
-					},
-					{
-						href: "/works/illustration",
-						label: "Illustration",
-						tooltip: "イラスト",
-						isActive: false,
-					},
-					{
-						href: "/works/app",
-						label: "Application",
-						tooltip: "アプリケーション",
-						isActive: false,
-					},
-				]}
-			/>
+		{
+			header && (
+				<Header
+					navItems={[
+						{ href: "/", text: "Blog", name: "ブログ", target: false },
+						{ href: "/works", text: "Works", name: "制作物", target: false },
+						{ href: "https://suzuri.jp/shu-miyata/products", text: "Shop", name: "ショップ", target: true },
+						{
+							href: "https://adhesive-form-ca1.notion.site/134c792be686808c8bb0e4342fe0625d?pvs=105",
+							text: "Contact",
+							name: "お問い合わせ",
+							target: true,
+						},
+					]}
+				/>
+			)
 		}
+
+		{
+			breadcrumb && (
+				<Breadcrumb
+					blog={blog}
+					category={category}
+					tag={tag}
+					isIconsPage={isIconsPage}
+					isImagesPage={isImagesPage}
+					imageCategory={imageCategory}
+					imageSize={imageSize}
+					imageTag={imageTag}
+					isWorksPage={isWorksPage}
+				/>
+			)
+		}
+		<slot />
+		<div class="pt-[48px] pb-[56px] sm:pt-[24px] sm:pb-[28px] inner">
+			{
+				navigation && (
+					<Navigation
+						items={[
+							{
+								href: "/works/icon",
+								label: "Icon",
+								tooltip: "アイコン",
+								isActive: true,
+							},
+							{
+								href: "/works/image",
+								label: "Image",
+								subLabel: "Graphic",
+								tooltip: "画像 <span class='bracket'>グラフィック</span>",
+								isActive: true,
+							},
+							{
+								href: "/works/image/category/illustration",
+								label: "Illustration",
+								tooltip: "イラスト",
+								isActive: true,
+							},
+							{
+								href: "/works/web",
+								label: "WebSite",
+								tooltip: "ウェブサイト",
+								isActive: false,
+							},
+							{
+								href: "/works/app",
+								label: "Application",
+								tooltip: "アプリケーション",
+								isActive: false,
+							},
+						]}
+					/>
+				)
+			}
 		</div>
-    {breadcrumb && <Breadcrumb blog={blog} category={category} tag={tag} scale={0.75} noMargin={true} backgroundColor="#FCFCFC" isIconsPage={isIconsPage} isWorksPage={isWorksPage} />}
-    <Footer />
-    <div class="bg-[#FFF]/[0.64] backdrop-blur-lg absolute h-full w-full top-0 hidden js-bg"></div>
-    <script src="../assets/js/common.js"></script>
-    <script src="../assets/js/prism.js"></script>
-  </body>
+		{
+			breadcrumb && (
+				<Breadcrumb
+					blog={blog}
+					category={category}
+					tag={tag}
+					scale={0.75}
+					noMargin={true}
+					backgroundColor="#FCFCFC"
+					isIconsPage={isIconsPage}
+					isImagesPage={isImagesPage}
+					isWorksPage={isWorksPage}
+				/>
+			)
+		}
+		<Footer />
+		<div class="bg-[#FFF]/[0.64] backdrop-blur-lg absolute h-full w-full top-0 hidden js-bg"></div>
+		<script src="../assets/js/common.js"></script>
+		<script src="../assets/js/prism.js"></script>
+	</body>
 </html>

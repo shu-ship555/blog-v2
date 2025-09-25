@@ -2,124 +2,237 @@
 import Icon from "../atoms/icon.astro";
 import type { Blog, Category, Tag } from "../../libs/microcms.ts";
 
+type ImageCategory = {
+	id: string;
+	slug: string;
+	title: string;
+	enTitle: string;
+};
+
+type ImageTag = {
+	id: string;
+	slug: string;
+	title: string;
+	enTitle: string;
+};
+
 interface Props {
-  blog?: Blog;
-  category?: Category;
-  tag?: Tag;
-  scale?: 1 | 0.75;
-  backgroundColor?: string;
-  noMargin?: boolean;
-  isIconsPage?: boolean;
-  isWorksPage?: boolean;
+	blog?: Blog;
+	category?: Category;
+	tag?: Tag;
+	imageCategory?: ImageCategory;
+	imageSize?: string;
+	imageTag?: ImageTag;
+	scale?: 1 | 0.75;
+	backgroundColor?: string;
+	noMargin?: boolean;
+	isIconsPage?: boolean;
+	isImagesPage?: boolean;
+	isWorksPage?: boolean;
 }
 
 const {
-  blog,
-  category,
-  tag,
-  scale = 1,
-  backgroundColor = "#FAFAFA",
-  noMargin = false,
-  isIconsPage = false,
-  isWorksPage = false,
+	blog,
+	category,
+	tag,
+	imageCategory,
+	imageSize,
+	imageTag,
+	scale = 1,
+	backgroundColor = "#FAFAFA",
+	noMargin = false,
+	isIconsPage = false,
+	isImagesPage = false,
+	isWorksPage = false,
 } = Astro.props;
 
 const isBlogPage = !!blog;
 const isCategoryPage = !!category;
 const isTagPage = !!tag;
+const isImageCategoryPage = !!imageCategory;
+const isImageSizePage = !!imageSize;
+const isImageTagPage = !!imageTag;
 
 const scaleClasses = {
-  1: {
-    div: "pt-[134px] sm:pt-[80px]",
-    nav: "pt-[20px] sm:pt-[16px] pb-[24px] sm:pb-[18px]",
-    ul: "gap-[16px] sm:gap-[12px]",
-    liText: "text-[16px] sm:text-[12px]",
-    icon: "w-[24px] sm:w-[16px]",
-  },
-  0.75: {
-    div: "pt-[96px] sm:pt-[60px]",
-    nav: "pt-[16px] sm:pt-[12px] pb-[18px] sm:pb-[14px]",
-    ul: "gap-[12px] sm:gap-[9px]",
-    liText: "text-[12px] sm:text-[10px]",
-    icon: "w-[18px] sm:w-[12px]",
-  },
+	1: {
+		div: "pt-[134px] sm:pt-[80px]",
+		nav: "pt-[20px] sm:pt-[16px] pb-[24px] sm:pb-[18px]",
+		ul: "gap-[16px] sm:gap-[12px]",
+		liText: "text-[16px] sm:text-[12px]",
+		icon: "w-[24px] sm:w-[16px]",
+	},
+	0.75: {
+		div: "pt-[96px] sm:pt-[60px]",
+		nav: "pt-[16px] sm:pt-[12px] pb-[18px] sm:pb-[14px]",
+		ul: "gap-[12px] sm:gap-[9px]",
+		liText: "text-[12px] sm:text-[10px]",
+		icon: "w-[18px] sm:w-[12px]",
+	},
 };
 
 const currentClasses = scaleClasses[scale];
 ---
 
 <div class:list={[!noMargin && currentClasses.div]}>
-  <nav class={currentClasses.nav} style={`background-color: ${backgroundColor};`}>
-    <ul class:list={["flex flex-wrap items-center inner", currentClasses.ul]}>
-      <li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
-        <a href="/" class="flex opacity-hover duration"
-          ><Icon
-            filename="icon_home"
-            color="#333"
-            customClass={`${currentClasses.icon} shrink-0`}
-          /></a
-        >
-      </li>
+	<nav class={currentClasses.nav} style={`background-color: ${backgroundColor};`}>
+		<ul class:list={["flex flex-wrap items-center inner", currentClasses.ul]}>
+			<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
+				<a href="/" class="opacity-hover duration"
+					><Icon filename="icon_home" color="#333" customClass={`${currentClasses.icon} shrink-0`} /></a
+				>
+			</li>
 
-      {isWorksPage && (
-        <>
-          <Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
-          <li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
-            Works｜制作物
-          </li>
-        </>
-      )}
+			{
+				isWorksPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+							Works｜制作物
+						</li>
+					</>
+				)
+			}
 
-      {isIconsPage && (
-        <>
-          <Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
-          <li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
-            <a href="/works" class="flex opacity-hover duration">Works｜制作物</a>
-          </li>
-          <Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
-          <li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
-            Icon｜アイコン
-          </li>
-        </>
-      )}
+			{
+				isIconsPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
+							<a href="/works" class="opacity-hover duration">
+								Works｜制作物
+							</a>
+						</li>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+							Icon｜アイコン
+						</li>
+					</>
+				)
+			}
 
-      {isCategoryPage && (
-        <>
-          <Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
-          <li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] text-[#888] leading-[1.48]"]}>
-            <span class="bracket">{category.name}</span> 記事一覧
-          </li>
-        </>
-      )}
+			{
+				isImagesPage && !(isImageCategoryPage || isImageSizePage || isImageTagPage) && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
+							<a href="/works" class="opacity-hover duration">
+								Works｜制作物
+							</a>
+						</li>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+							Images｜画像 <span class="font-normal bracket">Graphic</span>
+						</li>
+					</>
+				)
+			}
 
-      {isTagPage && (
-        <>
-          <Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
-          <li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] text-[#888] leading-[1.48]"]}>
-            <span class="bracket"><span class="hashtag"></span>{tag.name}</span> 記事一覧
-          </li>
-        </>
-      )}
+			{
+				(isImageCategoryPage || isImageSizePage || isImageTagPage) && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
+							<a href="/works" class="flex opacity-hover duration">
+								Works｜制作物
+							</a>
+						</li>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
+							<a href="/works/image" class="opacity-hover duration">
+								Images｜画像 <span class="font-normal bracket">Graphic</span>
+							</a>
+						</li>
+					</>
+				)
+			}
 
-      {isBlogPage && blog.category && (
-        <>
-          <Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
-          <li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-none"]}>
-            <a href={`/categories/${blog.category.slug}`} class="opacity-hover duration">
-              <span class="bracket">{blog.category.name}</span> 記事一覧
-            </a>
-          </li>
-        </>
-      )}
+			{
+				isImageCategoryPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-normal text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+							<span class="bracket">{imageCategory.title}</span>
+						</li>
+					</>
+				)
+			}
 
-      {isBlogPage && (
-        <>
-          <Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
-          <li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-none line-clamp-1"]}>
-            {blog.title}
-          </li>
-        </>
-      )}
-    </ul>
-  </nav>
+			{
+				isImageSizePage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+							<span class="bracket">{imageSize}</span>
+						</li>
+					</>
+				)
+			}
+
+			{
+				isImageTagPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+							<span class="bracket">
+								<span class="hashtag">#</span>
+								{imageTag.title}
+							</span>
+						</li>
+					</>
+				)
+			}
+
+			{
+				isCategoryPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] text-[#888] leading-[1.48]"]}>
+							<span class="bracket">{category.name}</span> 記事一覧
+						</li>
+					</>
+				)
+			}
+
+			{
+				isTagPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] text-[#888] leading-[1.48]"]}>
+							<span class="bracket">
+								<span class="hashtag" />
+								{tag.name}
+							</span>{" "}
+							記事一覧
+						</li>
+					</>
+				)
+			}
+
+			{
+				isBlogPage && blog.category && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-none"]}>
+							<a href={`/categories/${blog.category.slug}`} class="opacity-hover duration">
+								<span class="bracket">{blog.category.name}</span> 記事一覧
+							</a>
+						</li>
+					</>
+				)
+			}
+
+			{
+				isBlogPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li
+							class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-none line-clamp-1"]}
+						>
+							{blog.title}
+						</li>
+					</>
+				)
+			}
+		</ul>
+	</nav>
 </div>
