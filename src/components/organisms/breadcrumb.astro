@@ -57,14 +57,14 @@ const scaleClasses = {
 	1: {
 		div: "pt-[134px] sm:pt-[80px]",
 		nav: "pt-[20px] sm:pt-[16px] pb-[24px] sm:pb-[18px]",
-		ul: "gap-[16px] sm:gap-[12px]",
+		ul: "gap-x-[16px] gap-y-[12px] sm:gap-x-[12px] sm:gap-y-[8px]",
 		liText: "text-[16px] sm:text-[12px]",
 		icon: "w-[24px] sm:w-[16px]",
 	},
 	0.75: {
 		div: "pt-[96px] sm:pt-[60px]",
 		nav: "pt-[16px] sm:pt-[12px] pb-[18px] sm:pb-[14px]",
-		ul: "gap-[12px] sm:gap-[9px]",
+		ul: "gap-x-[12px] gap-y-[10px] sm:gap-x-[8px] sm:gap-y-[6px]",
 		liText: "text-[12px] sm:text-[10px]",
 		icon: "w-[18px] sm:w-[12px]",
 	},
@@ -77,7 +77,7 @@ const currentClasses = scaleClasses[scale];
 	<nav class={currentClasses.nav} style={`background-color: ${backgroundColor};`}>
 		<ul class:list={["flex flex-wrap items-center inner", currentClasses.ul]}>
 			<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
-				<a href="/" class="opacity-hover duration"
+				<a href="/" class="flex items-center justify-center opacity-hover duration"
 					><Icon filename="icon_home" color="#333" customClass={`${currentClasses.icon} shrink-0`} /></a
 				>
 			</li>
@@ -98,7 +98,7 @@ const currentClasses = scaleClasses[scale];
 					<>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
-							<a href="/works" class="opacity-hover duration">
+							<a href="/works" class="flex items-center justify-center opacity-hover duration">
 								Works｜制作物
 							</a>
 						</li>
@@ -115,13 +115,13 @@ const currentClasses = scaleClasses[scale];
 					<>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
-							<a href="/works" class="opacity-hover duration">
+							<a href="/works" class="flex items-center justify-center opacity-hover duration">
 								Works｜制作物
 							</a>
 						</li>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
-							Images｜画像 <span class="font-normal bracket">Graphic</span>
+							Graphic Design<span class="sm:hidden tracking-[0.08em]">｜グラフィックデザイン</span>
 						</li>
 					</>
 				)
@@ -138,8 +138,8 @@ const currentClasses = scaleClasses[scale];
 						</li>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
-							<a href="/works/image" class="opacity-hover duration">
-								Images｜画像 <span class="font-normal bracket">Graphic</span>
+							<a href="/works/graphicdesign" class="flex items-center justify-center opacity-hover duration">
+								Graphic Design<span class="sm:hidden tracking-[0.08em]">｜グラフィックデザイン</span>
 							</a>
 						</li>
 					</>
@@ -151,7 +151,7 @@ const currentClasses = scaleClasses[scale];
 					<>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-normal text-[#888] tracking-[0.04em] leading-[1.48]"]}>
-							<span class="bracket">{imageCategory.title}</span>
+							<span class="font-normal bracket">{imageCategory.enTitle}</span>
 						</li>
 					</>
 				)
@@ -162,7 +162,7 @@ const currentClasses = scaleClasses[scale];
 					<>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
-							<span class="bracket">{imageSize}</span>
+							<span class="font-normal bracket">{imageSize}</span>
 						</li>
 					</>
 				)
@@ -173,9 +173,8 @@ const currentClasses = scaleClasses[scale];
 					<>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
-							<span class="bracket">
-								<span class="hashtag">#</span>
-								{imageTag.title}
+							<span class="font-normal bracket">
+								<span class="hashtag"> {imageTag.title}</span>
 							</span>
 						</li>
 					</>
@@ -213,7 +212,10 @@ const currentClasses = scaleClasses[scale];
 					<>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-none"]}>
-							<a href={`/categories/${blog.category.slug}`} class="opacity-hover duration">
+							<a
+								href={`/categories/${blog.category.slug}`}
+								class="flex items-center justify-center opacity-hover duration"
+							>
 								<span class="bracket">{blog.category.name}</span> 記事一覧
 							</a>
 						</li>

@@ -22,7 +22,7 @@ const iconRes = await getContents<Icon>("icons", { limit: 8 });
 const icons = iconRes.contents;
 
 const imageRes = await getContents<Image>("images", {
-	filters: "category[equals]bc_8m_vla[or]category[equals]rx2zc1yisvb",
+	filters: "category[not_equals]3bwm0_dzxu",
 	limit: 3,
 });
 const images = imageRes.contents;
@@ -31,7 +31,6 @@ const illustRes = await getContents<Image>("images", {
 	filters: "category[equals]3bwm0_dzxu",
 	limit: 3,
 });
-console.log(illustRes.contents);
 const illustrations = illustRes.contents;
 ---
 
@@ -52,14 +51,13 @@ const illustrations = illustRes.contents;
 						isActive: true,
 					},
 					{
-						href: "/works/image",
-						label: "Image",
-						subLabel: "Graphic",
-						tooltip: "画像 <span class='bracket'>グラフィック</span>",
+						href: "/works/graphicdesign",
+						label: "Graphic Design",
+						tooltip: "グラフィックデザイン",
 						isActive: true,
 					},
 					{
-						href: "/works/image/category/illustration",
+						href: "/works/graphicdesign/category/illustration",
 						label: "Illustration",
 						tooltip: "イラスト",
 						isActive: true,
@@ -124,9 +122,8 @@ const illustrations = illustRes.contents;
 				<span>2</span>
 			</div>
 			<h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">
-				<span>Image <span class="font-normal bracket">Graphic</span></span><span
-					class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden"
-					>画像 <span class="font-normal bracket">グラフィック</span></span
+				<span>Graphic Design</span><span
+					class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden">グラフィックデザイン</span
 				>
 			</h2>
 		</div>
@@ -151,9 +148,9 @@ const illustrations = illustRes.contents;
 		</ul>
 		<div class="mt-[40px] sm:mt-[24px] text-right">
 			<a
-				href="/works/image"
+				href="/works/graphicdesign"
 				class="inline-block rounded-full font-bold text-[16px] sm:text-[14px] leading-none tracking-[0.06em] opacity-hover duration"
-				><span class="font-normal">VIEW</span> Image<span class="font-normal bracket">Graphic</span>
+				><span class="font-normal">VIEW</span> Graphic Design
 				<Icon
 					filename="icon_arrow_forward"
 					color="#0079C9"
@@ -194,7 +191,7 @@ const illustrations = illustRes.contents;
 		</ul>
 		<div class="mt-[40px] sm:mt-[24px] text-right">
 			<a
-				href="/works/image/category/illustration"
+				href="/works/graphicdesign/category/illustration"
 				class="inline-block rounded-full font-bold text-[16px] sm:text-[14px] leading-none tracking-[0.06em] opacity-hover duration"
 				><span class="font-normal">VIEW</span> Illustration
 				<Icon

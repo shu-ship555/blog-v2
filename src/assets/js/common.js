@@ -64,12 +64,12 @@ const setupImageModal = () => {
 							if (item.classList.contains('js-em-l')) {
 								modalContainer.innerHTML = `
 								<div id="image-modal-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#000]/[0.48] backdrop-blur-md">
-									<div class="relative p-[64px] sm:p-[32px] bg-white rounded-lg sm:rounded-none shadow-lg" tabindex="-1">
+									<div class="relative px-[56px] pt-[56px] pb-[64px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-white rounded-lg sm:rounded-none shadow-lg" tabindex="-1">
 										<img src="${imgSrc}" alt="${imgAlt}" class="w-full object-contain max-w-[960px]" />
-									</div>
-									<button id="close-modal-btn" class="mt-[32px] px-[28px] sm:px-[20px] pt-[16px] sm:pt-[12px] pb-[18px] sm:pb-[14px] leading-none bg-[#FFF] rounded-md text-[14px] sm:text-[12px] font-bold text-[#0079C9] opacity-hover duration">
+										<button id="close-modal-btn" class="absolute bottom-[28px] sm:bottom-[12px] left-1/2 -translate-x-1/2 leading-none bg-[#FFF] rounded-md text-[14px] sm:text-[10px] font-bold text-[#0079C9] opacity-hover duration">
 										閉じる &times;
-									</button>
+										</button>
+									</div>
 								</div>
 							`;
 							} else {

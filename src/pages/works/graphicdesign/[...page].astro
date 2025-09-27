@@ -1,8 +1,8 @@
 ---
-import Layout from "../../../../../layouts/Layout.astro";
-import Pager from "../../../../../components/organisms/pager.astro";
-import Icon from "../../../../../components/atoms/icon.astro";
-import { getAllContents } from "../../../../../libs/microcms";
+import Layout from "../../../layouts/Layout.astro";
+import Pager from "../../../components/organisms/pager.astro";
+import Icon from "../../../components/atoms/icon.astro";
+import { getAllContents } from "../../../libs/microcms";
 import type { GetStaticPathsOptions } from "astro";
 
 type Category = {
@@ -35,49 +35,59 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 	const res = await getAllContents<Image>("images");
 	const images = res.contents;
 
-	const allUniqueCategories = [...new Set(images.map((image) => JSON.stringify(image.category)))].map((str) =>
-		JSON.parse(str),
-	);
-	const allUniqueTags = [...new Set(images.flatMap((image) => image.tag.map((t) => JSON.stringify(t))))].map((str) =>
-		JSON.parse(str),
-	);
-	const allUniqueSizes = [...new Set(images.map((image) => `${image.sizeHorizontal}×${image.sizeVertical}`))];
+	const uniqueCategories = [
+		...new Set(
+			images.map((image) =>
+				JSON.stringify({
+					slug: image.category.slug,
+					title: image.category.title,
+					enTitle: image.category.enTitle,
+				}),
+			),
+		),
+	].map((str) => JSON.parse(str));
 
-	const paginatedPaths = allUniqueCategories.flatMap((category) => {
-		const filteredImages = images.filter((image) => image.category.slug === category.slug);
+	const allTags = images.flatMap((image) => image.tag);
 
-		const paginatedPages = paginate(filteredImages, {
-			pageSize: IMAGES_PER_PAGE,
-			params: { slug: category.slug },
-			props: {
-				categoryTitle: category.title,
-				totalCount: filteredImages.length,
-				perPage: IMAGES_PER_PAGE,
-				uniqueSizes: allUniqueSizes,
-				uniqueCategories: allUniqueCategories,
-				uniqueTags: allUniqueTags,
-			},
-		});
+	const uniqueTags = [
+		...new Set(
+			allTags.map((tag) =>
+				JSON.stringify({
+					slug: tag.slug,
+					title: tag.title,
+					enTitle: tag.enTitle,
+				}),
+			),
+		),
+	].map((str) => JSON.parse(str));
 
-		paginatedPages.unshift({
-			params: { slug: category.slug, page: undefined },
-			props: paginatedPages[0].props,
-		});
-
-		return paginatedPages;
+	const paginatedPages = paginate(images, {
+		pageSize: IMAGES_PER_PAGE,
+		params: {},
+		props: {
+			totalCount: res.totalCount,
+			perPage: IMAGES_PER_PAGE,
+			uniqueSizes: [...new Set(images.map((image) => `${image.sizeHorizontal}×${image.sizeVertical}`))],
+			uniqueCategories: uniqueCategories,
+			uniqueTags: uniqueTags,
+		},
 	});
 
-	return paginatedPaths;
+	paginatedPages.unshift({
+		params: { page: undefined },
+		props: paginatedPages[0].props,
+	});
+
+	return paginatedPages;
 }
 
-const { page, totalCount, perPage, uniqueSizes, uniqueCategories, uniqueTags, categoryTitle } = Astro.props as {
+const { page, totalCount, perPage, uniqueSizes, uniqueCategories, uniqueTags } = Astro.props as {
 	page: { data: Image[] };
 	totalCount: number;
 	perPage: number;
 	uniqueSizes: string[];
 	uniqueCategories: { slug: string; title: string; enTitle: string }[];
 	uniqueTags: { slug: string; title: string; enTitle: string }[];
-	categoryTitle: string;
 };
 
 const images = page.data;
@@ -87,15 +97,12 @@ const images = page.data;
 	title="Web制作の実績[画像]｜デザインもできるフロントエンドエンジニアのポートフォリオ"
 	breadcrumb={true}
 	isImagesPage={true}
-	imageCategory={{
-		slug: Astro.params.slug,
-		title: categoryTitle,
-	}}
 	navigation={true}
 >
 	<main class="inner relative pt-[96px] sm:pt-[48px] pb-[120px] sm:pb-[64px]">
 		<h1 class="text-[32px] sm:text-[24px] font-black leading-[1.4] tracking-[0.04em] break-normal">
-			Images｜画像 <span class="font-normal bracket">Graphic / {categoryTitle}</span>
+			Graphic Design<span class="sm:hidden tracking-[0.08em]">｜グラフィックデザイン</span>
+			<span class="font-normal bracket">All</span>
 		</h1>
 		<div
 			class="flex items-center justify-between sm:flex-col-reverse sm:justify-start sm:items-start sm:gap-[16px] mt-[48px] sm:mt-[24px]"
@@ -114,12 +121,12 @@ const images = page.data;
 						class="js-filter-menu z-50 bg-[#FFF]/[0.16] backdrop-blur-lg px-[20px] sm:px-[16px] py-[12px] sm:py-[8px] absolute top-[24px] sm:top-[20px] left-0 text-nowrap text-[14px] sm:text-[12px] leading-none tracking-[0.06em] font-normal hidden flex-col"
 					>
 						<li class="opacity-hover duration py-[12px] sm:py-[8px] cursor-pointer">
-							<a href="/works/image" class="">All｜すべて</a>
+							<a href="/works/graphicdesign" class="">All｜すべて</a>
 						</li>
 						{
 							uniqueCategories.map((category) => (
 								<li class="opacity-hover duration py-[12px] sm:py-[8px] cursor-pointer">
-									<a href={`/works/image/category/${category.slug}`} class="">
+									<a href={`/works/graphicdesign/category/${category.slug}`} class="">
 										{category.enTitle}｜{category.title}
 									</a>
 								</li>
@@ -140,12 +147,12 @@ const images = page.data;
 						class="js-filter-menu z-50 bg-[#FFF]/[0.16] backdrop-blur-lg px-[20px] sm:px-[16px] py-[12px] sm:py-[8px] absolute top-[24px] sm:top-[20px] left-0 text-nowrap text-[14px] sm:text-[12px] leading-none tracking-[0.06em] font-normal hidden flex-col"
 					>
 						<li class="opacity-hover duration py-[12px] sm:py-[8px] cursor-pointer">
-							<a href="/works/image" class="">All｜すべて</a>
+							<a href="/works/graphicdesign" class="">All｜すべて</a>
 						</li>
 						{
 							uniqueSizes.map((size) => (
 								<li class="opacity-hover duration py-[12px] sm:py-[8px] cursor-pointer">
-									<a href={`/works/image/size/${size.replace("×", "x")}`} class="">
+									<a href={`/works/graphicdesign/size/${size.replace("×", "x")}`} class="">
 										{size}
 									</a>
 								</li>
@@ -154,6 +161,20 @@ const images = page.data;
 					</ul>
 				</div>
 			</div>
+			<!-- <div class="flex items-center sm:flex-col sm:items-start gap-[12px] sm:gap-[6px]">
+				<div class="text-[12px] font-bold">お仕事のみを表示する</div>
+				<div class="w-[48px] select-none cursor-pointer">
+					<input
+						type="checkbox"
+						name="toggle"
+						id="toggle"
+						class="toggle-checkbox absolute block w-[24px] h-[24px] duration bg-[#0079C9] border-[4px] border-[#EEE] rounded-full appearance-none cursor-pointer checked:bg-[#FAFAFA] checked:border-[#CCC] checked:translate-x-[24px]"
+					/>
+					<label
+						for="toggle"
+						class="block h-[24px] overflow-hidden bg-[#CCC] rounded-full cursor-pointer toggle-bg duration"></label>
+				</div>
+			</div> -->
 		</div>
 		<div class="relative js-filter mt-[16px] sm:mt-[12px]">
 			<div class="inline-block cursor-pointer js-filter-btn">
@@ -168,13 +189,13 @@ const images = page.data;
 				class="js-filter-menu z-50 bg-[#FFF]/[0.16] backdrop-blur-lg px-[20px] sm:px-[16px] pt-[20px] pb-[24px] sm:pt-[16px] sm:pb-[20px] absolute w-full top-[24px] sm:top-[20px] left-0 text-nowrap text-[14px] sm:text-[12px] leading-none tracking-[0.06em] font-normal hidden flex-col"
 			>
 				<li>
-					<a href="/works/image" class="inline-block cursor-pointer opacity-hover duration">All｜すべて</a>
+					<a href="/works/graphicdesign" class="inline-block cursor-pointer opacity-hover duration">All｜すべて</a>
 				</li>
 				<li class="flex flex-wrap gap-[16px] sm:gap-[12px] mt-[16px] sm:mt-[12px]">
 					{
 						uniqueTags.map((tag) => (
 							<div class="cursor-pointer opacity-hover duration">
-								<a href={`/works/image/tag/${tag.slug}`} class="hashtag">
+								<a href={`/works/graphicdesign/tag/${tag.slug}`} class="hashtag">
 									{tag.title}
 								</a>
 							</div>
@@ -202,7 +223,7 @@ const images = page.data;
 						</div>
 						<div class="bg-[#eee] inline-block mt-[16px] sm:mt-[12px] font-bold text-[12px] leading-[1] tracking-[0.06em] sm:text-[10px] opacity-hover duration rounded-full">
 							<a
-								href={`/works/image/category/${image.category.slug}`}
+								href={`/works/graphicdesign/category/${image.category.slug}`}
 								class="px-[20px] pt-[4px] pb-[5px] sm:pb-[4px] inline-block"
 							>
 								{image.category.title}
@@ -213,7 +234,7 @@ const images = page.data;
 						</p>
 						<div class="text-[12px] sm:text-[10px] mt-[4px] leading-[1.48] tracking-[0.06em] text-[#666]">
 							{image.tag.map((t) => (
-								<a href={`/works/image/tag/${t.slug}`} class="opacity-hover duration">
+								<a href={`/works/graphicdesign/tag/${t.slug}`} class="opacity-hover duration">
 									<span class="hashtag mr-[8px]">
 										<span>{t.title}</span>
 									</span>
@@ -230,12 +251,7 @@ const images = page.data;
 			}
 		</ul>
 		<div class="mt-[48px]">
-			<Pager
-				page={page}
-				totalCount={totalCount}
-				basePath={`/works/image/category/${Astro.params.slug}`}
-				perPage={perPage}
-			/>
+			<Pager page={page} totalCount={totalCount} basePath="/works/graphicdesign" perPage={perPage} />
 		</div>
 	</main>
 </Layout>
