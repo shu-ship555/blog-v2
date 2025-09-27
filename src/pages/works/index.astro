@@ -130,7 +130,7 @@ const illustrations = illustRes.contents;
 		<ul class="flex flex-wrap gap-[48px] sm:gap-[32px] mt-[40px] sm:mt-[24px]">
 			{
 				images.map((image) => (
-					<li class="relative">
+					<li class="relative w-[calc(1184px/3_-_32px)] sm:w-full">
 						<div class="w-[calc(1184px/3_-_32px)] sm:w-full aspect-square px-[32px] pt-[32px] pb-[36px]  sm:px-[24px] sm:pt-[24px] sm:pb-[28px] bg-[#fafafa] flex items-center justify-center">
 							<img src={image.image.url} alt={image.title} class="w-full" />
 						</div>
@@ -173,8 +173,8 @@ const illustrations = illustRes.contents;
 		<ul class="flex flex-wrap gap-[48px] sm:gap-[32px] mt-[40px] sm:mt-[24px]">
 			{
 				illustrations.map((illust) => (
-					<li class="relative">
-						<div class="w-[calc(1184px/3_-_32px)] sm:w-full aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[24px] sm:pt-[24px] sm:pb-[28px] bg-[#fafafa] flex items-center justify-center">
+					<li class="relative w-[calc(1184px/3_-_32px)] sm:w-full">
+						<div class="aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[24px] sm:pt-[24px] sm:pb-[28px] bg-[#fafafa] flex items-center justify-center">
 							<img src={illust.image.url} alt={illust.title} class="w-full" />
 						</div>
 						<p class="text-[16px] sm:text-[14px] mt-[16px] sm:mt-[12px] leading-[1.48] tracking-[0.06em] font-bold">
