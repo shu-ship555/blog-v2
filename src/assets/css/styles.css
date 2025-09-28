@@ -56,13 +56,40 @@ body {
 }
 
 /* =======================
+アニメーション
+ ======================= */
+ @keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(20px);
+  }
+
+  51% {
+    transform: translateX(-20px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* =======================
 ユニーククラス
  ======================= */
  @media (min-width: 640px){
 	.opacity-hover:hover {
    @apply opacity-[0.48];
 }
- }
+.transrate-x-animation:hover .animation-icon {
+	animation-name: shake;
+	animation-duration: 0.48s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+}
+}
 
 .duration {
   @apply transition-all duration-[240ms] ease-in-out;
