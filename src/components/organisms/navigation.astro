@@ -32,7 +32,7 @@ const { items } = Astro.props;
 					]}
 				>
 					{item.isActive ? (
-						<a href={item.href} class:list={["opacity-hover duration", item.current ? "text-[#0079C9]" : ""]}>
+						<a href={item.href} class:list={["opacity-hover duration", item.current ? "text-[#888]" : ""]}>
 							{item.label}
 							{item.subLabel && <span class="font-normal bracket">{item.subLabel}</span>}
 							<span class="bg-[#eee] rounded-full ml-[6px] w-[16px] h-[16px] aspect-square inline-flex justify-center items-center sm:hidden">
