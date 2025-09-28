@@ -1,0 +1,85 @@
+---
+import Icon from "../atoms/icon.astro";
+
+type Category = {
+	slug: string;
+	title: string;
+};
+
+type Tag = {
+	slug: string;
+	title: string;
+};
+
+type Image = {
+	title: string;
+	image: { url: string };
+	isPrivate: boolean;
+	category: Category;
+	tag: Tag[];
+};
+
+// Props の定義
+export interface Props {
+	image: Image;
+}
+
+const { image } = Astro.props;
+
+const BASE_PATH = "/works/graphicdesign";
+---
+
+<li class="w-[calc(1184px/3_-_32px)] sm:w-full relative">
+	<div
+		class="relative js-expand-modal js-em-l aspect-square px-[32px] pt-[32px] pb-[36px] bg-[#fafafa] flex items-center justify-center"
+	>
+		<div class="expand-img ei-s duration">
+			<img src={image.image.url} alt={image.title} class="w-full" />
+		</div>
+		<button
+			class="expand-btn absolute bottom-[12px] left-1/2 -translate-x-1/2 bg-[#F8F8F8] text-[12px] sm:text-[10px] font-bold leading-none tracking-[0.04em] text-[#0079C9] opacity-hover duration"
+		>
+			拡大
+			<Icon
+				filename="icon_fullscreen"
+				color="#0079C9"
+				customClass="w-[14px] ml-[4px] sm:w-[12px] align-text-top sm:ml-[2px]"
+			/>
+		</button>
+	</div>
+
+	<div
+		class="bg-[#eee] inline-block mt-[16px] sm:mt-[12px] font-bold text-[12px] leading-[1] tracking-[0.06em] sm:text-[10px] opacity-hover duration rounded-full"
+	>
+		<a
+			href={`${BASE_PATH}/category/${image.category.slug}`}
+			class="px-[20px] pt-[4px] pb-[5px] sm:pb-[4px] inline-block"
+		>
+			{image.category.title}
+		</a>
+	</div>
+
+	<p class="text-[16px] sm:text-[14px] mt-[8px] sm:mt-[6px] leading-[1.48] tracking-[0.06em] font-bold">
+		{image.title}
+	</p>
+
+	<div class="text-[12px] sm:text-[10px] mt-[4px] leading-[1.48] tracking-[0.06em] text-[#666]">
+		{
+			image.tag.map((t) => (
+				<a href={`${BASE_PATH}/tag/${t.slug}`} class="opacity-hover duration">
+					<span class="hashtag mr-[8px]">
+						<span>{t.title}</span>
+					</span>
+				</a>
+			))
+		}
+	</div>
+
+	{
+		image.isPrivate === true && (
+			<div class="absolute top-0 left-0 text-[10px] leading-none tracking-[0.04em] px-[12px] pt-[6px] pb-[8px] font-bold bg-[#eee]">
+				自主制作
+			</div>
+		)
+	}
+</li>
