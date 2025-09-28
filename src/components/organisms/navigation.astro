@@ -2,72 +2,58 @@
 import Icon from "../atoms/icon.astro";
 
 export interface NavItem {
-  href?: string;
-  label?: string;
-  subLabel?: string;
-  tooltip?: string;
-  isActive?: boolean;
+	href?: string;
+	label?: string;
+	subLabel?: string;
+	tooltip?: string;
+	isActive?: boolean;
 	current?: boolean;
 }
 
 export interface Props {
-  items: NavItem[];
+	items: NavItem[];
 }
 
 const { items } = Astro.props;
 ---
+
 <ul
-  class="sm:overflow-x-scroll sm:overflow-y-hidden sm:pb-[12px] sm:border-b sm:border-[#eee] flex text-[20px] sm:text-[16px] font-bold leading-none tracking-[0.06em]"
+	class="sm:overflow-x-scroll sm:overflow-y-hidden sm:pb-[12px] sm:border-b sm:border-[#eee] flex text-[20px] sm:text-[16px] font-bold leading-none tracking-[0.06em]"
 >
-  {items.map((item, index) => (
-    <>
-      <li
-        class:list={[
-          'relative',
-          'text-nowrap',
-          index !== 0 && 'ml-[32px] sm:ml-[8px]',
-          item.isActive ? 'nav-active' : '',
-        ]}
-      >
-        {item.isActive ? (
-          <a href={item.href} class="opacity-hover duration">
-            {item.label}
-            {item.subLabel && <span class="font-normal bracket">{item.subLabel}</span>}
-            <span
-              class="bg-[#eee] rounded-full ml-[6px] w-[16px] h-[16px] aspect-square inline-flex justify-center items-center sm:hidden"
-            >
-              <Icon
-                filename="icon_arrow_forward"
-                color="#333"
-                customClass="w-[12px] sm:w-[10px] align-middle"
-              />
-            </span>
-          </a>
-        ) : (
-          <div class="text-[#ccc]">
-            {item.label}
-            {item.subLabel && <span class="font-normal bracket">{item.subLabel}</span>}
-            <span
-              class="bg-[#eee] rounded-full ml-[6px] w-[16px] h-[16px] aspect-square inline-flex justify-center items-center sm:hidden"
-            >
-              <Icon
-                filename="icon_arrow_forward"
-                color="#ccc"
-                customClass="w-[12px] sm:w-[10px] align-middle"
-              />
-            </span>
-          </div>
-        )}
-        <div
-          class="pt-[12px] nav-tip duration absolute left-1/2 -translate-x-1/2 w-full"
-        >
-          <div
-            class="text-nowrap bg-[#eee] py-[4px] text-[12px] font-normal text-center"
-            set:html={item.tooltip}
-          ></div>
-        </div>
-      </li>
-      {index < items.length - 1 && <li class="hidden sm:block sm:ml-[8px]">｜</li>}
-    </>
-  ))}
+	{
+		items.map((item, index) => (
+			<>
+				<li
+					class:list={[
+						"relative",
+						"text-nowrap",
+						index !== 0 && "ml-[32px] sm:ml-[8px]",
+						item.isActive ? "nav-active" : "",
+					]}
+				>
+					{item.isActive ? (
+						<a href={item.href} class:list={["opacity-hover duration", item.current ? "text-[#0079C9]" : ""]}>
+							{item.label}
+							{item.subLabel && <span class="font-normal bracket">{item.subLabel}</span>}
+							<span class="bg-[#eee] rounded-full ml-[6px] w-[16px] h-[16px] aspect-square inline-flex justify-center items-center sm:hidden">
+								<Icon filename="icon_arrow_forward" color="#333" customClass="w-[12px] sm:w-[10px] align-middle" />
+							</span>
+						</a>
+					) : (
+						<div class="text-[#ccc]">
+							{item.label}
+							{item.subLabel && <span class="font-normal bracket">{item.subLabel}</span>}
+							<span class="bg-[#eee] rounded-full ml-[6px] w-[16px] h-[16px] aspect-square inline-flex justify-center items-center sm:hidden">
+								<Icon filename="icon_arrow_forward" color="#ccc" customClass="w-[12px] sm:w-[10px] align-middle" />
+							</span>
+						</div>
+					)}
+					<div class="pt-[12px] nav-tip duration absolute left-1/2 -translate-x-1/2 w-full">
+						<div class="text-nowrap bg-[#eee] py-[4px] text-[12px] font-normal text-center" set:html={item.tooltip} />
+					</div>
+				</li>
+				{index < items.length - 1 && <li class="hidden sm:block sm:ml-[8px]">｜</li>}
+			</>
+		))
+	}
 </ul>

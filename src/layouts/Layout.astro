@@ -128,9 +128,10 @@ const pageUrl = propPageUrl || `${siteUrl}${pagePath}`;
 			)
 		}
 		<slot />
-		<div class="pt-[48px] pb-[56px] sm:pt-[24px] sm:pb-[28px] inner">
-			{
-				navigation && (
+
+		{
+			navigation && (
+				<div class="pt-[48px] pb-[56px] sm:pt-[24px] sm:pb-[28px] inner">
 					<Navigation
 						items={[
 							{
@@ -163,11 +164,19 @@ const pageUrl = propPageUrl || `${siteUrl}${pagePath}`;
 								tooltip: "アプリケーション",
 								isActive: false,
 							},
-						]}
+						].map((item) => {
+							const isCurrent = item.href === pagePath || item.href === pagePath.replace(/\/$/, "");
+
+							return {
+								...item,
+								current: isCurrent,
+							};
+						})}
 					/>
-				)
-			}
-		</div>
+				</div>
+			)
+		}
+
 		{
 			breadcrumb && (
 				<Breadcrumb
