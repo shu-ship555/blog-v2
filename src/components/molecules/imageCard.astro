@@ -35,7 +35,7 @@ const BASE_PATH = "/works/graphicdesign";
 	<div
 		class="relative js-expand-modal js-em-l aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-[#fafafa] flex items-center justify-center"
 	>
-		<div class={`expand-img ei-s duration max-w-[${image.sizeHorizontal}px]`}>
+		<div class="expand-img ei-s duration" style={`max-width: ${image.sizeHorizontal}px;`}>
 			<img src={image.image.url} alt={image.title} class="w-full" />
 		</div>
 		<button

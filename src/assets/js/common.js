@@ -46,71 +46,81 @@ const setupImageModal = () => {
 		}
 	};
 
-	const expandItems = document.querySelectorAll('.js-expand-modal');
-	if (!expandItems.length) return;
+const expandItems = document.querySelectorAll('.js-expand-modal');
+  if (!expandItems.length) return;
 
-	expandItems.forEach((item) => {
-		item.addEventListener('click', (e) => {
-			if (e.target instanceof Element) {
-				const button = e.target.closest('.expand-btn');
-				if (button && !isModalOpen) {
-					const listItem = button.closest('li');
-					if (listItem) {
-						const img = listItem.querySelector('img');
-						if (img) {
-							const imgSrc = img.getAttribute('src');
-							const imgAlt = img.getAttribute('alt');
+  expandItems.forEach((item) => {
+    item.addEventListener('click', (e) => {
+      if (e.target instanceof Element) {
+        const button = e.target.closest('.expand-btn');
+        if (button && !isModalOpen) {
+          const listItem = button.closest('li');
+          if (listItem) {
 
-							if (item.classList.contains('js-em-l')) {
-								modalContainer.innerHTML = `
-								<div id="image-modal-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#000]/[0.48] backdrop-blur-md">
-									<div class="relative px-[56px] pt-[56px] pb-[64px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-white rounded-lg sm:rounded-none shadow-lg" tabindex="-1">
-										<img src="${imgSrc}" alt="${imgAlt}" class="w-full object-contain max-w-[960px]" />
-										<button id="close-modal-btn" class="absolute bottom-[28px] sm:bottom-[12px] left-1/2 -translate-x-1/2 leading-none bg-[#FFF] rounded-md text-[14px] sm:text-[10px] font-bold text-[#0079C9] opacity-hover duration">
-										閉じる &times;
-										</button>
-									</div>
-								</div>
-							`;
-							} else {
-								modalContainer.innerHTML = `
-								<div id="image-modal-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#000]/[0.48] backdrop-blur-md">
-									<div class="relative p-[48px] sm:p-[24px] bg-white bg-[url('/img/focusRectangle.svg')] bg-center bg-contain rounded-lg shadow-lg" tabindex="-1">
-										<div class="w-[240px] sm:w-[120px]">
-											<img src="${imgSrc}" alt="${imgAlt}" class="max-w-full object-contain" />
-										</div>
-									</div>
-									<button id="close-modal-btn" class="mt-[32px] px-[24px] sm:px-[16px] pt-[12px] sm:pt-[10px] pb-[14px] sm:pb-[12px] leading-none bg-[#FFF] rounded-md text-[12px] sm:text-[10px] font-bold text-[#0079C9] opacity-hover duration">
-										<span class="inline-flex items-center gap-[8px] sm:gap-[4px]">
-											閉じる <span class="text-[20px] sm:text-[16px]">&times;</span>
-										</span>
-									</button>
-								</div>
-							`;
-							}
+            const expandImgElement = listItem.querySelector('.expand-img');
 
-							const closeModalBtn = document.getElementById('close-modal-btn');
-							const modalOverlay = document.getElementById('image-modal-overlay');
+            if (expandImgElement) {
 
-							if (closeModalBtn) {
-								closeModalBtn.addEventListener('click', closeModal);
-							}
-							if (modalOverlay) {
-								modalOverlay.addEventListener('click', (e) => {
-									if (e.target === modalOverlay) {
-										closeModal();
-									}
-								});
-							}
-							document.addEventListener('keydown', handleEscape);
-							isModalOpen = true;
-							document.body.classList.add('modal-open');
-						}
-					}
-				}
-			}
-		});
-	});
+              const img = expandImgElement.tagName === 'IMG' ? expandImgElement : expandImgElement.querySelector('img');
+              if (!img) return;
+
+              const imgSrc = img.getAttribute('src');
+              const imgAlt = img.getAttribute('alt');
+
+             const inlineStyle = expandImgElement.getAttribute('style') || '';
+
+              if (item.classList.contains('js-em-l')) {
+                modalContainer.innerHTML = `
+                <div id="image-modal-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#000]/[0.48] backdrop-blur-md">
+                  <div class="max-w-[64vw] sm:max-w-full relative px-[56px] pt-[56px] pb-[64px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-white rounded-lg sm:rounded-none shadow-lg" tabindex="-1">
+                    <div class="w-full object-contain" style="${inlineStyle}">
+                      <img src="${imgSrc}" alt="${imgAlt}" class="w-full object-contain" />
+                    </div>
+                    <button id="close-modal-btn" class="absolute bottom-[28px] sm:bottom-[12px] left-1/2 -translate-x-1/2 leading-none bg-[#FFF] rounded-md text-[14px] sm:text-[10px] font-bold text-[#0079C9] opacity-hover duration">
+                    閉じる &times;
+                    </button>
+                  </div>
+                </div>
+              `;
+              } else {
+                modalContainer.innerHTML = `
+                <div id="image-modal-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#000]/[0.48] backdrop-blur-md">
+                  <div class="relative p-[48px] sm:p-[24px] bg-white bg-[url('/img/focusRectangle.svg')] bg-center bg-contain rounded-lg shadow-lg" tabindex="-1">
+                    <div class="w-[240px] sm:w-[120px] ${imgMaxWClass}">
+                      <img src="${imgSrc}" alt="${imgAlt}" class="max-w-full object-contain" />
+                    </div>
+                  </div>
+                  <button id="close-modal-btn" class="mt-[32px] px-[24px] sm:px-[16px] pt-[12px] sm:pt-[10px] pb-[14px] sm:pb-[12px] leading-none bg-[#FFF] rounded-md text-[12px] sm:text-[10px] font-bold text-[#0079C9] opacity-hover duration">
+                    <span class="inline-flex items-center gap-[8px] sm:gap-[4px]">
+                      閉じる <span class="text-[20px] sm:text-[16px]">&times;</span>
+                    </span>
+                  </button>
+                </div>
+              `;
+              }
+
+              const closeModalBtn = document.getElementById('close-modal-btn');
+              const modalOverlay = document.getElementById('image-modal-overlay');
+
+              if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', closeModal);
+              }
+              if (modalOverlay) {
+                modalOverlay.addEventListener('click', (e) => {
+                  if (e.target === modalOverlay) {
+                    closeModal();
+                  }
+                });
+              }
+              document.addEventListener('keydown', handleEscape);
+              isModalOpen = true;
+              document.body.classList.add('modal-open');
+            }
+          }
+        }
+      }
+    });
+  });
 };
 
 const setupScrollIndicator = () => {

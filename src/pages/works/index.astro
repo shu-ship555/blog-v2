@@ -137,7 +137,7 @@ const illustrations = illustRes.contents;
 				images.map((image) => (
 					<li class="relative w-[calc(1184px/3_-_32px)] sm:w-full">
 						<div class="w-full aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-[#fafafa] flex items-center justify-center max-w-[${image.sizeHorizontal}px]">
-							<div class={`max-w-[${image.sizeHorizontal}px]`}>
+							<div style={`max-width: ${image.sizeHorizontal}px;`}>
 								<img src={image.image.url} alt={image.title} class="w-full" />
 							</div>
 						</div>
