@@ -1,135 +1,120 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import Pager from "../../../components/organisms/pager.astro";
-import {
-  getCategoryList,
-  getAllContents,
-} from "../../../libs/microcms";
+import { getCategoryList, getAllContents } from "../../../libs/microcms";
 import type { Blog, Category, Tag } from "../../../libs/microcms.ts";
 import type { GetStaticPathsOptions } from "astro";
 import Card from "../../../components/molecules/card.astro";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-  const categoryResponse = await getCategoryList();
-  const categories = categoryResponse.contents;
-  const allBlogsResponse = await getAllContents<Blog>("blogs");
-  const allBlogs = allBlogsResponse.contents;
+	const categoryResponse = await getCategoryList();
+	const categories = categoryResponse.contents;
+	const allBlogsResponse = await getAllContents<Blog>("blogs");
+	const allBlogs = allBlogsResponse.contents;
 
-  return categories.flatMap(category => {
-    const blogsInThisCategory = allBlogs.filter(blog => blog.category.id === category.id);
+	return categories.flatMap((category) => {
+		const blogsInThisCategory = allBlogs.filter((blog) => blog.category.id === category.id);
 
-    return paginate(blogsInThisCategory, {
-      pageSize: 10,
-      params: { slug: category.slug },
-      props: {
-        category: category,
-        allBlogs: allBlogs,
-        totalCount: blogsInThisCategory.length,
-      },
-    });
-  });
+		return paginate(blogsInThisCategory, {
+			pageSize: 10,
+			params: { slug: category.slug },
+			props: {
+				category: category,
+				allBlogs: allBlogs,
+				totalCount: blogsInThisCategory.length,
+			},
+		});
+	});
 }
 
 const { page, category, allBlogs, totalCount } = Astro.props as {
-  page: { data: Blog[] };
-  category: Category;
-  allBlogs: Blog[];
-  totalCount: number;
+	page: { data: Blog[] };
+	category: Category;
+	allBlogs: Blog[];
+	totalCount: number;
 };
 
 const blogs = page.data as Blog[];
 
 const [allCategoriesResponse, allTagsResponse] = await Promise.all([
-  getAllContents<Category>("categories"),
-  getAllContents<Tag>("tags"),
+	getAllContents<Category>("categories"),
+	getAllContents<Tag>("tags"),
 ]);
 const categories = allCategoriesResponse.contents;
 const tags = allTagsResponse.contents;
 
 const categoryCounts = categories.map((cat) => {
-  const count = allBlogs.filter((blog) => blog.category.id === cat.id).length;
-  return {
-    ...cat,
-    count,
-  };
+	const count = allBlogs.filter((blog) => blog.category.id === cat.id).length;
+	return {
+		...cat,
+		count,
+	};
 });
 
 const tagCounts = tags.map((tag) => {
-  const count = allBlogs.filter((blog) =>
-    blog.tag.some((blogTag) => blogTag.id === tag.id),
-  ).length;
-  return {
-    ...tag,
-    count,
-  };
+	const count = allBlogs.filter((blog) => blog.tag.some((blogTag) => blogTag.id === tag.id)).length;
+	return {
+		...tag,
+		count,
+	};
 });
 ---
 
-<Layout title={`${category.name} の記事一覧 | miyata blog`} breadcrumb={true} category={category} >
-  <main
-    class="inner pt-[96px] sm:pt-[48px] pb-[120px] gap-[48px] sm:pb-[64px]"
-  >
-    <h1 class="text-[32px] sm:text-[24px] leading-none tracking-[0.04em] font-black">
-      Category <span class="bracket sm:hidden">{category.name}</span>
-    </h1>
-		<p class="bracket hidden sm:block mt-[8px] text-[16px] leading-none tracking-[0.04em] font-black">{category.name}</p>
-    <div class="flex justify-between sm:flex-col mt-[64px] sm:mt-[32px]">
-      {
-        blogs.length === 0 ? (
-          <p class="text-gray-600">このカテゴリにはまだ記事がありません。</p>
-        ) : (
-				<ul class="flex gap-[32px] flex-wrap sm:gap-[28px]">
-					{
-						blogs.map((blog) => (
+<Layout title={`${category.name} の記事一覧 | miyata blog`} breadcrumb={true} category={category}>
+	<main class="inner pt-[96px] sm:pt-[48px] pb-[120px] gap-[48px] sm:pb-[64px]">
+		<h1 class="text-[32px] sm:text-[24px] leading-none tracking-[0.04em] font-black">
+			Category <span class="font-normal bracket">{category.name}</span>
+		</h1>
+		<div class="flex justify-between sm:flex-col mt-[64px] sm:mt-[32px]">
+			{
+				blogs.length === 0 ? (
+					<p class="text-gray-600">このカテゴリにはまだ記事がありません。</p>
+				) : (
+					<ul class="flex gap-[32px] flex-wrap sm:gap-[28px]">
+						{blogs.map((blog) => (
 							<Card blog={blog} />
-						))
+						))}
+					</ul>
+				)
+			}
+			<div class="shrink-0 max-w-[280px] w-full sm:hidden">
+				<p class="text-[20px] leading-none tracking-[0.06em] font-bold">Category｜カテゴリ</p>
+				<ul class="mt-[24px]">
+					{
+						categoryCounts.length === 0 ? (
+							<li class="text-sm text-muted-foreground">カテゴリがありません</li>
+						) : (
+							categoryCounts.map((cat) => (
+								<li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
+									<a href={`/categories/${cat.slug}`}>
+										{cat.name}
+										<span class="bracket">{cat.count}</span>
+									</a>
+								</li>
+							))
+						)
 					}
 				</ul>
-        )
-      }
-      <div class="shrink-0 max-w-[280px] w-full sm:hidden">
-        <p class="text-[20px] leading-none tracking-[0.06em] font-bold">
-          Category｜カテゴリ
-        </p>
-        <ul class="mt-[24px]">
-          {
-            categoryCounts.length === 0 ? (
-              <li class="text-sm text-muted-foreground">
-                カテゴリがありません
-              </li>
-            ) : (
-              categoryCounts.map((cat) => (
-                <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
-                  <a href={`/categories/${cat.slug}`}>
-                    {cat.name}
-                    <span class="bracket">{cat.count}</span>
-                  </a>
-                </li>
-              ))
-            )
-          }
-        </ul>
-        <p class="text-[20px] leading-none tracking-[0.06em] font-bold mt-[48px]">
-          Tag｜タグ
-        </p>
-        <ul class="mt-[24px] flex gap-[12px] flex-wrap">
-          {
-            tagCounts.length === 0 ? (
-              <li class="text-sm text-muted-foreground">タグがありません</li>
-            ) : (
-              tagCounts.map((t) => (
-                <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration">
-                  <a href={`/tags/${t.slug}`}>
-                    <span class="hashtag"></span>{t.name}
-                    <span class="bracket">{t.count}</span>
-                  </a>
-                </li>
-              ))
-            )
-          }
-        </ul>
-      </div>
-    </div>
-    {blogs.length > 0 && <Pager page={page} totalCount={totalCount} catSlug={category.slug} />}
-  </main>
+				<p class="text-[20px] leading-none tracking-[0.06em] font-bold mt-[48px]">Tag｜タグ</p>
+				<ul class="mt-[24px] flex gap-[12px] flex-wrap">
+					{
+						tagCounts.length === 0 ? (
+							<li class="text-sm text-muted-foreground">タグがありません</li>
+						) : (
+							tagCounts.map((t) => (
+								<li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration">
+									<a href={`/tags/${t.slug}`}>
+										<span class="hashtag" />
+										{t.name}
+										<span class="bracket">{t.count}</span>
+									</a>
+								</li>
+							))
+						)
+					}
+				</ul>
+			</div>
+		</div>
+		{blogs.length > 0 && <Pager page={page} totalCount={totalCount} catSlug={category.slug} />}
+	</main>
 </Layout>
