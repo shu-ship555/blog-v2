@@ -53,7 +53,7 @@ const expandItems = document.querySelectorAll('.js-expand-modal');
     item.addEventListener('click', (e) => {
       if (e.target instanceof Element) {
         const button = e.target.closest('.expand-btn');
-        if (button && !isModalOpen) {
+        if (button && !isModalOpen && modalContainer) {
           const listItem = button.closest('li');
           if (listItem) {
 
@@ -61,7 +61,7 @@ const expandItems = document.querySelectorAll('.js-expand-modal');
 
             if (expandImgElement) {
 
-              const img = expandImgElement.tagName === 'IMG' ? expandImgElement : expandImgElement.querySelector('img');
+              const img = expandImgElement.querySelector('img');
               if (!img) return;
 
               const imgSrc = img.getAttribute('src');
@@ -72,11 +72,11 @@ const expandItems = document.querySelectorAll('.js-expand-modal');
               if (item.classList.contains('js-em-l')) {
                 modalContainer.innerHTML = `
                 <div id="image-modal-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#000]/[0.48] backdrop-blur-md">
-                  <div class="max-w-[64vw] sm:max-w-full relative px-[56px] pt-[56px] pb-[64px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-white rounded-lg sm:rounded-none shadow-lg" tabindex="-1">
+                  <div class="rounded sm:rounded-none max-w-[64vw] sm:max-w-full relative px-[48px] pt-[48px] pb-[56px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-white shadow-lg" tabindex="-1">
                     <div class="w-full object-contain" style="${inlineStyle}">
                       <img src="${imgSrc}" alt="${imgAlt}" class="w-full object-contain" />
                     </div>
-                    <button id="close-modal-btn" class="absolute bottom-[28px] sm:bottom-[12px] left-1/2 -translate-x-1/2 leading-none bg-[#FFF] rounded-md text-[14px] sm:text-[10px] font-bold text-[#0079C9] opacity-hover duration">
+                    <button id="close-modal-btn" class="absolute bottom-[24px] sm:bottom-[12px] left-1/2 -translate-x-1/2 leading-none bg-[#FFF] rounded-md text-[12px] sm:text-[10px] font-bold text-[#0079C9] opacity-hover duration">
                     閉じる &times;
                     </button>
                   </div>
@@ -85,12 +85,12 @@ const expandItems = document.querySelectorAll('.js-expand-modal');
               } else {
                 modalContainer.innerHTML = `
                 <div id="image-modal-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#000]/[0.48] backdrop-blur-md">
-                  <div class="relative p-[48px] sm:p-[24px] bg-white bg-[url('/img/focusRectangle.svg')] bg-center bg-contain rounded-lg shadow-lg" tabindex="-1">
-                    <div class="w-[240px] sm:w-[120px] ${imgMaxWClass}">
+                  <div class="relative rounded p-[48px] sm:p-[24px] bg-white bg-[url('/img/focusRectangle.svg')] bg-center bg-contain" tabindex="-1">
+                    <div class="w-[240px] sm:w-[120px]" style="${inlineStyle}">
                       <img src="${imgSrc}" alt="${imgAlt}" class="max-w-full object-contain" />
                     </div>
                   </div>
-                  <button id="close-modal-btn" class="mt-[32px] px-[24px] sm:px-[16px] pt-[12px] sm:pt-[10px] pb-[14px] sm:pb-[12px] leading-none bg-[#FFF] rounded-md text-[12px] sm:text-[10px] font-bold text-[#0079C9] opacity-hover duration">
+                  <button id="close-modal-btn" class="mt-[32px] px-[16px] sm:px-[12px] pt-[8px] sm:pt-[6px] pb-[10px] sm:pb-[8px] rounded-sm leading-none bg-[#FFF] text-[12px] sm:text-[10px] font-bold text-[#0079C9] opacity-hover duration">
                     <span class="inline-flex items-center gap-[8px] sm:gap-[4px]">
                       閉じる <span class="text-[20px] sm:text-[16px]">&times;</span>
                     </span>
