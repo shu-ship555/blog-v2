@@ -14,6 +14,8 @@ type Tag = {
 type Image = {
 	title: string;
 	image: { url: string };
+	sizeHorizontal: number;
+	sizeVertical: number;
 	isPrivate: boolean;
 	category: Category;
 	tag: Tag[];
@@ -31,9 +33,9 @@ const BASE_PATH = "/works/graphicdesign";
 
 <li class="w-[calc(1184px/3_-_32px)] sm:w-full relative">
 	<div
-		class="relative js-expand-modal js-em-l aspect-square px-[32px] pt-[32px] pb-[36px] bg-[#fafafa] flex items-center justify-center"
+		class="relative js-expand-modal js-em-l aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-[#fafafa] flex items-center justify-center"
 	>
-		<div class="expand-img ei-s duration">
+		<div class={`expand-img ei-s duration max-w-[${image.sizeHorizontal}px]`}>
 			<img src={image.image.url} alt={image.title} class="w-full" />
 		</div>
 		<button

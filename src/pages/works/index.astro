@@ -14,6 +14,8 @@ type Icon = {
 type Image = {
 	id: string;
 	title: string;
+	sizeHorizontal: number;
+	sizeVertical: number;
 	image: { url: string; width: number; height: number };
 	isPrivate: boolean;
 };
@@ -134,8 +136,10 @@ const illustrations = illustRes.contents;
 			{
 				images.map((image) => (
 					<li class="relative w-[calc(1184px/3_-_32px)] sm:w-full">
-						<div class="w-[calc(1184px/3_-_32px)] sm:w-full aspect-square px-[32px] pt-[32px] pb-[36px]  sm:px-[24px] sm:pt-[24px] sm:pb-[28px] bg-[#fafafa] flex items-center justify-center">
-							<img src={image.image.url} alt={image.title} class="w-full" />
+						<div class="w-full aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-[#fafafa] flex items-center justify-center max-w-[${image.sizeHorizontal}px]">
+							<div class={`max-w-[${image.sizeHorizontal}px]`}>
+								<img src={image.image.url} alt={image.title} class="w-full" />
+							</div>
 						</div>
 						<p class="text-[16px] sm:text-[14px] mt-[16px] sm:mt-[12px] leading-[1.48] tracking-[0.06em] font-bold">
 							{image.title}
@@ -179,8 +183,10 @@ const illustrations = illustRes.contents;
 			{
 				illustrations.map((illust) => (
 					<li class="relative w-[calc(1184px/3_-_32px)] sm:w-full">
-						<div class="aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[24px] sm:pt-[24px] sm:pb-[28px] bg-[#fafafa] flex items-center justify-center">
-							<img src={illust.image.url} alt={illust.title} class="w-full" />
+						<div class="aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-[#fafafa] flex items-center justify-center">
+							<div class={`max-w-[${illust.sizeHorizontal}px]`}>
+								<img src={illust.image.url} alt={illust.title} class="w-full" />
+							</div>
 						</div>
 						<p class="text-[16px] sm:text-[14px] mt-[16px] sm:mt-[12px] leading-[1.48] tracking-[0.06em] font-bold">
 							{illust.title}
