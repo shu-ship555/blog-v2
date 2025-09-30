@@ -9,6 +9,12 @@ export interface Props {
 
 const { uniqueCategories, uniqueSizes, uniqueTags } = Astro.props;
 
+const sortedUniqueSizes = Astro.props.uniqueSizes.sort((a, b) => {
+	const numA = parseFloat(a.replace(/[^0-9.]/g, "")) || 0;
+	const numB = parseFloat(b.replace(/[^0-9.]/g, "")) || 0;
+	return numB - numA;
+});
+
 const BASE_PATH = "/works/graphicdesign";
 ---
 

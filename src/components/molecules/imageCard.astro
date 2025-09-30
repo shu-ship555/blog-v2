@@ -67,13 +67,30 @@ const BASE_PATH = "/works/graphicdesign";
 
 	<div class="text-[12px] sm:text-[10px] mt-[4px] leading-[1.48] tracking-[0.06em] text-[#666]">
 		{
+			// 既存のタグの表示
 			image.tag.map((t) => (
 				<a href={`${BASE_PATH}/tag/${t.slug}`} class="opacity-hover duration">
-					<span class="hashtag mr-[8px]">
+					<span class="hashtag mr-[6px] sm:mr-[4px]">
 						<span>{t.title}</span>
 					</span>
 				</a>
 			))
+		}
+	</div>
+	<div class="text-[13px] sm:text-[11px] mt-[4px] leading-[1.48] tracking-[0.06em] text-[#666]">
+		{
+			(() => {
+				const sizeDisplay = `${image.sizeHorizontal}×${image.sizeVertical}`;
+				const sizeSlug = sizeDisplay.replace("×", "x");
+
+				return (
+					<a href={`${BASE_PATH}/size/${sizeSlug}`} class="opacity-hover duration">
+						<span class="mr-[6px] sm:mr-[4px]">
+							<span>{sizeDisplay}</span>
+						</span>
+					</a>
+				);
+			})()
 		}
 	</div>
 
