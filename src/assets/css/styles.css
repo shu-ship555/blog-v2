@@ -276,6 +276,9 @@ post
 .post th {
 	@apply bg-[#eee];
 }
+.post td {
+	@apply bg-[#fafafa];
+}
 .post th, .post td{
 	@apply px-[24px] sm:px-[12px] pt-[24px] sm:pt-[12px] pb-[28px] sm:pb-[14px] sm:min-w-[160px] sm:w-full;
 }
