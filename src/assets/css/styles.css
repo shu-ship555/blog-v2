@@ -223,7 +223,7 @@ swiper
 }
 
 .swiper.swiper-container .swiper-button-next,.swiper.swiper-container .swiper-button-prev{
-	@apply aspect-square w-[24px] h-[24px] p-[8px] bg-[#0079C9] bottom-[6px] top-auto;
+	@apply aspect-square w-[20px] h-[20px] p-[6px] bg-[#0079C9] bottom-1/2 top-1/2;
 }
 
 .swiper.swiper-container .swiper-button-next{
