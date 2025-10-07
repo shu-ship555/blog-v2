@@ -16,15 +16,47 @@ const sortedUniqueSizes = Astro.props.uniqueSizes.sort((a, b) => {
 });
 
 const BASE_PATH = "/works/graphicdesign";
+
+const currentPath = Astro.url.pathname;
+const categoryMatch = currentPath.match(new RegExp(`${BASE_PATH}/category/([^/]+)`));
+const currentCategorySlug = categoryMatch ? categoryMatch[1] : null;
+
+let currentCategoryTitle: string;
+if (currentCategorySlug) {
+	const currentCategory = uniqueCategories.find((category) => category.slug === currentCategorySlug);
+	currentCategoryTitle = currentCategory ? `${currentCategory.enTitle}｜${currentCategory.title}` : "ALL";
+} else {
+	currentCategoryTitle = "All";
+}
+
+const sizeMatch = currentPath.match(new RegExp(`${BASE_PATH}/size/([^/]+)`));
+const currentSizeSlug = sizeMatch ? sizeMatch[1] : null;
+
+let currentSizeTitle: string = "ALL";
+if (currentSizeSlug) {
+	const sizeTitle = currentSizeSlug.replace("x", "×");
+	currentSizeTitle = sizeTitle;
+}
+
+const tagMatch = currentPath.match(new RegExp(`${BASE_PATH}/tag/([^/]+)`));
+const currentTagSlug = tagMatch ? tagMatch[1] : null;
+
+let currentTagTitle: string = "ALL";
+if (currentTagSlug) {
+	const currentTag = uniqueTags.find((tag) => tag.slug === currentTagSlug);
+	currentTagTitle = currentTag ? currentTag.title : "ALL";
+}
 ---
 
 <div
 	class="flex items-center justify-between sm:flex-col-reverse sm:justify-start sm:items-start sm:gap-[16px] mt-[48px] sm:mt-[24px]"
 >
-	<div class="flex flex-wrap gap-[24px] sm:gap-[16px]">
+	<div class="flex flex-wrap gap-[24px] sm:gap-x-[16px] sm:gap-y-[8px]">
 		<div class="relative js-filter">
 			<div class="cursor-pointer js-filter-btn">
-				<p class="inline-block text-[16px] sm:text-[14px] leading-none tracking-[0.06em] font-bold">CATEGORY</p>
+				<p class="inline-block text-[16px] sm:text-[14px] leading-none tracking-[0.06em] font-bold">
+					CATEGORY <span class="font-normal bracket">{currentCategoryTitle}</span>
+				</p>
 				<Icon
 					filename="icon_arrow_right"
 					color="#333"
@@ -32,14 +64,14 @@ const BASE_PATH = "/works/graphicdesign";
 				/>
 			</div>
 			<ul
-				class="js-filter-menu z-10 bg-[#FFF]/[0.16] backdrop-blur-lg px-[20px] sm:px-[16px] py-[12px] sm:py-[8px] absolute top-[24px] sm:top-[20px] left-0 text-nowrap text-[14px] sm:text-[12px] leading-none tracking-[0.06em] font-normal hidden flex-col"
+				class="js-filter-menu z-10 bg-[#FFF]/[0.16] backdrop-blur-lg px-[20px] sm:px-[16px] py-[12px] sm:py-[8px] absolute top-[28px] sm:top-[24px] left-0 text-nowrap text-[14px] sm:text-[12px] leading-none tracking-[0.06em] font-normal hidden flex-col"
 			>
-				<li class="opacity-hover duration py-[12px] sm:py-[8px] cursor-pointer">
-					<a href={BASE_PATH} class="">All｜すべて</a>
+				<li class="opacity-hover duration my-[12px] sm:my-[8px] cursor-pointer">
+					<a href={BASE_PATH} class="">ALL</a>
 				</li>
 				{
 					uniqueCategories.map((category) => (
-						<li class="opacity-hover duration py-[12px] sm:py-[8px] cursor-pointer">
+						<li class="opacity-hover duration my-[12px] sm:my-[8px] cursor-pointer">
 							<a href={`${BASE_PATH}/category/${category.slug}`} class="">
 								{category.enTitle}｜{category.title}
 							</a>
@@ -51,7 +83,9 @@ const BASE_PATH = "/works/graphicdesign";
 
 		<div class="relative js-filter">
 			<div class="cursor-pointer js-filter-btn">
-				<p class="inline-block text-[16px] sm:text-[14px] leading-none tracking-[0.06em] font-bold">SIZE</p>
+				<p class="inline-block text-[16px] sm:text-[14px] leading-none tracking-[0.06em] font-bold">
+					SIZE <span class="font-normal bracket">{currentSizeTitle}</span>
+				</p>
 				<Icon
 					filename="icon_arrow_right"
 					color="#333"
@@ -59,14 +93,14 @@ const BASE_PATH = "/works/graphicdesign";
 				/>
 			</div>
 			<ul
-				class="js-filter-menu z-10 bg-[#FFF]/[0.16] backdrop-blur-lg px-[20px] sm:px-[16px] py-[12px] sm:py-[8px] absolute top-[24px] sm:top-[20px] left-0 text-nowrap text-[14px] sm:text-[12px] leading-none tracking-[0.06em] font-normal hidden flex-col"
+				class="js-filter-menu z-10 bg-[#FFF]/[0.16] backdrop-blur-lg px-[20px] sm:px-[16px] py-[12px] sm:py-[8px] absolute top-[28px] sm:top-[24px] left-0 text-nowrap text-[14px] sm:text-[12px] leading-none tracking-[0.06em] font-normal hidden flex-col"
 			>
-				<li class="opacity-hover duration py-[12px] sm:py-[8px] cursor-pointer">
-					<a href={BASE_PATH} class="">All｜すべて</a>
+				<li class="opacity-hover duration my-[12px] sm:my-[8px] cursor-pointer">
+					<a href={BASE_PATH} class="">ALL</a>
 				</li>
 				{
 					uniqueSizes.map((size) => (
-						<li class="opacity-hover duration py-[12px] sm:py-[8px] cursor-pointer">
+						<li class="opacity-hover duration my-[12px] sm:my-[8px]  cursor-pointer">
 							<a href={`${BASE_PATH}/size/${size.replace("×", "x")}`} class="">
 								{size}
 							</a>
@@ -96,7 +130,11 @@ const BASE_PATH = "/works/graphicdesign";
 </div>
 <div class="relative js-filter mt-[16px] sm:mt-[8px]">
 	<div class="inline-block cursor-pointer js-filter-btn">
-		<p class="inline-block text-[16px] sm:text-[14px] leading-none tracking-[0.06em] font-bold">TAG</p>
+		<p class="inline-block text-[16px] sm:text-[14px] leading-none tracking-[0.06em] font-bold">
+			TAG <span class="font-normal bracket"
+				>{currentTagTitle !== "ALL" ? <span class="hashtag">{currentTagTitle}</span> : <>{currentTagTitle}</>}</span
+			>
+		</p>
 		<Icon
 			filename="icon_arrow_right"
 			color="#333"
@@ -104,10 +142,10 @@ const BASE_PATH = "/works/graphicdesign";
 		/>
 	</div>
 	<ul
-		class="js-filter-menu z-10 bg-[#FFF]/[0.16] backdrop-blur-lg px-[20px] sm:px-[16px] pt-[20px] pb-[24px] sm:pt-[16px] sm:pb-[20px] absolute w-full top-[24px] sm:top-[20px] left-0 text-nowrap text-[14px] sm:text-[12px] leading-none tracking-[0.06em] font-normal hidden flex-col"
+		class="js-filter-menu z-10 bg-[#FFF]/[0.16] backdrop-blur-lg px-[20px] sm:px-[16px] pt-[20px] pb-[24px] sm:pt-[16px] sm:pb-[20px] absolute w-full top-[28px] sm:top-[24px] left-0 text-nowrap text-[14px] sm:text-[12px] leading-none tracking-[0.06em] font-normal hidden flex-col"
 	>
 		<li>
-			<a href={BASE_PATH} class="inline-block cursor-pointer opacity-hover duration">All｜すべて</a>
+			<a href={BASE_PATH} class="inline-block cursor-pointer opacity-hover duration">ALL</a>
 		</li>
 		<li class="flex flex-wrap gap-[16px] sm:gap-[12px] mt-[16px] sm:mt-[12px]">
 			{

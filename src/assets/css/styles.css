@@ -138,7 +138,7 @@ body {
 アイコン拡大ボタン
  ======================= */
 li:has(.expand-btn:hover) .expand-img {
-	@apply scale-[108%] sm:scale-100;
+	@apply scale-[112%] sm:scale-100;
 }
 li:has(.expand-btn:hover) .expand-img.ei-s {
 	@apply scale-[104%] sm:scale-100;
@@ -192,6 +192,50 @@ toc-sscrollindicator
 #scrollIndicator.is-scrolling {
   @apply opacity-0 invisible;
   animation: none;
+}
+
+/* =======================
+swiper
+ ======================= */
+ .swiper.swiper-container{
+	@apply  relative aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-[#fafafa] flex items-center justify-center;
+}
+
+ .swiper.swiper-container .swiper-slide{
+	@apply flex justify-center items-center mx-auto opacity-0 duration;
+}
+
+ .swiper.swiper-container .swiper-slide-active{
+	@apply flex justify-center items-center mx-auto opacity-100 duration;
+}
+
+ .swiper.swiper-container .swiper-pagination{
+	@apply top-0 flex justify-center items-start w-full h-[4px];
+}
+
+ .swiper.swiper-container .swiper-pagination-bullet{
+	@apply m-0 w-full h-full rounded-none bg-[#ccc];
+	--swiper-pagination-bullet-horizontal-gap: 0px;
+}
+
+ .swiper.swiper-container .swiper-pagination-bullet.swiper-pagination-bullet-active{
+	@apply m-0 bg-[#0079C9];
+}
+
+.swiper.swiper-container .swiper-button-next,.swiper.swiper-container .swiper-button-prev{
+	@apply aspect-square w-[24px] h-[24px] p-[8px] bg-[#0079C9] rounded-sm bottom-0 top-auto;
+}
+
+.swiper.swiper-container .swiper-button-next{
+	@apply right-0;
+}
+
+.swiper.swiper-container .swiper-button-prev{
+	@apply left-0;
+}
+
+.swiper.swiper-container .swiper-button-color {
+	--swiper-navigation-color: #FFF;
 }
 
 /* =======================

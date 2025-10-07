@@ -151,7 +151,9 @@ const currentClasses = scaleClasses[scale];
 					<>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-normal text-[#888] tracking-[0.04em] leading-[1.48]"]}>
-							<span class="font-normal bracket">{imageCategory.enTitle}</span>
+							<span class="font-normal bracket">
+								{imageCategory.enTitle}｜{imageCategory.title}
+							</span>
 						</li>
 					</>
 				)

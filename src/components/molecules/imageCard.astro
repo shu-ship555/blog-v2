@@ -1,5 +1,17 @@
 ---
 import Icon from "../atoms/icon.astro";
+// Swiperのインポート（CSS）
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+// Swiper本体のインポート（JS）
+// ※このimportは、Astroのビルド時にバンドルに含まれますが、
+// クライアント側スクリプト内での参照とは直接関係しないため、下記スクリプトで再インポートします。
+
+// ここで定義した型は、Astroコンポーネントのフロントマターでのみ有効です。
+type ImageItem = {
+	url: string;
+};
 
 type Category = {
 	slug: string;
@@ -13,7 +25,7 @@ type Tag = {
 
 type Image = {
 	title: string;
-	image: { url: string };
+	images: ImageItem[];
 	sizeHorizontal: number;
 	sizeVertical: number;
 	isPrivate: boolean;
@@ -21,7 +33,6 @@ type Image = {
 	tag: Tag[];
 };
 
-// Props の定義
 export interface Props {
 	image: Image;
 }
@@ -29,26 +40,42 @@ export interface Props {
 const { image } = Astro.props;
 
 const BASE_PATH = "/works/graphicdesign";
+
+const swiperId = `swiper-${Math.random().toString(36).substring(2, 9)}`;
 ---
 
 <li class="w-[calc(1184px/3_-_32px)] sm:w-full relative">
-	<div
-		class="relative js-expand-modal js-em-l aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-[#fafafa] flex items-center justify-center"
-	>
-		<div class="expand-img ei-s duration" style={`max-width: ${image.sizeHorizontal}px;`}>
-			<img src={image.image.url} alt={image.title} class="w-full" />
-		</div>
-		<button
-			class="expand-btn absolute bottom-[12px] left-1/2 -translate-x-1/2 bg-[#F8F8F8] text-[12px] sm:text-[10px] font-bold leading-none tracking-[0.04em] text-[#0079C9] opacity-hover duration"
-		>
-			拡大
-			<Icon
-				filename="icon_fullscreen"
-				color="#0079C9"
-				customClass="w-[14px] ml-[4px] sm:w-[12px] align-text-top sm:ml-[2px]"
-			/>
-		</button>
-	</div>
+	{
+		image.images && image.images.length > 0 ? (
+			<div class="swiper swiper-container js-expand-modal js-em-l " id={swiperId}>
+				<div class="swiper-wrapper">
+					{image.images.map((img, index) => (
+						<div class="swiper-slide expand-img ei-s" style={`max-width: ${image.sizeHorizontal}px;`}>
+							<img src={img.url} alt={`${image.title} - ${index + 1}`} class="w-full" loading="lazy" />
+						</div>
+					))}
+				</div>
+
+				{image.images.length > 1 && (
+					<>
+						<div class="swiper-button-prev swiper-button-color opacity-hover duration" />
+						<div class="swiper-button-next swiper-button-color opacity-hover duration" />
+						<div class="swiper-pagination" />
+					</>
+				)}
+				<button class="expand-btn absolute bottom-[12px] left-1/2 -translate-x-1/2 bg-[#F8F8F8] text-[12px] sm:text-[10px] font-bold leading-none tracking-[0.04em] text-[#0079C9] opacity-hover duration">
+					拡大
+					<Icon
+						filename="icon_fullscreen"
+						color="#0079C9"
+						customClass="w-[14px] ml-[4px] sm:w-[12px] align-text-top sm:ml-[2px]"
+					/>
+				</button>
+			</div>
+		) : (
+			<p>画像データがありません。</p>
+		)
+	}
 
 	<div
 		class="bg-[#eee] inline-block mt-[16px] sm:mt-[12px] font-bold text-[12px] leading-[1] tracking-[0.06em] sm:text-[10px] opacity-hover duration rounded-full"

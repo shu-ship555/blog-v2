@@ -16,7 +16,7 @@ type Image = {
 	title: string;
 	sizeHorizontal: number;
 	sizeVertical: number;
-	image: { url: string; width: number; height: number };
+	images: { url: string; width: number; height: number }[];
 	isPrivate: boolean;
 };
 
@@ -138,12 +138,19 @@ const illustrations = illustRes.contents;
 					<li class="relative w-[calc(1184px/3_-_32px)] sm:w-full">
 						<div class="w-full aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-[#fafafa] flex items-center justify-center max-w-[${image.sizeHorizontal}px]">
 							<div style={`max-width: ${image.sizeHorizontal}px;`}>
-								<img src={image.image.url} alt={image.title} class="w-full" />
+								<img src={image.images[0]?.url} alt={image.title} class="w-full" />
 							</div>
 						</div>
-						<p class="text-[16px] sm:text-[14px] mt-[16px] sm:mt-[12px] leading-[1.48] tracking-[0.06em] font-bold">
-							{image.title}
-						</p>
+						<div class="flex items-start gap-[4px] sm:gap-[2px] mt-[16px] sm:mt-[12px]">
+							{image.images && image.images.length > 1 && (
+								<Icon
+									filename="icon_stack"
+									color="#333"
+									customClass="animation-icon p-[2px] aspect-square w-[20px] sm:w-[18px] shrink-0"
+								/>
+							)}
+							<p class="text-[16px] sm:text-[14px] leading-[1.48] tracking-[0.06em] font-bold">{image.title}</p>
+						</div>
 						{image.isPrivate === true && (
 							<div class="absolute top-0 left-0 text-[10px] leading-none tracking-[0.04em] px-[12px] pt-[6px] pb-[8px] font-bold bg-[#eee]">
 								自主制作
@@ -185,12 +192,19 @@ const illustrations = illustRes.contents;
 					<li class="relative w-[calc(1184px/3_-_32px)] sm:w-full">
 						<div class="aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-[#fafafa] flex items-center justify-center">
 							<div class={`max-w-[${illust.sizeHorizontal}px]`}>
-								<img src={illust.image.url} alt={illust.title} class="w-full" />
+								<img src={illust.images[0]?.url} alt={illust.title} class="w-full" />
 							</div>
 						</div>
-						<p class="text-[16px] sm:text-[14px] mt-[16px] sm:mt-[12px] leading-[1.48] tracking-[0.06em] font-bold">
-							{illust.title}
-						</p>
+						<div class="flex items-start gap-[4px] sm:gap-[2px] mt-[16px] sm:mt-[12px]">
+							{illust.images && illust.images.length > 1 && (
+								<Icon
+									filename="icon_stack"
+									color="#333"
+									customClass="animation-icon p-[2px] aspect-square w-[20px] sm:w-[18px] shrink-0"
+								/>
+							)}
+							<p class="text-[16px] sm:text-[14px] leading-[1.48] tracking-[0.06em] font-bold">{illust.title}</p>
+						</div>
 						{illust.isPrivate === true && (
 							<div class="absolute top-0 left-0 text-[10px] leading-none tracking-[0.04em] px-[12px] pt-[6px] pb-[8px] font-bold bg-[#eee]">
 								自主制作

@@ -23,7 +23,7 @@ type Tag = {
 type Image = {
 	id: string;
 	title: string;
-	image: { url: string; width: number; height: number };
+	images: { url: string; width: number; height: number }[];
 	sizeHorizontal: number;
 	sizeVertical: number;
 	isPrivate: boolean;
@@ -101,7 +101,7 @@ const images = page.data;
 	<main class="inner relative pt-[96px] sm:pt-[48px] pb-[120px] sm:pb-[64px]">
 		<h1 class="text-[32px] sm:text-[24px] font-black leading-[1.4] tracking-[0.04em] break-normal">
 			Graphic Design<span class="sm:hidden tracking-[0.08em]">｜グラフィックデザイン</span>
-			<span class="font-normal bracket">{categoryEnTitle}</span>
+			<span class="font-normal bracket">{categoryEnTitle}｜{categoryTitle}</span>
 		</h1>
 		<FilterSection uniqueCategories={uniqueCategories} uniqueSizes={uniqueSizes} uniqueTags={uniqueTags} />
 		<ul class="flex flex-wrap gap-[48px] sm:gap-[32px] mt-[48px] sm:mt-[36px]">

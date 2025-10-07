@@ -1,3 +1,5 @@
+import Swiper from "swiper/bundle";
+
 const setupHamburgerMenu = () => {
 	const openButton = document.querySelector('.js-open');
 	const closeButton = document.querySelector('.js-close');
@@ -28,49 +30,62 @@ const setupHamburgerMenu = () => {
 };
 
 const setupImageModal = () => {
-	const modalContainer = document.createElement('div');
-	document.body.appendChild(modalContainer);
+  const modalContainer = document.createElement('div');
+  document.body.appendChild(modalContainer);
 
-	let isModalOpen = false;
+  let isModalOpen = false;
 
-	const closeModal = () => {
-		modalContainer.innerHTML = '';
-		isModalOpen = false;
-		document.removeEventListener('keydown', handleEscape);
-		document.body.classList.remove('modal-open');
-	};
+  const closeModal = () => {
+    modalContainer.innerHTML = '';
+    isModalOpen = false;
+    document.removeEventListener('keydown', handleEscape);
+    document.body.classList.remove('modal-open');
+  };
 
-	const handleEscape = (e) => {
-		if (e.key === 'Escape') {
-			closeModal();
-		}
-	};
+  const handleEscape = (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  };
 
-const expandItems = document.querySelectorAll('.js-expand-modal');
+  const expandItems = document.querySelectorAll('.js-expand-modal');
   if (!expandItems.length) return;
 
   expandItems.forEach((item) => {
     item.addEventListener('click', (e) => {
       if (e.target instanceof Element) {
+        // 拡大ボタンがクリックされたことを確認
         const button = e.target.closest('.expand-btn');
         if (button && !isModalOpen && modalContainer) {
           const listItem = button.closest('li');
           if (listItem) {
+            let img = listItem.querySelector('.swiper-slide-active img');
+            let inlineStyle = '';
 
-            const expandImgElement = listItem.querySelector('.expand-img');
+            if (!img) {
+              const expandImgElement = listItem.querySelector('.expand-img');
+              if (expandImgElement) {
+                img = expandImgElement.querySelector('img');
+                inlineStyle = expandImgElement.getAttribute('style') || '';
+              }
+            } else {
+                const parentExpandImg = img.closest('.expand-img');
+                if (parentExpandImg) {
+                    inlineStyle = parentExpandImg.getAttribute('style') || '';
+                }
+            }
 
-            if (expandImgElement) {
+						if (inlineStyle) {
+							inlineStyle = inlineStyle.replace(/(^|;|\s)width\s*:\s*[^;]+;?\s*/gi, '$1');
+						}
 
-              const img = expandImgElement.querySelector('img');
-              if (!img) return;
+            if (!img) return;
 
-              const imgSrc = img.getAttribute('src');
-              const imgAlt = img.getAttribute('alt');
+            const imgSrc = img.getAttribute('src');
+            const imgAlt = img.getAttribute('alt');
 
-             const inlineStyle = expandImgElement.getAttribute('style') || '';
-
-              if (item.classList.contains('js-em-l')) {
-                modalContainer.innerHTML = `
+            if (item.classList.contains('js-em-l')) {
+              modalContainer.innerHTML = `
                 <div id="image-modal-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#000]/[0.48] backdrop-blur-md">
                   <div class="rounded sm:rounded-none max-w-[64vw] sm:max-w-full relative px-[48px] pt-[48px] pb-[56px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-white shadow-lg" tabindex="-1">
                     <div class="w-full object-contain" style="${inlineStyle}">
@@ -82,8 +97,8 @@ const expandItems = document.querySelectorAll('.js-expand-modal');
                   </div>
                 </div>
               `;
-              } else {
-                modalContainer.innerHTML = `
+            } else {
+              modalContainer.innerHTML = `
                 <div id="image-modal-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#000]/[0.48] backdrop-blur-md">
                   <div class="relative rounded p-[48px] sm:p-[24px] bg-white bg-[url('/img/focusRectangle.svg')] bg-center bg-contain" tabindex="-1">
                     <div class="w-[240px] sm:w-[120px]" style="${inlineStyle}">
@@ -97,25 +112,24 @@ const expandItems = document.querySelectorAll('.js-expand-modal');
                   </button>
                 </div>
               `;
-              }
-
-              const closeModalBtn = document.getElementById('close-modal-btn');
-              const modalOverlay = document.getElementById('image-modal-overlay');
-
-              if (closeModalBtn) {
-                closeModalBtn.addEventListener('click', closeModal);
-              }
-              if (modalOverlay) {
-                modalOverlay.addEventListener('click', (e) => {
-                  if (e.target === modalOverlay) {
-                    closeModal();
-                  }
-                });
-              }
-              document.addEventListener('keydown', handleEscape);
-              isModalOpen = true;
-              document.body.classList.add('modal-open');
             }
+
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const modalOverlay = document.getElementById('image-modal-overlay');
+
+            if (closeModalBtn) {
+              closeModalBtn.addEventListener('click', closeModal);
+            }
+            if (modalOverlay) {
+              modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                  closeModal();
+                }
+              });
+            }
+            document.addEventListener('keydown', handleEscape);
+            isModalOpen = true;
+            document.body.classList.add('modal-open');
           }
         }
       }
@@ -201,9 +215,35 @@ const setupFilter = () => {
 	});
 };
 
+const setupSwiper = () => {
+  const swiperElements = document.querySelectorAll('.swiper[id^="swiper-"]');
+
+  if (!swiperElements.length) {
+    return;
+  }
+
+  swiperElements.forEach(swiperElement => {
+
+    const swiper = new Swiper(swiperElement, {
+      slidesPerView: 1,
+      spaceBetween: 0,
+      loop: true,
+      navigation: {
+        nextEl: swiperElement.querySelector(".swiper-button-next"),
+        prevEl: swiperElement.querySelector(".swiper-button-prev"),
+      },
+      pagination: {
+        el: swiperElement.querySelector(".swiper-pagination"),
+        clickable: true,
+      },
+    });
+  });
+	};
+
 document.addEventListener('DOMContentLoaded', () => {
 	setupHamburgerMenu();
 	setupImageModal();
 	setupScrollIndicator();
 	setupFilter();
+	setupSwiper();
 });
