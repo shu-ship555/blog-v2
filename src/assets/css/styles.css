@@ -210,7 +210,7 @@ swiper
 }
 
  .swiper.swiper-container .swiper-pagination{
-	@apply top-0 flex justify-center items-start w-full h-[4px];
+	@apply bottom-0 flex justify-center items-start w-full h-[4px];
 }
 
  .swiper.swiper-container .swiper-pagination-bullet{
@@ -223,7 +223,7 @@ swiper
 }
 
 .swiper.swiper-container .swiper-button-next,.swiper.swiper-container .swiper-button-prev{
-	@apply aspect-square w-[24px] h-[24px] p-[8px] bg-[#0079C9] rounded-sm bottom-0 top-auto;
+	@apply aspect-square w-[24px] h-[24px] p-[8px] bg-[#0079C9] bottom-[4px] top-auto;
 }
 
 .swiper.swiper-container .swiper-button-next{
