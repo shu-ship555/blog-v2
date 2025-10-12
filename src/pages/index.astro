@@ -1,129 +1,100 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Pager from "../components/organisms/pager.astro";
-import {
-  getAllContents,
-  getBlogs,
-} from "../libs/microcms";
-import type {
-  Blog,
-  Category,
-  Tag,
-  MicroCMSResponse,
-} from "../libs/microcms.d.ts";
+import { getAllContents, getBlogs } from "../libs/microcms";
+import type { Blog, Category, Tag, MicroCMSResponse } from "../libs/microcms.d.ts";
 import Card from "../components/molecules/card.astro";
-
 
 const PER_PAGE = 10;
 
 const recentBlogsResponse: MicroCMSResponse<Blog> = await getBlogs({
-  limit: PER_PAGE,
-  offset: 0,
+	limit: PER_PAGE,
+	offset: 0,
 });
 
-
-const [allBlogsResponse, allCategoriesResponse, allTagsResponse] =
-  await Promise.all([
-    getAllContents<Blog>("blogs"),
-    getAllContents<Category>("categories"),
-    getAllContents<Tag>("tags"),
-  ]);
+const [allBlogsResponse, allCategoriesResponse, allTagsResponse] = await Promise.all([
+	getAllContents<Blog>("blogs"),
+	getAllContents<Category>("categories"),
+	getAllContents<Tag>("tags"),
+]);
 
 const blogs = recentBlogsResponse.contents;
 const allBlogs = allBlogsResponse.contents;
 const categories = allCategoriesResponse.contents;
 const tags = allTagsResponse.contents;
 
-
 const totalCount = allBlogsResponse.totalCount;
 const lastPage = Math.ceil(totalCount / PER_PAGE);
 const pageData = {
-  currentPage: 1,
-  lastPage: lastPage,
-  url: {
-    prev: null,
-    next: lastPage > 1 ? "/blogs/2" : null,
-  },
+	currentPage: 1,
+	lastPage: lastPage,
+	url: {
+		prev: null,
+		next: lastPage > 1 ? "/blogs/2" : null,
+	},
 };
 
-
 const categoryCounts = categories.map((category) => {
-  const count = allBlogs.filter(
-    (blog) => blog.category.id === category.id,
-  ).length;
-  return {
-    ...category,
-    count,
-  };
+	const count = allBlogs.filter((blog) => blog.category.id === category.id).length;
+	return {
+		...category,
+		count,
+	};
 });
 
-
 const tagCounts = tags.map((tag) => {
-  const count = allBlogs.filter((blog) =>
-    blog.tag.some((blogTag) => blogTag.id === tag.id),
-  ).length;
-  return {
-    ...tag,
-    count,
-  };
+	const count = allBlogs.filter((blog) => blog.tag.some((blogTag) => blogTag.id === tag.id)).length;
+	return {
+		...tag,
+		count,
+	};
 });
 ---
 
 <Layout title="miyata blog">
-  <main class="inner pt-[160px] sm:pt-[96px] pb-[200px] sm:pb-[64px]">
-    <div class="flex justify-between gap-[56px] sm:flex-col">
-      <ul class="flex gap-[32px] flex-wrap sm:gap-[28px]">
-        {
-          blogs.map((blog) => (
-            <Card blog={blog} />
-          ))
-        }
-      </ul>
-      <div class="shrink-0 max-w-[280px] w-full sm:hidden">
-        <p class="text-[20px] leading-none tracking-[0.06em] font-bold">
-          Category｜カテゴリ
-        </p>
-        <ul class="mt-[24px]">
-          {
-            categoryCounts.length === 0 ? (
-              <li class="text-sm text-muted-foreground">
-                カテゴリがありません
-              </li>
-            ) : (
-              categoryCounts.map((category) => (
-                <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
-                  <a href={`/categories/${category.slug}`}>
-                    {category.name}
-                    <span class="bracket">{category.count}</span>
-                  </a>
-                </li>
-              ))
-            )
-          }
-        </ul>
-        <p
-          class="text-[20px] leading-none tracking-[0.06em] font-bold mt-[48px]"
-        >
-          Tag｜タグ
-        </p>
-        <ul class="mt-[24px] flex gap-[12px] flex-wrap">
-          {
-            tagCounts.length === 0 ? (
-              <li class="text-sm text-muted-foreground">タグがありません</li>
-            ) : (
-              tagCounts.map((tag) => (
-                <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration">
-                  <a href={`/tags/${tag.slug}`}>
-                    <span class="hashtag"></span>{tag.name}
-                    <span class="bracket">{tag.count}</span>
-                  </a>
-                </li>
-              ))
-            )
-          }
-        </ul>
-      </div>
-    </div>
-    {totalCount > 10 && <Pager page={pageData} totalCount={totalCount} />}
-  </main>
+	<main class="inner pt-[160px] sm:pt-[96px] pb-[200px] sm:pb-[64px]">
+		<div class="flex justify-between gap-[56px] sm:flex-col">
+			<ul class="flex gap-[32px] flex-wrap sm:gap-[28px]">
+				{blogs.map((blog) => <Card blog={blog} />)}
+			</ul>
+			<div class="shrink-0 max-w-[280px] w-full sm:hidden">
+				<p class="text-[20px] leading-none tracking-[0.06em] font-bold">Category｜カテゴリ</p>
+				<ul class="mt-[24px]">
+					{
+						categoryCounts.length === 0 ? (
+							<li class="text-sm text-muted-foreground">カテゴリがありません</li>
+						) : (
+							categoryCounts.map((category) => (
+								<li class="text-[12px] font-bold leading-none tracking-[0.06em] mt-[12px]">
+									<a href={`/categories/${category.slug}`} class="opacity-hover duration">
+										{category.name}
+										<span class="bracket">{category.count}</span>
+									</a>
+								</li>
+							))
+						)
+					}
+				</ul>
+				<p class="text-[20px] leading-none tracking-[0.06em] font-bold mt-[48px]">Tag｜タグ</p>
+				<ul class="mt-[24px] flex gap-[12px] flex-wrap">
+					{
+						tagCounts.length === 0 ? (
+							<li class="text-sm text-muted-foreground">タグがありません</li>
+						) : (
+							tagCounts.map((tag) => (
+								<li class="text-[12px] font-bold leading-none tracking-[0.06em]">
+									<a href={`/tags/${tag.slug}`} class="opacity-hover duration">
+										<span class="hashtag" />
+										{tag.name}
+										<span class="bracket">{tag.count}</span>
+									</a>
+								</li>
+							))
+						)
+					}
+				</ul>
+			</div>
+		</div>
+		{totalCount > 10 && <Pager page={pageData} totalCount={totalCount} />}
+	</main>
 </Layout>

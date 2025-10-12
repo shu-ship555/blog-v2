@@ -79,8 +79,8 @@ const tagCounts = tags.map((t) => {
 							<li class="text-sm text-muted-foreground">カテゴリがありません</li>
 						) : (
 							categoryCounts.map((cat) => (
-								<li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
-									<a href={`/categories/${cat.slug}`}>
+								<li class="text-[12px] font-bold leading-none tracking-[0.06em] mt-[12px]">
+									<a href={`/categories/${cat.slug}`} class="opacity-hover duration">
 										{cat.name}
 										<span class="bracket">{cat.count}</span>
 									</a>
