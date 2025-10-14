@@ -261,7 +261,7 @@ post
 	@apply break-normal font-black text-[20px]  sm:text-[16px] leading-[1.48] tracking-[0.06em] mt-[72px]  sm:mt-[36px] scroll-mt-[160px] sm:scroll-mt-[120px];
 }
 .post p {
-	@apply break-normal font-medium text-[20px] sm:text-[16px] leading-[1.64] tracking-[0.06em] sm:tracking-[0.04em] mt-[16px] sm:mt-[12px];
+	@apply break-normal font-medium text-[20px] sm:text-[16px] leading-[1.8] tracking-[0.06em] mt-[16px] sm:mt-[12px];
 }
 .post a {
 	@apply opacity-hover duration;
