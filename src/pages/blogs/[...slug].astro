@@ -6,15 +6,15 @@ import { wrapTablesWithDiv, processHeadings } from "../../utils/htmlProcessor";
 import { getBlogs } from "../../libs/microcms";
 
 export async function getStaticPaths() {
-const response = await getBlogs({ limit: 100 });
-  return response.contents.map((content) => ({
-    params: {
-      slug: content.id,
-    },
-  	props: {
-      blog: content,
-    },
-  }));
+	const response = await getBlogs({ limit: 100 });
+	return response.contents.map((content) => ({
+		params: {
+			slug: content.id,
+		},
+		props: {
+			blog: content,
+		},
+	}));
 }
 
 const { blog } = Astro.props;
@@ -28,120 +28,91 @@ const updatedDate = formatDate(blog.updatedAt);
 ---
 
 <Layout
-  title={blog.title}
-  breadcrumb={true}
-  blog={blog as any}
-  ogTitle={blog.ogp?.ogTitle || blog.title}
-  ogDescription={blog.ogp?.ogDescription || blog.description}
-  ogImage={blog.ogp?.ogImage?.url || blog.eyecatch?.url || "/img/ogp.png"}
+	title={blog.title}
+	breadcrumb={true}
+	blog={blog as any}
+	ogTitle={blog.ogp?.ogTitle || blog.title}
+	ogDescription={blog.ogp?.ogDescription || blog.description}
+	ogImage={blog.ogp?.ogImage?.url || blog.eyecatch?.url || "/img/ogp.png"}
 >
-  <main class="pt-[160px] sm:pt-[64px] pb-[200px] sm:pb-[64px]">
-    <div class="inner">
-      <div class="flex gap-[10px] flex-wrap">
-        <a
-          href={`/categories/${blog.category.slug}`}
-          class="opacity-hover duration font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] text-[#FFF] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[8px] sm:pb-[10px]"
-          style={`background-color: ${blog.category.labelColor};`}
-        >
-          {blog.category.name}
-        </a>
-        {
-          blog.readingTime && (
-            <p class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] bg-[#F6F6F6] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[8px] sm:pb-[10px]">
-              <span class="text-[#666]">読了までの時間：</span>
-              {blog.readingTime}分
-            </p>
-          )
-        }
-      </div>
-      <h1
-        class="break-normal text-[48px] sm:text-[24px] font-black leading-[1.48] sm:leading-[1.32] tracking-[0.06em] mt-[16px] sm:mt-[12px] line-clamp-3"
-      >
-        {blog.title}
-      </h1>
-      <p
-        class="break-normal font-bold text-[28px] sm:text-[14px] leading-[1.64] sm:leading-[1.48] tracking-[0.06em] text-[#888] mt-[8px] sm:mt-[6px] line-clamp-3"
-      >
-        {blog.description}
-      </p>
-      <div
-        class="font-medium text-[20px] sm:text-[12px] leading-none tracking-[0.08em] text-[#888] flex items-center gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]"
-      >
-        <Icon
-          filename="icon_date"
-          customClass="w-[24px] sm:w-[16px] shrink-0"
-          color="#888"
-        />{publishedDate}
-      </div>
-      <div
-        class="font-medium text-[20px] sm:text-[12px] leading-none tracking-[0.08em] text-[#888] flex items-center gap-[12px] sm:gap-[6px] mt-[8px] sm:mt-[6px]"
-      >
-        <Icon
-          filename="icon_update"
-          customClass="w-[24px] sm:w-[16px] shrink-0"
-          color="#888"
-        /><span>{updatedDate}</span>
-      </div>
-      <div
-        class="flex items-center sm:items-start gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]"
-      >
-        <Icon
-          filename="icon_label"
-          customClass="w-[24px] sm:w-[16px] shrink-0"
-          color="#888"
-        />
-        <div class="flex gap-[8px] sm:gap-[4px] sm:flex-wrap">
-          {
-            blog.tag.map((tag) => (
-              <a
-                href={`/tags/${tag.slug}`}
-                class="font-medium text-[16px] sm:text-[12px] text-[#888] leading-[1] tracking-[0.04em] bracket"
-              >
-                <span class="opacity-hover duration hashtag">
-                  {tag.name}
-                </span>
-              </a>
-            ))
-          }
-        </div>
-      </div>
-    </div>
-    <div
-       class="mt-[32px] sm:mt-[16px] max-w-[1280px] sm:max-w-[430px] px-[48px] sm:px-0 w-full mx-auto"
-     >
-       {
-         blog.eyecatch ? (
-           <img
-             src={blog.eyecatch.url}
-             alt={blog.title}
-             class="w-full rounded-3xl sm:rounded-sm"
-           />
-         ) : (
-           <img
-             src="/img/dummyImage.png"
-             alt={blog.title}
-             class="w-full rounded-3xl sm:rounded-sm"
-           />
-         )
-       }
-     </div>
-    <div class="flex justify-between gap-[80px] sm:gap-[64px] inner mt-[160px] sm:mt-[80px] sm:flex-col-reverse">
-      <div
-        class="max-w-[784px] w-full sm:max-w-full post"
-        set:html={finalHtml}
-      />
-      {
-        toc.length > 0 && (
-          <aside class="max-w-[320px] w-full sm:max-w-full">
+	<main class="pt-[160px] sm:pt-[64px] pb-[200px] sm:pb-[64px]">
+		<div class="inner">
+			<div class="flex gap-[10px] flex-wrap">
+				<a
+					href={`/categories/${blog.category.slug}`}
+					class="opacity-hover duration font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] text-[#FFF] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[6px] sm:pb-[8px]"
+					style={`background-color: ${blog.category.labelColor};`}
+				>
+					{blog.category.name}
+				</a>
+				{
+					blog.readingTime && (
+						<p class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] bg-[#F6F6F6] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[8px] sm:pb-[10px]">
+							<span class="text-[#666]">読了までの時間：</span>
+							{blog.readingTime}分
+						</p>
+					)
+				}
+			</div>
+			<h1
+				class="break-normal text-[48px] sm:text-[24px] font-black leading-[1.48] sm:leading-[1.32] tracking-[0.06em] mt-[16px] sm:mt-[12px] line-clamp-3"
+			>
+				{blog.title}
+			</h1>
+			<p
+				class="break-normal font-bold text-[28px] sm:text-[14px] leading-[1.64] sm:leading-[1.48] tracking-[0.06em] text-[#888] mt-[8px] sm:mt-[6px] line-clamp-3"
+			>
+				{blog.description}
+			</p>
+			<div
+				class="font-medium text-[20px] sm:text-[12px] leading-none tracking-[0.08em] text-[#888] flex items-center gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]"
+			>
+				<Icon filename="icon_date" customClass="w-[24px] sm:w-[16px] shrink-0" color="#888" />{publishedDate}
+			</div>
+			<div
+				class="font-medium text-[20px] sm:text-[12px] leading-none tracking-[0.08em] text-[#888] flex items-center gap-[12px] sm:gap-[6px] mt-[8px] sm:mt-[6px]"
+			>
+				<Icon filename="icon_update" customClass="w-[24px] sm:w-[16px] shrink-0" color="#888" /><span
+					>{updatedDate}</span
+				>
+			</div>
+			<div class="flex items-center sm:items-start gap-[12px] sm:gap-[6px] mt-[16px] sm:mt-[12px]">
+				<Icon filename="icon_label" customClass="w-[24px] sm:w-[16px] shrink-0" color="#888" />
+				<div class="flex gap-[8px] sm:gap-[4px] sm:flex-wrap">
+					{
+						blog.tag.map((tag) => (
+							<a
+								href={`/tags/${tag.slug}`}
+								class="font-medium text-[16px] sm:text-[12px] text-[#888] leading-[1] tracking-[0.04em] bracket"
+							>
+								<span class="opacity-hover duration hashtag">{tag.name}</span>
+							</a>
+						))
+					}
+				</div>
+			</div>
+		</div>
+		<div class="mt-[32px] sm:mt-[16px] max-w-[1280px] sm:max-w-[430px] px-[48px] sm:px-0 w-full mx-auto">
+			{
+				blog.eyecatch ? (
+					<img src={blog.eyecatch.url} alt={blog.title} class="w-full rounded-3xl sm:rounded-sm" />
+				) : (
+					<img src="/img/dummyImage.png" alt={blog.title} class="w-full rounded-3xl sm:rounded-sm" />
+				)
+			}
+		</div>
+		<div class="flex justify-between gap-[80px] sm:gap-[64px] inner mt-[160px] sm:mt-[80px] sm:flex-col-reverse">
+			<div class="max-w-[784px] w-full sm:max-w-full post" set:html={finalHtml} />
+			{
+				toc.length > 0 && (
+					<aside class="max-w-[320px] w-full sm:max-w-full">
 						<div class="sticky top-[194px] sm:relative sm:top-0">
-							<h2 class="text-[32px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-black">
-								目次｜Index
-							</h2>
+							<h2 class="text-[32px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-black">目次｜Index</h2>
 							<nav class="relative px-[32px] sm:px-[28px] pt-[32px] sm:pt-[28px] pb-[36px] sm:pb-[32px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px] ">
 								<ul id="scrollContainer" class="max-h-[320px] sm:max-h-[240px] overflow-y-scroll">
 									{toc.map((item) => (
 										<li class={`level-${item.level}`}>
-											<a href={`#${item.id}`} class="opacity-hover duration" >
+											<a href={`#${item.id}`} class="opacity-hover duration">
 												{item.text}
 											</a>
 										</li>
@@ -149,15 +120,17 @@ const updatedDate = formatDate(blog.updatedAt);
 								</ul>
 								<div id="scrollIndicator" class="absolute bottom-[12px] sm:bottom-[10px] left-1/2 -translate-x-1/2">
 									<div class="flex items-center justify-center gap-[2px]">
-									<div class="bg-[#fff] rounded-full aspect-square w-[16px] sm:w-[14px] h-[16px] sm:h-[14px] flex items-center justify-center"><Icon filename="icon_arrow_down" customClass="w-[12px] sm:w-[10px] shrink-0" color="#0079C9"/></div>
-									<p class="text-[10px] leading-none tracking-[0.02em]">scroll</p>
+										<div class="bg-[#fff] rounded-full aspect-square w-[16px] sm:w-[14px] h-[16px] sm:h-[14px] flex items-center justify-center">
+											<Icon filename="icon_arrow_down" customClass="w-[12px] sm:w-[10px] shrink-0" color="#0079C9" />
+										</div>
+										<p class="text-[10px] leading-none tracking-[0.02em]">scroll</p>
 									</div>
 								</div>
 							</nav>
 						</div>
-          </aside>
-        )
-      }
-    </div>
-  </main>
+					</aside>
+				)
+			}
+		</div>
+	</main>
 </Layout>
