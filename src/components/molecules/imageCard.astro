@@ -51,7 +51,12 @@ const swiperId = `swiper-${Math.random().toString(36).substring(2, 9)}`;
 				<div class="swiper-wrapper">
 					{image.images.map((img, index) => (
 						<div class="swiper-slide expand-img ei-s" style={`max-width: ${image.sizeHorizontal}px;`}>
-							<img src={img.url} alt={`${image.title} - ${index + 1}`} class="w-full" loading="lazy" />
+							<img
+								src={img.url}
+								alt={`${image.title} - ${index + 1}`}
+								class="object-contain w-full h-full"
+								loading="lazy"
+							/>
 						</div>
 					))}
 				</div>
