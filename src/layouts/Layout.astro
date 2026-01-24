@@ -43,7 +43,7 @@ const pageUrl = propPageUrl || `${siteUrl}${pagePath}`;
 <html lang="ja">
 	<head>
 		<!-- Google Tag Manager -->
-		<script>
+		<script is:inline>
 			(function (w, d, s, l, i) {
 				w[l] = w[l] || [];
 				w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
@@ -100,7 +100,7 @@ const pageUrl = propPageUrl || `${siteUrl}${pagePath}`;
 					navItems={[
 						{ href: "/", text: "Blog", name: "ブログ", target: false },
 						// { href: "/works", text: "Works", name: "制作物", target: false },
-						{ href: "https://suzuri.jp/shu-miyata/products", text: "Shop", name: "ショップ", target: true },
+						// { href: "https://suzuri.jp/shu-miyata/products", text: "Shop", name: "ショップ", target: true },
 						{
 							href: "https://adhesive-form-ca1.notion.site/134c792be686808c8bb0e4342fe0625d?pvs=105",
 							text: "Contact",
