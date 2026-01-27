@@ -1,52 +1,53 @@
-# Astro Starter Kit: Basics
+# Astro × microCMS Blog Architecture
 
-```sh
-npm create astro@latest -- --template basics
+AstroとmicroCMSを組み合わせた、高速かつ運用性に優れた個人ブログ・プラットフォームです。
+「技術発信の場」としての実用性に加え、**「ヘッドレスCMSによるコンテンツ管理」**と**「unifiedエコシステムによる柔軟な記事レンダリング」**の実装を目的としています。
+
+
+
+## 🎯 プロジェクトの目的
+会社で使用することになったAstroの勉強を兼ねての開発です。
+* **パフォーマンスの追求**: Astro（SSG）による静的配信を徹底し、コアウェブバイタル（Core Web Vitals）を意識した高速な閲覧体験の提供。
+* **ヘッドレスCMSの理解**: 外部APIからのデータ取得、型定義、およびWebhookを用いたビルド自動化の実践。
+* **マークダウン処理のカスタマイズ**: `unified` や `rehype` を用い、記事内のHTML構造（目次生成や画像最適化など）をプログラム制御するスキルの習得。
+
+## 🛠 技術スタック
+
+| カテゴリ | 採用技術 | 選定理由 |
+| :--- | :--- | :--- |
+| **Framework** | **Astro (v5)** | 静的サイト生成（SSG）に特化しており、JavaScriptを最小限に抑えた高速な配信が可能なため。 |
+| **CMS** | **microCMS** | 日本発のヘッドレスCMSで、直感的な管理画面と強力なSDK（microcms-js-sdk）による柔軟なデータ連携ができるため。 |
+| **Styling** | **Tailwind CSS** | デザインの一貫性を保ちつつ、ユーティリティクラスによる効率的なコーディングを行うため。 |
+| **Content Processing**| **unified / rehype / vfile** | CMSから取得したHTML文字列を解析し、任意の変換処理（クラス付与やDOM操作）を柔軟に行うため。 |
+
+## 🏗 設計のこだわり
+
+### 1. 効率的なコンテンツレンダリング
+`unified` エコシステムを活用し、CMSから取得した生データをそのまま表示するのではなく、サーバーサイドで構文解析（Abstract Syntax Tree）を行い、シンタックスハイライトや目次情報の抽出などを自動化しています。
+
+### 2. コンポーネントの責務分離
+Astroコンポーネントのアイランド設計を意識。ページ全体は静的に保つことで、SEOとアクセシビリティを最大化しています。
+
+## 🚀 開発の始め方
+
+### 必須要件
+* **Node.js**: v20以上推奨
+* **microCMS API Key**: 取得したAPI情報を `.env` に設定する必要があります。
+
+### セットアップ手順
+
+```bash
+# 依存パッケージのインストール
+npm install
+
+# 開発サーバーの起動 (localhost:4321)
+npm run dev
+
+# プロダクション用ビルド
+npm run build
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## ✉️ Contact
+ご連絡やお問い合わせは、下記までお願いします！Gitに関するものはIssueに残していただいても大丈夫です。
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+https://adhesive-form-ca1.notion.site/134c792be686808c8bb0e4342fe0625d
