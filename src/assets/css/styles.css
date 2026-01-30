@@ -197,46 +197,18 @@ toc-sscrollindicator
 /* =======================
 swiper
  ======================= */
- .swiper.swiper-container{
-	@apply  relative aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-[#fafafa] flex items-center justify-center;
-}
-
- .swiper.swiper-container .swiper-slide{
-	@apply flex justify-center items-center mx-auto opacity-0 duration;
-}
-
- .swiper.swiper-container .swiper-slide-active{
-	@apply flex justify-center items-center mx-auto opacity-100 duration;
-}
-
- .swiper.swiper-container .swiper-pagination{
-	@apply bottom-0 flex justify-center items-start w-full h-[2px];
-}
-
- .swiper.swiper-container .swiper-pagination-bullet{
-	@apply m-0 w-full h-full rounded-none bg-[#ccc];
-	--swiper-pagination-bullet-horizontal-gap: 0px;
-}
-
- .swiper.swiper-container .swiper-pagination-bullet.swiper-pagination-bullet-active{
-	@apply m-0 bg-[#0079C9];
-}
-
-.swiper.swiper-container .swiper-button-next,.swiper.swiper-container .swiper-button-prev{
-	@apply aspect-square w-[20px] h-[20px] p-[6px] bg-[#0079C9] bottom-1/2 top-1/2;
-}
-
-.swiper.swiper-container .swiper-button-next{
-	@apply right-0;
-}
-
-.swiper.swiper-container .swiper-button-prev{
-	@apply left-0;
-}
-
-.swiper.swiper-container .swiper-button-color {
-	--swiper-navigation-color: #FFF;
-}
+ .swiper, .swiper-wrapper, .swiper-pagination {
+	@apply z-auto;
+ }
+ .swiper.note-swiper .swiper-pagination{
+	@apply static text-right;
+ }
+ .swiper.note-swiper .swiper-pagination-bullet{
+	@apply w-[24px] h-[8px] sm:w-[16px] sm:h-[6px] rounded-none;
+ }
+ .swiper.note-swiper .swiper-pagination-bullet.swiper-pagination-bullet-active{
+	@apply bg-[#0079C9];
+ }
 
 /* =======================
 トグルボタン

@@ -1,0 +1,46 @@
+---
+import Parser from "rss-parser";
+
+const parser = new Parser({
+	customFields: {
+		item: [["media:thumbnail", "thumbnail"]],
+	},
+});
+const FEED_URL = "https://note.com/miyata_note/rss";
+const feed = await parser.parseURL(FEED_URL);
+
+const items = feed.items.slice(0, 5);
+---
+
+<div class="swiper note-swiper">
+	<div class="swiper-wrapper">
+		{
+			items.map((item) => (
+				<div class="h-auto swiper-slide">
+					<a
+						href={item.link}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="block overflow-hidden transition-shadow bg-[#FFF] rounded-xl opacity-hover duration h-full"
+					>
+						<div class="w-full overflow-hidden border-[#FAFAFA]">
+							{item.thumbnail ? (
+								<img src={item.thumbnail} alt={item.title} class="object-contain w-full h-full" />
+							) : (
+								<div class="flex items-center justify-center h-full text-gray-400">No Image</div>
+							)}
+						</div>
+
+						<div class="p-[16px] min-h-[98px] flex flex-col justify-between">
+							<h3 class="text-[14px] sm:text-[12px] font-bold text-[#333] line-clamp-2">{item.title}</h3>
+							<time class="text-[12px] sm:text-[10px] text-[#999]">
+								{item.pubDate ? new Date(item.pubDate).toLocaleDateString("ja-JP") : ""}
+							</time>
+						</div>
+					</a>
+				</div>
+			))
+		}
+	</div>
+	<div class="swiper-pagination"></div>
+</div>
