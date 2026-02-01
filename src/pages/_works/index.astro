@@ -1,26 +1,11 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import Icon from "../../components/atoms/icon.astro";
+import IconComponent from "../../components/atoms/icon.astro";
 import Navigation from "../../components/organisms/navigation.astro";
 import { getContents } from "../../libs/microcms";
+import type { Icon, Image } from "../../types";
 
-type Icon = {
-	id: string;
-	title: string;
-	enTitle: string;
-	image: { url: string; width: number; height: number };
-};
-
-type Image = {
-	id: string;
-	title: string;
-	sizeHorizontal: number;
-	sizeVertical: number;
-	images: { url: string; width: number; height: number }[];
-	isPrivate: boolean;
-};
-
-const iconRes = await getContents<Icon>("icons", { limit: 8 });
+const iconRes = await getContents<IconComponent>("icons", { limit: 8 });
 const icons = iconRes.contents;
 
 const imageRes = await getContents<Image>("images", {
@@ -112,7 +97,7 @@ const illustrations = illustRes.contents;
 				class="transrate-x-animation overflow-hidden inline-block text-white bg-[#0079C9] px-[20px] pt-[8px] pb-[10px] sm:px-[16px] sm:pt-[6px] sm:pb-[8px] rounded-full font-bold text-[16px] sm:text-[14px] leading-none tracking-[0.06em] opacity-hover duration"
 				><span class="font-normal">VIEW</span> ICON <span
 					class="rounded-full align-[-4px] sm:align-[-3px] inline-flex justify-center items-center bg-[#FAFAFA] overflow-hidden"
-					><Icon
+					><IconComponent
 						filename="icon_arrow_forward"
 						color="#0079C9"
 						customClass="animation-icon p-[2px] aspect-square w-[20px] sm:w-[16px]"
@@ -141,7 +126,7 @@ const illustrations = illustRes.contents;
 						</div>
 						<div class="flex items-start gap-[4px] sm:gap-[2px] mt-[16px] sm:mt-[12px]">
 							{image.images && image.images.length > 1 && (
-								<Icon
+								<IconComponent
 									filename="icon_stack"
 									color="#333"
 									customClass="animation-icon p-[2px] aspect-square w-[20px] sm:w-[18px] shrink-0"
@@ -164,7 +149,7 @@ const illustrations = illustRes.contents;
 				class="transrate-x-animation overflow-hidden inline-block text-white bg-[#0079C9] px-[20px] pt-[8px] pb-[10px] sm:px-[16px] sm:pt-[6px] sm:pb-[8px] rounded-full font-bold text-[16px] sm:text-[14px] leading-none tracking-[0.06em] opacity-hover duration"
 				><span class="font-normal">VIEW</span> GRAPHIC DESIGN <span
 					class="rounded-full align-[-4px] sm:align-[-3px] inline-flex justify-center items-center bg-[#FAFAFA] overflow-hidden"
-					><Icon
+					><IconComponent
 						filename="icon_arrow_forward"
 						color="#0079C9"
 						customClass="animation-icon p-[2px] aspect-square w-[20px] sm:w-[16px]"
@@ -195,7 +180,7 @@ const illustrations = illustRes.contents;
 						</div>
 						<div class="flex items-start gap-[4px] sm:gap-[2px] mt-[16px] sm:mt-[12px]">
 							{illust.images && illust.images.length > 1 && (
-								<Icon
+								<IconComponent
 									filename="icon_stack"
 									color="#333"
 									customClass="animation-icon p-[2px] aspect-square w-[20px] sm:w-[18px] shrink-0"
@@ -218,7 +203,7 @@ const illustrations = illustRes.contents;
 				class="transrate-x-animation overflow-hidden inline-block text-white bg-[#0079C9] px-[20px] pt-[8px] pb-[10px] sm:px-[16px] sm:pt-[6px] sm:pb-[8px] rounded-full font-bold text-[16px] sm:text-[14px] leading-none tracking-[0.06em] opacity-hover duration"
 				><span class="font-normal">VIEW</span> ILLUSTRATION <span
 					class="rounded-full align-[-4px] sm:align-[-3px] inline-flex justify-center items-center bg-[#FAFAFA] overflow-hidden"
-					><Icon
+					><IconComponent
 						filename="icon_arrow_forward"
 						color="#0079C9"
 						customClass="animation-icon p-[2px] aspect-square w-[20px] sm:w-[16px]"

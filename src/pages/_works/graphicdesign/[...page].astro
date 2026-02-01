@@ -5,62 +5,17 @@ import FilterSection from "../../../components/organisms/filterSection.astro";
 import ImageCard from "../../../components/molecules/imageCard.astro";
 import { getAllContents } from "../../../libs/microcms";
 import type { GetStaticPathsOptions } from "astro";
-
-type Category = {
-	id: string;
-	slug: string;
-	title: string;
-	enTitle: string;
-};
-
-type Tag = {
-	id: string;
-	slug: string;
-	title: string;
-	enTitle: string;
-};
-
-type Image = {
-	id: string;
-	title: string;
-	images: { url: string; width: number; height: number }[];
-	sizeHorizontal: number;
-	sizeVertical: number;
-	isPrivate: boolean;
-	category: Category;
-	tag: Tag[];
-};
+import type { Image } from "../../../types";
+import { getUniqueCategories, getUniqueTags, getUniqueSizes } from "../../../utils/deduplicationUtils";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 	const IMAGES_PER_PAGE = 24;
 	const res = await getAllContents<Image>("images");
 	const images = res.contents;
 
-	const uniqueCategories = [
-		...new Set(
-			images.map((image) =>
-				JSON.stringify({
-					slug: image.category.slug,
-					title: image.category.title,
-					enTitle: image.category.enTitle,
-				}),
-			),
-		),
-	].map((str) => JSON.parse(str));
-
-	const allTags = images.flatMap((image) => image.tag);
-
-	const uniqueTags = [
-		...new Set(
-			allTags.map((tag) =>
-				JSON.stringify({
-					slug: tag.slug,
-					title: tag.title,
-					enTitle: tag.enTitle,
-				}),
-			),
-		),
-	].map((str) => JSON.parse(str));
+	const uniqueCategories = getUniqueCategories(images);
+	const uniqueTags = getUniqueTags(images);
+	const uniqueSizes = getUniqueSizes(images);
 
 	const paginatedPages = paginate(images, {
 		pageSize: IMAGES_PER_PAGE,
@@ -68,9 +23,9 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 		props: {
 			totalCount: res.totalCount,
 			perPage: IMAGES_PER_PAGE,
-			uniqueSizes: [...new Set(images.map((image) => `${image.sizeHorizontal}×${image.sizeVertical}`))],
-			uniqueCategories: uniqueCategories,
-			uniqueTags: uniqueTags,
+			uniqueSizes,
+			uniqueCategories,
+			uniqueTags,
 		},
 	});
 

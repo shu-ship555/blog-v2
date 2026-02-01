@@ -176,7 +176,7 @@ const currentClasses = scaleClasses[scale];
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
 							<span class="font-normal bracket">
-								<span class="hashtag"> {imageTag.title}</span>
+								<span class="hashtag">{imageTag.title}</span>
 							</span>
 						</li>
 					</>
@@ -199,11 +199,7 @@ const currentClasses = scaleClasses[scale];
 					<>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] text-[#888] leading-[1.48]"]}>
-							<span class="bracket">
-								<span class="hashtag" />
-								{tag.name}
-							</span>{" "}
-							記事一覧
+							<span class="bracket"><span class="hashtag" />{tag.name}</span> 記事一覧
 						</li>
 					</>
 				)

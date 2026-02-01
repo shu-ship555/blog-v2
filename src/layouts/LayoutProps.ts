@@ -1,19 +1,5 @@
 // src/layouts/LayoutProps.ts
-import type { Blog, Category, Tag } from "../libs/microcms.ts";
-
-type ImageCategory = {
-	id: string;
-	slug: string;
-	title: string;
-	enTitle: string;
-};
-
-type ImageTag = {
-	id: string;
-	slug: string;
-	title: string;
-	enTitle: string;
-};
+import type { Blog, Category, Tag, ImageCategory, ImageTag } from "../types";
 
 export interface LayoutProps {
 	title: string;
@@ -23,7 +9,7 @@ export interface LayoutProps {
 	ogImage?: string;
 	pageUrl?: string;
 	breadcrumb?: boolean;
-	navigation?: [];
+	navigation?: boolean;
 	header?: boolean;
 	blog?: Blog;
 	category?: Category;

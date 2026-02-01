@@ -3,8 +3,10 @@ import Layout from "../layouts/Layout.astro";
 import Pager from "../components/organisms/pager.astro";
 import NoteSlider from "../components/organisms/noteSlider.astro";
 import { getAllContents, getBlogs } from "../libs/microcms";
-import type { Blog, Category, Tag, MicroCMSResponse } from "../libs/microcms.d.ts";
+import type { Blog, Category, Tag, MicroCMSResponse } from "../types";
 import Card from "../components/molecules/card.astro";
+import CategoryTagSidebar from "../components/organisms/categoryTagSidebar.astro";
+import { getCountedCategories, getCountedTags } from "../utils/countingUtils";
 
 const PER_PAGE = 10;
 
@@ -35,21 +37,8 @@ const pageData = {
 	},
 };
 
-const categoryCounts = categories.map((category) => {
-	const count = allBlogs.filter((blog) => blog.category.id === category.id).length;
-	return {
-		...category,
-		count,
-	};
-});
-
-const tagCounts = tags.map((tag) => {
-	const count = allBlogs.filter((blog) => blog.tag.some((blogTag) => blogTag.id === tag.id)).length;
-	return {
-		...tag,
-		count,
-	};
-});
+const categoryCounts = getCountedCategories(categories, allBlogs);
+const tagCounts = getCountedTags(tags, allBlogs);
 ---
 
 <Layout title="miyata blog">
@@ -61,43 +50,7 @@ const tagCounts = tags.map((tag) => {
 			<ul class="flex gap-[32px] flex-wrap sm:gap-[28px]">
 				{blogs.map((blog) => <Card blog={blog} />)}
 			</ul>
-			<div class="shrink-0 max-w-[280px] w-full sm:hidden">
-				<p class="text-[20px] leading-none tracking-[0.06em] font-bold">Category｜カテゴリ</p>
-				<ul class="mt-[24px]">
-					{
-						categoryCounts.length === 0 ? (
-							<li class="text-sm text-muted-foreground">カテゴリがありません</li>
-						) : (
-							categoryCounts.map((category) => (
-								<li class="text-[12px] font-bold leading-none tracking-[0.06em] mt-[12px]">
-									<a href={`/categories/${category.slug}`} class="opacity-hover duration">
-										{category.name}
-										<span class="bracket">{category.count}</span>
-									</a>
-								</li>
-							))
-						)
-					}
-				</ul>
-				<p class="text-[20px] leading-none tracking-[0.06em] font-bold mt-[48px]">Tag｜タグ</p>
-				<ul class="mt-[24px] flex gap-[12px] flex-wrap">
-					{
-						tagCounts.length === 0 ? (
-							<li class="text-sm text-muted-foreground">タグがありません</li>
-						) : (
-							tagCounts.map((tag) => (
-								<li class="text-[12px] font-bold leading-none tracking-[0.06em]">
-									<a href={`/tags/${tag.slug}`} class="opacity-hover duration">
-										<span class="hashtag" />
-										{tag.name}
-										<span class="bracket">{tag.count}</span>
-									</a>
-								</li>
-							))
-						)
-					}
-				</ul>
-			</div>
+			<CategoryTagSidebar categories={categoryCounts} tags={tagCounts} />
 		</div>
 		{totalCount > 10 && <Pager page={pageData} totalCount={totalCount} />}
 	</main>

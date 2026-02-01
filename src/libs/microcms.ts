@@ -1,68 +1,28 @@
 // SDK利用準備
-import type {
-	MicroCMSQueries,
-	MicroCMSListContent,
-	MicroCMSObjectContent,
-	MicroCMSImage,
-} from "microcms-js-sdk";
+import type { MicroCMSQueries } from "microcms-js-sdk";
 import { createClient } from "microcms-js-sdk";
+
+// 型定義は types/index.ts から再エクスポート
+export type {
+	MicroCMSResponse,
+	OGP,
+	Blog,
+	Category,
+	Tag,
+	SiteSettings,
+	Image,
+	ImageCategory,
+	ImageTag,
+	ImageItem,
+	Icon,
+} from "../types";
+
+import type { MicroCMSResponse, Blog, Category, Tag } from "../types";
 
 const client = createClient({
 	serviceDomain: import.meta.env.PUBLIC_MICROCMS_SERVICE_DOMAIN,
 	apiKey: import.meta.env.PUBLIC_MICROCMS_API_KEY,
 });
-
-export type MicroCMSResponse<T> = {
-	contents: T[];
-	totalCount: number;
-	offset: number;
-	limit: number;
-};
-
-export type OGP = {
-	ogTitle?: string;
-	ogDescription?: string;
-	ogImage?: MicroCMSImage;
-};
-
-export type Blog = {
-	title: string;
-	content: string;
-	category: Category;
-	publishedAt: string;
-	description: string;
-	tag: Tag[];
-	eyecatch: {
-		url: string;
-		height: number;
-		width: number;
-	};
-	readingTime: number;
-	ogp: OGP | null;
-} & MicroCMSListContent;
-
-export type Category = {
-	name: string;
-	slug: string;
-	count: number;
-	labelColor: string;
-} & MicroCMSListContent;
-
-export type Tag = {
-	name: string;
-	slug: string;
-} & MicroCMSListContent;
-
-export type SiteSettings = {
-	title: string;
-	description: string;
-	about: string;
-	id: string;
-	createdAt: string;
-	updatedAt: string;
-	publishedAt: string;
-	revisedAt: string;
-} & MicroCMSObjectContent;
 
 export const getContents = <T>(endpoint: string, queries?: MicroCMSQueries) => {
 	return client.getList<T>({ endpoint, queries });

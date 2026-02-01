@@ -1,7 +1,8 @@
 ---
 import Icon from "../atoms/icon.astro";
 import { getAllContents } from "../../libs/microcms";
-import type { Blog, Category, Tag } from "../../libs/microcms.d.ts";
+import type { Blog, Category, Tag } from "../../types";
+import { getCountedCategories, getCountedTags } from "../../utils/countingUtils";
 
 interface NavItem {
 	href?: string;
@@ -20,21 +21,8 @@ const allBlogs = allBlogsResponse.contents;
 const categories = allCategoriesResponse.contents;
 const tags = allTagsResponse.contents;
 
-const categoryCounts = categories.map((category) => {
-	const count = allBlogs.filter((blog) => blog.category.id === category.id).length;
-	return {
-		...category,
-		count,
-	};
-});
-
-const tagCounts = tags.map((tag) => {
-	const count = allBlogs.filter((blog) => blog.tag.some((blogTag) => blogTag.id === tag.id)).length;
-	return {
-		...tag,
-		count,
-	};
-});
+const categoryCounts = getCountedCategories(categories, allBlogs);
+const tagCounts = getCountedTags(tags, allBlogs);
 
 interface Props {
 	navItems?: NavItem[];

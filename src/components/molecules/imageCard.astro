@@ -8,30 +8,7 @@ import "swiper/css/pagination";
 // ※このimportは、Astroのビルド時にバンドルに含まれますが、
 // クライアント側スクリプト内での参照とは直接関係しないため、下記スクリプトで再インポートします。
 
-// ここで定義した型は、Astroコンポーネントのフロントマターでのみ有効です。
-type ImageItem = {
-	url: string;
-};
-
-type Category = {
-	slug: string;
-	title: string;
-};
-
-type Tag = {
-	slug: string;
-	title: string;
-};
-
-type Image = {
-	title: string;
-	images: ImageItem[];
-	sizeHorizontal: number;
-	sizeVertical: number;
-	isPrivate: boolean;
-	category: Category;
-	tag: Tag[];
-};
+import type { Image } from "../../types";
 
 export interface Props {
 	image: Image;

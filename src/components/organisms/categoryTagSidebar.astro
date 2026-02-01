@@ -1,0 +1,54 @@
+---
+// src/components/organisms/categoryTagSidebar.astro
+// カテゴリ・タグのサイドバーコンポーネント
+
+import type { Category, Tag } from "../../types";
+
+type CategoryWithCount = Category & { count: number };
+type TagWithCount = Tag & { count: number };
+
+export interface Props {
+	categories: CategoryWithCount[];
+	tags: TagWithCount[];
+}
+
+const { categories, tags } = Astro.props;
+---
+
+<div class="shrink-0 max-w-[280px] w-full sm:hidden">
+	<p class="text-[20px] leading-none tracking-[0.06em] font-bold">Category｜カテゴリ</p>
+	<ul class="mt-[24px]">
+		{
+			categories.length === 0 ? (
+				<li class="text-sm text-muted-foreground">カテゴリがありません</li>
+			) : (
+				categories.map((category) => (
+					<li class="text-[12px] font-bold leading-none tracking-[0.06em] mt-[12px]">
+						<a href={`/categories/${category.slug}`} class="opacity-hover duration">
+							{category.name}
+							<span class="bracket">{category.count}</span>
+						</a>
+					</li>
+				))
+			)
+		}
+	</ul>
+	<p class="text-[20px] leading-none tracking-[0.06em] font-bold mt-[48px]">Tag｜タグ</p>
+	<ul class="mt-[24px] flex gap-[12px] flex-wrap">
+		{
+			tags.length === 0 ? (
+				<li class="text-sm text-muted-foreground">タグがありません</li>
+			) : (
+				tags.map((tag) => (
+					<li class="text-[12px] font-bold leading-none tracking-[0.06em]">
+						<a href={`/tags/${tag.slug}`} class="opacity-hover duration">
+							<span class="hashtag" />
+							{tag.name}
+							<span class="bracket">{tag.count}</span>
+						</a>
+					</li>
+				))
+			)
+		}
+	</ul>
+</div>

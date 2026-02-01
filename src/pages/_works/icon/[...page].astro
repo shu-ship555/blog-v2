@@ -1,16 +1,10 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import Pager from "../../../components/organisms/pager.astro";
-import Icon from "../../../components/atoms/icon.astro";
+import IconComponent from "../../../components/atoms/icon.astro";
 import { getAllContents } from "../../../libs/microcms";
 import type { GetStaticPathsOptions } from "astro";
-
-type Icon = {
-	id: string;
-	title: string;
-	enTitle: string;
-	image: { url: string; width: number; height: number };
-};
+import type { Icon } from "../../../types";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 	const ICONS_PER_PAGE = 48;
@@ -59,7 +53,7 @@ const icons = page.data;
 						</p>
 						<button class="expand-btn bg-[#F8F8F8] text-[12px] sm:text-[10px] font-bold leading-none tracking-[0.04em] pt-[4px] pb-[6px] mt-[12px] block w-full text-[#0079C9] opacity-hover duration">
 							拡大
-							<Icon
+							<IconComponent
 								filename="icon_fullscreen"
 								color="#0079C9"
 								customClass="w-[14px] ml-[4px] sm:w-[12px] align-text-top sm:ml-[2px]"

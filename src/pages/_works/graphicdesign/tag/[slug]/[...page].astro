@@ -5,44 +5,17 @@ import FilterSection from "../../../../../components/organisms/filterSection.ast
 import ImageCard from "../../../../../components/molecules/imageCard.astro";
 import { getAllContents } from "../../../../../libs/microcms";
 import type { GetStaticPathsOptions } from "astro";
-
-type Category = {
-	id: string;
-	slug: string;
-	title: string;
-	enTitle: string;
-};
-
-type Tag = {
-	id: string;
-	slug: string;
-	title: string;
-	enTitle: string;
-};
-
-type Image = {
-	id: string;
-	title: string;
-	images: { url: string; width: number; height: number }[];
-	sizeHorizontal: number;
-	sizeVertical: number;
-	isPrivate: boolean;
-	category: Category;
-	tag: Tag[];
-};
+import type { Image } from "../../../../../types";
+import { getUniqueCategories, getUniqueTags, getUniqueSizes } from "../../../../../utils/deduplicationUtils";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 	const IMAGES_PER_PAGE = 24;
 	const res = await getAllContents<Image>("images");
 	const images = res.contents;
 
-	const allUniqueCategories = [...new Set(images.map((image) => JSON.stringify(image.category)))].map((str) =>
-		JSON.parse(str),
-	);
-	const allUniqueTags = [...new Set(images.flatMap((image) => image.tag.map((t) => JSON.stringify(t))))].map((str) =>
-		JSON.parse(str),
-	);
-	const allUniqueSizes = [...new Set(images.map((image) => `${image.sizeHorizontal}×${image.sizeVertical}`))];
+	const allUniqueCategories = getUniqueCategories(images);
+	const allUniqueTags = getUniqueTags(images);
+	const allUniqueSizes = getUniqueSizes(images);
 
 	const paginatedPaths = allUniqueTags.flatMap((tag) => {
 		const filteredImages = images.filter((image) => image.tag.some((t) => t.slug === tag.slug));

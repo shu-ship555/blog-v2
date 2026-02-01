@@ -2,21 +2,14 @@
 import Layout from "../../layouts/Layout.astro";
 import Pager from "../../components/organisms/pager.astro";
 import type { GetStaticPathsOptions } from "astro";
-import {
-  getAllContents,
-  getBlogs,
-} from "../../libs/microcms";
-import type {
-  Blog,
-  Category,
-  Tag,
-} from "../../libs/microcms.d.ts";
+import { getAllContents, getBlogs } from "../../libs/microcms";
+import type { Blog, Category, Tag } from "../../types";
 import { formatDate } from "../../utils/date";
+import { getCountedCategories, getCountedTags } from "../../utils/countingUtils";
+import CategoryTagSidebar from "../../components/organisms/categoryTagSidebar.astro";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const allBlogsResponse = await getBlogs({ limit: 100 });
-
-
   return paginate(allBlogsResponse.contents, { pageSize: 10 });
 }
 
@@ -34,25 +27,8 @@ const allBlogs = allBlogsResponse.contents;
 const categories = allCategoriesResponse.contents;
 const tags = allTagsResponse.contents;
 
-const categoryCounts = categories.map((category) => {
-  const count = allBlogs.filter(
-    (blog) => blog.category.id === category.id,
-  ).length;
-  return {
-    ...category,
-    count,
-  };
-});
-
-const tagCounts = tags.map((tag) => {
-  const count = allBlogs.filter((blog) =>
-    blog.tag.some((blogTag) => blogTag.id === tag.id),
-  ).length;
-  return {
-    ...tag,
-    count,
-  };
-});
+const categoryCounts = getCountedCategories(categories, allBlogs);
+const tagCounts = getCountedTags(tags, allBlogs);
 ---
 
 <Layout title={`ブログ一覧 - ${page.currentPage}ページ目 | miyata blog`}>
@@ -115,52 +91,7 @@ const tagCounts = tags.map((tag) => {
           ))
         }
       </ul>
-      <div class="shrink-0 max-w-[280px] w-full sm:hidden">
-        <p
-          class="text-[20px] leading-none tracking-[0.06em] font-bold"
-        >
-          Category｜カテゴリ
-        </p>
-        <ul class="mt-[24px]">
-          {
-            categoryCounts.length === 0 ? (
-              <li class="text-sm text-muted-foreground">
-                カテゴリがありません
-              </li>
-            ) : (
-              categoryCounts.map((cat) => (
-                <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
-                  <a href={`/categories/${cat.slug}`}>
-                    {cat.name}
-                    <span class="bracket">{cat.count}</span>
-                  </a>
-                </li>
-              ))
-            )
-          }
-        </ul>
-        <p
-          class="text-[20px] leading-none tracking-[0.06em] font-bold mt-[48px]"
-        >
-          Tag｜タグ
-        </p>
-        <ul class="mt-[24px] flex gap-[12px] flex-wrap">
-          {
-            tagCounts.length === 0 ? (
-              <li class="text-sm text-muted-foreground">タグがありません</li>
-            ) : (
-              tagCounts.map((t) => (
-                <li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration">
-                  <a href={`/tags/${t.slug}`}>
-                    <span class="hashtag"></span>{t.name}
-                    <span class="bracket">{t.count}</span>
-                  </a>
-                </li>
-              ))
-            )
-          }
-        </ul>
-      </div>
+      <CategoryTagSidebar categories={categoryCounts} tags={tagCounts} />
     </div>
     <Pager page={page} totalCount={allBlogsResponse.totalCount} />
   </main>
