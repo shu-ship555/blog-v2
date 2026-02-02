@@ -182,7 +182,7 @@ const setupSwiper = () => {
 					slidesPerView: 1,
 					spaceBetween: 24,
 					breakpoints: {
-						1417: { slidesPerView: 4 },
+						1417: { slidesPerView: 6 },
 					},
 				} : {
 					slidesPerView: 1,
