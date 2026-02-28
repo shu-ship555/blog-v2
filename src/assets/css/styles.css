@@ -307,3 +307,6 @@ post
 .post .bracket {
 	@apply relative before:content-['['] after:content-[']'] before:align-[0.06em] before:pr-[0.24em] after:pl-[0.24em] after:align-[0.06em];
 }
+.post .prompt{
+	@apply block px-[24px] sm:px-[16px] pt-[24px] sm:pt-[16px] pb-[28px] sm:pb-[18px] rounded-lg bg-[#EBF7FF] mt-[16px] sm:mt-[8px] text-[14px] sm:text-[12px] font-medium leading-[1.64] tracking-[0.06em];
+}
