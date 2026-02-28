@@ -263,7 +263,7 @@ post
 }
 
 .post pre[class^="language-"] {
-	@apply text-[16px] sm:text-[14px] px-[48px] sm:px-[24px] pt-[48px] sm:pt-[24px] pb-[56px] sm:pb-[28px] bg-[#333] text-[#FFF] rounded-xl sm:rounded-md sm:max-h-[480px] mt-[32px] sm:mt-[16px];
+	@apply text-[16px] sm:text-[14px] px-[48px] sm:px-[24px] pt-[48px] sm:pt-[24px] pb-[56px] sm:pb-[28px] bg-[#333] text-[#FFF] rounded-xl sm:rounded-md max-h-[640px] sm:max-h-[480px] mt-[32px] sm:mt-[16px];
 }
 .post figure img {
 	@apply rounded-xl sm:rounded-none mt-[32px] sm:mt-[16px];
