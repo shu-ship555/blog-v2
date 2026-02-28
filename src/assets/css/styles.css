@@ -251,10 +251,10 @@ post
 	@apply mt-0;
 }
 .post ul li {
-	@apply relative before:content-['◼︎'] before:text-[0.48em] before:align-middle before:pr-[0.48em] before:mt-[0.72em] text-[18px] sm:text-[14px] font-medium leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[6px] flex items-start;
+	@apply relative before:content-['◼︎'] before:text-[0.48em] before:align-middle before:pr-[0.48em] before:mt-[0.72em] text-[18px] sm:text-[14px] font-medium leading-[1.48] tracking-[0.04em] mt-[12px] sm:mt-[6px] flex items-start;
 }
 .post ol li {
-	@apply relative before:pr-[0.48em] text-[18px] sm:text-[14px] font-medium leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[6px] flex items-start;
+	@apply relative before:pr-[0.48em] text-[18px] sm:text-[14px] font-medium leading-[1.48] tracking-[0.04em] mt-[12px] sm:mt-[6px] flex items-start;
 	counter-increment: list-counter;
 }
 .post ol li:before {
