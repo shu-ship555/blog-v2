@@ -227,10 +227,10 @@ post
 	@apply break-normal font-black text-[36px] sm:text-[24px] leading-[1.48] tracking-[0.04em] mt-[120px] sm:mt-[60px] before:border-l-8 before:mr-[12px] before:rounded-full before:border-[#0079C9]  scroll-mt-[160px] sm:scroll-mt-[120px];
 }
 .post h3 {
-	@apply break-normal font-black text-[28px]  sm:text-[20px] leading-[1.48] tracking-[0.04em] mt-[96px] sm:mt-[48px]  scroll-mt-[160px] sm:scroll-mt-[120px];
+	@apply break-normal font-black text-[30px]  sm:text-[20px] leading-[1.48] tracking-[0.04em] mt-[96px] sm:mt-[48px]  scroll-mt-[160px] sm:scroll-mt-[120px];
 }
 .post h4 {
-	@apply break-normal font-black text-[20px]  sm:text-[16px] leading-[1.48] tracking-[0.04em] mt-[72px]  sm:mt-[36px] scroll-mt-[160px] sm:scroll-mt-[120px];
+	@apply break-normal font-black text-[24px]  sm:text-[16px] leading-[1.48] tracking-[0.04em] mt-[72px]  sm:mt-[36px] scroll-mt-[160px] sm:scroll-mt-[120px];
 }
 .post p {
 	@apply break-all font-medium text-[20px] sm:text-[16px] leading-[1.8] tracking-[0.06em] mt-[16px] sm:mt-[12px];
