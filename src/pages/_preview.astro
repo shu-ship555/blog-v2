@@ -113,7 +113,7 @@ const updatedDate = formatDate(blog.updatedAt);
 				toc.length > 0 && (
 					<aside class="max-w-[320px] w-full sm:max-w-full">
 						<h2 class="text-[32px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-black">目次｜Index</h2>
-						<nav class="px-[32px] sm:px-[16px] pt-[32px] sm:pt-[16px] pb-[36px] sm:pb-[18px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px] ">
+						<nav class="relative px-[32px] sm:px-[28px] pt-[32px] sm:pt-[28px] pb-[36px] sm:pb-[32px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px]">
 							<ul class="sm:max-h-[240px] sm:overflow-y-scroll">
 								{toc.map((item) => (
 									<li class={`level-${item.level}`}>
