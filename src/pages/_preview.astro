@@ -112,18 +112,28 @@ const updatedDate = formatDate(blog.updatedAt);
 			{
 				toc.length > 0 && (
 					<aside class="max-w-[320px] w-full sm:max-w-full">
-						<h2 class="text-[32px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-black">目次｜Index</h2>
-						<nav class="relative px-[32px] sm:px-[28px] pt-[32px] sm:pt-[28px] pb-[36px] sm:pb-[32px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px]">
-							<ul class="sm:max-h-[240px] sm:overflow-y-scroll">
-								{toc.map((item) => (
-									<li class={`level-${item.level}`}>
-										<a href={`#${item.id}`} class="opacity-hover duration">
-											{item.text}
-										</a>
-									</li>
-								))}
-							</ul>
-						</nav>
+						<div class="sticky top-[194px] sm:relative sm:top-0">
+							<h2 class="text-[32px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-black">目次｜Index</h2>
+							<nav class="relative px-[32px] sm:px-[28px] pt-[32px] sm:pt-[28px] pb-[36px] sm:pb-[32px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px]">
+								<ul id="scrollContainer" class="max-h-[320px] sm:max-h-[240px] overflow-y-scroll">
+									{toc.map((item) => (
+										<li class={`level-${item.level}`}>
+											<a href={`#${item.id}`} class="opacity-hover duration">
+												{item.text}
+											</a>
+										</li>
+									))}
+								</ul>
+								<div id="scrollIndicator" class="absolute bottom-[12px] sm:bottom-[10px] left-1/2 -translate-x-1/2">
+									<div class="flex items-center justify-center gap-[2px]">
+										<div class="bg-[#fff] rounded-full aspect-square w-[16px] sm:w-[14px] h-[16px] sm:h-[14px] flex items-center justify-center">
+											<Icon filename="icon_arrow_down" customClass="w-[12px] sm:w-[10px] shrink-0" color="#0079C9" />
+										</div>
+										<p class="text-[10px] leading-none tracking-[0.02em]">scroll</p>
+									</div>
+								</div>
+							</nav>
+						</div>
 					</aside>
 				)
 			}
