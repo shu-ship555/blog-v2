@@ -96,12 +96,12 @@ const currentClasses = scaleClasses[scale];
 			{
 				isIconsPage && (
 					<>
-						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						{/* <Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
 							<a href="/works" class="flex items-center justify-center opacity-hover duration">
 								Works｜制作物
 							</a>
-						</li>
+						</li> */}
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
 							Icon｜アイコン
@@ -121,7 +121,8 @@ const currentClasses = scaleClasses[scale];
 						</li>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
-							Graphic Design<span class="sm:hidden tracking-[0.08em]">｜グラフィックデザイン</span>
+							Graphic Design
+							<span class="sm:hidden tracking-[0.08em]">｜グラフィックデザイン</span>
 						</li>
 					</>
 				)
@@ -139,7 +140,8 @@ const currentClasses = scaleClasses[scale];
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
 							<a href="/works/graphicdesign" class="flex items-center justify-center opacity-hover duration">
-								Graphic Design<span class="sm:hidden tracking-[0.08em]">｜グラフィックデザイン</span>
+								Graphic Design
+								<span class="sm:hidden tracking-[0.08em]">｜グラフィックデザイン</span>
 							</a>
 						</li>
 					</>

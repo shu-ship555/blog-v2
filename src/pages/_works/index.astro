@@ -5,7 +5,7 @@ import Navigation from "../../components/organisms/navigation.astro";
 import { getContents } from "../../libs/microcms";
 import type { Icon, Image } from "../../types";
 
-const iconRes = await getContents<IconComponent>("icons", { limit: 8 });
+const iconRes = await getContents<Icon>("icons", { limit: 8 });
 const icons = iconRes.contents;
 
 const imageRes = await getContents<Image>("images", {

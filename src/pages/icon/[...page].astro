@@ -1,10 +1,10 @@
 ---
-import Layout from "../../../layouts/Layout.astro";
-import Pager from "../../../components/organisms/pager.astro";
-import IconComponent from "../../../components/atoms/icon.astro";
-import { getAllContents } from "../../../libs/microcms";
+import Layout from "../../layouts/Layout.astro";
+import Pager from "../../components/organisms/pager.astro";
+import IconComponent from "../../components/atoms/icon.astro";
+import { getAllContents } from "../../libs/microcms";
 import type { GetStaticPathsOptions } from "astro";
-import type { Icon } from "../../../types";
+import type { Icon } from "../../types";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 	const ICONS_PER_PAGE = 48;
@@ -64,7 +64,7 @@ const icons = page.data;
 			}
 		</ul>
 		<div class="mt-[48px]">
-			<Pager page={page} totalCount={totalCount} basePath="/works/icon" perPage={perPage} />
+			<Pager page={page} totalCount={totalCount} basePath="/icon" perPage={perPage} />
 		</div>
 		<div class="mt-[48px] sm:mt-[24px]"></div>
 	</main>

@@ -41,10 +41,7 @@ const { categories, tags } = Astro.props;
 			) : (
 				tags.map((tag) => (
 					<li class="text-[12px] font-bold leading-none tracking-[0.06em]">
-						<a href={`/tags/${tag.slug}`} class="opacity-hover duration">
-							<span class="hashtag" />
-							{tag.name}
-							<span class="bracket">{tag.count}</span>
+						<a href={`/tags/${tag.slug}`} class="opacity-hover duration"><span class="hashtag" />{tag.name}<span class="bracket">{tag.count}</span>
 						</a>
 					</li>
 				))
