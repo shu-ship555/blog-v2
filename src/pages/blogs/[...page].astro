@@ -1,12 +1,12 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Pager from "../../components/organisms/pager.astro";
+import Card from "../../components/molecules/card.astro";
+import CategoryTagSidebar from "../../components/organisms/categoryTagSidebar.astro";
 import type { GetStaticPathsOptions } from "astro";
 import { getAllContents, getBlogs } from "../../libs/microcms";
 import type { Blog, Category, Tag } from "../../types";
-import { formatDate } from "../../utils/date";
 import { getCountedCategories, getCountedTags } from "../../utils/countingUtils";
-import CategoryTagSidebar from "../../components/organisms/categoryTagSidebar.astro";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const allBlogsResponse = await getBlogs({ limit: 100 });
@@ -16,12 +16,11 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 const { page } = Astro.props;
 const blogs = page.data;
 
-const [allBlogsResponse, allCategoriesResponse, allTagsResponse] =
-  await Promise.all([
-    getAllContents<Blog>("blogs"),
-    getAllContents<Category>("categories"),
-    getAllContents<Tag>("tags"),
-  ]);
+const [allBlogsResponse, allCategoriesResponse, allTagsResponse] = await Promise.all([
+  getAllContents<Blog>("blogs"),
+  getAllContents<Category>("categories"),
+  getAllContents<Tag>("tags"),
+]);
 
 const allBlogs = allBlogsResponse.contents;
 const categories = allCategoriesResponse.contents;
@@ -31,65 +30,13 @@ const categoryCounts = getCountedCategories(categories, allBlogs);
 const tagCounts = getCountedTags(tags, allBlogs);
 ---
 
-<Layout title={`ブログ一覧 - ${page.currentPage}ページ目 | miyata blog`}>
+<Layout title={`Blogs${page.currentPage > 1 ? ` - ${page.currentPage}ページ目` : ""} | miyata blog`} breadcrumb={true} isBlogsPage={true}>
   <main class="inner pt-[160px] sm:pt-[96px] pb-[200px] sm:pb-[64px]">
-    <div class="flex justify-between gap-[48px] sm:flex-col">
-      <ul class="flex gap-[32px] flex-wrap sm:gap-[28px]">
-        {
-          blogs.map((blog) => (
-            <li class="max-w-[408px] sm:max-w-full w-full">
-              <a href={`/blogs/${blog.id}`} class="opacity-hover duration">
-                <div>
-                  {blog.eyecatch ? (
-                    <img
-                      src={blog.eyecatch.url}
-                      alt={blog.title}
-                      class="rounded-lg"
-                    />
-                  ) : (
-                    <img
-                      src="/img/dummyImage.png"
-                      alt={blog.title}
-                      class="rounded-lg"
-                    />
-                  )}
-                </div>
-                <div class="p-[12px] sm:px-0 sm:pt-[10px] sm:pb-0">
-                  <div class="flex gap-[10px] flex-wrap">
-                    <p
-                      class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] text-[#FFF] rounded-full sm:text-[10px] sm:pb-[4px]"
-                      style={`background-color: ${blog.category.labelColor};`}
-                    >
-                      {blog.category.name}
-                    </p>
-                    {blog.readingTime && (
-                      <p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] bg-[#F6F6F6] rounded-full sm:text-[10px] sm:pb-[4px]">
-                        <span class="text-[#666}">読了までの時間：</span>
-                        {blog.readingTime}分
-                      </p>
-                    )}
-                  </div>
-                  <p class="font-black text-[16px] leading-[1.48] tracking-[0.06em] mt-[12px] sm:mt-[10px]">
-                    {blog.title}
-                  </p>
-                  <p class="font-medium text-[12px] leading-[1.48] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
-                    {blog.description}
-                  </p>
-                  <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
-                    {formatDate(blog.publishedAt)}
-                  </p>
-                  <div class="flex gap-[8px] flex-wrap">
-                    {blog.tag.map((tag) => (
-                      <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
-                        {tag.name}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              </a>
-            </li>
-          ))
-        }
+    <h1 class="text-[32px] sm:text-[24px] leading-none tracking-[0.06em] font-bold">Blogs｜ブログ</h1>
+    <p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[12px] sm:mt-[8px]">Web制作・プログラミング・デザインに関する学習記録を書いています。</p>
+    <div class="flex justify-between gap-[32px] sm:flex-col mt-[40px] sm:mt-[20px]">
+      <ul class="grid grid-cols-2 sm:grid-cols-1 gap-[32px] flex-wrap sm:gap-[24px]">
+        {blogs.map((blog) => <Card blog={blog} />)}
       </ul>
       <CategoryTagSidebar categories={categoryCounts} tags={tagCounts} />
     </div>

@@ -33,6 +33,7 @@ const {
 	imageSize,
 	imageTag,
 	isWorksPage = false,
+	isBlogsPage = false,
 } = props;
 
 // canonical URL を props 優先で決定
@@ -99,14 +100,14 @@ const pageUrl = propPageUrl || `${siteUrl}${pagePath}`;
 			header && (
 				<Header
 					navItems={[
-						{ href: "/", text: "Blog", name: "ブログ", target: false },
+						{ href: "/blogs", text: "Blog", name: "ブログ", target: false },
 						{ href: "/icon", text: "Icon", name: "アイコン", target: false },
 						// { href: "https://suzuri.jp/shu-miyata/products", text: "Shop", name: "ショップ", target: true },
 						{
-							href: "https://adhesive-form-ca1.notion.site/134c792be686808c8bb0e4342fe0625d?pvs=105",
+							href: "/contact",
 							text: "Contact",
 							name: "お問い合わせ",
-							target: true,
+							target: false,
 						},
 					]}
 				/>
@@ -125,6 +126,7 @@ const pageUrl = propPageUrl || `${siteUrl}${pagePath}`;
 					imageSize={imageSize}
 					imageTag={imageTag}
 					isWorksPage={isWorksPage}
+					isBlogsPage={isBlogsPage}
 				/>
 			)
 		}
@@ -193,6 +195,7 @@ const pageUrl = propPageUrl || `${siteUrl}${pagePath}`;
 					imageSize={imageSize}
 					imageTag={imageTag}
 					isWorksPage={isWorksPage}
+					isBlogsPage={isBlogsPage}
 				/>
 			)
 		}

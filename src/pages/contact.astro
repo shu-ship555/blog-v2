@@ -1,0 +1,379 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const GAS_URL = import.meta.env.PUBLIC_GAS_CONTACT_URL;
+
+// Notionのマルチセレクトの選択肢と一致させてください
+const CATEGORIES = ['お仕事のご依頼', 'ブログについて', '技術的なご質問', 'その他'];
+
+const STEPS = ['入力', '確認', '完了'];
+---
+
+<Layout
+  title="Contact｜お問い合わせ | miyata blog"
+  description="miyata blogへのお問い合わせはこちらから。お仕事のご依頼、ブログへのご質問などお気軽にどうぞ。"
+>
+  <main class="inner pt-[160px] sm:pt-[96px] pb-[200px] sm:pb-[64px]">
+    <h1 class="text-[32px] sm:text-[24px] leading-none tracking-[0.06em] font-bold">
+      Contact｜お問い合わせ
+    </h1>
+    <p class="text-[16px] sm:text-[14px] text-[#666] leading-[1.8] tracking-[0.06em] mt-[16px] sm:mt-[12px]">
+      お仕事のご依頼、ご質問などお気軽にどうぞ。<br />
+      内容を確認の上、2〜3営業日以内にご連絡いたします。
+    </p>
+
+    <!-- ステップインジケーター -->
+    <ol class="flex items-center gap-[0px] mt-[48px] sm:mt-[32px]">
+      {
+        STEPS.map((step, i) => (
+          <>
+            <li
+              class="flex items-center gap-[8px] sm:gap-[6px]"
+              data-step-indicator={i + 1}
+            >
+              <span
+                class="w-[24px] h-[24px] sm:w-[20px] sm:h-[20px] rounded-full flex items-center justify-center text-[12px] sm:text-[10px] font-bold leading-none shrink-0 step-circle"
+              >
+                {i + 1}
+              </span>
+              <span class="text-[14px] sm:text-[12px] font-bold tracking-[0.06em] leading-none step-label">
+                {step}
+              </span>
+            </li>
+            {i < STEPS.length - 1 && (
+              <li class="mx-[16px] sm:mx-[10px] text-[#ccc] text-[14px] leading-none select-none">
+                →
+              </li>
+            )}
+          </>
+        ))
+      }
+    </ol>
+
+    <div class="mt-[48px] sm:mt-[32px] max-w-[640px]">
+
+      <!-- ① 入力画面 -->
+      <div id="stepInput">
+        <form id="contactForm" novalidate>
+          <!-- 名前 -->
+          <div>
+            <label
+              for="name"
+              class="block text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333]"
+            >
+              名前 <span class="text-[#E81F00]">*</span>
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              placeholder="山田 太郎"
+              class="mt-[8px] sm:mt-[6px] w-full border border-[#ccc] rounded-md px-[16px] py-[12px] sm:py-[10px] text-[16px] sm:text-[14px] tracking-[0.06em] text-[#333] placeholder-[#ccc] focus:outline-none focus:border-[#0079C9] transition-colors duration-[240ms]"
+            />
+            <p class="hidden text-[12px] text-[#E81F00] mt-[4px] tracking-[0.06em] js-error-name">
+              名前を入力してください
+            </p>
+          </div>
+
+          <!-- フリガナ -->
+          <div class="mt-[32px] sm:mt-[24px]">
+            <label
+              for="furigana"
+              class="block text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333]"
+            >
+              フリガナ <span class="text-[#E81F00]">*</span>
+            </label>
+            <input
+              type="text"
+              id="furigana"
+              name="furigana"
+              required
+              placeholder="ヤマダ タロウ"
+              class="mt-[8px] sm:mt-[6px] w-full border border-[#ccc] rounded-md px-[16px] py-[12px] sm:py-[10px] text-[16px] sm:text-[14px] tracking-[0.06em] text-[#333] placeholder-[#ccc] focus:outline-none focus:border-[#0079C9] transition-colors duration-[240ms]"
+            />
+            <p class="hidden text-[12px] text-[#E81F00] mt-[4px] tracking-[0.06em] js-error-furigana">
+              全角カタカナで入力してください
+            </p>
+          </div>
+
+          <!-- メールアドレス -->
+          <div class="mt-[32px] sm:mt-[24px]">
+            <label
+              for="email"
+              class="block text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333]"
+            >
+              メールアドレス <span class="text-[#E81F00]">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder="example@email.com"
+              class="mt-[8px] sm:mt-[6px] w-full border border-[#ccc] rounded-md px-[16px] py-[12px] sm:py-[10px] text-[16px] sm:text-[14px] tracking-[0.06em] text-[#333] placeholder-[#ccc] focus:outline-none focus:border-[#0079C9] transition-colors duration-[240ms]"
+            />
+            <p class="hidden text-[12px] text-[#E81F00] mt-[4px] tracking-[0.06em] js-error-email">
+              正しいメールアドレスを入力してください
+            </p>
+          </div>
+
+          <!-- お問い合わせ内容 -->
+          <div class="mt-[32px] sm:mt-[24px]">
+            <p class="text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333]">
+              お問い合わせ内容 <span class="text-[#E81F00]">*</span>
+            </p>
+            <div class="mt-[12px] sm:mt-[8px] flex flex-wrap gap-[12px] sm:gap-[8px]">
+              {
+                CATEGORIES.map((category) => (
+                  <label class="flex items-center gap-[8px] sm:gap-[6px] cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      name="categories"
+                      value={category}
+                      class="w-[16px] h-[16px] accent-[#0079C9] cursor-pointer"
+                    />
+                    <span class="text-[14px] sm:text-[12px] tracking-[0.06em] text-[#333] group-hover:text-[#0079C9] transition-colors duration-[240ms]">
+                      {category}
+                    </span>
+                  </label>
+                ))
+              }
+            </div>
+            <p class="hidden text-[12px] text-[#E81F00] mt-[4px] tracking-[0.06em] js-error-categories">
+              お問い合わせ内容を1つ以上選択してください
+            </p>
+          </div>
+
+          <!-- お問い合わせ詳細 -->
+          <div class="mt-[32px] sm:mt-[24px]">
+            <label
+              for="details"
+              class="block text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333]"
+            >
+              お問い合わせ詳細 <span class="text-[#E81F00]">*</span>
+            </label>
+            <textarea
+              id="details"
+              name="details"
+              required
+              rows="6"
+              placeholder="お問い合わせ内容をご記入ください"
+              class="mt-[8px] sm:mt-[6px] w-full border border-[#ccc] rounded-md px-[16px] py-[12px] sm:py-[10px] text-[16px] sm:text-[14px] tracking-[0.06em] text-[#333] placeholder-[#ccc] focus:outline-none focus:border-[#0079C9] transition-colors duration-[240ms] resize-none"
+            ></textarea>
+            <p class="hidden text-[12px] text-[#E81F00] mt-[4px] tracking-[0.06em] js-error-details">
+              お問い合わせ詳細を入力してください
+            </p>
+          </div>
+
+          <!-- 確認ボタン -->
+          <div class="mt-[40px] sm:mt-[32px]">
+            <button
+              type="submit"
+              class="bg-[#0079C9] text-[#FFF] font-bold text-[16px] sm:text-[14px] tracking-[0.06em] rounded-lg px-[48px] sm:px-[32px] py-[16px] sm:py-[12px] duration hover:bg-[#0079C9]/[0.8]"
+            >
+              確認する
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ② 確認画面 -->
+      <div id="stepConfirm" class="hidden">
+        <dl class="border-t border-[#eee]">
+          {
+            [
+              { label: '名前', id: 'confirmName' },
+              { label: 'フリガナ', id: 'confirmFurigana' },
+              { label: 'メールアドレス', id: 'confirmEmail' },
+              { label: 'お問い合わせ内容', id: 'confirmCategories' },
+              { label: 'お問い合わせ詳細', id: 'confirmDetails' },
+            ].map(({ label, id }) => (
+              <div class="flex gap-[24px] sm:gap-[16px] border-b border-[#eee] py-[20px] sm:py-[16px]">
+                <dt class="text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#666] shrink-0 w-[160px] sm:w-[120px]">
+                  {label}
+                </dt>
+                <dd
+                  id={id}
+                  class="text-[16px] sm:text-[14px] tracking-[0.06em] text-[#333] leading-[1.8] break-all"
+                />
+              </div>
+            ))
+          }
+        </dl>
+
+        <!-- 送信エラー -->
+        <p id="submitError" class="hidden text-[14px] sm:text-[12px] text-[#E81F00] mt-[16px] tracking-[0.06em]">
+          送信に失敗しました。時間をおいて再度お試しください。
+        </p>
+
+        <!-- ボタン -->
+        <div class="mt-[40px] sm:mt-[32px] flex gap-[16px] sm:gap-[12px]">
+          <button
+            id="backBtn"
+            type="button"
+            class="border border-[#ccc] text-[#333] font-bold text-[16px] sm:text-[14px] tracking-[0.06em] rounded-lg px-[48px] sm:px-[32px] py-[16px] sm:py-[12px] duration hover:border-[#999] hover:text-[#666]"
+          >
+            戻る
+          </button>
+          <button
+            id="submitBtn"
+            type="button"
+            class="bg-[#0079C9] text-[#FFF] font-bold text-[16px] sm:text-[14px] tracking-[0.06em] rounded-lg px-[48px] sm:px-[32px] py-[16px] sm:py-[12px] duration hover:bg-[#0079C9]/[0.8] disabled:opacity-[0.48] disabled:cursor-not-allowed"
+          >
+            送信する
+          </button>
+        </div>
+      </div>
+
+      <!-- ③ 完了画面 -->
+      <div id="stepDone" class="hidden">
+        <div class="bg-[#EBF7FF] rounded-xl px-[32px] sm:px-[24px] py-[40px] sm:py-[32px] text-center">
+          <p class="text-[20px] sm:text-[16px] font-bold tracking-[0.06em] text-[#0079C9]">
+            送信が完了しました
+          </p>
+          <p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[12px] sm:mt-[8px]">
+            お問い合わせありがとうございます。<br />
+            <span id="doneEmail" class="font-bold text-[#333]"></span> 宛に受付メールをお送りしました。<br />
+            内容を確認の上、ご連絡いたします。
+          </p>
+        </div>
+        <div class="mt-[32px] sm:mt-[24px]">
+          <a
+            href="/"
+            class="inline-block border border-[#ccc] text-[#333] font-bold text-[16px] sm:text-[14px] tracking-[0.06em] rounded-lg px-[40px] sm:px-[28px] py-[16px] sm:py-[12px] duration hover:border-[#999] hover:text-[#666]"
+          >
+            トップへ戻る
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</Layout>
+
+<script is:inline define:vars={{ GAS_URL }}>
+  // ステップ管理
+  const steps = {
+    input: document.getElementById('stepInput'),
+    confirm: document.getElementById('stepConfirm'),
+    done: document.getElementById('stepDone'),
+  };
+
+  function showStep(stepName) {
+    Object.values(steps).forEach((el) => el.classList.add('hidden'));
+    steps[stepName].classList.remove('hidden');
+
+    const stepIndex = { input: 1, confirm: 2, done: 3 }[stepName];
+    document.querySelectorAll('[data-step-indicator]').forEach((li) => {
+      const n = Number(li.dataset.stepIndicator);
+      const circle = li.querySelector('.step-circle');
+      const label = li.querySelector('.step-label');
+      const isActive = n === stepIndex;
+      circle.className = `w-[24px] h-[24px] sm:w-[20px] sm:h-[20px] rounded-full flex items-center justify-center text-[12px] sm:text-[10px] font-bold leading-none shrink-0 step-circle ${
+        isActive ? 'bg-[#0079C9] text-[#FFF]' : 'bg-[#eee] text-[#999]'
+      }`;
+      label.className = `text-[14px] sm:text-[12px] font-bold tracking-[0.06em] leading-none step-label ${
+        isActive ? 'text-[#333]' : 'text-[#999]'
+      }`;
+    });
+  }
+
+  // 初期表示
+  showStep('input');
+
+  // フォームデータ保持
+  let formData = {};
+
+  // ① → ② 入力確認
+  document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const furigana = document.getElementById('furigana').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const categories = [...document.querySelectorAll('input[name="categories"]:checked')].map((el) => el.value);
+    const details = document.getElementById('details').value.trim();
+
+    let hasError = false;
+
+    const nameError = document.querySelector('.js-error-name');
+    if (!name) { nameError.classList.remove('hidden'); hasError = true; }
+    else { nameError.classList.add('hidden'); }
+
+    const furiganaError = document.querySelector('.js-error-furigana');
+    if (!furigana || !/^[ァ-ヶー 　]+$/.test(furigana)) {
+      furiganaError.classList.remove('hidden'); hasError = true;
+    } else { furiganaError.classList.add('hidden'); }
+
+    const emailError = document.querySelector('.js-error-email');
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailError.classList.remove('hidden'); hasError = true;
+    } else { emailError.classList.add('hidden'); }
+
+    const categoriesError = document.querySelector('.js-error-categories');
+    if (categories.length === 0) { categoriesError.classList.remove('hidden'); hasError = true; }
+    else { categoriesError.classList.add('hidden'); }
+
+    const detailsError = document.querySelector('.js-error-details');
+    if (!details) { detailsError.classList.remove('hidden'); hasError = true; }
+    else { detailsError.classList.add('hidden'); }
+
+    if (hasError) return;
+
+    // 確認画面に値をセット
+    formData = { name, furigana, email, categories, details };
+    document.getElementById('confirmName').textContent = name;
+    document.getElementById('confirmFurigana').textContent = furigana;
+    document.getElementById('confirmEmail').textContent = email;
+    document.getElementById('confirmCategories').textContent = categories.join('、');
+    document.getElementById('confirmDetails').textContent = details;
+    localStorage.setItem('contactEmail', email);
+
+    showStep('confirm');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ② → ① 戻る
+  document.getElementById('backBtn').addEventListener('click', () => {
+    showStep('input');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ② → ③ 送信
+  const submitBtn = document.getElementById('submitBtn');
+  const submitError = document.getElementById('submitError');
+
+  submitBtn.addEventListener('click', async () => {
+    submitBtn.disabled = true;
+    submitBtn.textContent = '送信中...';
+    submitError.classList.add('hidden');
+
+    try {
+      const body = new URLSearchParams({
+        name: formData.name,
+        furigana: formData.furigana,
+        email: formData.email,
+        categories: formData.categories.join(','),
+        details: formData.details,
+      });
+
+      const res = await fetch(GAS_URL, { method: 'POST', body, redirect: 'follow' });
+      const data = await res.json();
+
+      if (!data.success) throw new Error(data.error || '送信に失敗しました');
+
+      const sentEmail = localStorage.getItem('contactEmail') || '';
+      document.getElementById('doneEmail').textContent = sentEmail;
+      localStorage.removeItem('contactEmail');
+
+      showStep('done');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error('[Contact] submit error:', err);
+      submitError.classList.remove('hidden');
+      submitBtn.disabled = false;
+      submitBtn.textContent = '送信する';
+    }
+  });
+</script>

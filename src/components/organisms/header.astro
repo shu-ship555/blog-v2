@@ -58,6 +58,11 @@ const { navItems = [] } = Astro.props;
 							<Icon filename="logo_note" color="#333" customClass="w-[32px] align-[sub]" />
 						</a>
 					</li>
+					<li class="sm:hidden">
+						<a href="https://github.com/shu-ship555" target="_blank" class="opacity-hover duration">
+							<Icon filename="logo_github" color="#333" customClass="w-[32px] align-[sub]" />
+						</a>
+					</li>
 					<li class="hidden leading-none sm:block js-open">
 						<Icon filename="icon_menu" customClass="w-[32px]" />
 					</li>
@@ -87,10 +92,13 @@ const { navItems = [] } = Astro.props;
 				</li>
 			))
 		}
-		<li>
-			<span>SNS｜</span>
+		<li class="flex items-center gap-[16px] sm:gap-[12px]">
+			<span>外部リンク｜</span>
 			<a href="https://note.com/miyata_note" target="_blank" class="opacity-hover duration">
 				<Icon filename="logo_note" color="#333" customClass="sm:w-[24px] align-bottom" />
+			</a>
+			<a href="https://github.com/shu-ship555" target="_blank" class="opacity-hover duration">
+				<Icon filename="logo_github" color="#333" customClass="sm:w-[24px] align-bottom" />
 			</a>
 		</li>
 		<li><hr class="border border-[#333]" /></li>

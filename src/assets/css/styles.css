@@ -195,6 +195,42 @@ toc-sscrollindicator
 }
 
 /* =======================
+固定お問い合わせボタン
+ ======================= */
+#fixedContactBtn {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(8px);
+}
+#fixedContactBtn.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+@media (max-width: 1416px) {
+  #fixedContactBtn {
+    transform: translateY(100%);
+  }
+  #fixedContactBtn.is-visible {
+    transform: translateY(0);
+  }
+}
+
+/* =======================
+タイピングアニメーション
+ ======================= */
+@keyframes cursor-blink {
+  0%, 100% { border-color: #333; }
+  50% { border-color: transparent; }
+}
+
+.typing-cursor {
+  border-right: 3px solid #333;
+  animation: cursor-blink 0.72s step-end infinite;
+}
+
+/* =======================
 swiper
  ======================= */
  .swiper, .swiper-wrapper, .swiper-pagination {

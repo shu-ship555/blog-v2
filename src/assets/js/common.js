@@ -169,7 +169,7 @@ const setupSwiper = () => {
 
     new Swiper(el, {
       loop: true,
-			autoplay: true,
+      autoplay: true,
       pagination: {
         el: el.querySelector(".swiper-pagination"),
         clickable: true,
@@ -178,18 +178,67 @@ const setupSwiper = () => {
         nextEl: el.querySelector(".swiper-button-next"),
         prevEl: el.querySelector(".swiper-button-prev"),
       },
-			...(isNote ? {
-					slidesPerView: 1,
-					spaceBetween: 24,
-					breakpoints: {
-						1417: { slidesPerView: 4 },
-					},
-				} : {
-					slidesPerView: 1,
-					spaceBetween: 0,
-				}),
-			});
+      ...(isNote ? {
+        slidesPerView: 1,
+        spaceBetween: 24,
+        breakpoints: {
+          1417: { slidesPerView: 4 },
+        },
+      } : {
+        slidesPerView: 1,
+        spaceBetween: 0,
+      }),
+    });
   });
+};
+
+/**
+ * 固定お問い合わせボタンの設定
+ */
+const setupFixedContactBtn = () => {
+  const heroBtn = document.getElementById('heroContactBtn');
+  const fixedBtn = document.getElementById('fixedContactBtn');
+
+  if (!heroBtn || !fixedBtn) return;
+
+  const observer = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+      fixedBtn.classList.remove('is-visible');
+      fixedBtn.setAttribute('aria-hidden', 'true');
+    } else {
+      fixedBtn.classList.add('is-visible');
+      fixedBtn.setAttribute('aria-hidden', 'false');
+    }
+  });
+  observer.observe(heroBtn);
+};
+
+/**
+ * タイピングアニメーションの設定
+ */
+const setupTyping = () => {
+  const el = document.getElementById('js-typing');
+  if (!el) return;
+
+  const text = el.dataset.text || '';
+  const placeholder = el.querySelector('span');
+  if (placeholder) placeholder.remove();
+
+  el.textContent = '';
+  el.classList.add('typing-cursor');
+
+  let i = 0;
+  const type = () => {
+    if (i < text.length) {
+      el.textContent += text[i];
+      i++;
+      setTimeout(type, 80);
+    } else {
+      setTimeout(() => el.classList.remove('typing-cursor'), 600);
+    }
+  };
+
+  type();
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -198,4 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupScrollIndicator();
   setupFilter();
   setupSwiper();
+  setupFixedContactBtn();
+  setupTyping();
 });

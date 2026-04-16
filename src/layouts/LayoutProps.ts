@@ -20,4 +20,5 @@ export interface LayoutProps {
 	imageSize?: string;
 	imageTag?: ImageTag;
 	isWorksPage?: boolean;
+	isBlogsPage?: boolean;
 }
