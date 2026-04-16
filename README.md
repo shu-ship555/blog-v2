@@ -50,4 +50,4 @@ npm run build
 ## ✉️ Contact
 ご連絡やお問い合わせは、下記までお願いします！Gitに関するものはIssueに残していただいても大丈夫です。
 
-https://adhesive-form-ca1.notion.site/134c792be686808c8bb0e4342fe0625d
+https://shumiyata.com/contact
