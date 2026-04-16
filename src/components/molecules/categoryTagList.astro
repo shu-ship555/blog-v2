@@ -1,0 +1,58 @@
+---
+import type { Category, Tag } from "../../types";
+
+type CategoryWithCount = Category & { count: number };
+type TagWithCount = Tag & { count: number };
+
+export interface Props {
+	categories: CategoryWithCount[];
+	tags: TagWithCount[];
+	headingSize?: "sm" | "md";
+	spacingTop?: string;
+}
+
+const { categories, tags, headingSize = "md", spacingTop = "mt-[48px]" } = Astro.props;
+
+const headingClass =
+	headingSize === "md"
+		? "text-[20px] leading-none tracking-[0.06em] font-bold"
+		: "text-[16px] leading-none tracking-[0.06em] font-black";
+
+const itemMargin = headingSize === "md" ? "mt-[24px]" : "mt-[18px] sm:mt-[12px]";
+---
+
+<p class={headingClass}>Category｜カテゴリ</p>
+<ul class={itemMargin}>
+	{
+		categories.length === 0 ? (
+			<li class="text-sm text-muted-foreground">カテゴリがありません</li>
+		) : (
+			categories.map((category) => (
+				<li class="text-[12px] font-bold leading-none tracking-[0.06em] mt-[12px]">
+					<a href={`/categories/${category.slug}`} class="opacity-hover duration">
+						{category.name}
+						<span class="bracket">{category.count}</span>
+					</a>
+				</li>
+			))
+		)
+	}
+</ul>
+<p class:list={[headingClass, spacingTop]}>Tag｜タグ</p>
+<ul class:list={[itemMargin, "flex gap-[12px] flex-wrap"]}>
+	{
+		tags.length === 0 ? (
+			<li class="text-sm text-muted-foreground">タグがありません</li>
+		) : (
+			tags.map((tag) => (
+				<li class="text-[12px] font-bold leading-none tracking-[0.06em]">
+					<a href={`/tags/${tag.slug}`} class="opacity-hover duration">
+						<span class="hashtag" />
+						{tag.name}
+						<span class="bracket">{tag.count}</span>
+					</a>
+				</li>
+			))
+		)
+	}
+</ul>

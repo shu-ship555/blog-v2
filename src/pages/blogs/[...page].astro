@@ -4,9 +4,8 @@ import Pager from "../../components/organisms/pager.astro";
 import Card from "../../components/molecules/card.astro";
 import CategoryTagSidebar from "../../components/organisms/categoryTagSidebar.astro";
 import type { GetStaticPathsOptions } from "astro";
-import { getAllContents, getBlogs } from "../../libs/microcms";
-import type { Blog, Category, Tag } from "../../types";
-import { getCountedCategories, getCountedTags } from "../../utils/countingUtils";
+import { getBlogs } from "../../libs/microcms";
+import { getCategoryAndTagCounts } from "../../utils/countingUtils";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const allBlogsResponse = await getBlogs({ limit: 100 });
@@ -16,18 +15,7 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 const { page } = Astro.props;
 const blogs = page.data;
 
-const [allBlogsResponse, allCategoriesResponse, allTagsResponse] = await Promise.all([
-  getAllContents<Blog>("blogs"),
-  getAllContents<Category>("categories"),
-  getAllContents<Tag>("tags"),
-]);
-
-const allBlogs = allBlogsResponse.contents;
-const categories = allCategoriesResponse.contents;
-const tags = allTagsResponse.contents;
-
-const categoryCounts = getCountedCategories(categories, allBlogs);
-const tagCounts = getCountedTags(tags, allBlogs);
+const { categoryCounts, tagCounts, totalCount } = await getCategoryAndTagCounts();
 ---
 
 <Layout title={`Blogs${page.currentPage > 1 ? ` - ${page.currentPage}ページ目` : ""} | miyata blog`} breadcrumb={true} isBlogsPage={true}>
@@ -40,6 +28,6 @@ const tagCounts = getCountedTags(tags, allBlogs);
       </ul>
       <CategoryTagSidebar categories={categoryCounts} tags={tagCounts} />
     </div>
-    <Pager page={page} totalCount={allBlogsResponse.totalCount} />
+    <Pager page={page} totalCount={totalCount} />
   </main>
 </Layout>

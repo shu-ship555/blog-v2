@@ -1,0 +1,27 @@
+---
+export interface Props {
+	variant?: "hero" | "fixed";
+}
+
+const { variant = "hero" } = Astro.props;
+
+const baseClass =
+	"bg-[#0079C9] text-[#FFF] font-bold text-[16px] sm:text-[14px] tracking-[0.06em] rounded-lg px-[48px] sm:px-[32px] py-[16px] sm:py-[12px] duration hover:bg-[#0079C9]/[0.8]";
+
+const heroClass = `inline-block whitespace-nowrap shrink-0 ${baseClass}`;
+const fixedClass = `fixed bottom-[40px] right-[40px] sm:bottom-[24px] sm:left-[24px] sm:right-[24px] sm:rounded-lg sm:py-[16px] sm:text-center z-[100] block sm:hidden ${baseClass}`;
+
+const idAttr = variant === "fixed" ? "fixedContactBtn" : "heroContactBtn";
+---
+
+{
+	variant === "fixed" ? (
+		<a id={idAttr} href="/contact" class={fixedClass} aria-hidden="true">
+			Contact<span class="bracket ml-[0.4em]">お問い合わせ</span>
+		</a>
+	) : (
+		<a id={idAttr} href="/contact" class={heroClass}>
+			Contact<span class="bracket ml-[0.4em]">お問い合わせ</span>
+		</a>
+	)
+}

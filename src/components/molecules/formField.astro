@@ -1,0 +1,46 @@
+---
+export interface Props {
+	label: string;
+	id: string;
+	name: string;
+	type?: "text" | "email" | "tel" | "password" | "url";
+	placeholder?: string;
+	required?: boolean;
+	errorMessage: string;
+	errorClass: string;
+	tag?: "input" | "textarea";
+	rows?: number;
+}
+
+const {
+	label,
+	id,
+	name,
+	type = "text",
+	placeholder = "",
+	required = false,
+	errorMessage,
+	errorClass,
+	tag = "input",
+	rows = 6,
+} = Astro.props;
+
+const fieldClass =
+	"mt-[8px] sm:mt-[6px] w-full border border-[#ccc] rounded-md px-[16px] py-[12px] sm:py-[10px] text-[16px] sm:text-[14px] tracking-[0.06em] text-[#333] placeholder-[#ccc] focus:outline-none focus:border-[#0079C9] transition-colors duration-[240ms]";
+---
+
+<div>
+	<label for={id} class="block text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333]">
+		{label} {required && <span class="text-[#E81F00]">*</span>}
+	</label>
+	{
+		tag === "textarea" ? (
+			<textarea id={id} name={name} required={required} rows={rows} placeholder={placeholder} class={`${fieldClass} resize-none`} />
+		) : (
+			<input type={type} id={id} name={name} required={required} placeholder={placeholder} class={fieldClass} />
+		)
+	}
+	<p class:list={["hidden text-[12px] text-[#E81F00] mt-[4px] tracking-[0.06em]", errorClass]}>
+		{errorMessage}
+	</p>
+</div>

@@ -1,8 +1,7 @@
 ---
 import Icon from "../atoms/icon.astro";
-import { getAllContents } from "../../libs/microcms";
-import type { Blog, Category, Tag } from "../../types";
-import { getCountedCategories, getCountedTags } from "../../utils/countingUtils";
+import CategoryTagList from "../molecules/categoryTagList.astro";
+import { getCategoryAndTagCounts } from "../../utils/countingUtils";
 
 interface NavItem {
 	href?: string;
@@ -11,18 +10,7 @@ interface NavItem {
 	target?: boolean;
 }
 
-const [allBlogsResponse, allCategoriesResponse, allTagsResponse] = await Promise.all([
-	getAllContents<Blog>("blogs"),
-	getAllContents<Category>("categories"),
-	getAllContents<Tag>("tags"),
-]);
-
-const allBlogs = allBlogsResponse.contents;
-const categories = allCategoriesResponse.contents;
-const tags = allTagsResponse.contents;
-
-const categoryCounts = getCountedCategories(categories, allBlogs);
-const tagCounts = getCountedTags(tags, allBlogs);
+const { categoryCounts, tagCounts } = await getCategoryAndTagCounts();
 
 interface Props {
 	navItems?: NavItem[];
@@ -103,41 +91,12 @@ const { navItems = [] } = Astro.props;
 		</li>
 		<li><hr class="border border-[#333]" /></li>
 		<li class="shrink-0">
-			<p class="text-[16px] leading-none tracking-[0.06em] font-black">Category｜カテゴリ</p>
-			<ul class="mt-[18px] sm:mt-[12px]">
-				{
-					categoryCounts.length === 0 ? (
-						<li class="text-sm text-muted-foreground">カテゴリがありません</li>
-					) : (
-						categoryCounts.map((category) => (
-							<li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] duration mt-[12px]">
-								<a href={`/categories/${category.slug}`}>
-									{category.name}
-									<span class="bracket">{category.count}</span>
-								</a>
-							</li>
-						))
-					)
-				}
-			</ul>
-			<p class="text-[16px] leading-none tracking-[0.06em] font-black mt-[32px] sm:mt-[28px]">Tag｜タグ</p>
-			<ul class="mt-[18px] sm:mt-[12px] flex gap-[12px] flex-wrap">
-				{
-					tagCounts.length === 0 ? (
-						<li class="text-sm text-muted-foreground">タグがありません</li>
-					) : (
-						tagCounts.map((tag) => (
-							<li class="text-[12px] font-bold opacity-hover leading-none tracking-[0.06em] d">
-								<a href={`/tags/${tag.slug}`}>
-									<span class="hashtag" />
-									{tag.name}
-									<span class="bracket">{tag.count}</span>
-								</a>
-							</li>
-						))
-					)
-				}
-			</ul>
+			<CategoryTagList
+				categories={categoryCounts}
+				tags={tagCounts}
+				headingSize="sm"
+				spacingTop="mt-[32px] sm:mt-[28px]"
+			/>
 		</li>
 	</ol>
 </nav>

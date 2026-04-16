@@ -2,11 +2,11 @@
 import Layout from "../../../layouts/Layout.astro";
 import Pager from "../../../components/organisms/pager.astro";
 import { getCategoryList, getAllContents } from "../../../libs/microcms";
-import type { Blog, Category, Tag } from "../../../types";
+import type { Blog, Category } from "../../../types";
 import type { GetStaticPathsOptions } from "astro";
 import Card from "../../../components/molecules/card.astro";
 import CategoryTagSidebar from "../../../components/organisms/categoryTagSidebar.astro";
-import { getCountedCategories, getCountedTags } from "../../../utils/countingUtils";
+import { getCategoryAndTagCounts } from "../../../utils/countingUtils";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 	const categoryResponse = await getCategoryList();
@@ -22,31 +22,20 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 			params: { slug: category.slug },
 			props: {
 				category: category,
-				allBlogs: allBlogs,
 				totalCount: blogsInThisCategory.length,
 			},
 		});
 	});
 }
 
-const { page, category, allBlogs, totalCount } = Astro.props as {
+const { page, category, totalCount } = Astro.props as {
 	page: { data: Blog[] };
 	category: Category;
-	allBlogs: Blog[];
 	totalCount: number;
 };
 
 const blogs = page.data as Blog[];
-
-const [allCategoriesResponse, allTagsResponse] = await Promise.all([
-	getAllContents<Category>("categories"),
-	getAllContents<Tag>("tags"),
-]);
-const categories = allCategoriesResponse.contents;
-const tags = allTagsResponse.contents;
-
-const categoryCounts = getCountedCategories(categories, allBlogs);
-const tagCounts = getCountedTags(tags, allBlogs);
+const { categoryCounts, tagCounts } = await getCategoryAndTagCounts();
 ---
 
 <Layout title={`${category.name} の記事一覧 | miyata blog`} breadcrumb={true} category={category}>

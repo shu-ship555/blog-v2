@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Pager from "../../components/organisms/pager.astro";
-import IconComponent from "../../components/atoms/icon.astro";
+import IconCard from "../../components/molecules/iconCard.astro";
 import { getAllContents } from "../../libs/microcms";
 import type { GetStaticPathsOptions } from "astro";
 import type { Icon } from "../../types";
@@ -39,29 +39,7 @@ const icons = page.data;
 	<main class="inner relative pt-[96px] sm:pt-[48px] pb-[120px] sm:pb-[64px]">
 		<h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Icon｜アイコン</h1>
 		<ul class="js-expand-modal grid grid-cols-8 sm:grid-cols-3 gap-[48px] sm:gap-[32px] mt-[48px] sm:mt-[36px]">
-			{
-				icons.map((icon) => (
-					<li class="relative text-center">
-						<div class="expand-img max-w-[64px] sm:max-w-[48px] mx-auto duration">
-							<img src={icon.image.url} alt={icon.title} class="w-full" />
-						</div>
-						<p class="whitespace-nowrap mt-[12px] text-[12px] sm:text-[10px] leading-none tracking-[0.06em] font-black">
-							{icon.title}
-						</p>
-						<p class="whitespace-nowrap mt-[6px] bracket text-[10px] sm:text-[10px] leading-none tracking-[0.06em] font-bold">
-							{icon.enTitle}
-						</p>
-						<button class="expand-btn bg-[#F8F8F8] text-[12px] sm:text-[10px] font-bold leading-none tracking-[0.04em] pt-[4px] pb-[6px] mt-[12px] block w-full text-[#0079C9] opacity-hover duration">
-							拡大
-							<IconComponent
-								filename="icon_fullscreen"
-								color="#0079C9"
-								customClass="w-[14px] ml-[4px] sm:w-[12px] align-text-top sm:ml-[2px]"
-							/>
-						</button>
-					</li>
-				))
-			}
+			{icons.map((icon) => <IconCard icon={icon} showExpandBtn={true} />)}
 		</ul>
 		<div class="mt-[48px]">
 			<Pager page={page} totalCount={totalCount} basePath="/icon" perPage={perPage} />

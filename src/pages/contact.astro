@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import FormField from "../components/molecules/formField.astro";
 
 const GAS_URL = import.meta.env.PUBLIC_GAS_CONTACT_URL;
 
@@ -55,67 +56,39 @@ const STEPS = ['入力', '確認', '完了'];
       <!-- ① 入力画面 -->
       <div id="stepInput">
         <form id="contactForm" novalidate>
-          <!-- 名前 -->
-          <div>
-            <label
-              for="name"
-              class="block text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333]"
-            >
-              名前 <span class="text-[#E81F00]">*</span>
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              placeholder="山田 太郎"
-              class="mt-[8px] sm:mt-[6px] w-full border border-[#ccc] rounded-md px-[16px] py-[12px] sm:py-[10px] text-[16px] sm:text-[14px] tracking-[0.06em] text-[#333] placeholder-[#ccc] focus:outline-none focus:border-[#0079C9] transition-colors duration-[240ms]"
-            />
-            <p class="hidden text-[12px] text-[#E81F00] mt-[4px] tracking-[0.06em] js-error-name">
-              名前を入力してください
-            </p>
-          </div>
+          <FormField
+            label="名前"
+            id="name"
+            name="name"
+            required
+            placeholder="山田 太郎"
+            errorMessage="名前を入力してください"
+            errorClass="js-error-name"
+          />
 
-          <!-- フリガナ -->
           <div class="mt-[32px] sm:mt-[24px]">
-            <label
-              for="furigana"
-              class="block text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333]"
-            >
-              フリガナ <span class="text-[#E81F00]">*</span>
-            </label>
-            <input
-              type="text"
+            <FormField
+              label="フリガナ"
               id="furigana"
               name="furigana"
               required
               placeholder="ヤマダ タロウ"
-              class="mt-[8px] sm:mt-[6px] w-full border border-[#ccc] rounded-md px-[16px] py-[12px] sm:py-[10px] text-[16px] sm:text-[14px] tracking-[0.06em] text-[#333] placeholder-[#ccc] focus:outline-none focus:border-[#0079C9] transition-colors duration-[240ms]"
+              errorMessage="全角カタカナで入力してください"
+              errorClass="js-error-furigana"
             />
-            <p class="hidden text-[12px] text-[#E81F00] mt-[4px] tracking-[0.06em] js-error-furigana">
-              全角カタカナで入力してください
-            </p>
           </div>
 
-          <!-- メールアドレス -->
           <div class="mt-[32px] sm:mt-[24px]">
-            <label
-              for="email"
-              class="block text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333]"
-            >
-              メールアドレス <span class="text-[#E81F00]">*</span>
-            </label>
-            <input
-              type="email"
+            <FormField
+              label="メールアドレス"
               id="email"
               name="email"
+              type="email"
               required
               placeholder="example@email.com"
-              class="mt-[8px] sm:mt-[6px] w-full border border-[#ccc] rounded-md px-[16px] py-[12px] sm:py-[10px] text-[16px] sm:text-[14px] tracking-[0.06em] text-[#333] placeholder-[#ccc] focus:outline-none focus:border-[#0079C9] transition-colors duration-[240ms]"
+              errorMessage="正しいメールアドレスを入力してください"
+              errorClass="js-error-email"
             />
-            <p class="hidden text-[12px] text-[#E81F00] mt-[4px] tracking-[0.06em] js-error-email">
-              正しいメールアドレスを入力してください
-            </p>
           </div>
 
           <!-- お問い合わせ内容 -->
@@ -145,25 +118,18 @@ const STEPS = ['入力', '確認', '完了'];
             </p>
           </div>
 
-          <!-- お問い合わせ詳細 -->
           <div class="mt-[32px] sm:mt-[24px]">
-            <label
-              for="details"
-              class="block text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333]"
-            >
-              お問い合わせ詳細 <span class="text-[#E81F00]">*</span>
-            </label>
-            <textarea
+            <FormField
+              label="お問い合わせ詳細"
               id="details"
               name="details"
               required
-              rows="6"
               placeholder="お問い合わせ内容をご記入ください"
-              class="mt-[8px] sm:mt-[6px] w-full border border-[#ccc] rounded-md px-[16px] py-[12px] sm:py-[10px] text-[16px] sm:text-[14px] tracking-[0.06em] text-[#333] placeholder-[#ccc] focus:outline-none focus:border-[#0079C9] transition-colors duration-[240ms] resize-none"
-            ></textarea>
-            <p class="hidden text-[12px] text-[#E81F00] mt-[4px] tracking-[0.06em] js-error-details">
-              お問い合わせ詳細を入力してください
-            </p>
+              errorMessage="お問い合わせ詳細を入力してください"
+              errorClass="js-error-details"
+              tag="textarea"
+              rows={6}
+            />
           </div>
 
           <!-- 確認ボタン -->

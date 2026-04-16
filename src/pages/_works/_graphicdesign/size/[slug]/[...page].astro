@@ -1,8 +1,6 @@
 ---
 import Layout from "../../../../../layouts/Layout.astro";
-import Pager from "../../../../../components/organisms/pager.astro";
-import FilterSection from "../../../../../components/organisms/filterSection.astro";
-import ImageCard from "../../../../../components/molecules/imageCard.astro";
+import GraphicDesignListMain from "../../../../../components/organisms/graphicDesignListMain.astro";
 import { getAllContents } from "../../../../../libs/microcms";
 import type { GetStaticPathsOptions } from "astro";
 import type { Image } from "../../../../../types";
@@ -64,22 +62,15 @@ const images = page.data;
 	imageSize={sizeTitle}
 	navigation={true}
 >
-	<main class="inner relative pt-[96px] sm:pt-[48px] pb-[120px] sm:pb-[64px]">
-		<h1 class="text-[32px] sm:text-[24px] font-black leading-[1.4] tracking-[0.04em] break-normal">
-			Graphic Design<span class="sm:hidden tracking-[0.08em]">｜グラフィックデザイン</span>
-			<span class="font-normal bracket">{sizeTitle}</span>
-		</h1>
-		<FilterSection uniqueCategories={uniqueCategories} uniqueSizes={uniqueSizes} uniqueTags={uniqueTags} />
-		<ul class="flex flex-wrap gap-[48px] sm:gap-[32px] mt-[48px] sm:mt-[36px]">
-			{images.map((image) => <ImageCard image={image} />)}
-		</ul>
-		<div class="mt-[48px]">
-			<Pager
-				page={page}
-				totalCount={totalCount}
-				basePath={`/works/graphicdesign/size/${Astro.params.slug}`}
-				perPage={perPage}
-			/>
-		</div>
-	</main>
+	<GraphicDesignListMain
+		images={images}
+		page={page}
+		totalCount={totalCount}
+		perPage={perPage}
+		uniqueCategories={uniqueCategories}
+		uniqueSizes={uniqueSizes}
+		uniqueTags={uniqueTags}
+		basePath={`/works/graphicdesign/size/${Astro.params.slug}`}
+		bracketHtml={sizeTitle}
+	/>
 </Layout>

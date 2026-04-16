@@ -1,0 +1,44 @@
+---
+import Pager from "./pager.astro";
+import FilterSection from "./filterSection.astro";
+import ImageCard from "../molecules/imageCard.astro";
+import type { Image } from "../../types";
+
+export interface Props {
+	images: Image[];
+	page: any;
+	totalCount: number;
+	perPage: number;
+	uniqueCategories: { slug: string; title: string; enTitle: string }[];
+	uniqueSizes: string[];
+	uniqueTags: { slug: string; title: string; enTitle: string }[];
+	basePath: string;
+	bracketHtml?: string;
+}
+
+const {
+	images,
+	page,
+	totalCount,
+	perPage,
+	uniqueCategories,
+	uniqueSizes,
+	uniqueTags,
+	basePath,
+	bracketHtml = "All",
+} = Astro.props;
+---
+
+<main class="inner relative pt-[96px] sm:pt-[48px] pb-[120px] sm:pb-[64px]">
+	<h1 class="text-[32px] sm:text-[24px] font-black leading-[1.4] tracking-[0.04em] break-normal">
+		Graphic Design<span class="sm:hidden tracking-[0.08em]">｜グラフィックデザイン</span>
+		<span class="font-normal bracket" set:html={bracketHtml} />
+	</h1>
+	<FilterSection uniqueCategories={uniqueCategories} uniqueSizes={uniqueSizes} uniqueTags={uniqueTags} />
+	<ul class="flex flex-wrap gap-[48px] sm:gap-[32px] mt-[48px] sm:mt-[36px]">
+		{images.map((image) => <ImageCard image={image} />)}
+	</ul>
+	<div class="mt-[48px]">
+		<Pager page={page} totalCount={totalCount} basePath={basePath} perPage={perPage} />
+	</div>
+</main>

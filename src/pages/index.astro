@@ -4,9 +4,10 @@ import NoteSlider from "../components/organisms/noteSlider.astro";
 import ProductCard from "../components/molecules/productCard.astro";
 import Icon from "../components/atoms/icon.astro";
 import { getAllContents, getBlogs, getProducts } from "../libs/microcms";
-import type { Blog, Category, Tag, Product, MicroCMSResponse } from "../types";
+import type { Blog, Category, Tag, MicroCMSResponse } from "../types";
 import Card from "../components/molecules/card.astro";
 import CategoryTagSidebar from "../components/organisms/categoryTagSidebar.astro";
+import ContactButton from "../components/atoms/contactButton.astro";
 import { getCountedCategories, getCountedTags } from "../utils/countingUtils";
 
 const recentBlogsResponse: MicroCMSResponse<Blog> = await getBlogs({
@@ -47,13 +48,7 @@ const tagCounts = getCountedTags(tags, allBlogs);
 						双極性障害による休職経験を経て、体と心を労わることを大切にしながら制作活動を続けています。
 					</p>
 				</div>
-				<a
-					id="heroContactBtn"
-					href="/contact"
-					class="inline-block whitespace-nowrap shrink-0 bg-[#0079C9] text-[#FFF] font-bold text-[16px] sm:text-[14px] tracking-[0.06em] rounded-lg px-[48px] sm:px-[32px] py-[16px] sm:py-[12px] duration hover:bg-[#0079C9]/[0.8]"
-				>
-					Contact<span class="bracket ml-[0.4em]">お問い合わせ</span>
-				</a>
+				<ContactButton variant="hero" />
 			</div>
 		</section>
 		<section class="mt-[80px] sm:mt-[48px]">
@@ -104,12 +99,5 @@ const tagCounts = getCountedTags(tags, allBlogs);
 		</section>
 	</main>
 
-	<a
-		id="fixedContactBtn"
-		href="/contact"
-		class="fixed bottom-[40px] right-[40px] sm:bottom-[24px] sm:left-[24px] sm:right-[24px] sm:rounded-lg bg-[#0079C9] text-[#FFF] font-bold text-[16px] sm:text-[14px] tracking-[0.06em] rounded-lg px-[48px] sm:px-[32px] py-[16px] sm:py-[16px] sm:text-center duration hover:bg-[#0079C9]/[0.8] z-[100] block sm:hidden"
-		aria-hidden="true"
-	>
-		Contact<span class="bracket ml-[0.4em]">お問い合わせ</span>
-	</a>
+	<ContactButton variant="fixed" />
 </Layout>

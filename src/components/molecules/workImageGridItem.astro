@@ -1,0 +1,39 @@
+---
+import IconComponent from "../atoms/icon.astro";
+import type { Image } from "../../types";
+
+export interface Props {
+	image: Image;
+}
+
+const { image } = Astro.props;
+---
+
+<li class="relative w-[calc(1184px/3_-_32px)] sm:w-full">
+	<div
+		class="w-full aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-[#FAFAFA] flex items-center justify-center"
+	>
+		<div class={`max-w-[${image.sizeHorizontal}px]`}>
+			<img src={image.images[0]?.url} alt={image.title} class="object-contain w-full h-full" />
+		</div>
+	</div>
+	<div class="flex items-start gap-[4px] sm:gap-[2px] mt-[16px] sm:mt-[12px]">
+		{
+			image.images && image.images.length > 1 && (
+				<IconComponent
+					filename="icon_stack"
+					color="#333"
+					customClass="animation-icon p-[2px] aspect-square w-[20px] sm:w-[18px] shrink-0"
+				/>
+			)
+		}
+		<p class="text-[16px] sm:text-[14px] leading-[1.48] tracking-[0.06em] font-bold">{image.title}</p>
+	</div>
+	{
+		image.isPrivate === true && (
+			<div class="absolute top-0 left-0 text-[10px] leading-none tracking-[0.04em] px-[12px] pt-[6px] pb-[8px] font-bold bg-[#eee]">
+				自主制作
+			</div>
+		)
+	}
+</li>

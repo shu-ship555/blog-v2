@@ -1,7 +1,9 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import IconComponent from "../../components/atoms/icon.astro";
 import Navigation from "../../components/organisms/navigation.astro";
+import IconCard from "../../components/molecules/iconCard.astro";
+import WorkImageGridItem from "../../components/molecules/workImageGridItem.astro";
+import ViewMoreButton from "../../components/atoms/viewMoreButton.astro";
 import { getContents } from "../../libs/microcms";
 import type { Icon, Image } from "../../types";
 
@@ -75,35 +77,10 @@ const illustrations = illustRes.contents;
 			</h2>
 		</div>
 		<ul class="grid grid-cols-8 sm:grid-cols-3 gap-[48px] sm:gap-[32px] mt-[40px] sm:mt-[24px]">
-			{
-				icons.map((icon) => (
-					<li class="relative text-center">
-						<div class="expand-img max-w-[64px] sm:max-w-[48px] mx-auto duration">
-							<img src={icon.image.url} alt={icon.title} class="w-full" />
-						</div>
-						<p class="whitespace-nowrap mt-[12px] text-[12px] sm:text-[10px] leading-none tracking-[0.06em] font-black">
-							{icon.title}
-						</p>
-						<p class="whitespace-nowrap mt-[6px] bracket text-[10px] sm:text-[10px] leading-none tracking-[0.06em] font-bold">
-							{icon.enTitle}
-						</p>
-					</li>
-				))
-			}
+			{icons.map((icon) => <IconCard icon={icon} />)}
 		</ul>
 		<div class="mt-[40px] sm:mt-[24px] text-right">
-			<a
-				href="/works/icon"
-				class="transrate-x-animation overflow-hidden inline-block text-white bg-[#0079C9] px-[20px] pt-[8px] pb-[10px] sm:px-[16px] sm:pt-[6px] sm:pb-[8px] rounded-full font-bold text-[16px] sm:text-[14px] leading-none tracking-[0.06em] opacity-hover duration"
-				><span class="font-normal">VIEW</span> ICON <span
-					class="rounded-full align-[-4px] sm:align-[-3px] inline-flex justify-center items-center bg-[#FAFAFA] overflow-hidden"
-					><IconComponent
-						filename="icon_arrow_forward"
-						color="#0079C9"
-						customClass="animation-icon p-[2px] aspect-square w-[20px] sm:w-[16px]"
-					/></span
-				></a
-			>
+			<ViewMoreButton href="/works/icon" label="ICON" />
 		</div>
 		<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[64px]">
 			<div
@@ -118,44 +95,10 @@ const illustrations = illustRes.contents;
 			</h2>
 		</div>
 		<ul class="flex flex-wrap gap-[48px] sm:gap-[32px] mt-[40px] sm:mt-[24px]">
-			{
-				images.map((image) => (
-					<li class="relative w-[calc(1184px/3_-_32px)] sm:w-full">
-						<div class="w-full aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-[#fafafa] flex items-center justify-center max-w-[${image.sizeHorizontal}px]">
-							<img src={image.images[0]?.url} alt={image.title} class="object-contain w-full h-full" />
-						</div>
-						<div class="flex items-start gap-[4px] sm:gap-[2px] mt-[16px] sm:mt-[12px]">
-							{image.images && image.images.length > 1 && (
-								<IconComponent
-									filename="icon_stack"
-									color="#333"
-									customClass="animation-icon p-[2px] aspect-square w-[20px] sm:w-[18px] shrink-0"
-								/>
-							)}
-							<p class="text-[16px] sm:text-[14px] leading-[1.48] tracking-[0.06em] font-bold">{image.title}</p>
-						</div>
-						{image.isPrivate === true && (
-							<div class="absolute top-0 left-0 text-[10px] leading-none tracking-[0.04em] px-[12px] pt-[6px] pb-[8px] font-bold bg-[#eee]">
-								自主制作
-							</div>
-						)}
-					</li>
-				))
-			}
+			{images.map((image) => <WorkImageGridItem image={image} />)}
 		</ul>
 		<div class="mt-[40px] sm:mt-[24px] text-right">
-			<a
-				href="/works/graphicdesign"
-				class="transrate-x-animation overflow-hidden inline-block text-white bg-[#0079C9] px-[20px] pt-[8px] pb-[10px] sm:px-[16px] sm:pt-[6px] sm:pb-[8px] rounded-full font-bold text-[16px] sm:text-[14px] leading-none tracking-[0.06em] opacity-hover duration"
-				><span class="font-normal">VIEW</span> GRAPHIC DESIGN <span
-					class="rounded-full align-[-4px] sm:align-[-3px] inline-flex justify-center items-center bg-[#FAFAFA] overflow-hidden"
-					><IconComponent
-						filename="icon_arrow_forward"
-						color="#0079C9"
-						customClass="animation-icon p-[2px] aspect-square w-[20px] sm:w-[16px]"
-					/></span
-				></a
-			>
+			<ViewMoreButton href="/works/graphicdesign" label="GRAPHIC DESIGN" />
 		</div>
 		<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[64px]">
 			<div
@@ -170,46 +113,10 @@ const illustrations = illustRes.contents;
 			</h2>
 		</div>
 		<ul class="flex flex-wrap gap-[48px] sm:gap-[32px] mt-[40px] sm:mt-[24px]">
-			{
-				illustrations.map((illust) => (
-					<li class="relative w-[calc(1184px/3_-_32px)] sm:w-full">
-						<div class="aspect-square px-[32px] pt-[32px] pb-[36px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-[#fafafa] flex items-center justify-center">
-							<div class={`max-w-[${illust.sizeHorizontal}px]`}>
-								<img src={illust.images[0]?.url} alt={illust.title} class="w-full" />
-							</div>
-						</div>
-						<div class="flex items-start gap-[4px] sm:gap-[2px] mt-[16px] sm:mt-[12px]">
-							{illust.images && illust.images.length > 1 && (
-								<IconComponent
-									filename="icon_stack"
-									color="#333"
-									customClass="animation-icon p-[2px] aspect-square w-[20px] sm:w-[18px] shrink-0"
-								/>
-							)}
-							<p class="text-[16px] sm:text-[14px] leading-[1.48] tracking-[0.06em] font-bold">{illust.title}</p>
-						</div>
-						{illust.isPrivate === true && (
-							<div class="absolute top-0 left-0 text-[10px] leading-none tracking-[0.04em] px-[12px] pt-[6px] pb-[8px] font-bold bg-[#eee]">
-								自主制作
-							</div>
-						)}
-					</li>
-				))
-			}
+			{illustrations.map((illust) => <WorkImageGridItem image={illust} />)}
 		</ul>
 		<div class="mt-[40px] sm:mt-[24px] text-right">
-			<a
-				href="/works/graphicdesign/category/illustration"
-				class="transrate-x-animation overflow-hidden inline-block text-white bg-[#0079C9] px-[20px] pt-[8px] pb-[10px] sm:px-[16px] sm:pt-[6px] sm:pb-[8px] rounded-full font-bold text-[16px] sm:text-[14px] leading-none tracking-[0.06em] opacity-hover duration"
-				><span class="font-normal">VIEW</span> ILLUSTRATION <span
-					class="rounded-full align-[-4px] sm:align-[-3px] inline-flex justify-center items-center bg-[#FAFAFA] overflow-hidden"
-					><IconComponent
-						filename="icon_arrow_forward"
-						color="#0079C9"
-						customClass="animation-icon p-[2px] aspect-square w-[20px] sm:w-[16px]"
-					/></span
-				></a
-			>
+			<ViewMoreButton href="/works/graphicdesign/category/illustration" label="ILLUSTRATION" />
 		</div>
 		<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[64px]">
 			<div
