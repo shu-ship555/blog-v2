@@ -15,9 +15,10 @@ export type {
 	ImageTag,
 	ImageItem,
 	Icon,
+	Product,
 } from "../types";
 
-import type { MicroCMSResponse, Blog, Category, Tag } from "../types";
+import type { MicroCMSResponse, Blog, Category, Tag, Product } from "../types";
 
 const client = createClient({
 	serviceDomain: import.meta.env.PUBLIC_MICROCMS_SERVICE_DOMAIN,
@@ -77,3 +78,6 @@ export const getCategoryList = (queries?: MicroCMSQueries) =>
 
 export const getTags = (queries?: MicroCMSQueries) =>
 	getAllContents<Tag>("tags", queries);
+
+export const getProducts = (queries?: MicroCMSQueries) =>
+	getAllContents<Product>("products", queries);

@@ -1,0 +1,51 @@
+---
+import Icon from "../atoms/icon.astro";
+import type { Product } from "../../types";
+
+export interface Props {
+	product: Product;
+}
+
+const { product } = Astro.props;
+const { title, description, url, tags = [] } = product;
+---
+
+<li class="w-full">
+	<a
+		href={url}
+		target="_blank"
+		rel="noopener noreferrer"
+		class="block bg-[#FFF] rounded-xl overflow-hidden border border-[#eee] opacity-hover duration h-full"
+	>
+		<div class="w-full aspect-[16/9] overflow-hidden bg-[#FAFAFA] relative">
+			<iframe
+				src={url}
+				title={title}
+				class="w-[200%] h-[200%] origin-top-left scale-50 pointer-events-none border-none"
+				loading="lazy"
+				sandbox="allow-scripts allow-same-origin"
+				tabindex="-1"
+			></iframe>
+		</div>
+		<div class="p-[20px] sm:p-[16px] flex flex-col gap-[12px] sm:gap-[8px]">
+			<div class="flex items-center justify-between gap-[8px]">
+				<h3 class="text-[20px] sm:text-[16px] font-bold leading-[1.4] tracking-[0.04em] text-[#333]">
+					{title}
+				</h3>
+				<Icon filename="icon_open_in_new" color="#333" customClass="w-[20px] h-[20px] sm:w-[16px] sm:h-[16px] shrink-0" />
+			</div>
+			<p class="text-[14px] sm:text-[12px] leading-[1.8] tracking-[0.06em] text-[#666] line-clamp-2">
+				{description}
+			</p>
+			{tags.length > 0 && (
+				<div class="flex gap-[8px] flex-wrap">
+					{tags.map((tag) => (
+						<span class="text-[12px] sm:text-[10px] font-medium leading-[1] tracking-[0.06em] px-[12px] py-[6px] bg-[#F6F6F6] rounded-full text-[#666]">
+							{tag}
+						</span>
+					))}
+				</div>
+			)}
+		</div>
+	</a>
+</li>
