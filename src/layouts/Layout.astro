@@ -5,7 +5,6 @@ import "../assets/css/prism.css";
 import Header from "../components/organisms/header.astro";
 import Footer from "../components/organisms/footer.astro";
 import Breadcrumb from "../components/organisms/breadcrumb.astro";
-import Navigation from "../components/organisms/navigation.astro";
 
 // 本番用サイトURL（環境変数）
 const siteUrl = "https://shumiyata.com";
@@ -22,7 +21,6 @@ const {
 	ogImage = "/img/ogp.png",
 	pageUrl: propPageUrl,
 	breadcrumb = false,
-	navigation = false,
 	header = true,
 	blog,
 	category,
@@ -38,6 +36,19 @@ const {
 
 // canonical URL を props 優先で決定
 const pageUrl = propPageUrl || `${siteUrl}${pagePath}`;
+
+const breadcrumbProps = {
+	blog,
+	category,
+	tag,
+	isIconsPage,
+	isImagesPage,
+	imageCategory,
+	imageSize,
+	imageTag,
+	isWorksPage,
+	isBlogsPage,
+};
 ---
 
 <!doctype html>
@@ -114,91 +125,9 @@ const pageUrl = propPageUrl || `${siteUrl}${pagePath}`;
 			)
 		}
 
-		{
-			breadcrumb && (
-				<Breadcrumb
-					blog={blog}
-					category={category}
-					tag={tag}
-					isIconsPage={isIconsPage}
-					isImagesPage={isImagesPage}
-					imageCategory={imageCategory}
-					imageSize={imageSize}
-					imageTag={imageTag}
-					isWorksPage={isWorksPage}
-					isBlogsPage={isBlogsPage}
-				/>
-			)
-		}
+		{breadcrumb && <Breadcrumb {...breadcrumbProps} />}
 		<slot />
-
-		<!-- {
-			navigation && (
-				<div class="pt-[48px] pb-[56px] sm:pt-[24px] sm:pb-[28px] inner">
-					<Navigation
-						items={[
-							{
-								href: "/works/icon",
-								label: "Icon",
-								tooltip: "アイコン",
-								isActive: true,
-							},
-							{
-								href: "/works/graphicdesign",
-								label: "Graphic Design",
-								tooltip: "グラフィックデザイン",
-								isActive: true,
-							},
-							{
-								href: "/works/graphicdesign/category/illustration",
-								label: "Illustration",
-								tooltip: "イラスト",
-								isActive: true,
-							},
-							{
-								href: "/works/web",
-								label: "WebSite",
-								tooltip: "ウェブサイト",
-								isActive: false,
-							},
-							{
-								href: "/works/app",
-								label: "Application",
-								tooltip: "アプリケーション",
-								isActive: false,
-							},
-						].map((item) => {
-							const isCurrent = item.href === pagePath || item.href === pagePath.replace(/\/$/, "");
-
-							return {
-								...item,
-								current: isCurrent,
-							};
-						})}
-					/>
-				</div>
-			)
-		} -->
-
-		{
-			breadcrumb && (
-				<Breadcrumb
-					blog={blog}
-					category={category}
-					tag={tag}
-					scale={0.75}
-					noMargin={true}
-					backgroundColor="#FCFCFC"
-					isIconsPage={isIconsPage}
-					isImagesPage={isImagesPage}
-					imageCategory={imageCategory}
-					imageSize={imageSize}
-					imageTag={imageTag}
-					isWorksPage={isWorksPage}
-					isBlogsPage={isBlogsPage}
-				/>
-			)
-		}
+		{breadcrumb && <Breadcrumb {...breadcrumbProps} scale={0.75} noMargin={true} backgroundColor="#FCFCFC" />}
 		<Footer />
 		<div class="bg-[#FFF]/[0.64] backdrop-blur-lg absolute h-full w-full top-0 hidden js-bg"></div>
 		<script src="../assets/js/common.js"></script>

@@ -1,0 +1,19 @@
+---
+export interface Props {
+	eyecatch?: { url: string } | null;
+	alt: string;
+	class?: string;
+}
+
+const { eyecatch, alt, class: className = "rounded-lg" } = Astro.props;
+---
+
+<div>
+	{
+		eyecatch ? (
+			<img src={eyecatch.url} alt={alt} class={className} />
+		) : (
+			<img src="/img/dummyImage.png" alt={alt} class={className} />
+		)
+	}
+</div>

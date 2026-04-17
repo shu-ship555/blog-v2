@@ -1,0 +1,48 @@
+---
+import Pager from "./pager.astro";
+import Card from "../molecules/card.astro";
+import CategoryTagSidebar from "./categoryTagSidebar.astro";
+import type { Blog, Category, Tag } from "../../types";
+
+export interface Props {
+	filterType: "category" | "tag";
+	filterLabel: string;
+	blogs: Blog[];
+	page: any;
+	totalCount: number;
+	categoryCounts: (Category & { count: number })[];
+	tagCounts: (Tag & { count: number })[];
+	filterSlug: string;
+}
+
+const { filterType, filterLabel, blogs, page, totalCount, categoryCounts, tagCounts, filterSlug } = Astro.props;
+
+const emptyMessage = filterType === "category"
+	? "このカテゴリにはまだ記事がありません。"
+	: "このタグにはまだ記事がありません。";
+
+const pagerProps = filterType === "category"
+	? { catSlug: filterSlug }
+	: { tagSlug: filterSlug };
+---
+
+<main class="inner pt-[96px] sm:pt-[48px] pb-[120px] gap-[48px] sm:pb-[64px]">
+	<h1 class="text-[32px] sm:text-[24px] leading-none sm:leading-[1.4] tracking-[0.04em] font-black">
+		{filterType === "category" ? "Category" : "Tag"} <span class="font-normal bracket">{filterType === "tag" && <span class="hashtag"></span>}{filterLabel}</span>
+	</h1>
+	<div class="flex justify-between sm:flex-col mt-[64px] sm:mt-[32px]">
+		{
+			blogs.length === 0 ? (
+				<p class="text-gray-600">{emptyMessage}</p>
+			) : (
+				<ul class="flex gap-[32px] flex-wrap sm:gap-[28px]">
+					{blogs.map((blog) => (
+						<Card blog={blog} />
+					))}
+				</ul>
+			)
+		}
+		<CategoryTagSidebar categories={categoryCounts} tags={tagCounts} />
+	</div>
+	{blogs.length > 0 && <Pager page={page} totalCount={totalCount} {...pagerProps} />}
+</main>

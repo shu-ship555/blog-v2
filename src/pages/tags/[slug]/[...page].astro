@@ -1,11 +1,9 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
-import Pager from "../../../components/organisms/pager.astro";
+import BlogListByFilter from "../../../components/organisms/blogListByFilter.astro";
 import { getAllContents } from "../../../libs/microcms";
 import type { Blog, Tag } from "../../../types";
 import type { GetStaticPathsOptions } from "astro";
-import Card from "../../../components/molecules/card.astro";
-import CategoryTagSidebar from "../../../components/organisms/categoryTagSidebar.astro";
 import { getCategoryAndTagCounts } from "../../../utils/countingUtils";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
@@ -39,24 +37,14 @@ const { categoryCounts, tagCounts } = await getCategoryAndTagCounts();
 ---
 
 <Layout title={`${tag.name} の記事一覧 | miyata blog`} breadcrumb={true} tag={tag}>
-	<main class="inner pt-[96px] sm:pt-[48px] pb-[120px] gap-[48px] sm:pb-[64px]">
-		<h1 class="text-[32px] sm:text-[24px] leading-none sm:leading-[1.4] tracking-[0.04em] font-black">
-			Tag <span class="font-normal bracket"><span class="hashtag"></span>{tag.name}</span>
-		</h1>
-		<div class="flex justify-between sm:flex-col mt-[64px] sm:mt-[32px]">
-			{
-				blogs.length === 0 ? (
-					<p class="text-gray-600">このタグにはまだ記事がありません。</p>
-				) : (
-					<ul class="flex gap-[32px] flex-wrap sm:gap-[28px]">
-						{blogs.map((blog) => (
-							<Card blog={blog} />
-						))}
-					</ul>
-				)
-			}
-			<CategoryTagSidebar categories={categoryCounts} tags={tagCounts} />
-		</div>
-		{blogs.length > 0 && <Pager page={page} totalCount={totalCount} tagSlug={tag.slug} />}
-	</main>
+	<BlogListByFilter
+		filterType="tag"
+		filterLabel={tag.name}
+		blogs={blogs}
+		page={page}
+		totalCount={totalCount}
+		categoryCounts={categoryCounts}
+		tagCounts={tagCounts}
+		filterSlug={tag.slug}
+	/>
 </Layout>

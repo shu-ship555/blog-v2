@@ -9,7 +9,6 @@ export interface LayoutProps {
 	ogImage?: string;
 	pageUrl?: string;
 	breadcrumb?: boolean;
-	navigation?: boolean;
 	header?: boolean;
 	blog?: Blog;
 	category?: Category;

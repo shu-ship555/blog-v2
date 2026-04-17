@@ -1,5 +1,7 @@
 ---
 import Icon from "../atoms/icon.astro";
+import Badge from "../atoms/badge.astro";
+import EyecatchImage from "../atoms/eyecatchImage.astro";
 import { formatDate } from "../../utils/date";
 import { wrapTablesWithDiv, processHeadings } from "../../utils/htmlProcessor";
 import type { Blog } from "../../types";
@@ -16,9 +18,6 @@ const finalHtml = wrapTablesWithDiv(processedHtml);
 
 const publishedDate = formatDate(blog.publishedAt);
 const updatedDate = formatDate(blog.updatedAt);
-
-const categoryBadgeClass =
-	"font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] text-[#FFF] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[6px] sm:pb-[8px]";
 ---
 
 <main class="pt-[160px] sm:pt-[64px] pb-[200px] sm:pb-[64px]">
@@ -26,25 +25,26 @@ const categoryBadgeClass =
 		<div class="flex gap-[10px] flex-wrap">
 			{
 				isPreview ? (
-					<p class={categoryBadgeClass} style={`background-color: ${blog.category.labelColor};`}>
+					<Badge size="lg" bgColor={blog.category.labelColor} textColor="#FFF">
 						{blog.category.name}
-					</p>
+					</Badge>
 				) : (
 					<a
 						href={`/categories/${blog.category.slug}`}
-						class={`opacity-hover duration ${categoryBadgeClass}`}
-						style={`background-color: ${blog.category.labelColor};`}
+						class="opacity-hover duration"
 					>
-						{blog.category.name}
+						<Badge size="lg" bgColor={blog.category.labelColor} textColor="#FFF">
+							{blog.category.name}
+						</Badge>
 					</a>
 				)
 			}
 			{
 				blog.readingTime && (
-					<p class="font-bold text-[20px] leading-[1] tracking-[0.06em] px-[28px] pt-[7px] pb-[9px] bg-[#F6F6F6] rounded-full sm:text-[14px] sm:px-[20px] sm:pt-[8px] sm:pb-[10px]">
+					<Badge size="lg">
 						<span class="text-[#666]">読了までの時間：</span>
 						{blog.readingTime}分
-					</p>
+					</Badge>
 				)
 			}
 		</div>
@@ -85,13 +85,7 @@ const categoryBadgeClass =
 		</div>
 	</div>
 	<div class="mt-[32px] sm:mt-[16px] max-w-[1280px] sm:max-w-[430px] px-[48px] sm:px-0 w-full mx-auto">
-		{
-			blog.eyecatch ? (
-				<img src={blog.eyecatch.url} alt={blog.title} class="w-full rounded-3xl sm:rounded-sm" />
-			) : (
-				<img src="/img/dummyImage.png" alt={blog.title} class="w-full rounded-3xl sm:rounded-sm" />
-			)
-		}
+		<EyecatchImage eyecatch={blog.eyecatch} alt={blog.title} class="w-full rounded-3xl sm:rounded-sm" />
 	</div>
 	<div class="flex justify-between gap-[80px] sm:gap-[64px] inner mt-[160px] sm:mt-[80px] sm:flex-col-reverse">
 		<div class="max-w-[784px] w-full sm:max-w-full post" set:html={finalHtml} />

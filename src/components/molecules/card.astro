@@ -1,6 +1,8 @@
 ---
 import type { Blog } from "../../libs/microcms.d.ts";
 import { formatDate } from "../../utils/date";
+import Badge from "../atoms/badge.astro";
+import EyecatchImage from "../atoms/eyecatchImage.astro";
 
 interface Props {
   blog: Blog;
@@ -11,28 +13,17 @@ const { blog } = Astro.props;
 
 <li class="w-full">
   <a href={`/blogs/${blog.id}`} class="opacity-hover duration">
-    <div>
-      {
-        blog.eyecatch ? (
-          <img src={blog.eyecatch.url} alt={blog.title} class="rounded-lg" />
-        ) : (
-          <img src="/img/dummyImage.png" alt={blog.title} class="rounded-lg" />
-        )
-      }
-    </div>
+    <EyecatchImage eyecatch={blog.eyecatch} alt={blog.title} class="rounded-lg" />
     <div class="p-[12px] sm:px-0 sm:pt-[10px] sm:pb-0">
       <div class="flex gap-[10px] flex-wrap">
-        <p
-          class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] text-[#FFF] rounded-full sm:text-[10px] sm:pb-[4px]"
-          style={`background-color: ${blog.category.labelColor};`}
-        >
+        <Badge bgColor={blog.category.labelColor} textColor="#FFF">
           {blog.category.name}
-        </p>
+        </Badge>
         {blog.readingTime && (
-          <p class="font-bold text-[12px] leading-[1] tracking-[0.06em] px-[20px] pt-[4px] pb-[5px] bg-[#F6F6F6] rounded-full sm:text-[10px] sm:pb-[4px]">
-            <span class="text-[#666}">読了までの時間：</span>
+          <Badge>
+            <span class="text-[#666]">読了までの時間：</span>
             {blog.readingTime}分
-          </p>
+          </Badge>
         )}
       </div>
       <p class="break-normal font-black text-[16px] leading-[1.48] sm:leading-[1.4] tracking-[0.06em] mt-[12px] sm:mt-[10px]">
