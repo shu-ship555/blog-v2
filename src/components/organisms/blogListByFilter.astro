@@ -30,12 +30,12 @@ const pagerProps = filterType === "category"
 	<h1 class="text-[32px] sm:text-[24px] leading-none sm:leading-[1.4] tracking-[0.04em] font-black">
 		{filterType === "category" ? "Category" : "Tag"} <span class="font-normal bracket">{filterType === "tag" && <span class="hashtag"></span>}{filterLabel}</span>
 	</h1>
-	<div class="flex justify-between sm:flex-col mt-[64px] sm:mt-[32px]">
+	<div class="flex justify-between sm:flex-col gap-[32px] sm:gap-[24px] mt-[64px] sm:mt-[32px]">
 		{
 			blogs.length === 0 ? (
 				<p class="text-gray-600">{emptyMessage}</p>
 			) : (
-				<ul class="flex gap-[32px] flex-wrap sm:gap-[28px]">
+				<ul class="grid grid-cols-2 sm:grid-cols-1 gap-[32px] sm:gap-[24px]">
 					{blogs.map((blog) => (
 						<Card blog={blog} />
 					))}
