@@ -122,6 +122,7 @@ export type Product = {
 	description: string;
 	url: string;
 	tags: string[];
+	purpose: boolean;
 } & MicroCMSListContent;
 
 // ============================================
