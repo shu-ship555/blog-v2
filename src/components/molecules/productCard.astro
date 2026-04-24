@@ -45,7 +45,7 @@ const { title, description, url, tags = [], purpose } = product;
 			</p>
 			{
 				tags.length > 0 && (
-					<div class="flex gap-[8px] flex-wrap">
+					<div class="flex gap-[8px] sm:gap-[6px] flex-wrap mt-[8px] sm:mt-[6px]">
 						{tags.map((tag) => (
 							<span class="text-[12px] sm:text-[10px] font-medium leading-[1] tracking-[0.06em] px-[12px] py-[6px] bg-[#F6F6F6] rounded-full text-[#666]">
 								{tag}

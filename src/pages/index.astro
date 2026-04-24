@@ -34,7 +34,7 @@ const tagCounts = getCountedTags(tags, allBlogs);
 ---
 
 <Layout title="miyata blog">
-	<main class="inner pt-[160px] sm:pt-[96px] pb-[200px] sm:pb-[64px]">
+	<main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
 		<section class="pb-[80px] sm:pb-[48px] border-b border-[#eee]">
 			<div class="flex justify-between items-end gap-[48px] sm:flex-col sm:items-start sm:gap-[28px]">
 				<div>
@@ -51,7 +51,7 @@ const tagCounts = getCountedTags(tags, allBlogs);
 		</section>
 		<section class="mt-[80px] sm:mt-[48px]">
 			<h2 class="text-[32px] sm:text-[24px] leading-none tracking-[0.04em] font-bold">Products｜プロダクト</h2>
-			<p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[12px] sm:mt-[8px]">制作・公開しているプロダクトを紹介します。</p>
+			<p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">制作・公開しているプロダクトを紹介します。</p>
 			<ul class="grid grid-cols-3 gap-[32px] sm:grid-cols-1 sm:gap-[24px] mt-[40px] sm:mt-[20px]">
 				{
 					products.map((product) => (
@@ -62,7 +62,7 @@ const tagCounts = getCountedTags(tags, allBlogs);
 		</section>
 		<section class="mt-[80px] sm:mt-[48px]">
 			<h2 class="text-[32px] sm:text-[24px] leading-none tracking-[0.04em] font-bold">Note｜ノート</h2>
-			<p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[12px] sm:mt-[8px]">双極性障害との向き合い方や、創作ミステリーなどを発信しています。</p>
+			<p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">双極性障害との向き合い方や、創作ミステリーなどを発信しています。</p>
 			<NoteSlider />
 			<div class="mt-[48px] sm:mt-[32px] flex justify-end">
 				<a
@@ -78,9 +78,9 @@ const tagCounts = getCountedTags(tags, allBlogs);
 		</section>
 		<section class="mt-[80px] sm:mt-[48px]">
 			<h2 class="text-[32px] sm:text-[24px] leading-none tracking-[0.04em] font-bold">Blogs｜ブログ</h2>
-			<p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[12px] sm:mt-[8px]">Web制作・プログラミング・デザインに関する学習記録を書いています。</p>
+			<p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">Web制作・プログラミング・デザインに関する学習記録を書いています。</p>
 			<div class="flex justify-between gap-[32px] sm:flex-col mt-[40px] sm:mt-[20px]">
-				<ul class="grid grid-cols-2 sm:grid-cols-1 gap-[32px] flex-wrap sm:gap-[24px]">
+				<ul class="grid grid-cols-2 sm:grid-cols-1 gap-[32px] flex-wrap sm:gap-[28px]">
 					{blogs.map((blog) => <Card blog={blog} />)}
 				</ul>
 				<CategoryTagSidebar categories={categoryCounts} tags={tagCounts} />

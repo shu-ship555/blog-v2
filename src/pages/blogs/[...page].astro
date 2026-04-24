@@ -19,11 +19,11 @@ const { categoryCounts, tagCounts, totalCount } = await getCategoryAndTagCounts(
 ---
 
 <Layout title={`Blogs${page.currentPage > 1 ? ` - ${page.currentPage}ページ目` : ""} | miyata blog`} breadcrumb={true} isBlogsPage={true}>
-  <main class="inner pt-[160px] sm:pt-[96px] pb-[200px] sm:pb-[64px]">
+  <main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
     <h1 class="text-[32px] sm:text-[24px] leading-none tracking-[0.06em] font-bold">Blogs｜ブログ</h1>
-    <p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[12px] sm:mt-[8px]">Web制作・プログラミング・デザインに関する学習記録を書いています。</p>
+    <p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">Web制作・プログラミング・デザインに関する学習記録を書いています。</p>
     <div class="flex justify-between gap-[32px] sm:flex-col mt-[40px] sm:mt-[20px]">
-      <ul class="grid grid-cols-2 sm:grid-cols-1 gap-[32px] flex-wrap sm:gap-[24px]">
+      <ul class="grid grid-cols-2 sm:grid-cols-1 gap-[32px] flex-wrap sm:gap-[28px]">
         {blogs.map((blog) => <Card blog={blog} />)}
       </ul>
       <CategoryTagSidebar categories={categoryCounts} tags={tagCounts} />

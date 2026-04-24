@@ -44,14 +44,16 @@ const itemMargin = headingSize === "md" ? "mt-[24px]" : "mt-[18px] sm:mt-[12px]"
 	}
 </ul>
 <p class:list={[headingClass, spacingTop]}>Tag｜タグ</p>
-<ul class:list={[itemMargin, "flex gap-[12px] flex-wrap"]}>
+<ul class:list={[itemMargin, "flex gap-[10px] sm:gap-[8px] flex-wrap"]}>
 	{
 		tags.length === 0 ? (
 			<li class="text-sm text-muted-foreground">タグがありません</li>
 		) : (
 			tags.map((tag) => (
-				<li class="text-[12px] font-bold leading-none tracking-[0.06em]">
-					<a href={`/tags/${tag.slug}`} class="opacity-hover duration"><span class="hashtag" />{tag.name} <span class="bracket">{tag.count}</span>
+				<li>
+					<a href={`/tags/${tag.slug}`} class="flex items-center gap-[6px] sm:gap-[4px] px-[8px] sm:px-[6px] py-[6px] sm:py-[4px] rounded-full bg-[#f6f6f6] opacity-hover duration">
+						<span class="font-bold text-[10px] sm:text-[10px] leading-none tracking-[0.04em]"><span class="hashtag" />{tag.name}</span>
+						<span class="bracket font-medium text-[10px] sm:text-[10px] leading-none text-[#888]">{tag.count}</span>
 					</a>
 				</li>
 			))

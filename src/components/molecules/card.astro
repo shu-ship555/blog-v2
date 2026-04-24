@@ -35,9 +35,9 @@ const { blog } = Astro.props;
       <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
         {formatDate(blog.publishedAt)}
       </p>
-      <div class="flex gap-[8px] flex-wrap">
+      <div class="flex gap-[8px] sm:gap-[6px] flex-wrap mt-[8px] sm:mt-[6px]">
         {blog.tag.map((tag) => (
-          <p class="font-medium text-[10px] leading-[1] tracking-[0.06em] mt-[8px] sm:mt-[6px]">
+          <p class="font-medium text-[10px] leading-[1] tracking-[0.06em]">
             <span class="hashtag"></span>{tag.name}
           </p>
         ))}
