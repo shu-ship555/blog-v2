@@ -28,10 +28,15 @@ const itemMargin = headingSize === "md" ? "mt-[24px]" : "mt-[18px] sm:mt-[12px]"
 			<li class="text-sm text-muted-foreground">カテゴリがありません</li>
 		) : (
 			categories.map((category) => (
-				<li class="text-[12px] font-bold leading-none tracking-[0.06em] mt-[12px]">
-					<a href={`/categories/${category.slug}`} class="opacity-hover duration">
-						{category.name}
-						<span class="bracket">{category.count}</span>
+				<li class="border-b border-[#eee] first:border-t first:border-[#eee]">
+					<a href={`/categories/${category.slug}`} class="flex items-center justify-between py-[20px] sm:py-[16px] gap-[12px] opacity-hover duration">
+						<div class="flex items-center gap-[10px]">
+							<span class="w-[8px] h-[8px] rounded-full shrink-0" style={`background-color: ${category.labelColor}`}></span>
+							<span class="font-bold text-[14px] leading-none">{category.name}</span>
+								<div class="self-stretch flex items-center"><div class="w-px h-[14px] bg-[#333] opacity-30"></div></div>
+							<span class="font-medium text-[#aaa] text-[14px] sm:text-[12px] leading-none">{category.slug}</span>
+						</div>
+						<span class="bracket text-[#aaa] text-[12px] sm:text-[10px] shrink-0 leading-none">{category.count}</span>
 					</a>
 				</li>
 			))
@@ -46,10 +51,7 @@ const itemMargin = headingSize === "md" ? "mt-[24px]" : "mt-[18px] sm:mt-[12px]"
 		) : (
 			tags.map((tag) => (
 				<li class="text-[12px] font-bold leading-none tracking-[0.06em]">
-					<a href={`/tags/${tag.slug}`} class="opacity-hover duration">
-						<span class="hashtag" />
-						{tag.name}
-						<span class="bracket">{tag.count}</span>
+					<a href={`/tags/${tag.slug}`} class="opacity-hover duration"><span class="hashtag" />{tag.name} <span class="bracket">{tag.count}</span>
 					</a>
 				</li>
 			))
