@@ -20,4 +20,5 @@ export interface LayoutProps {
 	imageTag?: ImageTag;
 	isWorksPage?: boolean;
 	isBlogsPage?: boolean;
+	isContactPage?: boolean;
 }

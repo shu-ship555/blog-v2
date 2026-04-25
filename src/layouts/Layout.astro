@@ -14,7 +14,7 @@ const pagePath = Astro.url.pathname;
 const props = Astro.props as Partial<LayoutProps>;
 
 const {
-	title = "みやたノート｜Frontend & Design",
+	title = "Frontend & Design｜みやたブログ",
 	description = "フロントエンドエンジニアをしています。自分で使うためのツールを作ったり、デザインの練習をしたりするのが好きです。ここでは、制作物のログや、エンジニアとして日々の学習で考えたことを置いています。技術以外の話（趣味のミステリー執筆や、双極性障害との生活など）はnoteに書いています。",
 	ogTitle = title,
 	ogDescription = description,
@@ -32,6 +32,7 @@ const {
 	imageTag,
 	isWorksPage = false,
 	isBlogsPage = false,
+	isContactPage = false,
 } = props;
 
 // canonical URL を props 優先で決定
@@ -48,6 +49,7 @@ const breadcrumbProps = {
 	imageTag,
 	isWorksPage,
 	isBlogsPage,
+	isContactPage,
 };
 ---
 

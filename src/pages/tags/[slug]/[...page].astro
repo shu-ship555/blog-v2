@@ -36,7 +36,7 @@ const blogs = page.data as Blog[];
 const { categoryCounts, tagCounts } = await getCategoryAndTagCounts();
 ---
 
-<Layout title={`${tag.name} の記事一覧 | miyata blog`} breadcrumb={true} tag={tag}>
+<Layout title={`${tag.name} の記事一覧｜みやたブログ`} breadcrumb={true} tag={tag}>
 	<BlogListByFilter
 		filterType="tag"
 		filterLabel={tag.name}

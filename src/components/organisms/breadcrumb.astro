@@ -30,6 +30,7 @@ interface Props {
 	isImagesPage?: boolean;
 	isWorksPage?: boolean;
 	isBlogsPage?: boolean;
+	isContactPage?: boolean;
 }
 
 const {
@@ -46,6 +47,7 @@ const {
 	isImagesPage = false,
 	isWorksPage = false,
 	isBlogsPage = false,
+	isContactPage = false,
 } = Astro.props;
 
 const isBlogPage = !!blog;
@@ -83,6 +85,17 @@ const currentClasses = scaleClasses[scale];
 					><Icon filename="icon_home" color="#333" customClass={`${currentClasses.icon} shrink-0`} /></a
 				>
 			</li>
+
+			{
+				isContactPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+							Contact｜お問い合わせ
+						</li>
+					</>
+				)
+			}
 
 			{
 				isBlogsPage && (
