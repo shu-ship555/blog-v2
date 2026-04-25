@@ -20,6 +20,7 @@ const { blog } = Astro.props;
 
 <Layout
 	title={blog.title}
+	description={blog.description}
 	breadcrumb={true}
 	blog={blog as any}
 	ogTitle={blog.ogp?.ogTitle || blog.title}
