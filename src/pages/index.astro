@@ -43,7 +43,7 @@ const tagCounts = getCountedTags(tags, allBlogs);
 						<span class="invisible">Shu Miyata</span>
 					</h1>
 					<p class="text-[16px] sm:text-[14px] text-[#666] leading-[1.8] tracking-[0.06em] mt-[24px] sm:mt-[16px]">
-						<span class="bracket"><span class="hashtag">フロントエンドエンジニア</span></span><br>自分で使うためのツールを作ったり、デザインの練習をしたりするのが好きです。ここでは、制作物のログや、エンジニアとして日々の学習で考えたことを置いています。<br>技術以外の話（趣味のミステリー執筆や、双極性障害との生活など）はnoteに書いています。
+						<span class="bracket"><span class="hashtag">フロントエンドエンジニア</span></span> <span class="bracket"><span class="hashtag">ミステリー</span></span> <span class="bracket"><span class="hashtag">双極性障害</span></span><br>このサイトはポートフォリオ兼ブログサイトです。<br>フロントエンドエンジニアとしての思想や日々の開発で感じたことを書いています。<br>制作物に関する技術的な話は<a href="https://zenn.dev/fune" target="_blank" class="underline hover:opacity-[0.64] duration">Zenn</a>に、趣味のミステリーや、双極性障害の日常は<a href="https://note.com/miyata_note" target="_blank" class="underline hover:opacity-[0.64] duration">note</a>に書いています。
 					</p>
 				</div>
 				<ContactButton variant="hero" />
@@ -62,7 +62,7 @@ const tagCounts = getCountedTags(tags, allBlogs);
 		</section>
 		<section class="mt-[80px] sm:mt-[48px]">
 			<h2 class="text-[32px] sm:text-[24px] leading-none tracking-[0.04em] font-bold">Note｜ノート</h2>
-			<p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">双極性障害との向き合い方や、創作ミステリーなどを発信しています。</p>
+			<p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">双極性障害との向き合い方や、趣味のミステリーについて発信しています。</p>
 			<NoteSlider />
 			<div class="mt-[48px] sm:mt-[32px] flex justify-end">
 				<a
@@ -78,7 +78,7 @@ const tagCounts = getCountedTags(tags, allBlogs);
 		</section>
 		<section class="mt-[80px] sm:mt-[48px]">
 			<h2 class="text-[32px] sm:text-[24px] leading-none tracking-[0.04em] font-bold">Blogs｜ブログ</h2>
-			<p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">Web制作・プログラミング・デザインに関する学習記録を書いています。</p>
+			<p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">フロントエンドエンジニアとしての思想や日々の開発で感じたことを自分の言葉で綴っています。</p>
 			<div class="flex justify-between gap-[32px] sm:flex-col mt-[40px] sm:mt-[20px]">
 				<ul class="grid grid-cols-2 sm:grid-cols-1 gap-[32px] flex-wrap sm:gap-[28px]">
 					{blogs.map((blog) => <Card blog={blog} />)}
