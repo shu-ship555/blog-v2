@@ -232,9 +232,9 @@ const setupTyping = () => {
     if (i < text.length) {
       el.textContent += text[i];
       i++;
-      setTimeout(type, 80);
+      setTimeout(type, 120);
     } else {
-      setTimeout(() => el.classList.remove('typing-cursor'), 600);
+      setTimeout(() => el.classList.remove('typing-cursor'), 2000);
     }
   };
 
