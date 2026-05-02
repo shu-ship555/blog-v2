@@ -28,11 +28,19 @@ const { items } = Astro.props;
 						"relative",
 						"text-nowrap",
 						index !== 0 && "ml-[32px] sm:ml-[8px]",
-						item.isActive ? "nav-active" : "",
+						(item.isActive || item.current) ? "nav-active" : "",
 					]}
 				>
-					{item.isActive ? (
-						<a href={item.href} class:list={["opacity-hover duration", item.current ? "text-[#888]" : ""]}>
+					{item.current ? (
+						<div class="text-[#888]">
+							{item.label}
+							{item.subLabel && <span class="font-normal bracket">{item.subLabel}</span>}
+							<span class="bg-[#eee] rounded-full ml-[6px] w-[16px] h-[16px] aspect-square inline-flex justify-center items-center sm:hidden">
+								<Icon filename="icon_arrow_forward" color="#888" customClass="w-[12px] sm:w-[10px] align-middle" />
+							</span>
+						</div>
+					) : item.isActive ? (
+						<a href={item.href} class="opacity-hover duration">
 							{item.label}
 							{item.subLabel && <span class="font-normal bracket">{item.subLabel}</span>}
 							<span class="bg-[#eee] rounded-full ml-[6px] w-[16px] h-[16px] aspect-square inline-flex justify-center items-center sm:hidden">
@@ -48,9 +56,11 @@ const { items } = Astro.props;
 							</span>
 						</div>
 					)}
-					<div class="pt-[12px] nav-tip duration absolute left-1/2 -translate-x-1/2 w-full">
-						<div class="text-nowrap bg-[#eee] py-[4px] text-[12px] font-normal text-center" set:html={item.tooltip} />
-					</div>
+					{!item.current && (
+						<div class="pt-[12px] nav-tip duration absolute left-1/2 -translate-x-1/2 w-full">
+							<div class="text-nowrap bg-[#eee] py-[4px] text-[12px] font-normal text-center" set:html={item.tooltip} />
+						</div>
+					)}
 				</li>
 				{index < items.length - 1 && <li class="hidden sm:block sm:ml-[8px]">｜</li>}
 			</>

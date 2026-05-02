@@ -1,0 +1,32 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Navigation from "../../../components/organisms/navigation.astro";
+import ProductCard from "../../../components/molecules/productCard.astro";
+import { getProducts } from "../../../libs/microcms";
+import type { Product } from "../../../types";
+
+const res = await getProducts();
+const products: Product[] = res.contents;
+---
+
+<Layout
+	title="Product｜プロダクト｜Portfolio｜みやたノート"
+	breadcrumb={true}
+	isPortfolioProductPage={true}
+>
+	<main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
+		<h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Product｜プロダクト</h1>
+		<div class="mt-[48px] sm:mt-[24px]">
+			<Navigation
+				items={[
+					{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true, current: true },
+					{ href: "/portfolio/icon", label: "Icon", tooltip: "アイコン", isActive: true },
+				]}
+			/>
+		</div>
+		<ul class="grid grid-cols-2 sm:grid-cols-1 gap-[48px] sm:gap-[32px] mt-[80px] sm:mt-[48px]">
+			{products.map((product) => <ProductCard product={product} />)}
+		</ul>
+		<div class="mt-[48px] sm:mt-[24px]"></div>
+	</main>
+</Layout>

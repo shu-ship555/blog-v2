@@ -1,0 +1,67 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navigation from "../../components/organisms/navigation.astro";
+import ViewMoreButton from "../../components/atoms/viewMoreButton.astro";
+import IconCard from "../../components/molecules/iconCard.astro";
+import ProductCard from "../../components/molecules/productCard.astro";
+import { getContents, getProducts } from "../../libs/microcms";
+import type { Icon, Product } from "../../types";
+
+const iconRes = await getContents<Icon>("icons", { limit: 8 });
+const icons = iconRes.contents;
+
+const productRes = await getProducts();
+const products: Product[] = productRes.contents.slice(0, 4);
+---
+
+<Layout
+	title="Portfolio｜ポートフォリオ｜みやたノート"
+	breadcrumb={true}
+	isPortfolioPage={true}
+>
+	<main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
+		<h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Portfolio｜ポートフォリオ</h1>
+		<div class="mt-[48px] sm:mt-[24px]">
+			<Navigation
+				items={[
+					{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true },
+					{ href: "/portfolio/icon", label: "Icon", tooltip: "アイコン", isActive: true },
+				]}
+			/>
+		</div>
+
+		<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[48px]">
+			<div
+				class="text-[16px] sm:text-[10px] font-black aspect-square w-[48px] sm:w-[20px] h-[48px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"
+			>
+				<span>1</span>
+			</div>
+			<h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">
+				Product<span class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden">プロダクト</span>
+			</h2>
+		</div>
+		<ul class="grid grid-cols-2 sm:grid-cols-1 gap-[48px] sm:gap-[32px] mt-[40px] sm:mt-[24px]">
+			{products.map((product) => <ProductCard product={product} />)}
+		</ul>
+		<div class="mt-[40px] sm:mt-[24px] text-right">
+			<ViewMoreButton href="/portfolio/product" label="PRODUCT" />
+		</div>
+
+		<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[64px]">
+			<div
+				class="text-[16px] sm:text-[10px] font-black aspect-square w-[48px] sm:w-[20px] h-[48px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white"
+			>
+				<span>2</span>
+			</div>
+			<h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">
+				Icon<span class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden">アイコン</span>
+			</h2>
+		</div>
+		<ul class="grid grid-cols-8 sm:grid-cols-3 gap-[48px] sm:gap-[32px] mt-[40px] sm:mt-[24px]">
+			{icons.map((icon) => <IconCard icon={icon} />)}
+		</ul>
+		<div class="mt-[40px] sm:mt-[24px] text-right">
+			<ViewMoreButton href="/portfolio/icon" label="ICON" />
+		</div>
+	</main>
+</Layout>

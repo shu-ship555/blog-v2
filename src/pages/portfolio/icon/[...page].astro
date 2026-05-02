@@ -1,0 +1,57 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Navigation from "../../../components/organisms/navigation.astro";
+import Pager from "../../../components/organisms/pager.astro";
+import IconCard from "../../../components/molecules/iconCard.astro";
+import { getAllContents } from "../../../libs/microcms";
+import type { GetStaticPathsOptions } from "astro";
+import type { Icon } from "../../../types";
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+	const ICONS_PER_PAGE = 48;
+	const res = await getAllContents<Icon>("icons");
+	const icons = res.contents;
+
+	return paginate(icons, {
+		pageSize: ICONS_PER_PAGE,
+		params: {},
+		props: {
+			totalCount: res.totalCount,
+			perPage: ICONS_PER_PAGE,
+		},
+	});
+}
+
+const { page, totalCount, perPage } = Astro.props as {
+	page: { data: Icon[] };
+	totalCount: number;
+	perPage: number;
+};
+
+const icons = page.data;
+---
+
+<Layout
+	title="Icon｜アイコン｜Portfolio｜みやたノート"
+	breadcrumb={true}
+	isPortfolioIconPage={true}
+>
+	<main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
+		<h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Icon｜アイコン</h1>
+		<div class="mt-[48px] sm:mt-[24px]">
+			<Navigation
+				items={[
+					{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true },
+					{ href: "/portfolio/icon", label: "Icon", tooltip: "アイコン", isActive: true, current: true },
+				]}
+			/>
+		</div>
+		<ul class="js-expand-modal grid grid-cols-8 sm:grid-cols-3 gap-[48px] sm:gap-[32px] mt-[80px] sm:mt-[48px]">
+			{icons.map((icon) => <IconCard icon={icon} showExpandBtn={true} />)}
+		</ul>
+		<div class="mt-[48px]">
+			<Pager page={page} totalCount={totalCount} basePath="/portfolio/icon" perPage={perPage} />
+		</div>
+		<div class="mt-[48px] sm:mt-[24px]"></div>
+	</main>
+</Layout>

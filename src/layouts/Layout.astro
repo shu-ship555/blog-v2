@@ -33,6 +33,9 @@ const {
 	isWorksPage = false,
 	isBlogsPage = false,
 	isContactPage = false,
+	isPortfolioPage = false,
+	isPortfolioIconPage = false,
+	isPortfolioProductPage = false,
 } = props;
 
 // canonical URL を props 優先で決定
@@ -50,6 +53,9 @@ const breadcrumbProps = {
 	isWorksPage,
 	isBlogsPage,
 	isContactPage,
+	isPortfolioPage,
+	isPortfolioIconPage,
+	isPortfolioProductPage,
 };
 ---
 
@@ -114,7 +120,7 @@ const breadcrumbProps = {
 				<Header
 					navItems={[
 						{ href: "/blogs", text: "Blog", name: "ブログ", target: false },
-						{ href: "/icon", text: "Icon", name: "アイコン", target: false },
+						{ href: "/portfolio", text: "Portfolio", name: "ポートフォリオ", target: false },
 						// { href: "https://suzuri.jp/shu-miyata/products", text: "Shop", name: "ショップ", target: true },
 						{
 							href: "/contact",

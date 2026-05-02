@@ -31,6 +31,9 @@ interface Props {
 	isWorksPage?: boolean;
 	isBlogsPage?: boolean;
 	isContactPage?: boolean;
+	isPortfolioPage?: boolean;
+	isPortfolioIconPage?: boolean;
+	isPortfolioProductPage?: boolean;
 }
 
 const {
@@ -48,6 +51,9 @@ const {
 	isWorksPage = false,
 	isBlogsPage = false,
 	isContactPage = false,
+	isPortfolioPage = false,
+	isPortfolioIconPage = false,
+	isPortfolioProductPage = false,
 } = Astro.props;
 
 const isBlogPage = !!blog;
@@ -114,6 +120,52 @@ const currentClasses = scaleClasses[scale];
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
 							Works｜制作物
+						</li>
+					</>
+				)
+			}
+
+			{
+				isPortfolioPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+							Portfolio｜ポートフォリオ
+						</li>
+					</>
+				)
+			}
+
+			{
+				(isPortfolioIconPage || isPortfolioProductPage) && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
+							<a href="/portfolio" class="flex items-center justify-center opacity-hover duration">
+								Portfolio｜ポートフォリオ
+							</a>
+						</li>
+					</>
+				)
+			}
+
+			{
+				isPortfolioIconPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+							Icon｜アイコン
+						</li>
+					</>
+				)
+			}
+
+			{
+				isPortfolioProductPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+							Product｜プロダクト
 						</li>
 					</>
 				)
