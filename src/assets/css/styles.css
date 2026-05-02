@@ -390,3 +390,7 @@ post
 .post .prompt{
 	@apply block px-[24px] sm:px-[16px] pt-[24px] sm:pt-[16px] pb-[28px] sm:pb-[18px] rounded-lg bg-[#EBF7FF] mt-[16px] sm:mt-[8px] text-[14px] sm:text-[12px] font-medium leading-[1.64] tracking-[0.06em];
 }
+
+.grecaptcha-badge {
+	visibility: hidden;
+}
