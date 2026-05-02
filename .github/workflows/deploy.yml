@@ -32,6 +32,7 @@ jobs:
           PUBLIC_MICROCMS_SERVICE_DOMAIN: ${{ secrets.PUBLIC_MICROCMS_SERVICE_DOMAIN }}
           PUBLIC_MICROCMS_API_KEY: ${{ secrets.PUBLIC_MICROCMS_API_KEY }}
           PUBLIC_SITE_URL: ${{ secrets.PUBLIC_SITE_URL }}
+          PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.PUBLIC_RECAPTCHA_SITE_KEY }}
         run: |
           npm run build
           ls -la ./dist
