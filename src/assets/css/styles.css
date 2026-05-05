@@ -1,146 +1,168 @@
 @font-face {
-  font-family: 'Montserrat';
-  src: url('/font/Montserrat-Bold.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
+	font-family: "Montserrat";
+	src: url("/font/Montserrat-Bold.woff2") format("woff2");
+	font-weight: 900;
+	font-style: normal;
 }
 @font-face {
-  font-family: 'Montserrat';
-  src: url('/font/Montserrat-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
+	font-family: "Montserrat";
+	src: url("/font/Montserrat-Bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
 }
 @font-face {
-  font-family: 'Montserrat';
-  src: url('/font/Montserrat-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
+	font-family: "Montserrat";
+	src: url("/font/Montserrat-Medium.woff2") format("woff2");
+	font-weight: 500;
+	font-style: normal;
 }
 @font-face {
-  font-family: 'Montserrat';
-  src: url('/font/Montserrat-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
+	font-family: "Montserrat";
+	src: url("/font/Montserrat-Regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
 }
 @font-face {
-  font-family: 'Montserrat';
-  src: url('/font/Montserrat-Light.woff2') format('woff2');
-  font-weight: 300;
-  font-style: normal;
+	font-family: "Montserrat";
+	src: url("/font/Montserrat-Light.woff2") format("woff2");
+	font-weight: 300;
+	font-style: normal;
 }
 @font-face {
-  font-family: 'Montserrat';
-  src: url('/font/Montserrat-Thin.woff2') format('woff2');
-  font-weight: 100;
-  font-style: normal;
+	font-family: "Montserrat";
+	src: url("/font/Montserrat-Thin.woff2") format("woff2");
+	font-weight: 100;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: 'Montserrat-en';
-  src: url('/font/Montserrat-Black.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
+	font-family: "Montserrat-en";
+	src: url("/font/Montserrat-Black.woff2") format("woff2");
+	font-weight: 900;
+	font-style: normal;
 }
 @font-face {
-  font-family: 'Montserrat-en';
-  src: url('/font/Montserrat-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
+	font-family: "Montserrat-en";
+	src: url("/font/Montserrat-Bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
 }
 @font-face {
-  font-family: 'Montserrat-en';
-  src: url('/font/Montserrat-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
+	font-family: "Montserrat-en";
+	src: url("/font/Montserrat-Medium.woff2") format("woff2");
+	font-weight: 500;
+	font-style: normal;
 }
 @font-face {
-  font-family: 'Montserrat-en';
-  src: url('/font/Montserrat-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
+	font-family: "Montserrat-en";
+	src: url("/font/Montserrat-Regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
 }
 @font-face {
-  font-family: 'Montserrat-en';
-  src: url('/font/Montserrat-Light.woff2') format('woff2');
-  font-weight: 300;
-  font-style: normal;
+	font-family: "Montserrat-en";
+	src: url("/font/Montserrat-Light.woff2") format("woff2");
+	font-weight: 300;
+	font-style: normal;
 }
 @font-face {
-  font-family: 'Montserrat-en';
-  src: url('/font/Montserrat-Thin.woff2') format('woff2');
-  font-weight: 100;
-  font-style: normal;
+	font-family: "Montserrat-en";
+	src: url("/font/Montserrat-Thin.woff2") format("woff2");
+	font-weight: 100;
+	font-style: normal;
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html{
+html {
 	scroll-behavior: smooth;
 }
 
 body {
-  font-family: "Montserrat", "Noto Sans JP", "游ゴシック体", "Yu Gothic", "游ゴシック Medium", "Yu Gothic Medium", -apple-system, BlinkMacSystemFont, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic ProW3", sans-serif;
+	font-family:
+		"Montserrat",
+		"Noto Sans JP",
+		"游ゴシック体",
+		"Yu Gothic",
+		"游ゴシック Medium",
+		"Yu Gothic Medium",
+		-apple-system,
+		BlinkMacSystemFont,
+		"ヒラギノ角ゴ Pro W3",
+		"Hiragino Kaku Gothic ProW3",
+		sans-serif;
 	color: #333;
 	font-feature-settings: "palt";
 	word-break: break-all;
 }
 
 ::selection {
-  background-color: #0079C9;
-  color: #ffffff;
+	background-color: #0079c9;
+	color: #ffffff;
 }
 
 /* =======================
 フォント
  ======================= */
 .font-en {
-  font-family: 'Montserrat-en', "Noto Sans JP", "游ゴシック体", "Yu Gothic", "游ゴシック Medium", "Yu Gothic Medium", -apple-system, BlinkMacSystemFont, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic ProW3", sans-serif;
+	font-family:
+		"Montserrat-en",
+		"Noto Sans JP",
+		"游ゴシック体",
+		"Yu Gothic",
+		"游ゴシック Medium",
+		"Yu Gothic Medium",
+		-apple-system,
+		BlinkMacSystemFont,
+		"ヒラギノ角ゴ Pro W3",
+		"Hiragino Kaku Gothic ProW3",
+		sans-serif;
 }
 
 /* =======================
 アニメーション
  ======================= */
- @keyframes shake {
-  0% {
-    transform: translateX(0);
-  }
+@keyframes shake {
+	0% {
+		transform: translateX(0);
+	}
 
-  50% {
-    transform: translateX(20px);
-  }
+	50% {
+		transform: translateX(20px);
+	}
 
-  51% {
-    transform: translateX(-20px);
-  }
+	51% {
+		transform: translateX(-20px);
+	}
 
-  100% {
-    transform: translateX(0);
-  }
+	100% {
+		transform: translateX(0);
+	}
 }
 
 /* =======================
 ユニーククラス
  ======================= */
- @media (min-width: 640px){
+@media (min-width: 640px) {
 	.opacity-hover:hover {
-   @apply opacity-[0.48];
-}
-.transrate-x-animation:hover .animation-icon {
-	animation-name: shake;
-	animation-duration: 0.48s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: 1;
-}
+		@apply opacity-[0.48];
+	}
+	.transrate-x-animation:hover .animation-icon {
+		animation-name: shake;
+		animation-duration: 0.48s;
+		animation-timing-function: ease-in-out;
+		animation-iteration-count: 1;
+	}
 }
 
 .duration {
-  @apply transition-all duration-[240ms] ease-in-out;
+	@apply transition-all duration-[240ms] ease-in-out;
 }
 
 .inner {
-  @apply max-w-[1280px] px-[48px] sm:px-[24px] w-full mx-auto sm:max-w-[430px];
+	@apply max-w-[1280px] px-[48px] sm:px-[24px] w-full mx-auto sm:max-w-[430px];
 }
 
 .bracket {
@@ -152,31 +174,51 @@ body {
 }
 
 .referencemark {
-	@apply relative before:content-['※'] before:pr-[0.48em] ;
+	@apply relative before:content-['※'] before:pr-[0.48em];
+}
+
+/* =======================
+スクロール時ヘッダー縮小
+ ======================= */
+.js-header .inner {
+	transition:
+		padding-top 240ms ease-in-out,
+		padding-bottom 240ms ease-in-out;
+}
+
+.js-header.is-scrolled .inner {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+@media (min-width: 640px) {
+	.js-header.is-scrolled .inner {
+		padding-top: 16px;
+		padding-bottom: 16px;
+	}
 }
 
 /* =======================
 ハンバーガーメニュー
  ======================= */
-.is-active{
+.is-active {
 	@apply relative;
 }
- .is-active .js-open {
-  @apply hidden;
+.is-active .js-open {
+	@apply hidden;
 }
 
 .is-active .js-close {
-  @apply block;
+	@apply block;
 }
 
 .is-active .js-menu {
-  @apply flex;
+	@apply flex;
 }
 
 .is-active .js-bg {
-  @apply block;
+	@apply block;
 }
-
 
 /* =======================
 アイコン拡大ボタン
@@ -188,31 +230,29 @@ li:has(.expand-btn:hover) .expand-img.ei-s {
 	@apply scale-[104%] sm:scale-100;
 }
 
-
 /* =======================
 ナビメニュー
  ======================= */
-.nav-tip{
+.nav-tip {
 	@apply opacity-0 invisible;
 }
- .nav-active:hover .nav-tip {
+.nav-active:hover .nav-tip {
 	@apply opacity-100 visible;
 }
-
 
 /* =======================
 toc
  ======================= */
- .level-2:first-of-type{
+.level-2:first-of-type {
 	@apply mt-0;
 }
- .level-2{
+.level-2 {
 	@apply break-normal mt-[16px] sm:mt-[12px] relative before:w-[8px] before:h-[8px] before:sm:w-[6px] before:sm:h-[6px] before:aspect-square before:rounded-full before:bg-[#0079C9] before:mr-[0.64em] before:mt-[0.48em]  text-[16px] sm:text-[14px] font-black leading-[1.48] tracking-[0.04em] flex items-start;
 }
-.level-3{
+.level-3 {
 	@apply break-normal mt-[6px] sm:mt-[4px] ml-[24px] sm:ml-[18px] relative before:border-b before:border-l before:w-[8px] before:h-[8px] before:sm:w-[6px] before:sm:h-[6px] before:aspect-square before:border-[#333] before:mt-[0.32em] before:mr-[0.64em] text-[14px] sm:text-[12px] font-bold leading-[1.48] tracking-[0.04em] flex items-start;
 }
- .level-4{
+.level-4 {
 	@apply break-normal mt-[4px] sm:mt-[4px] ml-[40px] sm:ml-[32px] relative before:border-b before:border-l before:w-[8px] before:h-[8px] before:sm:w-[6px] before:sm:h-[6px] before:aspect-square before:border-[#333] before:mt-[0.32em] before:mr-[0.64em] text-[12px] sm:text-[12px] font-bold leading-[1.48] tracking-[0.04em] flex items-start;
 }
 
@@ -220,89 +260,103 @@ toc
 toc-sscrollindicator
  ======================= */
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.16; }
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.16;
+	}
 }
 
 #scrollIndicator {
-  @apply opacity-0 invisible transition-opacity duration-300;
+	@apply opacity-0 invisible transition-opacity duration-300;
 }
 
 #scrollIndicator.is-scrollable {
-  @apply visible opacity-100;
-  animation: blink 1.6s infinite;
+	@apply visible opacity-100;
+	animation: blink 1.6s infinite;
 }
 
 #scrollIndicator.is-scrolling {
-  @apply opacity-0 invisible;
-  animation: none;
+	@apply opacity-0 invisible;
+	animation: none;
 }
 
 /* =======================
 固定お問い合わせボタン
  ======================= */
 #fixedContactBtn {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  transform: translateY(8px);
+	opacity: 0;
+	pointer-events: none;
+	transition:
+		opacity 0.3s ease,
+		transform 0.3s ease;
+	transform: translateY(8px);
 }
 #fixedContactBtn.is-visible {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
+	opacity: 1;
+	pointer-events: auto;
+	transform: translateY(0);
 }
 @media (max-width: 1416px) {
-  #fixedContactBtn {
-    transform: translateY(100%);
-  }
-  #fixedContactBtn.is-visible {
-    transform: translateY(0);
-  }
+	#fixedContactBtn {
+		transform: translateY(100%);
+	}
+	#fixedContactBtn.is-visible {
+		transform: translateY(0);
+	}
 }
 
 /* =======================
 タイピングアニメーション
  ======================= */
 @keyframes cursor-blink {
-  0%, 100% { border-color: #333; }
-  50% { border-color: transparent; }
+	0%,
+	100% {
+		border-color: #333;
+	}
+	50% {
+		border-color: transparent;
+	}
 }
 
 .typing-cursor {
-  border-right: 3px solid #333;
-  animation: cursor-blink 0.72s step-end infinite;
+	border-right: 3px solid #333;
+	animation: cursor-blink 0.72s step-end infinite;
 }
 
 /* =======================
 swiper
  ======================= */
- .swiper, .swiper-wrapper, .swiper-pagination {
+.swiper,
+.swiper-wrapper,
+.swiper-pagination {
 	@apply z-auto;
- }
- .swiper.note-swiper .swiper-pagination{
+}
+.swiper.note-swiper .swiper-pagination {
 	@apply static text-right;
- }
- .swiper.note-swiper .swiper-pagination-bullet{
+}
+.swiper.note-swiper .swiper-pagination-bullet {
 	@apply w-[24px] h-[8px] sm:w-[16px] sm:h-[6px] rounded-none;
- }
- .swiper.note-swiper .swiper-pagination-bullet.swiper-pagination-bullet-active{
+}
+.swiper.note-swiper .swiper-pagination-bullet.swiper-pagination-bullet-active {
 	@apply bg-[#0079C9];
- }
+}
 
 /* =======================
 トグルボタン
  ======================= */
-.toggle-checkbox:checked +  .toggle-bg {
+.toggle-checkbox:checked + .toggle-bg {
 	@apply bg-[#0079C9];
 }
 
 /* =======================
 post
  ======================= */
- .post > :first-child {
+.post > :first-child {
 	@apply mt-0;
- }
+}
 .post h2 {
 	@apply break-normal font-black text-[36px] sm:text-[24px] leading-[1.48] tracking-[0.04em] mt-[120px] sm:mt-[60px] before:border-l-8 before:mr-[12px] before:rounded-full before:border-[#0079C9]  scroll-mt-[160px] sm:scroll-mt-[120px];
 }
@@ -318,16 +372,18 @@ post
 .post a {
 	@apply opacity-hover duration;
 }
-.post p a{
+.post p a {
 	@apply opacity-hover duration text-[#0079C9] underline;
 }
-.post ul, .post ol {
+.post ul,
+.post ol {
 	@apply mt-[16px] sm:mt-[8px] px-[40px] sm:px-[20px] pt-[40px] sm:pt-[20px] pb-[48px] sm:pb-[24px] rounded-xl sm:rounded-md bg-[#FAFAFA];
 }
-.post ol  {
+.post ol {
 	counter-reset: list-counter;
 }
-.post ul li:first-of-type, .post ol li:first-of-type {
+.post ul li:first-of-type,
+.post ol li:first-of-type {
 	@apply mt-0;
 }
 .post ul li {
@@ -351,10 +407,10 @@ post
 .post figure figcaption {
 	@apply text-[12px] sm:text-[12px] text-[#666] leading-[1.24] tracking-[0.04em] mt-[8px] sm:mt-[4px];
 }
-.post blockquote{
+.post blockquote {
 	@apply px-[24px] sm:px-[12px] pt-[24px] sm:pt-[12px] pb-[28px] sm:pb-[14px] border-2 border-dashed rounded-lg border-[#666] referencemark flex items-start mt-[16px] sm:mt-[8px];
 }
-.post blockquote p{
+.post blockquote p {
 	@apply mt-0 text-[14px] sm:text-[12px] text-[#666] font-medium leading-[1.64] tracking-[0.06em] sm:mt-[1px];
 }
 .post hr {
@@ -375,7 +431,8 @@ post
 .post td {
 	@apply bg-[#fafafa];
 }
-.post th, .post td{
+.post th,
+.post td {
 	@apply px-[24px] sm:px-[12px] pt-[24px] sm:pt-[12px] pb-[28px] sm:pb-[14px] sm:min-w-[160px] sm:w-full;
 }
 .post .button {
@@ -387,7 +444,7 @@ post
 .post .bracket {
 	@apply relative before:content-['['] after:content-[']'] before:align-[0.06em] before:pr-[0.24em] after:pl-[0.24em] after:align-[0.06em];
 }
-.post .prompt{
+.post .prompt {
 	@apply block px-[24px] sm:px-[16px] pt-[24px] sm:pt-[16px] pb-[28px] sm:pb-[18px] rounded-lg bg-[#EBF7FF] mt-[16px] sm:mt-[8px] text-[14px] sm:text-[12px] font-medium leading-[1.64] tracking-[0.06em];
 }
 
