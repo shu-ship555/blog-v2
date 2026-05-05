@@ -201,37 +201,22 @@ const setupSwiper = () => {
 };
 
 /**
- * 固定お問い合わせボタンの設定
- */
-const setupFixedContactBtn = () => {
-	const heroBtn = document.getElementById("heroContactBtn");
-	const fixedBtn = document.getElementById("fixedContactBtn");
-
-	if (!heroBtn || !fixedBtn) return;
-
-	const observer = new IntersectionObserver(([entry]) => {
-		if (entry.isIntersecting) {
-			fixedBtn.classList.remove("is-visible");
-			fixedBtn.setAttribute("aria-hidden", "true");
-		} else {
-			fixedBtn.classList.add("is-visible");
-			fixedBtn.setAttribute("aria-hidden", "false");
-		}
-	});
-	observer.observe(heroBtn);
-};
-
-/**
- * スクロール時にヘッダーを縮小する設定
+ * スクロール時にヘッダーを縮小し、固定お問い合わせボタンを表示する設定
  */
 const setupScrollHeader = () => {
 	const header = document.querySelector(".js-header");
+	const fixedBtn = document.getElementById("fixedContactBtn");
 	if (!header) return;
 
 	const getThreshold = () => (window.innerWidth >= 640 ? 108 : 667);
 
 	const update = () => {
-		header.classList.toggle("is-scrolled", window.scrollY > getThreshold());
+		const scrolled = window.scrollY > getThreshold();
+		header.classList.toggle("is-scrolled", scrolled);
+		if (fixedBtn) {
+			fixedBtn.classList.toggle("is-visible", scrolled);
+			fixedBtn.setAttribute("aria-hidden", scrolled ? "false" : "true");
+		}
 	};
 
 	window.addEventListener("scroll", update, { passive: true });
@@ -272,7 +257,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	setupScrollIndicator();
 	setupFilter();
 	setupSwiper();
-	setupFixedContactBtn();
 	setupTyping();
 	setupScrollHeader();
 });
