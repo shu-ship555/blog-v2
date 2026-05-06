@@ -24,4 +24,5 @@ export interface LayoutProps {
 	isPortfolioPage?: boolean;
 	isPortfolioIconPage?: boolean;
 	isPortfolioProductPage?: boolean;
+	isAboutPage?: boolean;
 }
