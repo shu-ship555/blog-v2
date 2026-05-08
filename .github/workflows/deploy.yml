@@ -1,14 +1,18 @@
+# Xserver Static へのデプロイ用ワークフロー（現在は Vercel を使用中のため無効化）
+# 復旧する場合: 以下の on: ブロックのコメントを外してください
 name: Deploy to Xserver Static
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-  repository_dispatch:
-    types: [microcms]
-  schedule:
-    - cron: '0 19 * * *'
+  workflow_dispatch: # 手動実行のみ残す（自動トリガーは無効化）
+# on:
+#   push:
+#     branches:
+#       - main
+#   workflow_dispatch:
+#   repository_dispatch:
+#     types: [microcms]
+#   schedule:
+#     - cron: '0 19 * * *'
 
 jobs:
   deploy:

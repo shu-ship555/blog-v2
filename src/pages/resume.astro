@@ -1,0 +1,168 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+  getProfile,
+  getWorkHistory,
+  getSelfPR,
+  getCareerPlan,
+  getAccounts,
+} from "../libs/notion";
+
+const [profile, workHistory, selfPR, careerPlan, accounts] = await Promise.all([
+  getProfile(),
+  getWorkHistory(),
+  getSelfPR(),
+  getCareerPlan(),
+  getAccounts(),
+]);
+---
+
+<Layout
+  title="Resume｜履歴書｜ミヤタシュウ"
+  description="ミヤタシュウの履歴書・職務経歴書ページです。プロフィール、職務経歴、自己PR、今後のキャリアプランを掲載しています。"
+  isResumePage={true}
+>
+  <!-- メインコンテンツ -->
+  <main class="inner pt-[160px] sm:pt-[96px] pb-[200px] sm:pb-[64px]">
+      <div class="flex flex-col gap-[80px] sm:gap-[56px]">
+
+        <!-- プロフィール -->
+        <section>
+          <p class="text-[12px] sm:text-[10px] font-black font-en tracking-[0.08em] text-[#0079C9]">Profile｜プロフィール</p>
+          <div class="mt-[32px] sm:mt-[24px] flex items-start gap-[48px] sm:flex-col sm:gap-[24px]">
+            {profile.avatarUrl && (
+              <img
+                src={profile.avatarUrl}
+                alt={profile.name}
+                class="w-[120px] h-[120px] sm:w-[80px] sm:h-[80px] rounded-full object-cover shrink-0"
+              />
+            )}
+            <div>
+              <p class="text-[32px] sm:text-[22px] font-black leading-none tracking-[0.04em]">{profile.name}</p>
+              {profile.tagline && (
+                <p class="text-[14px] sm:text-[12px] text-[#0079C9] font-bold tracking-[0.06em] mt-[10px] sm:mt-[8px]">{profile.tagline}</p>
+              )}
+              {profile.bio && (
+                <p class="text-[16px] sm:text-[14px] text-[#666] leading-[2] tracking-[0.06em] mt-[20px] sm:mt-[16px] max-w-[560px]">{profile.bio}</p>
+              )}
+            </div>
+          </div>
+        </section>
+
+        <!-- 経歴サマリー -->
+        {profile.careerSummary && (
+          <section class="border-t border-[#eee] pt-[64px] sm:pt-[40px]">
+            <p class="text-[12px] sm:text-[10px] font-black font-en tracking-[0.08em] text-[#0079C9]">Summary｜経歴サマリー</p>
+            <div class="mt-[24px] sm:mt-[16px] max-w-[640px] border-l-[2px] border-[#0079C9] pl-[32px] sm:pl-[20px]">
+              <p class="text-[16px] sm:text-[14px] text-[#666] leading-[2] tracking-[0.06em] whitespace-pre-wrap">{profile.careerSummary}</p>
+            </div>
+          </section>
+        )}
+
+        <!-- 職務経歴 -->
+        {workHistory.length > 0 && (
+          <section class="border-t border-[#eee] pt-[64px] sm:pt-[40px]">
+            <p class="text-[12px] sm:text-[10px] font-black font-en tracking-[0.08em] text-[#0079C9]">Experience｜職務経歴</p>
+            <ol class="mt-[40px] sm:mt-[28px] flex flex-col relative before:absolute before:top-[8px] before:left-[7px] before:w-px before:h-[calc(100%-8px)] before:bg-[#eee]">
+              {workHistory.map((w) => (
+                <li class="pl-[32px] sm:pl-[24px] pb-[48px] sm:pb-[32px] relative last:pb-0">
+                  <span class="absolute left-0 top-[6px] w-[16px] h-[16px] rounded-full border-[2px] border-[#0079C9] bg-white shrink-0" />
+                  <p class="text-[12px] sm:text-[10px] font-bold tracking-[0.06em] text-[#0079C9]">
+                    {w.periodStart}{w.periodEnd ? ` - ${w.periodEnd}` : " - 現在"}
+                  </p>
+                  <p class="text-[20px] sm:text-[16px] font-bold tracking-[0.04em] leading-[1.4] mt-[6px] sm:mt-[4px]">{w.company}</p>
+                  {w.role && (
+                    <p class="text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#666] mt-[4px]">{w.role}</p>
+                  )}
+                  {w.description && (
+                    <p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[10px] sm:mt-[8px] whitespace-pre-wrap">{w.description}</p>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+
+        <!-- 自己PR -->
+        {selfPR.length > 0 && (
+          <section class="border-t border-[#eee] pt-[64px] sm:pt-[40px]">
+            <p class="text-[12px] sm:text-[10px] font-black font-en tracking-[0.08em] text-[#0079C9]">PR｜自己PR</p>
+            <ul class="mt-[40px] sm:mt-[28px] flex flex-col gap-[32px] sm:gap-[24px]">
+              {selfPR.map((item, i) => (
+                <li class="flex gap-[24px] sm:gap-[16px] items-start">
+                  <span class="text-[32px] sm:text-[24px] font-black font-en text-[#eee] leading-none shrink-0 w-[40px] sm:w-[32px] text-right">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <p class="text-[18px] sm:text-[16px] font-bold tracking-[0.04em] leading-[1.4]">{item.title}</p>
+                    {item.description && (
+                      <p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[10px] sm:mt-[8px] whitespace-pre-wrap">{item.description}</p>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <!-- 今後のキャリアプラン -->
+        {careerPlan.length > 0 && (
+          <section class="border-t border-[#eee] pt-[64px] sm:pt-[40px]">
+            <p class="text-[12px] sm:text-[10px] font-black font-en tracking-[0.08em] text-[#0079C9]">Vision｜今後のキャリアプラン</p>
+            <ul class="mt-[40px] sm:mt-[28px] grid grid-cols-3 gap-[24px] sm:grid-cols-1 sm:gap-[16px]">
+              {careerPlan.map((item) => (
+                <li class="border border-[#eee] rounded-xl p-[28px] sm:p-[20px]">
+                  <p class="text-[16px] sm:text-[14px] font-bold tracking-[0.04em] text-[#333]">{item.title}</p>
+                  {item.description && (
+                    <p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[12px] sm:mt-[8px] whitespace-pre-wrap">{item.description}</p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <!-- Web上のアカウント -->
+        {accounts.length > 0 && (
+          <section class="border-t border-[#eee] pt-[64px] sm:pt-[40px]">
+            <p class="text-[12px] sm:text-[10px] font-black font-en tracking-[0.08em] text-[#0079C9]">Accounts｜Web上のアカウント</p>
+            <ul class="mt-[40px] sm:mt-[28px] flex flex-wrap gap-[16px] sm:gap-[12px]">
+              {accounts.map((account) => (
+                <li>
+                  <a
+                    href={account.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-[8px] sm:gap-[6px] border border-[#eee] rounded-lg px-[20px] sm:px-[14px] py-[12px] sm:py-[10px] opacity-hover duration"
+                  >
+                    <span class="text-[14px] sm:text-[12px] font-bold tracking-[0.04em] text-[#333]">{account.platform}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-[14px] sm:w-[12px]" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <!-- Contact CTA -->
+        <section class="border-t border-[#eee] pt-[64px] sm:pt-[40px]">
+          <div class="bg-[#EBF7FF] rounded-2xl px-[64px] sm:px-[28px] py-[56px] sm:py-[40px] text-center flex flex-col items-center gap-[24px] sm:gap-[20px]">
+            <p class="text-[32px] sm:text-[22px] font-bold leading-none tracking-[0.04em]">Contact｜お問い合わせ</p>
+            <p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.8]">
+              お仕事のご依頼・ご質問など、お気軽にご連絡ください。<br class="sm:hidden" />
+              内容を確認の上、2〜3営業日以内にご連絡いたします。
+            </p>
+            <a
+              href="/contact"
+              class="inline-block bg-[#0079C9] text-[#FFF] font-bold text-[16px] sm:text-[14px] tracking-[0.06em] rounded-lg px-[48px] sm:px-[32px] py-[16px] sm:py-[12px] duration hover:bg-[#0079C9]/[0.8]"
+            >
+              Contact<span class="bracket ml-[0.4em]">お問い合わせ</span>
+            </a>
+          </div>
+        </section>
+
+      </div>
+  </main>
+</Layout>

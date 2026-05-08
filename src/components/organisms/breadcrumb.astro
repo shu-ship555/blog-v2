@@ -34,7 +34,7 @@ interface Props {
 	isPortfolioPage?: boolean;
 	isPortfolioIconPage?: boolean;
 	isPortfolioProductPage?: boolean;
-	isAboutPage?: boolean;
+	isResumePage?: boolean;
 }
 
 const {
@@ -55,7 +55,7 @@ const {
 	isPortfolioPage = false,
 	isPortfolioIconPage = false,
 	isPortfolioProductPage = false,
-	isAboutPage = false,
+	isResumePage = false,
 } = Astro.props;
 
 const isBlogPage = !!blog;
@@ -95,11 +95,11 @@ const currentClasses = scaleClasses[scale];
 			</li>
 
 			{
-				isAboutPage && (
+				isResumePage && (
 					<>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
-							About｜プロフィール
+							Resume｜履歴書
 						</li>
 					</>
 				)

@@ -251,7 +251,7 @@ const setupTyping = () => {
 	type();
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+const init = () => {
 	setupHamburgerMenu();
 	setupImageModal();
 	setupScrollIndicator();
@@ -259,4 +259,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	setupSwiper();
 	setupTyping();
 	setupScrollHeader();
-});
+};
+
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", init);
+} else {
+	init();
+}
