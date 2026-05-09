@@ -35,6 +35,7 @@ type NotionProperty = {
   rich_text?: RichTextItem[];
   url?: string | null;
   number?: number | null;
+  select?: { name: string } | null;
 };
 
 const richTextToString = (items: RichTextItem[]) =>
@@ -62,6 +63,12 @@ const getNumber = (page: NotionPage, key: string): number => {
   const prop = page.properties[key];
   if (prop?.type === "number") return prop.number ?? 0;
   return 0;
+};
+
+const getSelect = (page: NotionPage, key: string): string => {
+  const prop = page.properties[key];
+  if (prop?.type === "select") return prop.select?.name ?? "";
+  return "";
 };
 
 // --- 公開型 ---
@@ -98,6 +105,12 @@ export interface CareerPlan {
 export interface Account {
   platform: string;
   url: string;
+  order: number;
+}
+
+export interface Skill {
+  name: string;
+  category: string; // "言語" | "フレームワーク" | "ツール"
   order: number;
 }
 
@@ -166,6 +179,15 @@ export const getAccounts = async (): Promise<Account[]> => {
   return pages.map((page) => ({
     platform: getTitle(page, "platform"),
     url: getUrl(page, "url"),
+    order: getNumber(page, "order"),
+  }));
+};
+
+export const getSkills = async (): Promise<Skill[]> => {
+  const pages = await queryDB(import.meta.env.NOTION_SKILLS_DB_ID);
+  return pages.map((page) => ({
+    name: getTitle(page, "name"),
+    category: getSelect(page, "category"),
     order: getNumber(page, "order"),
   }));
 };
