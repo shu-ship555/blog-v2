@@ -136,7 +136,8 @@ const downloadAndCacheImage = async (
 // --- 公開型 ---
 
 export interface Profile {
-  name: string;
+  nameEn: string;
+  nameJp: string;
   tagline: string;
   bio: string;
   careerSummary: string;
@@ -196,13 +197,14 @@ export const getProfile = async (): Promise<Profile> => {
   // プロフィールは1件固定のため sort なしで取得
   const pages = await queryDB(import.meta.env.NOTION_PROFILE_PAGE_ID, false);
   if (pages.length === 0) {
-    return { name: "", tagline: "", bio: "", careerSummary: "", avatarUrl: "" };
+    return { nameEn: "", nameJp: "", tagline: "", bio: "", careerSummary: "", avatarUrl: "" };
   }
   const page = pages[0];
   const remoteAvatarUrl = getFileUrl(page, "avatar");
   const avatarUrl = await downloadAndCacheImage(remoteAvatarUrl, "avatar");
   return {
-    name: getTitle(page, "name"),
+    nameEn: getTitle(page, "name_en"),
+    nameJp: getRichText(page, "name_jp"),
     tagline: getRichText(page, "tagline"),
     bio: getRichText(page, "bio"),
     careerSummary: getRichText(page, "career_summary"),
