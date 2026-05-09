@@ -102,7 +102,7 @@ const toc: TocItem[] = [
       <div class="max-w-[784px] w-full sm:max-w-full">
         <!-- プロフィール -->
         <section id="profile">
-          <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">Profile&nbsp;<span class="bracket">プロフィール</span></h2>
+          <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">Profile&nbsp;<span class="font-normal bracket">プロフィール</span></h2>
           <div class="mt-[40px] sm:mt-[24px] flex items-start gap-[48px] sm:flex-col sm:gap-[24px]">
             {profile.avatarUrl && (
               <img
@@ -126,7 +126,7 @@ const toc: TocItem[] = [
         <!-- 経歴サマリー -->
         {profile.careerSummary && (
           <section id="summary" class="mt-[80px] sm:mt-[48px]">
-            <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">Summary&nbsp;<span class="bracket">経歴サマリー</span></h2>
+            <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">Summary&nbsp;<span class="font-normal bracket">経歴サマリー</span></h2>
             <p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">これまでの歩みを簡潔にまとめています。</p>
             <div class="mt-[40px] sm:mt-[24px] max-w-[640px] border-l-[2px] border-[#0079C9] pl-[32px] sm:pl-[20px]">
               <p class="text-[16px] sm:text-[14px] text-[#666] leading-[1.8] tracking-[0.06em] whitespace-pre-wrap">{profile.careerSummary}</p>
@@ -137,7 +137,7 @@ const toc: TocItem[] = [
         <!-- 職務経歴 -->
         {workHistory.length > 0 && (
           <section id="experience" class="mt-[80px] sm:mt-[48px]">
-            <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">Experience&nbsp;<span class="bracket">職務経歴</span></h2>
+            <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">Experience&nbsp;<span class="font-normal bracket">職務経歴</span></h2>
             <p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">これまで在籍した会社と担当業務をまとめています。</p>
             <ol class="mt-[40px] sm:mt-[24px] flex flex-col relative before:absolute before:top-[8px] before:left-[7px] before:w-px before:h-[calc(100%-8px)] before:bg-[#eee]">
               {workHistory.map((w, i) => (
@@ -162,7 +162,7 @@ const toc: TocItem[] = [
         <!-- スキルセット -->
         {skills.length > 0 && (
           <section id="skills" class="mt-[80px] sm:mt-[48px]">
-            <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">Skills&nbsp;<span class="bracket">スキルセット</span></h2>
+            <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">Skills&nbsp;<span class="font-normal bracket">スキルセット</span></h2>
             <p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">業務や個人開発で使用している言語・フレームワーク・ツールです。</p>
             <dl class="mt-[40px] sm:mt-[24px] flex flex-col gap-[24px] sm:gap-[20px]">
               {skillCategories.map((category) => (
@@ -186,7 +186,7 @@ const toc: TocItem[] = [
         <!-- 自己PR -->
         {selfPR.length > 0 && (
           <section id="pr" class="mt-[80px] sm:mt-[48px]">
-            <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">PR&nbsp;<span class="bracket">自己PR</span></h2>
+            <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">PR&nbsp;<span class="font-normal bracket">自己PR</span></h2>
             <p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">大切にしている価値観や、強みを書き出しています。</p>
             <ul class="mt-[40px] sm:mt-[24px] grid grid-cols-3 gap-[32px] sm:grid-cols-1 sm:gap-[24px]">
               {selfPR.map((item, i) => (
@@ -207,7 +207,7 @@ const toc: TocItem[] = [
         <!-- キャリアプラン -->
         {careerPlan.length > 0 && (
           <section id="vision" class="mt-[80px] sm:mt-[48px]">
-            <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">Vision&nbsp;<span class="bracket">キャリアプラン</span></h2>
+            <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">Vision&nbsp;<span class="font-normal bracket">キャリアプラン</span></h2>
             <p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">これから挑戦していきたいテーマです。</p>
             <ul class="mt-[40px] sm:mt-[24px] grid grid-cols-3 gap-[32px] sm:grid-cols-1 sm:gap-[24px]">
               {careerPlan.map((item, i) => (
@@ -222,10 +222,10 @@ const toc: TocItem[] = [
           </section>
         )}
 
-        <!-- Web上のアカウント -->
+        <!-- 外部発信 -->
         {accounts.length > 0 && (
           <section id="accounts" class="mt-[80px] sm:mt-[48px]">
-            <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">Accounts&nbsp;<span class="bracket">Web上のアカウント</span></h2>
+            <h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">Accounts&nbsp;<span class="font-normal bracket">外部発信</span></h2>
             <p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">外部サービスでの活動や発信先です。</p>
             <ul class="mt-[40px] sm:mt-[24px] flex flex-wrap gap-[16px] sm:gap-[12px]">
               {accounts.map((account) => (
@@ -267,13 +267,23 @@ const toc: TocItem[] = [
             <h2 class="text-[24px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-black">構成｜Outline</h2>
             <nav class="relative px-[32px] sm:px-[28px] pt-[32px] sm:pt-[28px] pb-[36px] sm:pb-[32px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px]">
               <ul id="scrollContainer" class="max-h-[320px] sm:max-h-[240px] overflow-y-scroll">
-                {toc.map((item) => (
-                  <li class={`level-${item.level}`}>
-                    <a href={`#${item.id}`} class="opacity-hover duration">
-                      {item.text}
-                    </a>
-                  </li>
-                ))}
+                {toc.map((item) => {
+                  const [main, sub] = item.level === 2 && item.text.includes("｜")
+                    ? item.text.split("｜")
+                    : [item.text, ""];
+                  return (
+                    <li class={`level-${item.level}`}>
+                      <a href={`#${item.id}`} class="opacity-hover duration">
+                        {main}
+                        {sub && (
+                          <>
+                            {" "}<span class="font-normal bracket">{sub}</span>
+                          </>
+                        )}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
               <div id="scrollIndicator" class="absolute bottom-[12px] sm:bottom-[10px] left-1/2 -translate-x-1/2">
                 <div class="flex items-center justify-center gap-[2px]">
