@@ -281,7 +281,7 @@ const currentClasses = scaleClasses[scale];
 					<>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] text-[#888] leading-[1.48]"]}>
-							<span class="bracket">{category.name}</span> 記事一覧
+							<span class="bracket">{category.name}</span>&nbsp;記事一覧
 						</li>
 					</>
 				)
@@ -292,7 +292,7 @@ const currentClasses = scaleClasses[scale];
 					<>
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] text-[#888] leading-[1.48]"]}>
-							<span class="bracket"><span class="hashtag" />{tag.name}</span> 記事一覧
+							<span class="bracket"><span class="hashtag" />{tag.name}</span>&nbsp;記事一覧
 						</li>
 					</>
 				)
@@ -307,7 +307,7 @@ const currentClasses = scaleClasses[scale];
 								href={`/categories/${blog.category.slug}`}
 								class="flex items-center justify-center opacity-hover duration"
 							>
-								<span class="bracket">{blog.category.name}</span> 記事一覧
+								<span class="bracket">{blog.category.name}</span>&nbsp;記事一覧
 							</a>
 						</li>
 					</>

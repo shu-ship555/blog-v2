@@ -51,7 +51,7 @@ const itemMargin = headingSize === "md" ? "mt-[24px]" : "mt-[18px] sm:mt-[12px]"
 		) : (
 			tags.map((tag) => (
 				<li>
-					<a href={`/tags/${tag.slug}`} class="flex items-center gap-[6px] sm:gap-[4px] px-[8px] sm:px-[6px] py-[6px] sm:py-[4px] rounded-full bg-[#f6f6f6] opacity-hover duration">
+					<a href={`/tags/${tag.slug}`} class="flex items-center gap-[4px] sm:gap-[2px] px-[8px] sm:px-[6px] py-[6px] sm:py-[4px] rounded-full bg-[#f6f6f6] opacity-hover duration">
 						<span class="font-bold text-[10px] sm:text-[10px] leading-none tracking-[0.04em]"><span class="hashtag" />{tag.name}</span>
 						<span class="bracket font-medium text-[10px] sm:text-[10px] leading-none text-[#888]">{tag.count}</span>
 					</a>

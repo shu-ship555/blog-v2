@@ -1,4 +1,7 @@
 ---
+// 注意: ローカル環境ではフォーム送信は動作しません。
+// reCAPTCHA の許可ドメインに localhost を含めていないため、サーバー側の検証が常に失敗します。
+// 動作確認は本番（shumiyata.com）または Vercel の Preview デプロイで行ってください。
 import Layout from "../layouts/Layout.astro";
 import FormField from "../components/molecules/formField.astro";
 
@@ -6,7 +9,7 @@ const GAS_URL = import.meta.env.PUBLIC_GAS_CONTACT_URL;
 const RECAPTCHA_SITE_KEY = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
 
 // Notionのマルチセレクトの選択肢と一致させてください
-const CATEGORIES = ['お仕事のご依頼', 'ブログについて', '技術的なご質問', 'その他'];
+const CATEGORIES = ['お仕事のご依頼', '本サイトについて', '技術的なご質問', 'その他'];
 
 const STEPS = ['入力', '確認', '完了'];
 ---
@@ -204,7 +207,9 @@ const STEPS = ['入力', '確認', '完了'];
           <p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">
             お問い合わせありがとうございます。<br />
             <span id="doneEmail" class="font-bold text-[#333]"></span> 宛に受付メールをお送りしました。<br />
-            内容を確認の上、ご連絡いたします。
+            内容を確認の上、ご連絡いたします。<br />
+						3営業日以上経っても返信がない場合、お問い合わせが正常に完了できていない可能性があります。<br />
+						お手数ですが <a href="mailto:shu.miyata.work@gmail.com" class="text-[#0079C9] hover:opacity-[0.64] duration">shu.miyata.work@gmail.com</a> まで直接お問い合わせください。
           </p>
         </div>
         <div class="mt-[32px] sm:mt-[24px]">

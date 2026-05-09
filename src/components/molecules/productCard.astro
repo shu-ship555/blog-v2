@@ -26,13 +26,13 @@ const { title, description, url, tags = [], purpose } = product;
 				sandbox="allow-scripts allow-same-origin"
 				tabindex="-1"></iframe>
 		</div>
-		<div class="p-[20px] sm:p-[16px] flex flex-col gap-[12px] sm:gap-[8px]">
+		<div class="p-[20px] sm:p-[16px]">
 			<div
 				class={`w-[24%] text-center text-[12px] sm:text-[10px] font-medium leading-[1] tracking-[0.06em] px-[12px] py-[6px] rounded-sm whitespace-nowrap ${purpose ? "bg-[#0079C9] text-[#FFF]" : "bg-[#666] text-[#FFF]"}`}
 			>
 				{purpose ? "公開中" : "個人利用"}
 			</div>
-			<div class="flex items-center justify-between gap-[8px]">
+			<div class="flex items-center justify-between gap-[8px] mt-[12px] sm:mt-[8px]">
 				<h3 class="text-[20px] sm:text-[16px] font-bold leading-[1.4] tracking-[0.04em] text-[#333]">
 					{title}
 				</h3>
@@ -40,12 +40,12 @@ const { title, description, url, tags = [], purpose } = product;
 					<Icon filename="icon_open_in_new" color="#333" customClass="w-[20px] h-[20px] sm:w-[16px] sm:h-[16px]" />
 				</div>
 			</div>
-			<p class="text-[14px] sm:text-[12px] leading-[1.8] tracking-[0.06em] text-[#666] line-clamp-2">
+			<p class="text-[14px] sm:text-[12px] leading-[1.8] tracking-[0.06em] text-[#666] line-clamp-2 mt-[6px] sm:mt-[4px]">
 				{description}
 			</p>
 			{
 				tags.length > 0 && (
-					<div class="flex gap-[8px] sm:gap-[6px] flex-wrap mt-[8px] sm:mt-[6px]">
+					<div class="flex gap-[8px] sm:gap-[6px] flex-wrap mt-[16px] sm:mt-[12px]">
 						{tags.map((tag) => (
 							<span class="text-[12px] sm:text-[10px] font-medium leading-[1] tracking-[0.06em] px-[12px] py-[6px] bg-[#F6F6F6] rounded-full text-[#666]">
 								{tag}
