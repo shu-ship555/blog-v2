@@ -1,5 +1,8 @@
 // Notion REST API を直接 fetch で呼ぶ（SDK v5 の dataSources.query が
 // 旧 databases.query と別エンドポイントを叩くため）
+import fs from "node:fs/promises";
+import path from "node:path";
+
 const NOTION_VERSION = "2022-06-28";
 
 const notionFetch = async (path: string, body?: object) => {
@@ -26,8 +29,13 @@ interface RichTextItem {
 }
 
 interface NotionPage {
+  id: string;
   properties: Record<string, NotionProperty>;
 }
+
+type NotionFile =
+  | { type: "file"; file: { url: string }; name?: string }
+  | { type: "external"; external: { url: string }; name?: string };
 
 type NotionProperty = {
   type: string;
@@ -36,6 +44,8 @@ type NotionProperty = {
   url?: string | null;
   number?: number | null;
   select?: { name: string } | null;
+  files?: NotionFile[];
+  relation?: { id: string }[];
 };
 
 const richTextToString = (items: RichTextItem[]) =>
@@ -71,6 +81,58 @@ const getSelect = (page: NotionPage, key: string): string => {
   return "";
 };
 
+const getRelationIds = (page: NotionPage, key: string): string[] => {
+  const prop = page.properties[key];
+  if (prop?.type !== "relation" || !prop.relation) return [];
+  return prop.relation.map((r) => r.id);
+};
+
+// Notion files プロパティの先頭エントリの URL を取得
+const getFileUrl = (page: NotionPage, key: string): string => {
+  const prop = page.properties[key];
+  if (prop?.type !== "files" || !prop.files?.length) return "";
+  const f = prop.files[0];
+  return f.type === "file" ? f.file.url : f.external.url;
+};
+
+// Notion 上にホストされた画像 URL は ~1時間で失効するため、
+// ビルド時にダウンロードして public/ に保存し、ローカル URL を返す
+const MIME_EXT: Record<string, string> = {
+  "image/svg+xml": "svg",
+  "image/png": "png",
+  "image/jpeg": "jpg",
+  "image/jpg": "jpg",
+  "image/webp": "webp",
+  "image/gif": "gif",
+  "image/avif": "avif",
+};
+
+const downloadAndCacheImage = async (
+  url: string,
+  basename: string,
+): Promise<string> => {
+  if (!url) return "";
+  // 外部URLでNotion S3以外（CDNなど）はそのまま使える
+  if (!url.includes("amazonaws.com") && !url.includes("notion.so")) {
+    return url;
+  }
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return url;
+    const contentType = (res.headers.get("content-type") ?? "image/png").split(";")[0].trim().toLowerCase();
+    const ext = MIME_EXT[contentType] ?? "png";
+    const filename = `${basename}.${ext}`;
+    const publicDir = path.join(process.cwd(), "public", "notion");
+    await fs.mkdir(publicDir, { recursive: true });
+    const buffer = Buffer.from(await res.arrayBuffer());
+    await fs.writeFile(path.join(publicDir, filename), buffer);
+    return `/notion/${filename}`;
+  } catch (e) {
+    console.warn(`[notion] downloadAndCacheImage failed:`, (e as Error).message);
+    return url;
+  }
+};
+
 // --- 公開型 ---
 
 export interface Profile {
@@ -82,12 +144,14 @@ export interface Profile {
 }
 
 export interface WorkHistory {
+  id: string;
   company: string;
   periodStart: string;
   periodEnd: string;
   role: string;
   description: string;
   order: number;
+  subItems: WorkHistory[];
 }
 
 export interface SelfPR {
@@ -135,25 +199,46 @@ export const getProfile = async (): Promise<Profile> => {
     return { name: "", tagline: "", bio: "", careerSummary: "", avatarUrl: "" };
   }
   const page = pages[0];
+  const remoteAvatarUrl = getFileUrl(page, "avatar");
+  const avatarUrl = await downloadAndCacheImage(remoteAvatarUrl, "avatar");
   return {
     name: getTitle(page, "name"),
     tagline: getRichText(page, "tagline"),
     bio: getRichText(page, "bio"),
     careerSummary: getRichText(page, "career_summary"),
-    avatarUrl: getUrl(page, "avatar_url"),
+    avatarUrl,
   };
 };
 
 export const getWorkHistory = async (): Promise<WorkHistory[]> => {
   const pages = await queryDB(import.meta.env.NOTION_WORK_HISTORY_DB_ID);
-  return pages.map((page) => ({
+
+  // 全レコードをフラットに変換
+  const items: (WorkHistory & { parentId: string | null })[] = pages.map((page) => ({
+    id: page.id,
     company: getTitle(page, "company"),
     periodStart: getRichText(page, "period_start"),
     periodEnd: getRichText(page, "period_end"),
     role: getRichText(page, "role"),
     description: getRichText(page, "description"),
     order: getNumber(page, "order"),
+    subItems: [],
+    parentId: getRelationIds(page, "親アイテム")[0] ?? null,
   }));
+
+  // id → item の Map を作って親子をリンク
+  const itemMap = new Map(items.map((it) => [it.id, it]));
+  const topLevel: WorkHistory[] = [];
+  for (const item of items) {
+    if (item.parentId && itemMap.has(item.parentId)) {
+      itemMap.get(item.parentId)!.subItems.push(item);
+    } else {
+      topLevel.push(item);
+    }
+  }
+
+  // parentId は内部用なので公開型からは除外（実体は残るが TypeScript 上は WorkHistory として返す）
+  return topLevel;
 };
 
 export const getSelfPR = async (): Promise<SelfPR[]> => {

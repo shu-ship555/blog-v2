@@ -24,3 +24,6 @@ pnpm-debug.log*
 
 gas/
 .vercel
+
+# Notion ビルド時にダウンロードした画像
+public/notion/
