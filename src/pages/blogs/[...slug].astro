@@ -1,10 +1,11 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import BlogPost from "../../components/organisms/blogPost.astro";
-import { getBlogs } from "../../libs/microcms";
+import { getAllContents } from "../../libs/microcms";
+import type { Blog } from "../../types";
 
 export async function getStaticPaths() {
-	const response = await getBlogs({ limit: 100 });
+	const response = await getAllContents<Blog>("blogs");
 	return response.contents.map((content) => ({
 		params: {
 			slug: content.id,

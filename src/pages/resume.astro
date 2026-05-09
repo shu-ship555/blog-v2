@@ -3,6 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import ContactButton from "../components/atoms/contactButton.astro";
 import Icon from "../components/atoms/icon.astro";
 import { getProfile, getWorkHistory, getSelfPR, getCareerPlan, getAccounts, getSkills } from "../libs/notion";
+import { linkify } from "../utils/linkify";
+import type { TocItem } from "../utils/htmlProcessor";
 
 const [profile, workHistory, selfPR, careerPlan, accounts, skills] = await Promise.all([
 	getProfile(),
@@ -21,28 +23,7 @@ const skillsByCategory = skills.reduce<Record<string, string[]>>((acc, skill) =>
 }, {});
 const skillCategories = Object.keys(skillsByCategory);
 
-// 文字列中の URL を <a> セグメントに分割するヘルパー
-type LinkPart = { type: "text"; value: string } | { type: "url"; value: string };
-const linkify = (text: string): LinkPart[] => {
-	const urlRegex = /(https?:\/\/[^\s)]+)/g;
-	const parts: LinkPart[] = [];
-	let lastIndex = 0;
-	let match: RegExpExecArray | null;
-	while ((match = urlRegex.exec(text)) !== null) {
-		if (match.index > lastIndex) {
-			parts.push({ type: "text", value: text.slice(lastIndex, match.index) });
-		}
-		parts.push({ type: "url", value: match[0] });
-		lastIndex = match.index + match[0].length;
-	}
-	if (lastIndex < text.length) {
-		parts.push({ type: "text", value: text.slice(lastIndex) });
-	}
-	return parts;
-};
-
 // TOC（セクション固定 + Notion から取得した動的アイテム）
-type TocItem = { text: string; id: string; level: 2 | 3 };
 const toc: TocItem[] = [
 	{ text: "Profile｜プロフィール", id: "profile", level: 2 },
 	...(profile.careerSummary ? [{ text: "Summary｜経歴サマリー", id: "summary", level: 2 } as TocItem] : []),
@@ -185,15 +166,15 @@ const toc: TocItem[] = [
 										class="pl-[32px] sm:pl-[24px] pb-[48px] sm:pb-[32px] relative last:pb-0 scroll-mt-[120px]"
 									>
 										<span class="absolute left-0 top-[6px] w-[16px] h-[16px] rounded-full border-[4px] border-[#0079C9] bg-white shrink-0" />
-										<p class="text-[12px] sm:text-[10px] font-bold tracking-[0.06em] text-[#0079C9]">
+										<p class="text-[12px] sm:text-[10px] font-bold tracking-[0.06em] text-[#0079C9] mt-[8px] leading-none">
 											{w.periodStart}
 											{w.periodEnd ? ` - ${w.periodEnd}` : " - 現在"}
 										</p>
-										<p class="text-[20px] sm:text-[16px] font-bold tracking-[0.04em] leading-[1.4] mt-[6px] sm:mt-[4px]">
+										<p class="text-[20px] sm:text-[16px] font-bold tracking-[0.04em] leading-[1.4] mt-[8px] sm:mt-[6px]">
 											{w.company}
 										</p>
 										{w.role && (
-											<p class="text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#666] mt-[4px]">
+											<p class="text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#666] mt-[6px] sm:mt-[4px]">
 												{w.role}
 											</p>
 										)}
@@ -221,18 +202,18 @@ const toc: TocItem[] = [
 											<ol class="mt-[24px] sm:mt-[16px] flex flex-col relative before:absolute before:top-[12px] before:left-[11px] before:w-px before:h-[calc(100%-12px)] before:bg-[#ccc] pl-[8px]">
 												{w.subItems.map((sub) => (
 													<li class="pl-[20px] sm:pl-[16px] pb-[24px] sm:pb-[16px] relative last:pb-0">
-														<p class="text-[12px] sm:text-[10px] font-bold tracking-[0.06em] text-[#666]">
+														<p class="text-[12px] sm:text-[10px] font-bold tracking-[0.06em] text-[#666] mt-[4px] leading-none">
 														<span class="absolute left-0 top-[6px] w-[8px] h-[8px] rounded-full border-[2px] border-[#666] bg-white shrink-0" />
 															{sub.periodStart}
 															{sub.periodEnd ? ` - ${sub.periodEnd}` : " - 現在"}
 														</p>
 														{sub.role && (
-															<p class="text-[14px] sm:text-[14px] font-bold tracking-[0.04em] leading-[1.4] mt-[4px]">
+															<p class="text-[14px] sm:text-[14px] font-bold tracking-[0.04em] leading-[1.4] mt-[8px] sm:mt-[6px]">
 																{sub.role}
 															</p>
 														)}
 														{sub.description && (
-															<p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[8px] sm:mt-[6px] whitespace-pre-wrap">
+															<p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[10px] sm:mt-[8px] whitespace-pre-wrap">
 																{linkify(sub.description).map((part) =>
 																	part.type === "url" ? (
 																		<a

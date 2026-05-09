@@ -4,11 +4,12 @@ import Pager from "../../components/organisms/pager.astro";
 import Card from "../../components/molecules/card.astro";
 import CategoryTagSidebar from "../../components/organisms/categoryTagSidebar.astro";
 import type { GetStaticPathsOptions } from "astro";
-import { getBlogs } from "../../libs/microcms";
+import { getAllContents } from "../../libs/microcms";
+import type { Blog } from "../../types";
 import { getCategoryAndTagCounts } from "../../utils/countingUtils";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-  const allBlogsResponse = await getBlogs({ limit: 100 });
+  const allBlogsResponse = await getAllContents<Blog>("blogs");
   return paginate(allBlogsResponse.contents, { pageSize: 10 });
 }
 
