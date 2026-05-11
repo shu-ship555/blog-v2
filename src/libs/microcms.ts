@@ -27,11 +27,11 @@ const client = createClient({
 
 export const getContents = <T>(endpoint: string, queries?: MicroCMSQueries) => {
 	return client.getList<T>({ endpoint, queries });
-}
+};
 
 export const getAllContents = async <T>(
 	endpoint: string,
-	queries: MicroCMSQueries = {}
+	queries: MicroCMSQueries = {},
 ): Promise<MicroCMSResponse<T>> => {
 	const allContents: T[] = [];
 	let offset = queries.offset || 0;
@@ -59,13 +59,9 @@ export const getAllContents = async <T>(
 	return { contents: allContents, totalCount: allContents.length, offset: 0, limit };
 };
 
-export const getBlogs = (queries?: MicroCMSQueries) =>
-	client.getList<Blog>({ endpoint: "blogs", queries });
+export const getBlogs = (queries?: MicroCMSQueries) => client.getList<Blog>({ endpoint: "blogs", queries });
 
-export const getBlogDetail = (
-	contentId: string,
-	queries: MicroCMSQueries = {}
-) => {
+export const getBlogDetail = (contentId: string, queries: MicroCMSQueries = {}) => {
 	return client.getListDetail<Blog>({
 		endpoint: "blogs",
 		contentId,
@@ -73,11 +69,8 @@ export const getBlogDetail = (
 	});
 };
 
-export const getCategoryList = (queries?: MicroCMSQueries) =>
-	getAllContents<Category>("categories", queries);
+export const getCategoryList = (queries?: MicroCMSQueries) => getAllContents<Category>("categories", queries);
 
-export const getTags = (queries?: MicroCMSQueries) =>
-	getAllContents<Tag>("tags", queries);
+export const getTags = (queries?: MicroCMSQueries) => getAllContents<Tag>("tags", queries);
 
-export const getProducts = (queries?: MicroCMSQueries) =>
-	getAllContents<Product>("products", queries);
+export const getProducts = (queries?: MicroCMSQueries) => getAllContents<Product>("products", queries);

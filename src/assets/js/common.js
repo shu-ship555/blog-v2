@@ -186,16 +186,16 @@ const setupSwiper = () => {
 			},
 			...(isNote
 				? {
-					slidesPerView: 1,
-					spaceBetween: 24,
-					breakpoints: {
-						1417: { slidesPerView: 4 },
-					},
-				}
+						slidesPerView: 1,
+						spaceBetween: 24,
+						breakpoints: {
+							1417: { slidesPerView: 4 },
+						},
+					}
 				: {
-					slidesPerView: 1,
-					spaceBetween: 0,
-				}),
+						slidesPerView: 1,
+						spaceBetween: 0,
+					}),
 		});
 	});
 };

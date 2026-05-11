@@ -83,10 +83,18 @@ const scaleClasses = {
 };
 
 const currentClasses = scaleClasses[scale];
+
+const bgClassMap: Record<string, string> = {
+	"#FAFAFA": "bg-[#FAFAFA]",
+	"#FCFCFC": "bg-[#FCFCFC]",
+	"#FFF": "bg-[#FFF]",
+	"#FFFFFF": "bg-[#FFF]",
+};
+const bgClass = bgClassMap[backgroundColor] ?? "bg-[#FAFAFA]";
 ---
 
 <div class:list={[!noMargin && currentClasses.div]}>
-	<nav class={currentClasses.nav} style={`background-color: ${backgroundColor};`}>
+	<nav class:list={[currentClasses.nav, bgClass]}>
 		<ul class:list={["flex flex-wrap items-center inner", currentClasses.ul]}>
 			<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
 				<a href="/" class="flex items-center justify-center opacity-hover duration"

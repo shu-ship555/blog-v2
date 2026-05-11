@@ -1,11 +1,7 @@
 // src/types/index.ts
 // 共通の型定義ファイル
 
-import type {
-	MicroCMSListContent,
-	MicroCMSObjectContent,
-	MicroCMSImage,
-} from "microcms-js-sdk";
+import type { MicroCMSListContent, MicroCMSObjectContent, MicroCMSImage } from "microcms-js-sdk";
 
 // ============================================
 // microCMS共通型

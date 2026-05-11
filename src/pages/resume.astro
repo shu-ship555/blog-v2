@@ -2,17 +2,18 @@
 import Layout from "../layouts/Layout.astro";
 import ContactButton from "../components/atoms/contactButton.astro";
 import Icon from "../components/atoms/icon.astro";
-import { getProfile, getWorkHistory, getSelfPR, getCareerPlan, getAccounts, getSkills } from "../libs/notion";
+import { getProfile, getWorkHistory, getSelfPR, getCareerPlan, getAccounts, getSkills, getQualifications } from "../libs/notion";
 import { linkify } from "../utils/linkify";
 import type { TocItem } from "../utils/htmlProcessor";
 
-const [profile, workHistory, selfPR, careerPlan, accounts, skills] = await Promise.all([
+const [profile, workHistory, selfPR, careerPlan, accounts, skills, qualifications] = await Promise.all([
 	getProfile(),
 	getWorkHistory(),
 	getSelfPR(),
 	getCareerPlan(),
 	getAccounts(),
 	getSkills(),
+	getQualifications(),
 ]);
 
 // スキルをカテゴリごとにグルーピング（表示順は Notion の category select の登録順を踏襲）
@@ -67,6 +68,7 @@ const toc: TocItem[] = [
 				})),
 			]
 		: []),
+	...(qualifications.length > 0 ? [{ text: "Qualifications｜保有資格", id: "qualifications", level: 2 } as TocItem] : []),
 	...(accounts.length > 0 ? [{ text: "Accounts｜外部発信", id: "accounts", level: 2 } as TocItem] : []),
 ];
 ---
@@ -333,6 +335,30 @@ const toc: TocItem[] = [
 					)
 				}
 
+				<!-- 保有資格 -->
+				{
+					qualifications.length > 0 && (
+						<section id="qualifications" class="mt-[80px] sm:mt-[48px] scroll-mt-[120px] sm:scroll-mt-[80px]">
+							<h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">
+								Qualifications&nbsp;<span class="font-normal bracket">保有資格</span>
+							</h2>
+							<p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">
+								取得した資格・認定の一覧です。
+							</p>
+							<ul class="mt-[40px] sm:mt-[24px] overflow-hidden">
+								{qualifications.map((q, i) => (
+									<li class={`flex items-center justify-between px-[24px] sm:px-[16px] py-[16px] sm:py-[12px] ${i % 2 === 0 ? "bg-[#FAFAFA]" : "bg-[#FFF]"}`}>
+										<span class="text-[14px] sm:text-[12px] font-bold tracking-[0.04em] text-[#333]">{q.name}</span>
+										{q.date && (
+											<span class="text-[12px] sm:text-[10px] tracking-[0.04em] text-[#666] shrink-0 ml-[16px]">{q.date}</span>
+										)}
+									</li>
+								))}
+							</ul>
+						</section>
+					)
+				}
+
 				<!-- 外部発信 -->
 				{
 					accounts.length > 0 && (
@@ -402,7 +428,7 @@ const toc: TocItem[] = [
 					<aside class="max-w-[320px] w-full sm:max-w-full">
 						<div class="sticky top-[194px] sm:relative sm:top-0">
 							<h2 class="text-[24px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-bold">構成｜Outline</h2>
-							<nav class="relative px-[32px] sm:px-[28px] pt-[32px] sm:pt-[28px] pb-[36px] sm:pb-[32px] bg-[#F6F6F6] rounded-xl mt-[16px] sm:mt-[8px]">
+							<nav class="relative px-[32px] sm:px-[28px] pt-[32px] sm:pt-[28px] pb-[36px] sm:pb-[32px] bg-[#FAFAFA] rounded-xl mt-[16px] sm:mt-[8px]">
 								<ul id="scrollContainer" class="max-h-[320px] sm:max-h-[240px] overflow-y-scroll">
 									{toc.map((item) => {
 										const [main, sub] =
