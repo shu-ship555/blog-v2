@@ -1,41 +1,43 @@
-# Astro × microCMS Blog Architecture
+# shumiyata.com
 
-AstroとmicroCMSを組み合わせた、高速かつ運用性に優れた個人ブログ・プラットフォームです。
-「技術発信の場」としての実用性に加え、「ヘッドレスCMSによるコンテンツ管理」と「unifiedエコシステムによる柔軟な記事レンダリング」の実装を目的としています。
+ミヤタシュウの個人ブログ兼ポートフォリオサイトです。  
+技術発信・制作物の紹介・職務経歴の公開を目的として制作しました。
 
-## 🎯 プロジェクトの目的
+## 📄 ページ構成
 
-会社で使用することになったAstroの勉強を兼ねての開発です。
-
-- **パフォーマンスの追求**: Astro（SSG）による静的配信を徹底し、コアウェブバイタル（Core Web Vitals）を意識した高速な閲覧体験の提供。
-- **ヘッドレスCMSの理解**: 外部APIからのデータ取得、型定義、およびWebhookを用いたビルド自動化の実践。
-- **マークダウン処理のカスタマイズ**: `unified` や `rehype` を用い、記事内のHTML構造（目次生成や画像最適化など）をプログラム制御するスキルの習得。
+| ページ | URL | 概要 |
+| :--- | :--- | :--- |
+| Top | `/` | 最新ブログ・制作物のサマリー |
+| Blog | `/blogs` | 技術・日常に関するブログ記事一覧（microCMS） |
+| Portfolio | `/portfolio` | 制作物・アイコン紹介 |
+| Resume | `/resume` | 職務経歴・スキル・保有資格（Notion、Basic認証） |
+| Contact | `/contact` | お問い合わせフォーム（Google Apps Script） |
 
 ## 🛠 技術スタック
 
-| カテゴリ               | 採用技術                     | 選定理由                                                                                                    |
-| :--------------------- | :--------------------------- | :---------------------------------------------------------------------------------------------------------- |
-| **Framework**          | **Astro (v5)**               | 静的サイト生成（SSG）に特化しており、JavaScriptを最小限に抑えた高速な配信が可能なため。                     |
-| **CMS**                | **microCMS**                 | 日本発のヘッドレスCMSで、直感的な管理画面と強力なSDK（microcms-js-sdk）による柔軟なデータ連携ができるため。 |
-| **Styling**            | **Tailwind CSS**             | デザインの一貫性を保ちつつ、ユーティリティクラスによる効率的なコーディングを行うため。                      |
-| **Content Processing** | **unified / rehype / vfile** | CMSから取得したHTML文字列を解析し、任意の変換処理（クラス付与やDOM操作）を柔軟に行うため。                  |
-
-## 🏗 設計のこだわり
-
-### 1. 効率的なコンテンツレンダリング
-
-`unified` エコシステムを活用し、CMSから取得した生データをそのまま表示するのではなく、サーバーサイドで構文解析（Abstract Syntax Tree）を行い、シンタックスハイライトや目次情報の抽出などを自動化しています。
-
-### 2. コンポーネントの責務分離
-
-Astroコンポーネントのアイランド設計を意識。ページ全体は静的に保つことで、SEOとアクセシビリティを最大化しています。
+| カテゴリ | 採用技術 | 用途 |
+| :--- | :--- | :--- |
+| **Framework** | Astro v5 (SSG) | 全ページ静的生成 |
+| **Blog CMS** | microCMS | ブログ記事・カテゴリ・タグの管理 |
+| **Resume CMS** | Notion | 職務経歴・スキル・資格などの管理 |
+| **Styling** | Tailwind CSS | UIスタイリング |
+| **Content Processing** | unified / rehype | CMSのHTML解析・目次生成・シンタックスハイライト |
+| **Hosting** | Vercel | デプロイ・Edge Middleware（Basic認証） |
+| **Form** | Google Apps Script | お問い合わせフォームのバックエンド |
 
 ## 🚀 開発の始め方
 
 ### 必須要件
 
-- **Node.js**: v20以上推奨
-- **microCMS API Key**: 取得したAPI情報を `.env` に設定する必要があります。
+- Node.js v20以上
+
+### 環境変数
+
+Vercel にリンク後、下記コマンドで `.env` を取得できます。
+
+```bash
+vercel env pull --environment preview
+```
 
 ### セットアップ手順
 
@@ -48,10 +50,16 @@ npm run dev
 
 # プロダクション用ビルド
 npm run build
+
+# Vercel Preview デプロイ
+npm run deploy
+
+# Vercel 本番デプロイ
+npm run deploy:prod
 ```
 
 ## ✉️ Contact
 
-ご連絡やお問い合わせは、下記までお願いします！Gitに関するものはIssueに残していただいても大丈夫です。
+お問い合わせは下記からお願いします。
 
 https://shumiyata.com/contact
