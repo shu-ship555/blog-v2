@@ -147,6 +147,11 @@ export interface WorkHistory {
 	periodEnd: string;
 	role: string;
 	description: string;
+	projectName: string;
+	projectUrl: string;
+	projectScale: string;
+	technologies: string[];
+	achievement: string;
 	order: number;
 	subItems: WorkHistory[];
 }
@@ -224,6 +229,14 @@ export const getWorkHistory = async (): Promise<WorkHistory[]> => {
 		periodEnd: getRichText(page, "period_end"),
 		role: getRichText(page, "role"),
 		description: getRichText(page, "description"),
+		projectName: getRichText(page, "project_name"),
+		projectUrl: getUrl(page, "project_url"),
+		projectScale: getRichText(page, "project_scale"),
+		technologies: getRichText(page, "technologies")
+			.split(",")
+			.map((t) => t.trim())
+			.filter(Boolean),
+		achievement: getRichText(page, "achievement"),
 		order: getNumber(page, "order"),
 		subItems: [],
 		parentId: getRelationIds(page, "親アイテム")[0] ?? null,

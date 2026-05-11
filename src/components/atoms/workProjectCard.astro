@@ -1,0 +1,75 @@
+---
+interface Props {
+	projectName: string;
+	projectUrl: string;
+	projectScale: string;
+	technologies: string[];
+	achievement: string;
+}
+
+const { projectName, projectUrl, projectScale, technologies, achievement } = Astro.props;
+---
+
+<dl class="flex flex-col gap-[10px] sm:gap-[8px] bg-[#FAFAFA] rounded-lg px-[20px] sm:px-[16px] py-[16px] sm:py-[12px]">
+	{
+		projectName && (
+			<div class="flex items-baseline gap-[12px] sm:gap-[8px]">
+				<dt class="text-[12px] sm:text-[10px] font-bold text-[#999] tracking-[0.04em] shrink-0 w-[112px] sm:w-[88px]">
+					プロジェクト名
+				</dt>
+				<dd class="text-[14px] sm:text-[12px] tracking-[0.04em] leading-[1.48]">
+					{projectUrl ? (
+						<a
+							href={projectUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="text-[#0079C9] underline hover:opacity-[0.64] duration"
+						>
+							{projectName}
+						</a>
+					) : (
+						<span class="text-[#333]">{projectName}</span>
+					)}
+				</dd>
+			</div>
+		)
+	}
+	{
+		projectScale && (
+			<div class="flex items-baseline gap-[12px] sm:gap-[8px]">
+				<dt class="text-[12px] sm:text-[10px] font-bold text-[#999] tracking-[0.04em] shrink-0 w-[112px] sm:w-[88px]">
+					プロジェクト概要
+				</dt>
+				<dd class="text-[14px] sm:text-[12px] text-[#333] tracking-[0.04em] leading-[1.64]">{projectScale}</dd>
+			</div>
+		)
+	}
+	{
+		technologies.length > 0 && (
+			<div class="flex items-start gap-[12px] sm:gap-[8px]">
+				<dt class="text-[12px] sm:text-[10px] font-bold text-[#999] tracking-[0.04em] shrink-0 w-[112px] sm:w-[88px] mt-[3px]">
+					主な使用技術
+				</dt>
+				<dd class="flex flex-wrap gap-[6px] sm:gap-[4px]">
+					{technologies.map((tech) => (
+						<span class="text-[12px] sm:text-[10px] font-medium tracking-[0.04em] text-[#333] bg-[#F3F3F3] rounded-sm px-[10px] sm:px-[8px] py-[4px] leading-none">
+							{tech}
+						</span>
+					))}
+				</dd>
+			</div>
+		)
+	}
+	{
+		achievement && (
+			<div class="flex items-baseline gap-[12px] sm:gap-[8px]">
+				<dt class="text-[12px] sm:text-[10px] font-bold text-[#999] tracking-[0.04em] shrink-0 w-[112px] sm:w-[88px]">
+					成果
+				</dt>
+				<dd class="text-[14px] sm:text-[12px] text-[#333] tracking-[0.04em] leading-[1.64] whitespace-pre-wrap">
+					{achievement}
+				</dd>
+			</div>
+		)
+	}
+</dl>

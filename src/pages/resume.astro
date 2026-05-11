@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import ContactButton from "../components/atoms/contactButton.astro";
 import Icon from "../components/atoms/icon.astro";
+import WorkProjectCard from "../components/atoms/workProjectCard.astro";
 import { getProfile, getWorkHistory, getSelfPR, getCareerPlan, getAccounts, getSkills, getQualifications } from "../libs/notion";
 import { linkify } from "../utils/linkify";
 import type { TocItem } from "../utils/htmlProcessor";
@@ -139,7 +140,7 @@ const toc: TocItem[] = [
 							<h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">
 								Summary&nbsp;<span class="font-normal bracket">経歴サマリー</span>
 							</h2>
-							<p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">
+							<p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[14px] sm:mt-[10px]">
 								これまでの歩みを簡潔にまとめています。
 							</p>
 							<div class="mt-[40px] sm:mt-[24px] max-w-[640px] border-l-[2px] border-[#0079C9] pl-[32px] sm:pl-[20px]">
@@ -167,12 +168,12 @@ const toc: TocItem[] = [
 										id={`experience-${i}`}
 										class="pl-[32px] sm:pl-[24px] pb-[48px] sm:pb-[32px] relative last:pb-0 scroll-mt-[120px]"
 									>
-										<span class="absolute left-0 top-[6px] w-[16px] h-[16px] rounded-full border-[4px] border-[#0079C9] bg-white shrink-0" />
-										<p class="text-[12px] sm:text-[10px] font-bold tracking-[0.06em] text-[#0079C9] mt-[8px] leading-none">
+										<span class="absolute left-0 top-[6px] w-[16px] aspect-square rounded-full border-[4px] border-[#0079C9] bg-white shrink-0" />
+										<p class="text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#0079C9] mt-[8px] leading-none">
 											{w.periodStart}
 											{w.periodEnd ? ` - ${w.periodEnd}` : " - 現在"}
 										</p>
-										<p class="text-[20px] sm:text-[16px] font-bold tracking-[0.04em] leading-[1.4] mt-[8px] sm:mt-[6px]">
+										<p class="text-[20px] sm:text-[16px] font-bold tracking-[0.04em] leading-[1.4] mt-[10px] sm:mt-[8px]">
 											{w.company}
 										</p>
 										{w.role && (
@@ -198,43 +199,98 @@ const toc: TocItem[] = [
 												)}
 											</p>
 										)}
-
-										{/* サブアイテム（同一会社内の役職遷移） */}
+										{/* 深さ0: 直属プロジェクトカード */}
+										{w.projectName && (
+											<div class="mt-[16px] sm:mt-[12px]">
+												<WorkProjectCard
+													projectName={w.projectName}
+													projectUrl={w.projectUrl}
+													projectScale={w.projectScale}
+													technologies={w.technologies}
+													achievement={w.achievement}
+												/>
+											</div>
+										)}
+										{/* 深さ1: プロジェクト */}
 										{w.subItems.length > 0 && (
-											<ol class="mt-[24px] sm:mt-[16px] flex flex-col relative before:absolute before:top-[12px] before:left-[11px] before:w-px before:h-[calc(100%-12px)] before:bg-[#ccc] pl-[8px]">
-												{w.subItems.map((sub) => (
-													<li class="pl-[20px] sm:pl-[16px] pb-[24px] sm:pb-[16px] relative last:pb-0">
-														<p class="text-[12px] sm:text-[10px] font-bold tracking-[0.06em] text-[#666] mt-[4px] leading-none">
-														<span class="absolute left-0 top-[6px] w-[8px] h-[8px] rounded-full border-[2px] border-[#666] bg-white shrink-0" />
-															{sub.periodStart}
-															{sub.periodEnd ? ` - ${sub.periodEnd}` : " - 現在"}
-														</p>
-														{sub.role && (
-															<p class="text-[14px] sm:text-[14px] font-bold tracking-[0.04em] leading-[1.4] mt-[8px] sm:mt-[6px]">
-																{sub.role}
-															</p>
+											<div class="mt-[8px] sm:mt-[6px] flex flex-col gap-[12px] sm:gap-[8px]">
+												{w.subItems.map((proj) => (
+													<div>
+														<WorkProjectCard
+															projectName={proj.projectName}
+															projectUrl={proj.projectUrl}
+															projectScale={proj.projectScale}
+															technologies={proj.technologies}
+															achievement={proj.achievement}
+														/>
+														{/* 深さ2: 同一会社での細かい期間の経歴 */}
+														{proj.subItems.length > 0 && (
+															<div class="mt-[28px] sm:mt-[20px] pl-[20px] sm:pl-[16px] relative before:absolute before:top-0 before:left-[4px] before:w-px before:h-[100%] before:bg-[#CCC]">
+																<span class="absolute left-0 top-0 w-[10px] aspect-square rounded-full border-[2px] border-[#666] bg-white shrink-0" />
+																{proj.subItems.map((subPeriod) => (
+																	<div>
+
+																		{(subPeriod.periodStart || subPeriod.periodEnd) && (
+																			<p class="mt-[1px] text-[12px] sm:text-[10px] font-bold tracking-[0.06em] text-[#666] leading-none">
+																				{subPeriod.periodStart}
+																				{subPeriod.periodEnd ? ` - ${subPeriod.periodEnd}` : " - 現在"}
+																			</p>
+																		)}
+																		{subPeriod.role && (
+																			<p class="text-[12px] sm:text-[12px] font-bold tracking-[0.04em] leading-[1.4] mt-[6px] sm:mt-[4px]">
+																				{subPeriod.role}
+																			</p>
+																		)}
+																		{subPeriod.description && (
+																			<p class="text-[12px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.64] mt-[6px] sm:mt-[4px] whitespace-pre-wrap">
+																				{linkify(subPeriod.description).map((part) =>
+																					part.type === "url" ? (
+																						<a
+																							href={part.value}
+																							target="_blank"
+																							rel="noopener noreferrer"
+																							class="text-[#0079C9] underline hover:opacity-[0.64] duration"
+																						>
+																							{part.value}
+																						</a>
+																					) : (
+																						part.value
+																					),
+																				)}
+																			</p>
+																		)}
+																		{subPeriod.projectName && (
+																			<div class="mt-[10px] sm:mt-[8px]">
+																				<WorkProjectCard
+																					projectName={subPeriod.projectName}
+																					projectUrl={subPeriod.projectUrl}
+																					projectScale={subPeriod.projectScale}
+																					technologies={subPeriod.technologies}
+																					achievement={subPeriod.achievement}
+																				/>
+																			</div>
+																		)}
+																		{/* 深さ3: 細かい期間のプロジェクト */}
+																		{subPeriod.subItems.length > 0 && (
+																			<div class="mt-[8px] sm:mt-[6px] flex flex-col gap-[8px] sm:gap-[6px]">
+																				{subPeriod.subItems.map((subProj) => (
+																					<WorkProjectCard
+																						projectName={subProj.projectName}
+																						projectUrl={subProj.projectUrl}
+																						projectScale={subProj.projectScale}
+																						technologies={subProj.technologies}
+																						achievement={subProj.achievement}
+																					/>
+																				))}
+																			</div>
+																		)}
+																	</div>
+																))}
+															</div>
 														)}
-														{sub.description && (
-															<p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[10px] sm:mt-[8px] whitespace-pre-wrap">
-																{linkify(sub.description).map((part) =>
-																	part.type === "url" ? (
-																		<a
-																			href={part.value}
-																			target="_blank"
-																			rel="noopener noreferrer"
-																			class="text-[#0079C9] underline hover:opacity-[0.64] duration"
-																		>
-																			{part.value}
-																		</a>
-																	) : (
-																		part.value
-																	),
-																)}
-															</p>
-														)}
-													</li>
+													</div>
 												))}
-											</ol>
+											</div>
 										)}
 									</li>
 								))}
@@ -288,7 +344,7 @@ const toc: TocItem[] = [
 							<p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">
 								大切にしている価値観や、強みを書き出しています。
 							</p>
-							<ul class="mt-[40px] sm:mt-[24px] grid grid-cols-3 gap-[32px] sm:grid-cols-1 sm:gap-[24px]">
+							<ul class="mt-[40px] sm:mt-[24px] grid grid-cols-1 gap-[32px] sm:gap-[24px]">
 								{selfPR.map((item, i) => (
 									<li id={`pr-${i}`} class="border border-[#eee] rounded-xl p-[28px] sm:p-[20px] scroll-mt-[120px]">
 										<span class="text-[24px] sm:text-[20px] font-bold font-en text-[#0079C9] leading-none">
@@ -319,7 +375,7 @@ const toc: TocItem[] = [
 							<p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">
 								これから挑戦していきたいテーマです。
 							</p>
-							<ul class="mt-[40px] sm:mt-[24px] grid grid-cols-3 gap-[32px] sm:grid-cols-1 sm:gap-[24px]">
+							<ul class="mt-[40px] sm:mt-[24px] grid grid-cols-1 gap-[32px] sm:gap-[24px]">
 								{careerPlan.map((item, i) => (
 									<li id={`vision-${i}`} class="border border-[#eee] rounded-xl p-[28px] sm:p-[20px] scroll-mt-[120px]">
 										<p class="text-[16px] sm:text-[14px] font-bold tracking-[0.04em] text-[#333]">{item.title}</p>
