@@ -294,7 +294,7 @@ export const getSkills = async (): Promise<Skill[]> => {
 };
 
 export const getQualifications = async (): Promise<Qualification[]> => {
-	const pages = await queryDB(import.meta.env.NOTION_QUALIFICATIONS_DB_ID, false);
+	const pages = await queryDB(import.meta.env.NOTION_QUALIFICATIONS_DB_ID);
 	return pages.map((page) => ({
 		name: getTitle(page, "name"),
 		date: getRichText(page, "date"),
