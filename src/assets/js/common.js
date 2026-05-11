@@ -186,16 +186,71 @@ const setupSwiper = () => {
 			},
 			...(isNote
 				? {
-						slidesPerView: 1,
-						spaceBetween: 24,
-						breakpoints: {
-							1417: { slidesPerView: 4 },
-						},
-					}
+					slidesPerView: 1,
+					spaceBetween: 24,
+					breakpoints: {
+						1417: { slidesPerView: 4 },
+					},
+				}
 				: {
-						slidesPerView: 1,
-						spaceBetween: 0,
-					}),
+					slidesPerView: 1,
+					spaceBetween: 0,
+				}),
+		});
+	});
+};
+
+/**
+ * /resume リンクへのアクセスガード（Basic認証の事前案内モーダル）
+ */
+const setupResumeGuard = () => {
+	const SESSION_KEY = "resumeGuardShown";
+
+	const resumeLinks = document.querySelectorAll('a[href="/resume"], a[href="/resume/"]');
+	if (!resumeLinks.length) return;
+
+	const showModal = (href) => {
+		const overlay = document.createElement("div");
+		overlay.id = "resume-guard-overlay";
+		overlay.className =
+			"fixed inset-0 z-50 flex items-center justify-center bg-[#000]/[0.48] backdrop-blur-md px-[16px]";
+		overlay.innerHTML = `
+      <div class="bg-white rounded-lg px-[48px] pt-[40px] pb-[40px] sm:px-[24px] sm:pt-[28px] sm:pb-[28px] max-w-[480px] w-full shadow-lg">
+        <p class="text-[20px] sm:text-[16px] font-bold text-[#333] leading-snug mb-[16px]">Resumeページの閲覧について</p>
+        <p class="text-[14px] sm:text-[12px] text-[#333] leading-relaxed mb-[8px]">このページの閲覧には<span class="font-bold">ID</span>と<span class="font-bold">パスワード</span>による認証が必要です。</p>
+        <p class="text-[14px] sm:text-[12px] text-[#666] leading-relaxed mb-[32px] sm:mb-[24px]">閲覧をご希望の方は、<a href="/contact" class="text-[#0079C9] hover:opacity-[0.64] duration relative">お問い合わせ<span class="w-full absolute left-1/2 -translate-x-1/2 top-4 sm:top-4 h-[1px] bg-[#0079C9]"></span></a>よりご連絡ください。</p>
+        <div class="flex justify-start gap-[12px]">
+					<button id="resume-guard-cancel" class="px-[20px] py-[10px] sm:px-[14px] sm:py-[8px] rounded text-[14px] sm:text-[12px] font-bold text-[#666] hover:opacity-[0.64] duration">キャンセル</button>
+					<button id="resume-guard-proceed" class="px-[20px] py-[10px] sm:px-[14px] sm:py-[8px] rounded text-[14px] sm:text-[12px] font-bold text-white bg-[#0079C9] hover:opacity-[0.64] duration">認証ページへ進む</button>
+        </div>
+      </div>
+    `;
+		document.body.appendChild(overlay);
+
+		const close = () => overlay.remove();
+
+		document.getElementById("resume-guard-cancel")?.addEventListener("click", close);
+		document.getElementById("resume-guard-proceed")?.addEventListener("click", () => {
+			sessionStorage.setItem(SESSION_KEY, "1");
+			window.location.href = href;
+		});
+		overlay.addEventListener("click", (e) => {
+			if (e.target === overlay) close();
+		});
+		document.addEventListener(
+			"keydown",
+			(e) => {
+				if (e.key === "Escape") close();
+			},
+			{ once: true },
+		);
+	};
+
+	resumeLinks.forEach((link) => {
+		link.addEventListener("click", (e) => {
+			if (sessionStorage.getItem(SESSION_KEY)) return;
+			e.preventDefault();
+			showModal(link.getAttribute("href"));
 		});
 	});
 };
@@ -259,6 +314,7 @@ const init = () => {
 	setupSwiper();
 	setupTyping();
 	setupScrollHeader();
+	setupResumeGuard();
 };
 
 if (document.readyState === "loading") {
