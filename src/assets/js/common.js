@@ -186,16 +186,16 @@ const setupSwiper = () => {
 			},
 			...(isNote
 				? {
-						slidesPerView: 1,
-						spaceBetween: 24,
-						breakpoints: {
-							1417: { slidesPerView: 4 },
-						},
-					}
+					slidesPerView: 1,
+					spaceBetween: 24,
+					breakpoints: {
+						1417: { slidesPerView: 4 },
+					},
+				}
 				: {
-						slidesPerView: 1,
-						spaceBetween: 0,
-					}),
+					slidesPerView: 1,
+					spaceBetween: 0,
+				}),
 		});
 	});
 };
@@ -220,8 +220,8 @@ const setupResumeGuard = () => {
         <p class="text-[14px] sm:text-[12px] text-[#333] leading-relaxed mb-[8px]">このページの閲覧には<span class="font-bold">ID</span>と<span class="font-bold">パスワード</span>による認証が必要です。</p>
         <p class="text-[14px] sm:text-[12px] text-[#666] leading-relaxed mb-[32px] sm:mb-[24px]">閲覧をご希望の方は、<a href="/contact" class="text-[#0079C9] hover:opacity-[0.64] duration relative">お問い合わせ<span class="w-full absolute left-1/2 -translate-x-1/2 top-4 sm:top-4 h-[1px] bg-[#0079C9]"></span></a>よりご連絡ください。</p>
         <div class="flex justify-start gap-[12px]">
-					<button id="resume-guard-cancel" class="px-[20px] py-[10px] sm:px-[14px] sm:py-[8px] rounded text-[14px] sm:text-[12px] font-bold text-[#666] hover:opacity-[0.64] duration">キャンセル</button>
-					<button id="resume-guard-proceed" class="px-[20px] py-[10px] sm:px-[14px] sm:py-[8px] rounded text-[14px] sm:text-[12px] font-bold text-white bg-[#0079C9] hover:opacity-[0.64] duration">認証ページへ進む</button>
+					<button id="resume-guard-cancel" class="px-[20px] py-[10px] sm:px-[14px] sm:py-[8px] rounded text-[14px] sm:text-[12px] font-bold text-[#666] hover:opacity-[0.64] duration leading-none tracking-[0.06em]">キャンセル</button>
+					<button id="resume-guard-proceed" class="px-[20px] py-[10px] sm:px-[14px] sm:py-[8px] rounded text-[14px] sm:text-[12px] font-bold text-white bg-[#0079C9] hover:opacity-[0.64] duration leading-none tracking-[0.06em]">進む</button>
         </div>
       </div>
     `;
