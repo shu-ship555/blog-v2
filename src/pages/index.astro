@@ -113,9 +113,16 @@ const tagCounts = getCountedTags(tags, allBlogs);
 
 	<script is:inline>
 		(function () {
+			const SESSION_KEY = "splashShown";
 			const splash = document.getElementById("js-splash");
 			const splashText = document.getElementById("js-splash-text");
 			if (!splash || !splashText) return;
+
+			if (sessionStorage.getItem(SESSION_KEY)) {
+				splash.style.display = "none";
+				document.dispatchEvent(new CustomEvent("splashDone"));
+				return;
+			}
 
 			const text = "Shu Miyata";
 			let typingDone = false;
@@ -129,6 +136,7 @@ const tagCounts = getCountedTags(tags, allBlogs);
 						"transitionend",
 						() => {
 							splash.style.display = "none";
+							sessionStorage.setItem(SESSION_KEY, "1");
 							document.dispatchEvent(new CustomEvent("splashDone"));
 						},
 						{ once: true }
