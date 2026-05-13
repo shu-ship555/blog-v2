@@ -1,0 +1,75 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const stack = [
+	{
+		category: "フレームワーク & インフラ",
+		items: [
+			{ name: "Astro 5", desc: "静的サイトジェネレーター。ページ単位の最適化とゼロJS出力を活かして高速なサイトを構築。" },
+			{ name: "Vercel", desc: "ホスティング・デプロイ環境。GitHub連携によるプレビューデプロイと本番デプロイを運用。" },
+			{ name: "TypeScript", desc: "型安全な開発環境。Astroのフロントマターやユーティリティ関数に全面採用。" },
+		],
+	},
+	{
+		category: "スタイリング & フォント",
+		items: [
+			{ name: "Tailwind CSS 3", desc: "ユーティリティファーストのCSSフレームワーク。任意値を活用してデザインガイドラインを厳密に反映。" },
+			{ name: "Montserrat", desc: "欧文見出しフォント。ローカルWOFF2ファイルとして配信しパフォーマンスを最適化。" },
+			{ name: "Noto Sans JP", desc: "和文フォント。Google Fonts経由でプリコネクトを設定して読み込みを高速化。" },
+		],
+	},
+	{
+		category: "コンテンツ管理",
+		items: [
+			{ name: "microCMS", desc: "ブログ・ポートフォリオのヘッドレスCMS。APIでコンテンツを取得してビルド時に静的生成。" },
+			{ name: "Notion", desc: "resumeページのコンテンツ管理。Notion APIを直接fetchしてビルド時にコンテンツを取得。\nNotionのWebhookと連携して、Notion側からの更新をトリガーに再ビルドも可能。" },
+		],
+	},
+	{
+		category: "ライブラリ",
+		items: [
+			{ name: "Swiper 12", desc: "ポートフォリオ詳細・ノートセクションのカルーセルスライダー。" },
+			{ name: "Prism.js", desc: "ブログ記事内のシンタックスハイライト。" },
+			{ name: "rss-parser", desc: "Note.com のRSSフィードを取得してノートスライダーのデータソースに利用。Cronで毎日自動更新。" },
+		],
+	},
+];
+---
+
+<Layout
+	title="このサイトについて｜ミヤタシュウ"
+	description="ミヤタシュウのポートフォリオ兼ブログサイトの技術スタックについて紹介しています。"
+>
+	<main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
+		<h1 class="text-[32px] sm:text-[24px] leading-none tracking-[0.04em] font-bold">
+			About this site｜このサイトについて
+		</h1>
+		<p class="text-[16px] sm:text-[14px] text-[#666] leading-[1.8] tracking-[0.06em] mt-[16px] sm:mt-[12px]">
+			このサイトの技術スタックをご紹介します。
+		</p>
+
+		<div class="mt-[64px] sm:mt-[40px] flex flex-col gap-[48px] sm:gap-[32px]">
+			{
+				stack.map((section) => (
+					<section>
+						<h2 class="text-[20px] sm:text-[16px] font-bold tracking-[0.04em] leading-none">
+							{section.category}
+						</h2>
+						<dl class="mt-[16px] sm:mt-[12px] border-t border-[#eee]">
+							{section.items.map((item) => (
+								<div class="flex gap-[24px] sm:flex-col sm:gap-[4px] border-b border-[#eee] py-[20px] sm:py-[14px]">
+									<dt class="text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333] shrink-0 w-[160px] sm:w-auto">
+										{item.name}
+									</dt>
+									<dd class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] whitespace-pre-line">
+										{item.desc}
+									</dd>
+								</div>
+							))}
+						</dl>
+					</section>
+				))
+			}
+		</div>
+	</main>
+</Layout>
