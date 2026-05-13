@@ -39,9 +39,7 @@ const tagCounts = getCountedTags(tags, allBlogs);
 			<div class="flex justify-between items-end gap-[48px] sm:flex-col sm:items-start sm:gap-[28px]">
 				<div>
 					<p class="text-[14px] sm:text-[12px] text-[#0079C9] font-black font-en tracking-[0.08em]">Frontend Engineer</p>
-					<h1 id="js-typing" class="text-[64px] sm:text-[40px] font-black font-en inline-block leading-none tracking-[0.04em] text-[#333] mt-[8px] sm:mt-[6px]" data-text="Shu Miyata">
-						<span class="invisible">Shu Miyata</span>
-					</h1>
+					<h1 class="text-[64px] sm:text-[40px] font-black font-en inline-block leading-none tracking-[0.04em] text-[#333] mt-[8px] sm:mt-[6px]">Shu Miyata</h1>
 					<p class="text-[16px] sm:text-[14px] text-[#333] leading-[1.8] tracking-[0.06em] mt-[24px] sm:mt-[16px]">
 						<span class="bracket whitespace-nowrap"><span class="hashtag">フロントエンドエンジニア</span></span> <span class="bracket whitespace-nowrap"><span class="hashtag">ミステリー</span></span> <span class="bracket whitespace-nowrap"><span class="hashtag">双極性障害</span></span><br>このサイトは&nbsp;<a href="/resume" class="text-[#0079C9] hover:opacity-[0.64] duration">ミヤタシュウ</a>&nbsp;のポートフォリオ兼ブログです。<br class="sm:hidden" />フロントエンドエンジニアとしての思想や日々の開発で感じたことを書いています。<br>制作物に関する技術的な話は&nbsp;<a href="https://zenn.dev/fune" target="_blank" class="relative  hover:opacity-[0.64] duration">Zenn<span class="w-full absolute left-1/2 -translate-x-1/2 top-5 sm:top-4 h-[1px] bg-[#666]"></span></a>&nbsp;に、趣味のミステリーや、双極性障害の日常は&nbsp;<a href="https://note.com/miyata_note" target="_blank" class="relative hover:opacity-[0.64] duration">note<span class="w-full absolute left-1/2 -translate-x-1/2 top-5 sm:top-4 h-[1px] bg-[#666]"></span></a>&nbsp;に書いています。
 					</p>
@@ -108,4 +106,61 @@ const tagCounts = getCountedTags(tags, allBlogs);
 	</main>
 
 	<ContactButton variant="fixed" />
+
+	<div id="js-splash" class="fixed inset-0 z-[200] bg-[#0079C9] flex items-center justify-center">
+		<span id="js-splash-text" class="text-[64px] sm:text-[40px] font-black font-en tracking-[0.04em] text-white"></span>
+	</div>
+
+	<script is:inline>
+		(function () {
+			const splash = document.getElementById("js-splash");
+			const splashText = document.getElementById("js-splash-text");
+			if (!splash || !splashText) return;
+
+			const text = "Shu Miyata";
+			let typingDone = false;
+			let windowLoaded = false;
+
+			const fadeOut = () => {
+				splashText.classList.remove("typing-cursor-white");
+				setTimeout(() => {
+					splash.style.opacity = "0";
+					splash.addEventListener(
+						"transitionend",
+						() => {
+							splash.style.display = "none";
+							document.dispatchEvent(new CustomEvent("splashDone"));
+						},
+						{ once: true }
+					);
+				}, 640);
+			};
+
+			const tryFadeOut = () => {
+				if (typingDone && windowLoaded) fadeOut();
+			};
+
+			window.addEventListener("load", () => {
+				windowLoaded = true;
+				tryFadeOut();
+			});
+
+			splashText.classList.add("typing-cursor-white");
+			let i = 0;
+			const typeSplash = () => {
+				if (i < text.length) {
+					splashText.textContent += text[i];
+					i++;
+					setTimeout(typeSplash, 120);
+				} else {
+					setTimeout(() => {
+						typingDone = true;
+						tryFadeOut();
+					}, 800);
+				}
+			};
+
+			typeSplash();
+		})();
+	</script>
 </Layout>

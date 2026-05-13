@@ -186,16 +186,16 @@ const setupSwiper = () => {
 			},
 			...(isNote
 				? {
-					slidesPerView: 1,
-					spaceBetween: 24,
-					breakpoints: {
-						1417: { slidesPerView: 4 },
-					},
-				}
+						slidesPerView: 1,
+						spaceBetween: 24,
+						breakpoints: {
+							1417: { slidesPerView: 4 },
+						},
+					}
 				: {
-					slidesPerView: 1,
-					spaceBetween: 0,
-				}),
+						slidesPerView: 1,
+						spaceBetween: 0,
+					}),
 		});
 	});
 };
@@ -288,22 +288,28 @@ const setupTyping = () => {
 	const text = el.dataset.text || "";
 	const placeholder = el.querySelector("span");
 	if (placeholder) placeholder.remove();
-
 	el.textContent = "";
-	el.classList.add("typing-cursor");
 
-	let i = 0;
-	const type = () => {
-		if (i < text.length) {
-			el.textContent += text[i];
-			i++;
-			setTimeout(type, 120);
-		} else {
-			setTimeout(() => el.classList.remove("typing-cursor"), 2000);
-		}
+	const startTyping = () => {
+		el.classList.add("typing-cursor");
+		let i = 0;
+		const type = () => {
+			if (i < text.length) {
+				el.textContent += text[i];
+				i++;
+				setTimeout(type, 120);
+			} else {
+				setTimeout(() => el.classList.remove("typing-cursor"), 2000);
+			}
+		};
+		type();
 	};
 
-	type();
+	if (document.getElementById("js-splash")) {
+		document.addEventListener("splashDone", startTyping, { once: true });
+	} else {
+		startTyping();
+	}
 };
 
 const init = () => {
