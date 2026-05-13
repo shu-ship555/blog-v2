@@ -144,9 +144,7 @@ const toc: TocItem[] = [
 								これまでの歩みを簡潔にまとめています。
 							</p>
 							<div class="mt-[40px] sm:mt-[24px] max-w-[640px] border-l-[2px] border-[#0079C9] pl-[32px] sm:pl-[20px]">
-								<p class="text-[16px] sm:text-[14px] text-[#333] leading-[1.8] tracking-[0.06em] whitespace-pre-wrap">
-									{profile.careerSummary}
-								</p>
+								<p class="text-[16px] sm:text-[14px] text-[#333] leading-[1.8] tracking-[0.06em] whitespace-pre-wrap">{profile.careerSummary}</p>
 							</div>
 						</section>
 					)
@@ -182,8 +180,9 @@ const toc: TocItem[] = [
 											</p>
 										)}
 										{w.description && (
-											<p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[10px] sm:mt-[8px] whitespace-pre-wrap">
-												{linkify(w.description).map((part) =>
+											<p
+												class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[10px] sm:mt-[8px] whitespace-pre-wrap"
+											>{linkify(w.description).map((part) =>
 													part.type === "url" ? (
 														<a
 															href={part.value}
@@ -196,8 +195,7 @@ const toc: TocItem[] = [
 													) : (
 														part.value
 													),
-												)}
-											</p>
+												)}</p>
 										)}
 										{/* 深さ0: 直属プロジェクトカード */}
 										{w.projectName && (
@@ -242,8 +240,9 @@ const toc: TocItem[] = [
 																			</p>
 																		)}
 																		{subPeriod.description && (
-																			<p class="text-[12px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.64] mt-[6px] sm:mt-[4px] whitespace-pre-wrap">
-																				{linkify(subPeriod.description).map((part) =>
+																			<p
+																				class="text-[12px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.64] mt-[6px] sm:mt-[4px] whitespace-pre-wrap"
+																			>{linkify(subPeriod.description).map((part) =>
 																					part.type === "url" ? (
 																						<a
 																							href={part.value}
@@ -256,8 +255,7 @@ const toc: TocItem[] = [
 																					) : (
 																						part.value
 																					),
-																				)}
-																			</p>
+																				)}</p>
 																		)}
 																		{subPeriod.projectName && (
 																			<div class="mt-[10px] sm:mt-[8px]">
@@ -354,9 +352,7 @@ const toc: TocItem[] = [
 											{item.title}
 										</p>
 										{item.description && (
-											<p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[12px] sm:mt-[8px] whitespace-pre-wrap">
-												{item.description}
-											</p>
+											<p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[12px] sm:mt-[8px] whitespace-pre-wrap">{item.description}</p>
 										)}
 									</li>
 								))}
@@ -380,9 +376,7 @@ const toc: TocItem[] = [
 									<li id={`vision-${i}`} class="border border-[#eee] rounded-xl p-[28px] sm:p-[20px] scroll-mt-[120px]">
 										<p class="text-[16px] sm:text-[14px] font-bold tracking-[0.04em] text-[#333]">{item.title}</p>
 										{item.description && (
-											<p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[12px] sm:mt-[8px] whitespace-pre-wrap">
-												{item.description}
-											</p>
+											<p class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] mt-[12px] sm:mt-[8px] whitespace-pre-wrap">{item.description}</p>
 										)}
 									</li>
 								))}
