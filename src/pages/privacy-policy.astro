@@ -1,0 +1,69 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const sections = [
+	{
+		title: "収集する情報",
+		body: "お問い合わせフォームのご利用時に、お名前・メールアドレス・お問い合わせ内容を収集します。また、Google Analytics によりアクセスログ（ページURL・参照元・ブラウザ情報・IPアドレス等）を自動的に収集しています。",
+	},
+	{
+		title: "利用目的",
+		body: "収集した情報は、お問い合わせへの返信、およびサイトの改善・分析のみに利用します。第三者への販売・提供は行いません。",
+	},
+	{
+		title: "第三者サービスの利用",
+		body: "本サイトは以下の第三者サービスを利用しています。各サービスのプライバシーポリシーをご確認ください。\n・Google Analytics（アクセス解析）\n・Google reCAPTCHA（スパム防止）\n・Google Apps Script（お問い合わせフォームの送信処理）",
+	},
+	{
+		title: "Cookie の使用",
+		body: "本サイトは Google Analytics の機能のため Cookie を使用しています。ブラウザの設定により Cookie を無効にすることができますが、一部機能が制限される場合があります。",
+	},
+	{
+		title: "お問い合わせ",
+		body: "プライバシーポリシーに関するご質問は、",
+		bodyLink: { text: "お問い合わせフォーム", href: "/contact" },
+		bodyAfter: "よりご連絡ください。",
+	},
+];
+---
+
+<Layout
+	title="プライバシーポリシー｜ミヤタシュウ"
+	description="ミヤタシュウのポートフォリオ兼ブログサイトにおける個人情報の取り扱いについて説明しています。"
+	breadcrumb={true}
+	isPrivacyPolicyPage={true}
+>
+	<main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
+		<h1 class="text-[32px] sm:text-[24px] leading-none tracking-[0.04em] font-bold">
+			Privacy Policy<span class="sm:hidden">｜プライバシーポリシー</span>
+		</h1>
+		<p class="text-[16px] sm:text-[14px] text-[#666] leading-[1.8] tracking-[0.06em] mt-[16px] sm:mt-[12px]">
+			本サイト（shumiyata.com）における個人情報の取り扱いについて説明します。
+		</p>
+
+		<div class="mt-[64px] sm:mt-[40px]">
+			<dl class="border-t border-[#eee]">
+				{
+					sections.map((section) => (
+						<div class="flex gap-[24px] sm:flex-col sm:gap-[4px] border-b border-[#eee] py-[20px] sm:py-[14px]">
+							<dt class="text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333] shrink-0 w-[160px] sm:w-auto">
+								{section.title}
+							</dt>
+							<dd class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] whitespace-pre-line">
+								{section.body}
+								{section.bodyLink && (
+									<a href={section.bodyLink.href} class="hover:opacity-[0.64] duration text-[#0079C9]">{section.bodyLink.text}</a>
+								)}
+								{section.bodyAfter}
+							</dd>
+						</div>
+					))
+				}
+			</dl>
+		</div>
+
+		<p class="text-[12px] sm:text-[10px] text-[#999] tracking-[0.06em] mt-[48px] sm:mt-[32px]">
+			最終更新日：2026年5月
+		</p>
+	</main>
+</Layout>

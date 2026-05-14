@@ -35,6 +35,8 @@ interface Props {
 	isPortfolioIconPage?: boolean;
 	isPortfolioProductPage?: boolean;
 	isResumePage?: boolean;
+	isAboutSitePage?: boolean;
+	isPrivacyPolicyPage?: boolean;
 }
 
 const {
@@ -56,6 +58,8 @@ const {
 	isPortfolioIconPage = false,
 	isPortfolioProductPage = false,
 	isResumePage = false,
+	isAboutSitePage = false,
+	isPrivacyPolicyPage = false,
 } = Astro.props;
 
 const isBlogPage = !!blog;
@@ -108,6 +112,28 @@ const bgClass = bgClassMap[backgroundColor] ?? "bg-[#FAFAFA]";
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
 							Resume｜私について
+						</li>
+					</>
+				)
+			}
+
+			{
+				isAboutSitePage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+							About this site｜このサイトについて
+						</li>
+					</>
+				)
+			}
+
+			{
+				isPrivacyPolicyPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+							プライバシーポリシー
 						</li>
 					</>
 				)

@@ -25,4 +25,6 @@ export interface LayoutProps {
 	isPortfolioIconPage?: boolean;
 	isPortfolioProductPage?: boolean;
 	isResumePage?: boolean;
+	isAboutSitePage?: boolean;
+	isPrivacyPolicyPage?: boolean;
 }
