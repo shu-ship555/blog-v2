@@ -326,11 +326,13 @@ interface RichTextItemFull {
 }
 
 interface NotionBlock {
+	id: string;
 	type: string;
 	[key: string]: unknown;
 }
 
-const escapeHtml = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const escapeHtml = (t: string) =>
+	t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 const richTextToHtml = (items: RichTextItemFull[]): string =>
 	items
@@ -345,7 +347,7 @@ const richTextToHtml = (items: RichTextItemFull[]): string =>
 		})
 		.join("");
 
-const blocksToHtml = (blocks: NotionBlock[]): string => {
+const blocksToHtml = async (blocks: NotionBlock[]): Promise<string> => {
 	const parts: string[] = [];
 	let i = 0;
 	while (i < blocks.length) {
@@ -365,18 +367,27 @@ const blocksToHtml = (blocks: NotionBlock[]): string => {
 			continue;
 		}
 
-		const content = block[type] as { rich_text?: RichTextItemFull[] } | undefined;
+		const content = block[type] as {
+			rich_text?: RichTextItemFull[];
+			language?: string;
+			type?: string;
+			file?: { url: string };
+			external?: { url: string };
+			caption?: RichTextItemFull[];
+		} | undefined;
+
 		switch (type) {
 			case "paragraph":
 				parts.push(`<p>${richTextToHtml(content?.rich_text ?? [])}</p>`);
 				break;
 			case "heading_1":
+			case "heading_2":
 				parts.push(`<h2>${richTextToHtml(content?.rich_text ?? [])}</h2>`);
 				break;
-			case "heading_2":
+			case "heading_3":
 				parts.push(`<h3>${richTextToHtml(content?.rich_text ?? [])}</h3>`);
 				break;
-			case "heading_3":
+			case "heading_4":
 				parts.push(`<h4>${richTextToHtml(content?.rich_text ?? [])}</h4>`);
 				break;
 			case "quote":
@@ -385,6 +396,25 @@ const blocksToHtml = (blocks: NotionBlock[]): string => {
 			case "divider":
 				parts.push("<hr>");
 				break;
+			case "callout":
+				parts.push(`<div class="prompt">${richTextToHtml(content?.rich_text ?? [])}</div>`);
+				break;
+			case "code": {
+				const lang = content?.language ?? "plain";
+				const code = escapeHtml(content?.rich_text?.map((c) => c.plain_text).join("") ?? "");
+				parts.push(`<pre class="language-${lang}"><code class="language-${lang}">${code}</code></pre>`);
+				break;
+			}
+			case "image": {
+				const rawUrl = content?.type === "file" ? (content.file?.url ?? "") : (content?.external?.url ?? "");
+				const url = await downloadAndCacheImage(rawUrl, `news-${block.id}`);
+				const alt = escapeHtml(content?.caption?.map((c) => c.plain_text).join("") ?? "");
+				const caption = content?.caption?.length
+					? `<figcaption>${richTextToHtml(content.caption)}</figcaption>`
+					: "";
+				parts.push(`<figure><img src="${escapeHtml(url)}" alt="${alt}">${caption}</figure>`);
+				break;
+			}
 		}
 		i++;
 	}
@@ -437,7 +467,7 @@ export const getImportantNews = async (): Promise<NewsItem | null> => {
 export const getNewsBlocks = async (pageId: string): Promise<string> => {
 	try {
 		const data = await notionFetch(`/blocks/${pageId}/children`);
-		return blocksToHtml((data.results ?? []) as NotionBlock[]);
+		return await blocksToHtml((data.results ?? []) as NotionBlock[]);
 	} catch (e) {
 		console.warn("[notion] getNewsBlocks failed:", (e as Error).message);
 		return "";
