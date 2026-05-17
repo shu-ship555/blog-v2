@@ -23,11 +23,11 @@ const items = feed.items.slice(0, 6);
 						rel="noopener noreferrer"
 						class="block overflow-hidden transition-shadow bg-[#FFF] rounded-xl opacity-hover duration h-full"
 					>
-						<div class="w-full overflow-hidden border-[#FAFAFA]">
+						<div class="w-full overflow-hidden bg-[#FAFAFA] aspect-[16/9]">
 							{item.thumbnail ? (
-								<img src={item.thumbnail} alt={item.title} class="object-contain w-full h-full" />
+								<img src={item.thumbnail} alt={item.title} class="object-cover w-full h-full" />
 							) : (
-								<div class="flex items-center justify-center h-full text-gray-400">No Image</div>
+								<div class="flex items-center justify-center h-full text-gray-400 text-[12px]">No Image</div>
 							)}
 						</div>
 

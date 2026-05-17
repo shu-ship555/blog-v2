@@ -27,4 +27,7 @@ export interface LayoutProps {
 	isResumePage?: boolean;
 	isAboutSitePage?: boolean;
 	isPrivacyPolicyPage?: boolean;
+	isNewsPage?: boolean;
+	isNewsDetailPage?: boolean;
+	newsTitle?: string;
 }

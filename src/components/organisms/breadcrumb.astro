@@ -37,6 +37,9 @@ interface Props {
 	isResumePage?: boolean;
 	isAboutSitePage?: boolean;
 	isPrivacyPolicyPage?: boolean;
+	isNewsPage?: boolean;
+	isNewsDetailPage?: boolean;
+	newsTitle?: string;
 }
 
 const {
@@ -60,6 +63,9 @@ const {
 	isResumePage = false,
 	isAboutSitePage = false,
 	isPrivacyPolicyPage = false,
+	isNewsPage = false,
+	isNewsDetailPage = false,
+	newsTitle,
 } = Astro.props;
 
 const isBlogPage = !!blog;
@@ -71,14 +77,12 @@ const isImageTagPage = !!imageTag;
 
 const scaleClasses = {
 	1: {
-		div: "pt-[106px] sm:pt-[78px]",
 		nav: "pt-[20px] sm:pt-[16px] pb-[24px] sm:pb-[18px]",
 		ul: "gap-x-[16px] gap-y-[12px] sm:gap-x-[12px] sm:gap-y-[8px]",
 		liText: "text-[16px] sm:text-[12px]",
 		icon: "w-[24px] sm:w-[16px]",
 	},
 	0.75: {
-		div: "pt-[96px] sm:pt-[60px]",
 		nav: "pt-[16px] sm:pt-[12px] pb-[18px] sm:pb-[14px]",
 		ul: "gap-x-[12px] gap-y-[10px] sm:gap-x-[8px] sm:gap-y-[6px]",
 		liText: "text-[12px] sm:text-[10px]",
@@ -97,7 +101,6 @@ const bgClassMap: Record<string, string> = {
 const bgClass = bgClassMap[backgroundColor] ?? "bg-[#FAFAFA]";
 ---
 
-<div class:list={[!noMargin && currentClasses.div]}>
 	<nav class:list={[currentClasses.nav, bgClass]}>
 		<ul class:list={["flex flex-wrap items-center inner", currentClasses.ul]}>
 			<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
@@ -134,6 +137,34 @@ const bgClass = bgClassMap[backgroundColor] ?? "bg-[#FAFAFA]";
 						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
 						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
 							プライバシーポリシー
+						</li>
+					</>
+				)
+			}
+
+			{
+				isNewsPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-[1.48]"]}>
+							News｜お知らせ
+						</li>
+					</>
+				)
+			}
+
+			{
+				isNewsDetailPage && (
+					<>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold tracking-[0.04em] leading-[1.48]"]}>
+							<a href="/news" class="flex items-center justify-center opacity-hover duration">
+								News｜お知らせ
+							</a>
+						</li>
+						<Icon filename="icon_arrow_right" color="#333" customClass={`${currentClasses.icon} shrink-0`} />
+						<li class:list={[currentClasses.liText, "font-bold text-[#888] tracking-[0.04em] leading-none line-clamp-1"]}>
+							{newsTitle}
 						</li>
 					</>
 				)
@@ -362,4 +393,3 @@ const bgClass = bgClassMap[backgroundColor] ?? "bg-[#FAFAFA]";
 			}
 		</ul>
 	</nav>
-</div>

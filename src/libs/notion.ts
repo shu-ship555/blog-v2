@@ -46,6 +46,8 @@ type NotionProperty = {
 	select?: { name: string } | null;
 	files?: NotionFile[];
 	relation?: { id: string }[];
+	date?: { start: string; end?: string | null } | null;
+	checkbox?: boolean;
 };
 
 const richTextToString = (items: RichTextItem[]) => items.map((t) => t.plain_text).join("");
@@ -78,6 +80,18 @@ const getSelect = (page: NotionPage, key: string): string => {
 	const prop = page.properties[key];
 	if (prop?.type === "select") return prop.select?.name ?? "";
 	return "";
+};
+
+const getDate = (page: NotionPage, key: string): string => {
+	const prop = page.properties[key];
+	if (prop?.type === "date" && prop.date) return prop.date.start ?? "";
+	return "";
+};
+
+const getCheckbox = (page: NotionPage, key: string): boolean => {
+	const prop = page.properties[key];
+	if (prop?.type === "checkbox") return prop.checkbox ?? false;
+	return false;
 };
 
 const getRelationIds = (page: NotionPage, key: string): string[] => {
@@ -299,4 +313,133 @@ export const getQualifications = async (): Promise<Qualification[]> => {
 		name: getTitle(page, "name"),
 		date: getRichText(page, "date"),
 	}));
+};
+
+// ============================================================
+// News
+// ============================================================
+
+interface RichTextItemFull {
+	plain_text: string;
+	annotations: { bold: boolean; italic: boolean; strikethrough: boolean; code: boolean };
+	href: string | null;
+}
+
+interface NotionBlock {
+	type: string;
+	[key: string]: unknown;
+}
+
+const escapeHtml = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+const richTextToHtml = (items: RichTextItemFull[]): string =>
+	items
+		.map((item) => {
+			let text = escapeHtml(item.plain_text);
+			if (item.annotations.code) text = `<code>${text}</code>`;
+			if (item.annotations.bold) text = `<strong>${text}</strong>`;
+			if (item.annotations.italic) text = `<em>${text}</em>`;
+			if (item.annotations.strikethrough) text = `<s>${text}</s>`;
+			if (item.href) text = `<a href="${escapeHtml(item.href)}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+			return text;
+		})
+		.join("");
+
+const blocksToHtml = (blocks: NotionBlock[]): string => {
+	const parts: string[] = [];
+	let i = 0;
+	while (i < blocks.length) {
+		const block = blocks[i];
+		const type = block.type as string;
+
+		if (type === "bulleted_list_item" || type === "numbered_list_item") {
+			const tag = type === "bulleted_list_item" ? "ul" : "ol";
+			const items: string[] = [];
+			while (i < blocks.length && blocks[i].type === type) {
+				const b = blocks[i];
+				const c = b[b.type as string] as { rich_text: RichTextItemFull[] };
+				items.push(`<li>${richTextToHtml(c.rich_text)}</li>`);
+				i++;
+			}
+			parts.push(`<${tag}>${items.join("")}</${tag}>`);
+			continue;
+		}
+
+		const content = block[type] as { rich_text?: RichTextItemFull[] } | undefined;
+		switch (type) {
+			case "paragraph":
+				parts.push(`<p>${richTextToHtml(content?.rich_text ?? [])}</p>`);
+				break;
+			case "heading_1":
+				parts.push(`<h2>${richTextToHtml(content?.rich_text ?? [])}</h2>`);
+				break;
+			case "heading_2":
+				parts.push(`<h3>${richTextToHtml(content?.rich_text ?? [])}</h3>`);
+				break;
+			case "heading_3":
+				parts.push(`<h4>${richTextToHtml(content?.rich_text ?? [])}</h4>`);
+				break;
+			case "quote":
+				parts.push(`<blockquote><p>${richTextToHtml(content?.rich_text ?? [])}</p></blockquote>`);
+				break;
+			case "divider":
+				parts.push("<hr>");
+				break;
+		}
+		i++;
+	}
+	return parts.join("\n");
+};
+
+export interface NewsItem {
+	id: string;
+	title: string;
+	date: string;
+	url: string;
+	important: boolean;
+}
+
+export const getNews = async (): Promise<NewsItem[]> => {
+	const pages = await queryDB(import.meta.env.NOTION_NEWS_DB_ID, false);
+	return pages
+		.map((page) => ({
+			id: page.id,
+			title: getTitle(page, "title"),
+			date: getDate(page, "date"),
+			url: getUrl(page, "url"),
+			important: getCheckbox(page, "important"),
+		}))
+		.sort((a, b) => (a.date < b.date ? 1 : -1));
+};
+
+export const getImportantNews = async (): Promise<NewsItem | null> => {
+	try {
+		const data = await notionFetch(`/databases/${import.meta.env.NOTION_NEWS_DB_ID}/query`, {
+			filter: { property: "important", checkbox: { equals: true } },
+		});
+		const pages = (data.results ?? []) as NotionPage[];
+		const items = pages
+			.map((page) => ({
+				id: page.id,
+				title: getTitle(page, "title"),
+				date: getDate(page, "date"),
+				url: getUrl(page, "url"),
+				important: true,
+			}))
+			.sort((a, b) => (a.date < b.date ? 1 : -1));
+		return items[0] ?? null;
+	} catch (e) {
+		console.warn("[notion] getImportantNews failed:", (e as Error).message);
+		return null;
+	}
+};
+
+export const getNewsBlocks = async (pageId: string): Promise<string> => {
+	try {
+		const data = await notionFetch(`/blocks/${pageId}/children`);
+		return blocksToHtml((data.results ?? []) as NotionBlock[]);
+	} catch (e) {
+		console.warn("[notion] getNewsBlocks failed:", (e as Error).message);
+		return "";
+	}
 };

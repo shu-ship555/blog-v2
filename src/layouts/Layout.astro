@@ -5,6 +5,7 @@ import "../assets/css/prism.css";
 import Header from "../components/organisms/header.astro";
 import Footer from "../components/organisms/footer.astro";
 import Breadcrumb from "../components/organisms/breadcrumb.astro";
+import ImportantNewsBanner from "../components/organisms/importantNewsBanner.astro";
 
 // 本番用サイトURL（環境変数）
 const siteUrl = "https://shumiyata.com";
@@ -39,6 +40,9 @@ const {
 	isResumePage = false,
 	isAboutSitePage = false,
 	isPrivacyPolicyPage = false,
+	isNewsPage = false,
+	isNewsDetailPage = false,
+	newsTitle,
 } = props;
 
 // canonical URL を props 優先で決定
@@ -62,6 +66,9 @@ const breadcrumbProps = {
 	isResumePage,
 	isAboutSitePage,
 	isPrivacyPolicyPage,
+	isNewsPage,
+	isNewsDetailPage,
+	newsTitle,
 };
 ---
 
@@ -90,7 +97,7 @@ const breadcrumbProps = {
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet" />
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
 
 		<title>{title}</title>
 		<meta name="description" content={description} />
@@ -111,6 +118,7 @@ const breadcrumbProps = {
 	</head>
 
 	<body class="relative">
+		<ImportantNewsBanner />
 		<!-- Google Tag Manager (noscript) -->
 		<noscript
 			><iframe
@@ -126,6 +134,7 @@ const breadcrumbProps = {
 				<Header
 					navItems={[
 						{ href: "/blogs", text: "Blog", name: "ブログ", target: false },
+						{ href: "/news", text: "News", name: "お知らせ", target: false },
 						{ href: "/portfolio", text: "Portfolio", name: "ポートフォリオ", target: false },
 						{ href: "/resume", text: "Resume", name: "私について", target: false },
 						// { href: "https://suzuri.jp/shu-miyata/products", text: "Shop", name: "ショップ", target: true },
