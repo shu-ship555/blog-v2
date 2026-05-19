@@ -9,7 +9,7 @@ const isExternal = !!item.url && !item.url.startsWith("https://shumiyata.com/");
 const href = item.url || `/news/${item.id}`;
 ---
 
-<div class="relative z-[60] w-full bg-[#EBF7FF]">
+<div class="relative z-[10] w-full bg-[#EBF7FF]">
 	<a
 		href={href}
 		target={isExternal ? "_blank" : undefined}
