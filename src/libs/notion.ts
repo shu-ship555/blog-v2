@@ -337,7 +337,7 @@ const escapeHtml = (t: string) =>
 const richTextToHtml = (items: RichTextItemFull[]): string =>
 	items
 		.map((item) => {
-			let text = escapeHtml(item.plain_text);
+			let text = escapeHtml(item.plain_text).replace(/\n/g, "<br>");
 			if (item.annotations.code) text = `<code>${text}</code>`;
 			if (item.annotations.bold) text = `<strong>${text}</strong>`;
 			if (item.annotations.italic) text = `<em>${text}</em>`;

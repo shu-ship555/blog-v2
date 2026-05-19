@@ -9,17 +9,20 @@ import Card from "../components/molecules/card.astro";
 import CategoryTagSidebar from "../components/organisms/categoryTagSidebar.astro";
 import ContactButton from "../components/atoms/contactButton.astro";
 import { getCountedCategories, getCountedTags } from "../utils/countingUtils";
+import { getNews } from "../libs/notion";
+import { formatDate } from "../utils/date";
 
 const recentBlogsResponse: MicroCMSResponse<Blog> = await getBlogs({
 	limit: 6,
 	offset: 0,
 });
 
-const [allBlogsResponse, allCategoriesResponse, allTagsResponse, productsResponse] = await Promise.all([
+const [allBlogsResponse, allCategoriesResponse, allTagsResponse, productsResponse, allNews] = await Promise.all([
 	getAllContents<Blog>("blogs"),
 	getAllContents<Category>("categories"),
 	getAllContents<Tag>("tags"),
 	getProducts(),
+	getNews(),
 ]);
 
 const blogs = recentBlogsResponse.contents;
@@ -28,6 +31,7 @@ const categories = allCategoriesResponse.contents;
 const tags = allTagsResponse.contents;
 
 const products = productsResponse.contents;
+const recentNews = allNews.slice(0, 3);
 
 const categoryCounts = getCountedCategories(categories, allBlogs);
 const tagCounts = getCountedTags(tags, allBlogs);
@@ -47,6 +51,52 @@ const tagCounts = getCountedTags(tags, allBlogs);
 				<ContactButton variant="hero" />
 			</div>
 		</section>
+		{recentNews.length > 0 ? <section class="mt-[48px] sm:mt-[32px] bg-[#FAFAFA]">
+			<div class="flex items-center gap-[16px] sm:gap-[12px] relative">
+				<div id="swiper-news" class="flex-1 min-w-0 swiper">
+					<div class="swiper-wrapper">
+						{
+							recentNews.map((item) => {
+								const isExternal = !!item.url && !item.url.startsWith("https://shumiyata.com/");
+								const href = item.url || `/news/${item.id}`;
+								return (
+									<div class="swiper-slide">
+										<a
+											href={href}
+											target={isExternal ? "_blank" : undefined}
+											rel={isExternal ? "noopener noreferrer" : undefined}
+											class="flex items-center gap-[16px] sm:gap-[10px] opacity-hover duration pl-[24px] pr-[40px] pt-[24px] pb-[28px] sm:pl-[12px] sm:pr-[32px] sm:pt-[12px] sm:pb-[14px]"
+										>
+											<p class="text-[12px] sm:text-[10px] text-[#999] font-medium tracking-[0.06em] whitespace-nowrap shrink-0">
+												{formatDate(item.date)}
+											</p>
+											<div class="flex items-center ">
+												<p class="text-[14px] sm:text-[12px] text-[#0079C9] leading-[1.48] tracking-[0.04em] truncate mr-[4px]">
+													{item.title}
+												</p>
+												{isExternal && (
+													<Icon filename="icon_open_in_new" color="#999" customClass="w-[16px] sm:w-[14px] shrink-0" />
+												)}
+											</div>
+										</a>
+									</div>
+								);
+							})
+						}
+					</div>
+					{recentNews.length > 1 && (
+						<div class="absolute right-[12px] top-1/2 -translate-y-1/2 flex gap-[4px]">
+							<button class="news-swiper-prev flex items-center justify-center w-[20px] h-[20px] duration hover:opacity-[0.64] p-2 bg-[#FFF] rounded-full">
+								<Icon filename="icon_arrow_left" color="#666" customClass="shrink-0 w-[20px] h-[20px]" />
+							</button>
+							<button class="news-swiper-next flex items-center justify-center w-[20px] h-[20px] duration hover:opacity-[0.64] p-2 bg-[#FFF] rounded-full">
+								<Icon filename="icon_arrow_right" color="#666" customClass="shrink-0 w-[20px] h-[20px]" />
+							</button>
+						</div>
+					)}
+				</div>
+			</div>
+		</section> : null}
 		<hr class="mt-[80px] sm:mt-[48px] border-b border-[#eee]">
 		<section class="mt-[80px] sm:mt-[48px]">
 			<h2 class="text-[32px] sm:text-[24px] leading-none tracking-[0.04em] font-bold">Portfolio｜ポートフォリオ</h2>

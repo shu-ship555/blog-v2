@@ -172,6 +172,23 @@ const setupSwiper = () => {
 
 	swiperElements.forEach((el) => {
 		const isNote = el.classList.contains("note-swiper");
+		const isNews = el.id === "swiper-news";
+
+		if (isNews) {
+			new Swiper(el, {
+				loop: true,
+				autoplay: { delay: 4000, disableOnInteraction: false },
+				slidesPerView: 1,
+				spaceBetween: 0,
+				effect: "fade",
+				fadeEffect: { crossFade: true },
+				navigation: {
+					nextEl: el.querySelector(".news-swiper-next"),
+					prevEl: el.querySelector(".news-swiper-prev"),
+				},
+			});
+			return;
+		}
 
 		new Swiper(el, {
 			loop: true,
