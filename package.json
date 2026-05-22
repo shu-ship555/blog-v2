@@ -13,6 +13,7 @@
 		"deploy:prod": "vercel --prod"
 	},
 	"dependencies": {
+		"@astrojs/vercel": "^8.2.11",
 		"@notionhq/client": "^5.20.0",
 		"astro": "^5.13.11",
 		"autoprefixer": "^10.4.21",
