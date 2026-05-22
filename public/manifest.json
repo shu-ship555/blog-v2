@@ -1,0 +1,15 @@
+{
+  "name": "ミヤタシュウ",
+  "short_name": "ミヤタシュウ",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF",
+  "icons": [
+    {
+      "src": "/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
