@@ -328,30 +328,52 @@ toc-sscrollindicator
 @keyframes cursor-blink {
 	0%,
 	100% {
-		border-color: #333;
+		opacity: 1;
 	}
 	50% {
-		border-color: transparent;
+		opacity: 0;
 	}
-}
-
-.typing-cursor {
-	border-right: 3px solid #333;
-	animation: cursor-blink 0.72s step-end infinite;
 }
 
 @keyframes cursor-blink-white {
 	0%,
 	100% {
-		border-color: #fff;
+		opacity: 1;
 	}
 	50% {
-		border-color: transparent;
+		opacity: 0;
 	}
 }
 
+.typing-cursor {
+	position: relative;
+}
+
+.typing-cursor::after {
+	content: "";
+	position: absolute;
+	right: -5px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 3px;
+	height: 0.85em;
+	background-color: #333;
+	animation: cursor-blink 0.72s step-end infinite;
+}
+
 .typing-cursor-white {
-	border-right: 3px solid #fff;
+	position: relative;
+}
+
+.typing-cursor-white::after {
+	content: "";
+	position: absolute;
+	right: -5px;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 3px;
+	height: 0.85em;
+	background-color: #fff;
 	animation: cursor-blink-white 0.72s step-end infinite;
 }
 

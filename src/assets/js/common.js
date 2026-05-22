@@ -280,7 +280,7 @@ const setupScrollHeader = () => {
 	const fixedBtn = document.getElementById("fixedContactBtn");
 	if (!header) return;
 
-	const getThreshold = () => (window.innerWidth >= 640 ? 108 : 667);
+	const getThreshold = () => (window.innerWidth >= 640 ? 108 : 200);
 
 	const update = () => {
 		const scrolled = window.scrollY > getThreshold();
@@ -296,37 +296,65 @@ const setupScrollHeader = () => {
 };
 
 /**
- * タイピングアニメーションの設定
+ * スプラッシュ画面の設定
  */
-const setupTyping = () => {
-	const el = document.getElementById("js-typing");
-	if (!el) return;
+const setupSplash = () => {
+	const SESSION_KEY = "splashShown";
+	const splash = document.getElementById("js-splash");
+	const splashText = document.getElementById("js-splash-text");
+	if (!splash || !splashText) return;
 
-	const text = el.dataset.text || "";
-	const placeholder = el.querySelector("span");
-	if (placeholder) placeholder.remove();
-	el.textContent = "";
+	if (sessionStorage.getItem(SESSION_KEY)) {
+		splash.style.display = "none";
+		document.dispatchEvent(new CustomEvent("splashDone"));
+		return;
+	}
 
-	const startTyping = () => {
-		el.classList.add("typing-cursor");
-		let i = 0;
-		const type = () => {
-			if (i < text.length) {
-				el.textContent += text[i];
-				i++;
-				setTimeout(type, 120);
-			} else {
-				setTimeout(() => el.classList.remove("typing-cursor"), 2000);
-			}
-		};
-		type();
+	const text = "Shu Miyata";
+	let typingDone = false;
+	let windowLoaded = false;
+
+	const fadeOut = () => {
+		splashText.classList.remove("typing-cursor-white");
+		setTimeout(() => {
+			splash.style.opacity = "0";
+			splash.addEventListener(
+				"transitionend",
+				() => {
+					splash.style.display = "none";
+					sessionStorage.setItem(SESSION_KEY, "1");
+					document.dispatchEvent(new CustomEvent("splashDone"));
+				},
+				{ once: true },
+			);
+		}, 640);
 	};
 
-	if (document.getElementById("js-splash")) {
-		document.addEventListener("splashDone", startTyping, { once: true });
-	} else {
-		startTyping();
-	}
+	const tryFadeOut = () => {
+		if (typingDone && windowLoaded) fadeOut();
+	};
+
+	window.addEventListener("load", () => {
+		windowLoaded = true;
+		tryFadeOut();
+	});
+
+	splashText.classList.add("typing-cursor-white");
+	let i = 0;
+	const typeSplash = () => {
+		if (i < text.length) {
+			splashText.textContent += text[i];
+			i++;
+			setTimeout(typeSplash, 120);
+		} else {
+			setTimeout(() => {
+				typingDone = true;
+				tryFadeOut();
+			}, 800);
+		}
+	};
+
+	typeSplash();
 };
 
 const init = () => {
@@ -335,7 +363,7 @@ const init = () => {
 	setupScrollIndicator();
 	setupFilter();
 	setupSwiper();
-	setupTyping();
+	setupSplash();
 	setupScrollHeader();
 	setupResumeGuard();
 };
