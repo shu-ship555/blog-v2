@@ -10,8 +10,7 @@ const news = await getNews();
 <Layout
 	title="News｜お知らせ｜ミヤタシュウ"
 	description="ミヤタシュウからのお知らせ一覧です。"
-	breadcrumb={true}
-	isNewsPage={true}
+	breadcrumb={[{ label: "News｜お知らせ" }]}
 >
 	<main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
 		<h1 class="text-[32px] sm:text-[22px] leading-none tracking-[0.04em] font-bold">

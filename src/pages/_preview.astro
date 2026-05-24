@@ -29,8 +29,10 @@ const blog = await client.get<Blog>({
 
 <Layout
 	title={blog.title}
-	breadcrumb={true}
-	blog={blog as any}
+	breadcrumb={[
+		{ label: `[${blog.category.name}] 記事一覧`, href: `/categories/${blog.category.slug}` },
+		{ label: blog.title, clamp: true },
+	]}
 	ogTitle={blog.ogp?.ogTitle || blog.title}
 	ogDescription={blog.ogp?.ogDescription || blog.description}
 	ogImage={blog.ogp?.ogImage?.url || blog.eyecatch?.url || "/img/ogp.png"}

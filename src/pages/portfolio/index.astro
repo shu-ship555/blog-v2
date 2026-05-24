@@ -16,8 +16,7 @@ const products: Product[] = productRes.contents.slice(0, 4);
 
 <Layout
 	title="Portfolio｜ポートフォリオ｜みやたノート"
-	breadcrumb={true}
-	isPortfolioPage={true}
+	breadcrumb={[{ label: "Portfolio｜ポートフォリオ" }]}
 >
 	<main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
 		<h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Portfolio<span class="sm:hidden">｜ポートフォリオ</span></h1>

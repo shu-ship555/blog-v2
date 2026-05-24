@@ -1,5 +1,10 @@
 // src/layouts/LayoutProps.ts
-import type { Blog, Category, Tag, ImageCategory, ImageTag } from "../types";
+
+export type BreadcrumbItem = {
+	label: string;
+	href?: string;
+	clamp?: boolean; // 長いテキスト（記事タイトルなど）を1行で切り詰める
+};
 
 export interface LayoutProps {
 	title: string;
@@ -8,26 +13,6 @@ export interface LayoutProps {
 	ogDescription?: string;
 	ogImage?: string;
 	pageUrl?: string;
-	breadcrumb?: boolean;
+	breadcrumb?: BreadcrumbItem[];
 	header?: boolean;
-	blog?: Blog;
-	category?: Category;
-	tag?: Tag;
-	isIconsPage?: boolean;
-	isImagesPage?: boolean;
-	imageCategory?: ImageCategory;
-	imageSize?: string;
-	imageTag?: ImageTag;
-	isWorksPage?: boolean;
-	isBlogsPage?: boolean;
-	isContactPage?: boolean;
-	isPortfolioPage?: boolean;
-	isPortfolioIconPage?: boolean;
-	isPortfolioProductPage?: boolean;
-	isResumePage?: boolean;
-	isAboutSitePage?: boolean;
-	isPrivacyPolicyPage?: boolean;
-	isNewsPage?: boolean;
-	isNewsDetailPage?: boolean;
-	newsTitle?: string;
 }

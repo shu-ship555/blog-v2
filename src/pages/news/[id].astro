@@ -23,9 +23,7 @@ const html = await getNewsBlocks(item.id);
 <Layout
 	title={`${item.title}｜News｜ミヤタシュウ`}
 	ogTitle={item.title}
-	breadcrumb={true}
-	isNewsDetailPage={true}
-	newsTitle={item.title}
+	breadcrumb={[{ label: "News｜お知らせ", href: "/news" }, { label: item.title, clamp: true }]}
 >
 	<main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
 		<p class="text-[12px] sm:text-[10px] text-[#999] font-medium tracking-[0.06em] leading-[1]">

@@ -21,55 +21,12 @@ const {
 	ogDescription = description,
 	ogImage = "/img/ogp.png",
 	pageUrl: propPageUrl,
-	breadcrumb = false,
+	breadcrumb,
 	header = true,
-	blog,
-	category,
-	tag,
-	isIconsPage = false,
-	isImagesPage = false,
-	imageCategory,
-	imageSize,
-	imageTag,
-	isWorksPage = false,
-	isBlogsPage = false,
-	isContactPage = false,
-	isPortfolioPage = false,
-	isPortfolioIconPage = false,
-	isPortfolioProductPage = false,
-	isResumePage = false,
-	isAboutSitePage = false,
-	isPrivacyPolicyPage = false,
-	isNewsPage = false,
-	isNewsDetailPage = false,
-	newsTitle,
 } = props;
 
 // canonical URL を props 優先で決定
 const pageUrl = propPageUrl || `${siteUrl}${pagePath}`;
-
-const breadcrumbProps = {
-	blog,
-	category,
-	tag,
-	isIconsPage,
-	isImagesPage,
-	imageCategory,
-	imageSize,
-	imageTag,
-	isWorksPage,
-	isBlogsPage,
-	isContactPage,
-	isPortfolioPage,
-	isPortfolioIconPage,
-	isPortfolioProductPage,
-	isResumePage,
-	isAboutSitePage,
-	isPrivacyPolicyPage,
-	isNewsPage,
-	isNewsDetailPage,
-	newsTitle,
-};
 ---
 
 <!doctype html>
@@ -158,9 +115,9 @@ const breadcrumbProps = {
 			)
 		}
 
-		{breadcrumb && <Breadcrumb {...breadcrumbProps} />}
+		{breadcrumb && <Breadcrumb items={breadcrumb} />}
 		<slot />
-		{breadcrumb && <Breadcrumb {...breadcrumbProps} scale={0.75} noMargin={true} backgroundColor="#FCFCFC" />}
+		{breadcrumb && <Breadcrumb items={breadcrumb} scale={0.75} backgroundColor="#FCFCFC" />}
 		<Footer />
 		<div class="bg-[#FFF]/[0.48] backdrop-blur-lg absolute h-full w-full top-0 hidden js-bg"></div>
 		<script src="../assets/js/common.js"></script>
