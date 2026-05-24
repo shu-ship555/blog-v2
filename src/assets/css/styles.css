@@ -147,7 +147,7 @@ body {
  ======================= */
 @media (min-width: 640px) {
 	.opacity-hover:hover {
-		@apply opacity-[0.48];
+		@apply opacity-[0.64];
 	}
 	.transrate-x-animation:hover .animation-icon {
 		animation-name: shake;
@@ -175,13 +175,6 @@ body {
 
 .referencemark {
 	@apply relative before:content-['※'] before:pr-[0.48em];
-}
-
-/* =======================
-Aboutページ 曲線デザイン
- ======================= */
-.about-curve {
-	border-radius: 50% 50% 0 0 / 80px 80px 0 0;
 }
 
 /* =======================
@@ -288,31 +281,6 @@ toc-sscrollindicator
 #scrollIndicator.is-scrolling {
 	@apply opacity-0 invisible;
 	animation: none;
-}
-
-/* =======================
-固定お問い合わせボタン
- ======================= */
-#fixedContactBtn {
-	opacity: 0;
-	pointer-events: none;
-	transition:
-		opacity 0.3s ease,
-		transform 0.3s ease;
-	transform: translateY(8px);
-}
-#fixedContactBtn.is-visible {
-	opacity: 1;
-	pointer-events: auto;
-	transform: translateY(0);
-}
-@media (max-width: 1416px) {
-	#fixedContactBtn {
-		transform: translateY(100%);
-	}
-	#fixedContactBtn.is-visible {
-		transform: translateY(0);
-	}
 }
 
 /* =======================
@@ -423,7 +391,7 @@ post
 	@apply break-normal font-black text-[24px]  sm:text-[16px] leading-[1.48] tracking-[0.04em] mt-[72px]  sm:mt-[36px] scroll-mt-[160px] sm:scroll-mt-[120px];
 }
 .post p {
-	@apply break-all font-medium text-[20px] sm:text-[16px] leading-[1.8] tracking-[0.06em] mt-[16px] sm:mt-[12px];
+	@apply break-normal font-medium text-[20px] sm:text-[16px] leading-[1.64] tracking-[0.06em] mt-[16px] sm:mt-[12px];
 }
 .post a {
 	@apply opacity-hover duration;
