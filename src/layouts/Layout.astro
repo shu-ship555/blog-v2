@@ -75,6 +75,13 @@ const breadcrumbProps = {
 <!doctype html>
 <html lang="ja">
 	<head>
+		<!-- スプラッシュ表示済みなら最初のペイント前に非表示クラスを付与 -->
+		<script is:inline>
+			if (sessionStorage.getItem('splashShown')) {
+				document.documentElement.classList.add('splash-shown');
+			}
+		</script>
+
 		<!-- Google Tag Manager -->
 		<script is:inline>
 			(function (w, d, s, l, i) {

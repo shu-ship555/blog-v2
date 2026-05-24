@@ -322,6 +322,11 @@ toc-sscrollindicator
 	transition: opacity 480ms ease-in-out;
 }
 
+/* 表示済みフラグがある場合はペイント前に非表示 */
+html.splash-shown #js-splash {
+	display: none;
+}
+
 /* =======================
 タイピングアニメーション
  ======================= */
