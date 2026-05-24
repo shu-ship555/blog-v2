@@ -45,7 +45,7 @@ const tagCounts = getCountedTags(tags, allBlogs);
 					<p class="text-[14px] sm:text-[12px] text-[#0079C9] font-black font-en tracking-[0.08em]">Frontend Engineer</p>
 					<h1 class="text-[64px] sm:text-[40px] font-black font-en inline-block leading-none tracking-[0.04em] text-[#333] mt-[8px] sm:mt-[6px]">Shu Miyata</h1>
 					<p class="text-[16px] sm:text-[14px] text-[#333] leading-[1.8] tracking-[0.06em] mt-[24px] sm:mt-[16px]">
-						<span class="bracket whitespace-nowrap"><span class="hashtag">フロントエンドエンジニア</span></span> <span class="bracket whitespace-nowrap"><span class="hashtag">ミステリー</span></span> <span class="bracket whitespace-nowrap"><span class="hashtag">双極性障害</span></span><br>このサイトは&nbsp;<a href="/resume" class="text-[#0079C9] opacity-hover duration">ミヤタシュウ</a>&nbsp;のポートフォリオ兼ブログです。<br class="sm:hidden" />フロントエンドエンジニアとしての思想や日々の開発で感じたことを書いています。<br>制作物に関する技術的な話は&nbsp;<a href="https://zenn.dev/fune" target="_blank" class="relative  opacity-hover duration">Zenn<span class="w-full absolute left-1/2 -translate-x-1/2 top-5 sm:top-4 h-[1px] bg-[#666]"></span></a>&nbsp;に、趣味のミステリーや、双極性障害の日常は&nbsp;<a href="https://note.com/miyata_note" target="_blank" class="relative opacity-hover duration">note<span class="w-full absolute left-1/2 -translate-x-1/2 top-5 sm:top-4 h-[1px] bg-[#666]"></span></a>&nbsp;に書いています。
+						<span class="bracket whitespace-nowrap"><span class="hashtag">フロントエンドエンジニア</span></span> <span class="bracket whitespace-nowrap"><span class="hashtag">ミステリー</span></span> <span class="bracket whitespace-nowrap"><span class="hashtag">双極性障害</span></span><br>このサイトは&nbsp;<a href="/resume" class="text-[#0079C9] hover:opacity-[0.64] duration">ミヤタシュウ</a>&nbsp;のポートフォリオ兼ブログです。<br class="sm:hidden" />フロントエンドエンジニアとしての思想や日々の開発で感じたことを書いています。<br>制作物に関する技術的な話は&nbsp;<a href="https://zenn.dev/fune" target="_blank" class="relative  hover:opacity-[0.64] duration">Zenn<span class="w-full absolute left-1/2 -translate-x-1/2 top-5 sm:top-4 h-[1px] bg-[#666]"></span></a>&nbsp;に、趣味のミステリーや、双極性障害の日常は&nbsp;<a href="https://note.com/miyata_note" target="_blank" class="relative hover:opacity-[0.64] duration">note<span class="w-full absolute left-1/2 -translate-x-1/2 top-5 sm:top-4 h-[1px] bg-[#666]"></span></a>&nbsp;に書いています。
 					</p>
 				</div>
 				<ContactButton variant="hero" />
@@ -65,17 +65,17 @@ const tagCounts = getCountedTags(tags, allBlogs);
 											href={href}
 											target={isExternal ? "_blank" : undefined}
 											rel={isExternal ? "noopener noreferrer" : undefined}
-											class="flex items-center gap-[16px] sm:gap-[10px] opacity-hover duration pl-[24px] pr-[40px] pt-[24px] pb-[28px] sm:pl-[12px] sm:pr-[32px] sm:pt-[12px] sm:pb-[14px]"
+											class="flex items-center gap-[16px] sm:gap-[10px] opacity-hover duration pl-[24px] pr-[80px] pt-[24px] pb-[28px] sm:pl-[12px] sm:pr-[56px] sm:pt-[12px] sm:pb-[14px]"
 										>
 											<p class="text-[12px] sm:text-[10px] text-[#999] font-medium tracking-[0.06em] whitespace-nowrap shrink-0">
 												{formatDate(item.date)}
 											</p>
-											<div class="flex items-center ">
-												<p class="text-[14px] sm:text-[12px] text-[#0079C9] leading-[1.48] tracking-[0.04em] truncate mr-[4px] line-clamp-1">
+											<div class="flex items-start">
+												<p class="text-[14px] sm:text-[12px] text-[#0079C9] leading-[1.48] tracking-[0.04em] line-clamp-1 mr-[4px] sm:mr-[2px]">
 													{item.title}
 												</p>
 												{isExternal && (
-													<Icon filename="icon_open_in_new" color="#999" customClass="w-[16px] sm:w-[14px] shrink-0" />
+													<Icon filename="icon_open_in_new" color="#999" customClass="w-[16px] sm:w-[14px] shrink-0 mt-[2px]" />
 												)}
 											</div>
 										</a>
@@ -85,12 +85,12 @@ const tagCounts = getCountedTags(tags, allBlogs);
 						}
 					</div>
 					{recentNews.length > 1 && (
-						<div class="absolute right-[12px] top-1/2 -translate-y-1/2 flex gap-[4px]">
-							<button class="news-swiper-prev flex items-center justify-center w-[20px] h-[20px] duration opacity-hover p-2 bg-[#FFF] rounded-full">
-								<Icon filename="icon_arrow_left" color="#666" customClass="shrink-0 w-[20px] h-[20px]" />
+						<div class="absolute right-[12px] top-1/2 -translate-y-[calc(50%+2px)] flex gap-[4px]">
+							<button class="news-swiper-prev flex items-center justify-center w-[20px] h-[20px] sm:h-[16px] sm:w-[16px] duration hover:opacity-[0.64] p-2 bg-[#FFF] rounded-full">
+								<Icon filename="icon_arrow_left" color="#666" customClass="shrink-0 w-[20px] h-[20px] sm:h-[16px] sm:w-[16px]" />
 							</button>
-							<button class="news-swiper-next flex items-center justify-center w-[20px] h-[20px] duration opacity-hover p-2 bg-[#FFF] rounded-full">
-								<Icon filename="icon_arrow_right" color="#666" customClass="shrink-0 w-[20px] h-[20px]" />
+							<button class="news-swiper-next flex items-center justify-center w-[20px] h-[20px] sm:h-[16px] sm:w-[16px] duration hover:opacity-[0.64] p-2 bg-[#FFF] rounded-full">
+								<Icon filename="icon_arrow_right" color="#666" customClass="shrink-0 w-[20px] h-[20px] sm:h-[16px] sm:w-[16px]" />
 							</button>
 						</div>
 					)}
