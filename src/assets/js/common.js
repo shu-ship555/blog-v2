@@ -177,7 +177,7 @@ const setupSwiper = () => {
 		if (isNews) {
 			new Swiper(el, {
 				loop: true,
-				// autoplay: { delay: 4000, disableOnInteraction: false },
+				autoplay: { delay: 4000, disableOnInteraction: false },
 				slidesPerView: 1,
 				spaceBetween: 0,
 				effect: "fade",
