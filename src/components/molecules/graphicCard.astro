@@ -1,0 +1,34 @@
+---
+import IconComponent from "../atoms/icon.astro";
+import type { Icon } from "../../types";
+
+export interface Props {
+	icon: Icon;
+	showExpandBtn?: boolean;
+}
+
+const { icon, showExpandBtn = false } = Astro.props;
+---
+
+<li class="relative text-center">
+	<div class="aspect-square bg-[#FAFAFA] flex items-center justify-center p-[16px] sm:p-[12px] overflow-hidden">
+		<div class="expand-img ei-s w-full h-full flex items-center justify-center duration">
+			<img src={icon.image.url} alt={icon.title} class="max-w-full max-h-full object-contain" />
+		</div>
+	</div>
+	<p class="whitespace-nowrap mt-[12px] text-[12px] sm:text-[10px] leading-none tracking-[0.06em] font-black">
+		{icon.title}
+	</p>
+{
+		showExpandBtn && (
+			<button class="expand-btn bg-[#F8F8F8] text-[12px] sm:text-[10px] font-bold leading-none tracking-[0.04em] pt-[4px] pb-[6px] mt-[12px] block w-full text-[#0079C9] opacity-hover duration">
+				拡大
+				<IconComponent
+					filename="icon_fullscreen"
+					color="#0079C9"
+					customClass="w-[14px] ml-[4px] sm:w-[12px] align-text-top sm:ml-[2px]"
+				/>
+			</button>
+		)
+	}
+</li>

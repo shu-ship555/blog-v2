@@ -102,6 +102,7 @@ export type Icon = {
 	id: string;
 	title: string;
 	enTitle: string;
+	type: string[];
 	image: {
 		url: string;
 		width: number;

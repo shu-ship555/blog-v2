@@ -3,13 +3,13 @@ import Layout from "../../../layouts/Layout.astro";
 import Navigation from "../../../components/organisms/navigation.astro";
 import Pager from "../../../components/organisms/pager.astro";
 import IconCard from "../../../components/molecules/iconCard.astro";
-import { getAllContents } from "../../../libs/microcms";
+import { getContents, getAllContents } from "../../../libs/microcms";
 import type { GetStaticPathsOptions } from "astro";
-import type { Icon } from "../../../types";
+import type { Icon, Product } from "../../../types";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 	const ICONS_PER_PAGE = 48;
-	const res = await getAllContents<Icon>("icons");
+	const res = await getAllContents<Icon>("graphic", { filters: "type[contains]アイコン" });
 	const icons = res.contents;
 
 	return paginate(icons, {
@@ -29,6 +29,15 @@ const { page, totalCount, perPage } = Astro.props as {
 };
 
 const icons = page.data;
+
+const [productCheck, graphicCheck, illustCheck] = await Promise.all([
+	getContents<Product>("products", { limit: 1 }),
+	getContents<Icon>("graphic", { limit: 1, filters: "type[contains]グラフィック" }),
+	getContents<Icon>("graphic", { limit: 1, filters: "type[contains]イラスト" }),
+]);
+const hasProduct = productCheck.totalCount > 0;
+const hasGraphic = graphicCheck.totalCount > 0;
+const hasIllust = illustCheck.totalCount > 0;
 ---
 
 <Layout
@@ -40,7 +49,9 @@ const icons = page.data;
 		<div class="mt-[48px] sm:mt-[24px]">
 			<Navigation
 				items={[
-					{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true },
+					...(hasProduct ? [{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true }] : []),
+					...(hasGraphic ? [{ href: "/portfolio/graphic", label: "Graphic", tooltip: "グラフィック", isActive: true }] : []),
+					...(hasIllust ? [{ href: "/portfolio/illustration", label: "Illustration", tooltip: "イラスト", isActive: true }] : []),
 					{ href: "/portfolio/icon", label: "Icon", tooltip: "アイコン", isActive: true, current: true },
 				]}
 			/>

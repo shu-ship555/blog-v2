@@ -1,0 +1,67 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Navigation from "../../../components/organisms/navigation.astro";
+import Pager from "../../../components/organisms/pager.astro";
+import GraphicCard from "../../../components/molecules/graphicCard.astro";
+import { getContents, getAllContents } from "../../../libs/microcms";
+import type { GetStaticPathsOptions } from "astro";
+import type { Icon, Product } from "../../../types";
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+	const GRAPHICS_PER_PAGE = 24;
+	const res = await getAllContents<Icon>("graphic", { filters: "type[contains]グラフィック" });
+	const graphics = res.contents;
+
+	return paginate(graphics, {
+		pageSize: GRAPHICS_PER_PAGE,
+		params: {},
+		props: {
+			totalCount: res.totalCount,
+			perPage: GRAPHICS_PER_PAGE,
+		},
+	});
+}
+
+const { page, totalCount, perPage } = Astro.props as {
+	page: { data: Icon[] };
+	totalCount: number;
+	perPage: number;
+};
+
+const graphics = page.data;
+
+const [productCheck, illustCheck, iconCheck] = await Promise.all([
+	getContents<Product>("products", { limit: 1 }),
+	getContents<Icon>("graphic", { limit: 1, filters: "type[contains]イラスト" }),
+	getContents<Icon>("graphic", { limit: 1, filters: "type[contains]アイコン" }),
+]);
+const hasProduct = productCheck.totalCount > 0;
+const hasIllust = illustCheck.totalCount > 0;
+const hasIcon = iconCheck.totalCount > 0;
+---
+
+<Layout
+	title="Graphic｜グラフィック｜Portfolio｜みやたノート"
+	breadcrumb={[{ label: "Portfolio｜ポートフォリオ", href: "/portfolio" }, { label: "Graphic｜グラフィック" }]}
+>
+	<main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
+		<h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Graphic<span class="sm:hidden">｜グラフィック</span></h1>
+		<div class="mt-[48px] sm:mt-[24px]">
+			<Navigation
+				items={[
+					...(hasProduct ? [{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true }] : []),
+					{ href: "/portfolio/graphic", label: "Graphic", tooltip: "グラフィック", isActive: true, current: true },
+					...(hasIllust ? [{ href: "/portfolio/illustration", label: "Illustration", tooltip: "イラスト", isActive: true }] : []),
+					...(hasIcon ? [{ href: "/portfolio/icon", label: "Icon", tooltip: "アイコン", isActive: true }] : []),
+				]}
+			/>
+		</div>
+		<ul class="js-expand-modal js-em-l grid grid-cols-4 sm:grid-cols-2 gap-[48px] sm:gap-[32px] mt-[80px] sm:mt-[48px]">
+			{graphics.map((graphic) => <GraphicCard icon={graphic} showExpandBtn={true} />)}
+		</ul>
+		<div class="mt-[48px]">
+			<Pager page={page} totalCount={totalCount} basePath="/portfolio/graphic" perPage={perPage} />
+		</div>
+		<div class="mt-[48px] sm:mt-[24px]"></div>
+	</main>
+</Layout>

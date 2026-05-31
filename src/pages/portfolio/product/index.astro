@@ -2,11 +2,20 @@
 import Layout from "../../../layouts/Layout.astro";
 import Navigation from "../../../components/organisms/navigation.astro";
 import ProductCard from "../../../components/molecules/productCard.astro";
-import { getProducts } from "../../../libs/microcms";
-import type { Product } from "../../../types";
+import { getContents, getProducts } from "../../../libs/microcms";
+import type { Icon, Product } from "../../../types";
 
 const res = await getProducts();
 const products: Product[] = res.contents;
+
+const [graphicCheck, illustCheck, iconCheck] = await Promise.all([
+	getContents<Icon>("graphic", { limit: 1, filters: "type[contains]グラフィック" }),
+	getContents<Icon>("graphic", { limit: 1, filters: "type[contains]イラスト" }),
+	getContents<Icon>("graphic", { limit: 1, filters: "type[contains]アイコン" }),
+]);
+const hasGraphic = graphicCheck.totalCount > 0;
+const hasIllust = illustCheck.totalCount > 0;
+const hasIcon = iconCheck.totalCount > 0;
 ---
 
 <Layout
@@ -19,7 +28,9 @@ const products: Product[] = res.contents;
 			<Navigation
 				items={[
 					{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true, current: true },
-					{ href: "/portfolio/icon", label: "Icon", tooltip: "アイコン", isActive: true },
+					...(hasGraphic ? [{ href: "/portfolio/graphic", label: "Graphic", tooltip: "グラフィック", isActive: true }] : []),
+					...(hasIllust ? [{ href: "/portfolio/illustration", label: "Illustration", tooltip: "イラスト", isActive: true }] : []),
+					...(hasIcon ? [{ href: "/portfolio/icon", label: "Icon", tooltip: "アイコン", isActive: true }] : []),
 				]}
 			/>
 		</div>
