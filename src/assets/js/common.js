@@ -282,7 +282,7 @@ const setupScrollHeader = () => {
 
 	const getThreshold = () => (window.innerWidth >= 640 ? 108 : 200);
 	const HYSTERESIS = 8;
-	const LOCK_MS = 800; // CSS transition is 240ms; lock longer to absorb sticky scroll correction
+	const LOCK_MS = 640; // CSS transition is 240ms; lock longer to absorb sticky scroll correction
 	let isScrolled = false;
 	let locked = false;
 
