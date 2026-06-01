@@ -281,13 +281,32 @@ const setupScrollHeader = () => {
 	if (!header) return;
 
 	const getThreshold = () => (window.innerWidth >= 640 ? 108 : 200);
+	const HYSTERESIS = 8;
+	const LOCK_MS = 800; // CSS transition is 240ms; lock longer to absorb sticky scroll correction
+	let isScrolled = false;
+	let locked = false;
+
+	const apply = (newState) => {
+		isScrolled = newState;
+		locked = true;
+		setTimeout(() => {
+			locked = false;
+		}, LOCK_MS);
+		header.classList.toggle("is-scrolled", isScrolled);
+		if (fixedBtn) {
+			fixedBtn.classList.toggle("is-visible", isScrolled);
+			fixedBtn.setAttribute("aria-hidden", isScrolled ? "false" : "true");
+		}
+	};
 
 	const update = () => {
-		const scrolled = window.scrollY > getThreshold();
-		header.classList.toggle("is-scrolled", scrolled);
-		if (fixedBtn) {
-			fixedBtn.classList.toggle("is-visible", scrolled);
-			fixedBtn.setAttribute("aria-hidden", scrolled ? "false" : "true");
+		if (locked) return;
+		const threshold = getThreshold();
+		const scrollY = window.scrollY;
+		if (!isScrolled && scrollY >= threshold + HYSTERESIS) {
+			apply(true);
+		} else if (isScrolled && scrollY < threshold - HYSTERESIS) {
+			apply(false);
 		}
 	};
 
