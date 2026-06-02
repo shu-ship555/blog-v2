@@ -7,7 +7,7 @@ import ViewMoreButton from "../../components/atoms/viewMoreButton.astro";
 import { getContents } from "../../libs/microcms";
 import type { Icon, Image } from "../../types";
 
-const iconRes = await getContents<Icon>("graphic", { limit: 8, filters: "type[contains]アイコン" });
+const iconRes = await getContents<Icon>("works", { limit: 8, filters: "type[contains]アイコン" });
 const icons = iconRes.contents;
 
 const imageRes = await getContents<Image>("images", {

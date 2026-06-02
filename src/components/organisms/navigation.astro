@@ -48,16 +48,16 @@ const { items } = Astro.props;
 							</span>
 						</a>
 					) : (
-						<div class="text-[#ccc]">
+						<div class="text-[#888]">
 							{item.label}
 							{item.subLabel && <span class="font-normal bracket">{item.subLabel}</span>}
 							<span class="bg-[#eee] rounded-full ml-[6px] w-[16px] h-[16px] aspect-square inline-flex justify-center items-center sm:hidden">
-								<Icon filename="icon_arrow_forward" color="#ccc" customClass="w-[12px] sm:w-[10px] align-middle" />
+								<Icon filename="icon_arrow_forward" color="#888" customClass="w-[12px] sm:w-[10px] align-middle" />
 							</span>
 						</div>
 					)}
 					{!item.current && (
-						<div class="pt-[12px] nav-tip duration absolute left-1/2 -translate-x-1/2 w-full">
+						<div class="pt-[12px] nav-tip duration absolute left-1/2 -translate-x-1/2 w-[calc(100%_+_24px)]">
 							<div class="text-nowrap bg-[#eee] py-[4px] text-[12px] font-normal text-center" set:html={item.tooltip} />
 						</div>
 					)}

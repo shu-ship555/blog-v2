@@ -5,32 +5,32 @@ import ProductCard from "../../../components/molecules/productCard.astro";
 import { getContents } from "../../../libs/microcms";
 import type { Icon, Product } from "../../../types";
 
-const res = await getContents<Product>("works", { filters: "type[contains]プロダクト" });
-const products: Product[] = res.contents;
+const res = await getContents<Product>("works", { filters: "type[contains]ウェブサイト" });
+const websites: Product[] = res.contents;
 
-const [websiteCheck, graphicCheck, illustCheck, iconCheck] = await Promise.all([
-	getContents<Icon>("works", { limit: 1, filters: "type[contains]ウェブサイト" }),
+const [productCheck, graphicCheck, illustCheck, iconCheck] = await Promise.all([
+	getContents<Icon>("works", { limit: 1, filters: "type[contains]プロダクト" }),
 	getContents<Icon>("works", { limit: 1, filters: "type[contains]グラフィック" }),
 	getContents<Icon>("works", { limit: 1, filters: "type[contains]イラスト" }),
 	getContents<Icon>("works", { limit: 1, filters: "type[contains]アイコン" }),
 ]);
-const hasWebsite = websiteCheck.totalCount > 0;
+const hasProduct = productCheck.totalCount > 0;
 const hasGraphic = graphicCheck.totalCount > 0;
 const hasIllust = illustCheck.totalCount > 0;
 const hasIcon = iconCheck.totalCount > 0;
 ---
 
 <Layout
-	title="Product｜プロダクト｜Portfolio｜みやたノート"
-	breadcrumb={[{ label: "Portfolio｜ポートフォリオ", href: "/portfolio" }, { label: "Product｜プロダクト" }]}
+	title="Website｜ウェブサイト｜Portfolio｜みやたノート"
+	breadcrumb={[{ label: "Portfolio｜ポートフォリオ", href: "/portfolio" }, { label: "Website｜ウェブサイト" }]}
 >
 	<main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
-		<h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Product<span class="sm:hidden">｜プロダクト</span></h1>
+		<h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Website<span class="sm:hidden">｜ウェブサイト</span></h1>
 		<div class="mt-[48px] sm:mt-[24px]">
 			<Navigation
 				items={[
-					{ href: "/portfolio/website", label: "Website", tooltip: "ウェブサイト", isActive: hasWebsite },
-					{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true, current: true },
+					{ href: "/portfolio/website", label: "Website", tooltip: "ウェブサイト", isActive: true, current: true },
+					...(hasProduct ? [{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true }] : []),
 					...(hasGraphic ? [{ href: "/portfolio/graphic", label: "Graphic", tooltip: "グラフィック", isActive: true }] : []),
 					...(hasIllust ? [{ href: "/portfolio/illustration", label: "Illustration", tooltip: "イラスト", isActive: true }] : []),
 					...(hasIcon ? [{ href: "/portfolio/icon", label: "Icon", tooltip: "アイコン", isActive: true }] : []),
@@ -38,7 +38,7 @@ const hasIcon = iconCheck.totalCount > 0;
 			/>
 		</div>
 		<ul class="grid grid-cols-2 sm:grid-cols-1 gap-[48px] sm:gap-[32px] mt-[80px] sm:mt-[48px]">
-			{products.map((product) => <ProductCard product={product} />)}
+			{websites.map((website) => <ProductCard product={website} />)}
 		</ul>
 		<div class="mt-[48px] sm:mt-[24px]"></div>
 	</main>

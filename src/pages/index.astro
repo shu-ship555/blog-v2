@@ -3,8 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import NoteSlider from "../components/organisms/noteSlider.astro";
 import ProductCard from "../components/molecules/productCard.astro";
 import Icon from "../components/atoms/icon.astro";
-import { getAllContents, getBlogs, getProducts } from "../libs/microcms";
-import type { Blog, Category, Tag, MicroCMSResponse } from "../types";
+import { getAllContents, getBlogs, getContents } from "../libs/microcms";
+import type { Blog, Category, Tag, MicroCMSResponse, Product } from "../types";
 import Card from "../components/molecules/card.astro";
 import CategoryTagSidebar from "../components/organisms/categoryTagSidebar.astro";
 import ContactButton from "../components/atoms/contactButton.astro";
@@ -21,7 +21,7 @@ const [allBlogsResponse, allCategoriesResponse, allTagsResponse, productsRespons
 	getAllContents<Blog>("blogs"),
 	getAllContents<Category>("categories"),
 	getAllContents<Tag>("tags"),
-	getProducts(),
+	getContents<Product>("works", { filters: "type[contains]プロダクト[or]type[contains]ウェブサイト" }),
 	getNews(),
 ]);
 

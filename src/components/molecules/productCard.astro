@@ -7,7 +7,7 @@ export interface Props {
 }
 
 const { product } = Astro.props;
-const { title, description, url, tags = [], purpose } = product;
+const { title, description, url, tag = [], purpose } = product;
 ---
 
 <li class="w-full">
@@ -33,7 +33,7 @@ const { title, description, url, tags = [], purpose } = product;
 				{purpose ? "公開中" : "個人利用"}
 			</div>
 			<div class="flex items-center justify-between gap-[8px] mt-[12px] sm:mt-[8px]">
-				<h3 class="text-[20px] sm:text-[16px] font-bold leading-[1.4] tracking-[0.04em] text-[#333]">
+				<h3 class="text-[20px] sm:text-[16px] font-bold leading-[1.4] tracking-[0.04em] text-[#333] line-clamp-1">
 					{title}
 				</h3>
 				<div class="flex items-center gap-[8px] shrink-0">
@@ -44,11 +44,11 @@ const { title, description, url, tags = [], purpose } = product;
 				{description}
 			</p>
 			{
-				tags.length > 0 && (
+				tag.length > 0 && (
 					<div class="flex gap-[8px] sm:gap-[6px] flex-wrap mt-[16px] sm:mt-[12px]">
-						{tags.map((tag) => (
+						{tag.map((t) => (
 							<span class="text-[12px] sm:text-[10px] font-medium leading-[1] tracking-[0.06em] px-[12px] py-[6px] bg-[#F6F6F6] rounded-full text-[#666]">
-								{tag}
+								{t.title}
 							</span>
 						))}
 					</div>

@@ -9,7 +9,7 @@ import type { Icon, Product } from "../../../types";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 	const GRAPHICS_PER_PAGE = 24;
-	const res = await getAllContents<Icon>("graphic", { filters: "type[contains]グラフィック" });
+	const res = await getAllContents<Icon>("works", { filters: "type[contains]グラフィック" });
 	const graphics = res.contents;
 
 	return paginate(graphics, {
@@ -30,11 +30,13 @@ const { page, totalCount, perPage } = Astro.props as {
 
 const graphics = page.data;
 
-const [productCheck, illustCheck, iconCheck] = await Promise.all([
-	getContents<Product>("products", { limit: 1 }),
-	getContents<Icon>("graphic", { limit: 1, filters: "type[contains]イラスト" }),
-	getContents<Icon>("graphic", { limit: 1, filters: "type[contains]アイコン" }),
+const [websiteCheck, productCheck, illustCheck, iconCheck] = await Promise.all([
+	getContents<Icon>("works", { limit: 1, filters: "type[contains]ウェブサイト" }),
+	getContents<Icon>("works", { limit: 1, filters: "type[contains]プロダクト" }),
+	getContents<Icon>("works", { limit: 1, filters: "type[contains]イラスト" }),
+	getContents<Icon>("works", { limit: 1, filters: "type[contains]アイコン" }),
 ]);
+const hasWebsite = websiteCheck.totalCount > 0;
 const hasProduct = productCheck.totalCount > 0;
 const hasIllust = illustCheck.totalCount > 0;
 const hasIcon = iconCheck.totalCount > 0;
@@ -49,6 +51,7 @@ const hasIcon = iconCheck.totalCount > 0;
 		<div class="mt-[48px] sm:mt-[24px]">
 			<Navigation
 				items={[
+					{ href: "/portfolio/website", label: "Website", tooltip: "ウェブサイト", isActive: hasWebsite },
 					...(hasProduct ? [{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true }] : []),
 					{ href: "/portfolio/graphic", label: "Graphic", tooltip: "グラフィック", isActive: true, current: true },
 					...(hasIllust ? [{ href: "/portfolio/illustration", label: "Illustration", tooltip: "イラスト", isActive: true }] : []),

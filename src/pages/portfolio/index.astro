@@ -5,21 +5,26 @@ import ViewMoreButton from "../../components/atoms/viewMoreButton.astro";
 import IconCard from "../../components/molecules/iconCard.astro";
 import GraphicCard from "../../components/molecules/graphicCard.astro";
 import ProductCard from "../../components/molecules/productCard.astro";
-import { getContents, getProducts } from "../../libs/microcms";
+import { getContents } from "../../libs/microcms";
 import type { Icon, Product } from "../../types";
 
-const iconRes = await getContents<Icon>("graphic", { limit: 8, filters: "type[contains]アイコン" });
+const iconRes = await getContents<Icon>("works", { limit: 8, filters: "type[contains]アイコン" });
 const icons = iconRes.contents;
 
-const graphicRes = await getContents<Icon>("graphic", { limit: 4, filters: "type[contains]グラフィック" });
+const graphicRes = await getContents<Icon>("works", { limit: 4, filters: "type[contains]グラフィック" });
 const graphics = graphicRes.contents;
 
-const illustRes = await getContents<Icon>("graphic", { limit: 4, filters: "type[contains]イラスト" });
+const illustRes = await getContents<Icon>("works", { limit: 4, filters: "type[contains]イラスト" });
 const illusts = illustRes.contents;
 
-const productRes = await getProducts();
-const products: Product[] = productRes.contents.slice(0, 4);
+const [websiteFetch, productFetch] = await Promise.all([
+	getContents<Product>("works", { limit: 4, filters: "type[contains]ウェブサイト" }),
+	getContents<Product>("works", { limit: 4, filters: "type[contains]プロダクト" }),
+]);
+const websites: Product[] = websiteFetch.contents;
+const products: Product[] = productFetch.contents;
 
+const hasWebsite = websites.length > 0;
 const hasProduct = products.length > 0;
 const hasGraphic = graphics.length > 0;
 const hasIllust = illusts.length > 0;
@@ -35,6 +40,7 @@ const hasIcon = icons.length > 0;
 		<div class="mt-[48px] sm:mt-[24px]">
 			<Navigation
 				items={[
+					{ href: "/portfolio/website", label: "Website", tooltip: "ウェブサイト", isActive: hasWebsite },
 					...(hasProduct ? [{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true }] : []),
 					...(hasGraphic ? [{ href: "/portfolio/graphic", label: "Graphic", tooltip: "グラフィック", isActive: true }] : []),
 					...(hasIllust ? [{ href: "/portfolio/illustration", label: "Illustration", tooltip: "イラスト", isActive: true }] : []),
@@ -43,11 +49,30 @@ const hasIcon = icons.length > 0;
 			/>
 		</div>
 
-		{hasProduct ? (
+		{hasWebsite ? (
 			<>
 				<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[48px]">
 					<div class="text-[16px] sm:text-[10px] font-black aspect-square w-[48px] sm:w-[20px] h-[48px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white">
 						<span>1</span>
+					</div>
+					<h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">
+						Website<span class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden">ウェブサイト</span>
+					</h2>
+				</div>
+				<ul class="grid grid-cols-2 sm:grid-cols-1 gap-[48px] sm:gap-[32px] mt-[40px] sm:mt-[24px]">
+					{websites.map((website) => <ProductCard product={website} />)}
+				</ul>
+				<div class="mt-[40px] sm:mt-[24px] text-right">
+					<ViewMoreButton href="/portfolio/website" label="WEBSITE" />
+				</div>
+			</>
+		) : null}
+
+		{hasProduct ? (
+			<>
+				<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[64px]">
+					<div class="text-[16px] sm:text-[10px] font-black aspect-square w-[48px] sm:w-[20px] h-[48px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white">
+						<span>2</span>
 					</div>
 					<h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">
 						Product<span class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden">プロダクト</span>
@@ -66,7 +91,7 @@ const hasIcon = icons.length > 0;
 			<>
 				<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[64px]">
 					<div class="text-[16px] sm:text-[10px] font-black aspect-square w-[48px] sm:w-[20px] h-[48px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white">
-						<span>2</span>
+						<span>3</span>
 					</div>
 					<h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">
 						Graphic<span class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden">グラフィック</span>
@@ -85,7 +110,7 @@ const hasIcon = icons.length > 0;
 			<>
 				<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[64px]">
 					<div class="text-[16px] sm:text-[10px] font-black aspect-square w-[48px] sm:w-[20px] h-[48px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white">
-						<span>3</span>
+						<span>4</span>
 					</div>
 					<h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">
 						Illustration<span class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden">イラスト</span>
@@ -104,7 +129,7 @@ const hasIcon = icons.length > 0;
 			<>
 				<div class="flex items-center gap-[16px] sm:gap-[8px] mt-[80px] sm:mt-[64px]">
 					<div class="text-[16px] sm:text-[10px] font-black aspect-square w-[48px] sm:w-[20px] h-[48px] sm:h-[20px] bg-[#0079C9] rounded-full leading-none flex items-center justify-center text-white">
-						<span>4</span>
+						<span>5</span>
 					</div>
 					<h2 class="text-[28px] sm:text-[18px] font-black leading-none tracking-[0.04em] flex flex-col">
 						Icon<span class="text-[10px] font-normal leading-none tracking-[0.06em] mt-[6px] sm:hidden">アイコン</span>
