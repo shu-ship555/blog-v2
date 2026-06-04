@@ -7,7 +7,9 @@ export interface Props {
 }
 
 const { product } = Astro.props;
-const { title, description, url, tag = [], purpose } = product;
+const { title, description, url, tag = [], type = [], purpose } = product;
+
+const typeLabel = type.includes("ウェブサイト") ? "Webサイト" : type.includes("プロダクト") ? "プロダクト" : null;
 ---
 
 <li class="w-full">
@@ -27,10 +29,15 @@ const { title, description, url, tag = [], purpose } = product;
 				tabindex="-1"></iframe>
 		</div>
 		<div class="p-[20px] sm:p-[16px]">
-			<div
-				class={`w-[88px] sm:w-[72px] text-center text-[12px] sm:text-[10px] font-medium leading-[1] tracking-[0.06em] px-[12px] py-[6px] rounded-sm whitespace-nowrap ${purpose ? "bg-[#0079C9] text-[#FFF]" : "bg-[#666] text-[#FFF]"}`}
-			>
-				{purpose ? "公開中" : "個人利用"}
+			<div class="flex items-center gap-[8px]">
+				{typeLabel && (
+					<span class="text-[11px] sm:text-[10px] font-medium leading-[1] tracking-[0.06em] px-[10px] py-[5px] rounded-sm whitespace-nowrap bg-[#EBF7FF] text-[#0079C9]">
+						{typeLabel}
+					</span>
+				)}
+				<span class={`text-[11px] sm:text-[10px] font-medium leading-[1] tracking-[0.06em] px-[10px] py-[5px] rounded-sm whitespace-nowrap border ${purpose ? "border-[#0079C9] text-[#0079C9]" : "border-[#aaa] text-[#666]"}`}>
+					{purpose ? "公開中" : "個人利用"}
+				</span>
 			</div>
 			<div class="flex items-center justify-between gap-[8px] mt-[12px] sm:mt-[8px]">
 				<h3 class="text-[20px] sm:text-[16px] font-bold leading-[1.4] tracking-[0.04em] text-[#333] line-clamp-1">

@@ -119,6 +119,7 @@ export type Product = {
 	description: string;
 	url: string;
 	tag: ImageTag[];
+	type: string[];
 	purpose: boolean;
 } & MicroCMSListContent;
 
