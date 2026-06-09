@@ -78,7 +78,7 @@ const setupImageModal = () => {
         <div id="image-modal-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#000]/[0.48] backdrop-blur-md">
           <div class="rounded sm:rounded-none relative px-[48px] pt-[48px] pb-[56px] sm:px-[28px] sm:pt-[28px] sm:pb-[32px] bg-white shadow-lg" tabindex="-1">
             <div style="${inlineStyle}">
-              <img src="${imgSrc}" alt="${imgAlt}" class="max-w-[calc(84vw-96px)] sm:max-w-[calc(84vw-56px)] max-h-[calc(100vh-16vw-104px)] sm:max-h-[calc(100vh-16vw-60px)] block" />
+              <img src="${imgSrc}" alt="${imgAlt}" class="h-[calc(100vh-16vw-104px)] sm:h-[calc(100vh-16vw-60px)] w-auto max-w-[calc(84vw-96px)] sm:max-w-[calc(84vw-56px)] block" />
             </div>
             <button id="close-modal-btn" class="absolute bottom-[24px] sm:bottom-[12px] left-1/2 -translate-x-1/2 leading-none bg-[#FFF] rounded-md text-[12px] sm:text-[10px] font-bold text-[#0079C9] opacity-hover duration">閉じる &times;</button>
           </div>

@@ -1,0 +1,56 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Navigation from "../../../components/organisms/navigation.astro";
+import Pager from "../../../components/organisms/pager.astro";
+import GraphicCard from "../../../components/molecules/graphicCard.astro";
+import { getAllContents } from "../../../libs/microcms";
+import { WORK_FILTERS, PAGE_SIZES } from "../../../libs/constants";
+import { getWorkTypeAvailability, buildPortfolioNavItems } from "../../../libs/portfolio";
+import type { GetStaticPathsOptions } from "astro";
+import type { Icon } from "../../../types";
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+	const res = await getAllContents<Icon>("works", { filters: WORK_FILTERS.TYPOGRAPHY });
+	const typographies = res.contents;
+
+	return paginate(typographies, {
+		pageSize: PAGE_SIZES.TYPOGRAPHIES,
+		params: {},
+		props: {
+			totalCount: res.totalCount,
+			perPage: PAGE_SIZES.TYPOGRAPHIES,
+		},
+	});
+}
+
+const { page, totalCount, perPage } = Astro.props as {
+	page: { data: Icon[] };
+	totalCount: number;
+	perPage: number;
+};
+
+const typographies = page.data;
+
+const availability = await getWorkTypeAvailability();
+---
+
+<Layout
+	title="Typography｜タイポグラフィ｜Portfolio｜みやたノート"
+	breadcrumb={[{ label: "Portfolio｜ポートフォリオ", href: "/portfolio" }, { label: "Typography｜タイポグラフィ" }]}
+>
+	<main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
+		<h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Typography<span class="sm:hidden">｜タイポグラフィ</span></h1>
+		<div class="mt-[48px] sm:mt-[24px]">
+			<Navigation
+				items={buildPortfolioNavItems(availability, "typography")}
+			/>
+		</div>
+		<ul class="js-expand-modal js-em-l grid grid-cols-4 sm:grid-cols-2 gap-[48px] sm:gap-[32px] mt-[80px] sm:mt-[48px]">
+			{typographies.map((typography) => <GraphicCard icon={typography} showExpandBtn={true} />)}
+		</ul>
+		<div class="mt-[48px]">
+			<Pager page={page} totalCount={totalCount} basePath="/portfolio/typography" perPage={perPage} />
+		</div>
+		<div class="mt-[48px] sm:mt-[24px]"></div>
+	</main>
+</Layout>
