@@ -87,8 +87,8 @@ const setupImageModal = () => {
 				: `
         <div id="image-modal-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#000]/[0.48] backdrop-blur-md">
           <div class="relative rounded p-[48px] sm:p-[24px] bg-white bg-[url('/img/focusRectangle.svg')] bg-center bg-contain" tabindex="-1">
-            <div style="${inlineStyle}">
-              <img src="${imgSrc}" alt="${imgAlt}" class="max-w-[calc(84vw-96px)] sm:max-w-[calc(84vw-48px)] max-h-[calc(100vh-16vw-96px)] sm:max-h-[calc(100vh-16vw-48px)] block" />
+            <div class="w-[240px] sm:w-[120px]" style="${inlineStyle}">
+              <img src="${imgSrc}" alt="${imgAlt}" class="max-w-full max-h-[calc(100vh-16vw-96px)] sm:max-h-[calc(100vh-16vw-48px)]" />
             </div>
           </div>
           <button id="close-modal-btn" class="mt-[32px] px-[16px] sm:px-[12px] pt-[8px] sm:pt-[6px] pb-[10px] sm:pb-[8px] rounded-sm leading-none bg-[#FFF] text-[12px] sm:text-[10px] font-bold text-[#0079C9] opacity-hover duration">

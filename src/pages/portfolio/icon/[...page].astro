@@ -3,21 +3,22 @@ import Layout from "../../../layouts/Layout.astro";
 import Navigation from "../../../components/organisms/navigation.astro";
 import Pager from "../../../components/organisms/pager.astro";
 import IconCard from "../../../components/molecules/iconCard.astro";
-import { getContents, getAllContents } from "../../../libs/microcms";
+import { getAllContents } from "../../../libs/microcms";
+import { WORK_FILTERS, PAGE_SIZES } from "../../../libs/constants";
+import { getWorkTypeAvailability, buildPortfolioNavItems } from "../../../libs/portfolio";
 import type { GetStaticPathsOptions } from "astro";
-import type { Icon, Product } from "../../../types";
+import type { Icon } from "../../../types";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-	const ICONS_PER_PAGE = 48;
-	const res = await getAllContents<Icon>("works", { filters: "type[contains]アイコン" });
+	const res = await getAllContents<Icon>("works", { filters: WORK_FILTERS.ICON });
 	const icons = res.contents;
 
 	return paginate(icons, {
-		pageSize: ICONS_PER_PAGE,
+		pageSize: PAGE_SIZES.ICONS,
 		params: {},
 		props: {
 			totalCount: res.totalCount,
-			perPage: ICONS_PER_PAGE,
+			perPage: PAGE_SIZES.ICONS,
 		},
 	});
 }
@@ -30,16 +31,7 @@ const { page, totalCount, perPage } = Astro.props as {
 
 const icons = page.data;
 
-const [websiteCheck, productCheck, graphicCheck, illustCheck] = await Promise.all([
-	getContents<Icon>("works", { limit: 1, filters: "type[contains]ウェブサイト" }),
-	getContents<Icon>("works", { limit: 1, filters: "type[contains]プロダクト" }),
-	getContents<Icon>("works", { limit: 1, filters: "type[contains]グラフィック" }),
-	getContents<Icon>("works", { limit: 1, filters: "type[contains]イラスト" }),
-]);
-const hasWebsite = websiteCheck.totalCount > 0;
-const hasProduct = productCheck.totalCount > 0;
-const hasGraphic = graphicCheck.totalCount > 0;
-const hasIllust = illustCheck.totalCount > 0;
+const availability = await getWorkTypeAvailability();
 ---
 
 <Layout
@@ -50,13 +42,7 @@ const hasIllust = illustCheck.totalCount > 0;
 		<h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Icon<span class="sm:hidden">｜アイコン</span></h1>
 		<div class="mt-[48px] sm:mt-[24px]">
 			<Navigation
-				items={[
-					{ href: "/portfolio/website", label: "Website", tooltip: "ウェブサイト", isActive: hasWebsite },
-					...(hasProduct ? [{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true }] : []),
-					...(hasGraphic ? [{ href: "/portfolio/graphic", label: "Graphic", tooltip: "グラフィック", isActive: true }] : []),
-					...(hasIllust ? [{ href: "/portfolio/illustration", label: "Illustration", tooltip: "イラスト", isActive: true }] : []),
-					{ href: "/portfolio/icon", label: "Icon", tooltip: "アイコン", isActive: true, current: true },
-				]}
+				items={buildPortfolioNavItems(availability, "icon")}
 			/>
 		</div>
 		<ul class="js-expand-modal grid grid-cols-8 sm:grid-cols-3 gap-[48px] sm:gap-[32px] mt-[80px] sm:mt-[48px]">

@@ -3,21 +3,22 @@ import Layout from "../../../layouts/Layout.astro";
 import Navigation from "../../../components/organisms/navigation.astro";
 import Pager from "../../../components/organisms/pager.astro";
 import GraphicCard from "../../../components/molecules/graphicCard.astro";
-import { getContents, getAllContents } from "../../../libs/microcms";
+import { getAllContents } from "../../../libs/microcms";
+import { WORK_FILTERS, PAGE_SIZES } from "../../../libs/constants";
+import { getWorkTypeAvailability, buildPortfolioNavItems } from "../../../libs/portfolio";
 import type { GetStaticPathsOptions } from "astro";
-import type { Icon, Product } from "../../../types";
+import type { Icon } from "../../../types";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
-	const GRAPHICS_PER_PAGE = 24;
-	const res = await getAllContents<Icon>("works", { filters: "type[contains]グラフィック" });
+	const res = await getAllContents<Icon>("works", { filters: WORK_FILTERS.GRAPHIC });
 	const graphics = res.contents;
 
 	return paginate(graphics, {
-		pageSize: GRAPHICS_PER_PAGE,
+		pageSize: PAGE_SIZES.GRAPHICS,
 		params: {},
 		props: {
 			totalCount: res.totalCount,
-			perPage: GRAPHICS_PER_PAGE,
+			perPage: PAGE_SIZES.GRAPHICS,
 		},
 	});
 }
@@ -30,16 +31,7 @@ const { page, totalCount, perPage } = Astro.props as {
 
 const graphics = page.data;
 
-const [websiteCheck, productCheck, illustCheck, iconCheck] = await Promise.all([
-	getContents<Icon>("works", { limit: 1, filters: "type[contains]ウェブサイト" }),
-	getContents<Icon>("works", { limit: 1, filters: "type[contains]プロダクト" }),
-	getContents<Icon>("works", { limit: 1, filters: "type[contains]イラスト" }),
-	getContents<Icon>("works", { limit: 1, filters: "type[contains]アイコン" }),
-]);
-const hasWebsite = websiteCheck.totalCount > 0;
-const hasProduct = productCheck.totalCount > 0;
-const hasIllust = illustCheck.totalCount > 0;
-const hasIcon = iconCheck.totalCount > 0;
+const availability = await getWorkTypeAvailability();
 ---
 
 <Layout
@@ -50,13 +42,7 @@ const hasIcon = iconCheck.totalCount > 0;
 		<h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Graphic<span class="sm:hidden">｜グラフィック</span></h1>
 		<div class="mt-[48px] sm:mt-[24px]">
 			<Navigation
-				items={[
-					{ href: "/portfolio/website", label: "Website", tooltip: "ウェブサイト", isActive: hasWebsite },
-					...(hasProduct ? [{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true }] : []),
-					{ href: "/portfolio/graphic", label: "Graphic", tooltip: "グラフィック", isActive: true, current: true },
-					...(hasIllust ? [{ href: "/portfolio/illustration", label: "Illustration", tooltip: "イラスト", isActive: true }] : []),
-					...(hasIcon ? [{ href: "/portfolio/icon", label: "Icon", tooltip: "アイコン", isActive: true }] : []),
-				]}
+				items={buildPortfolioNavItems(availability, "graphic")}
 			/>
 		</div>
 		<ul class="js-expand-modal js-em-l grid grid-cols-4 sm:grid-cols-2 gap-[48px] sm:gap-[32px] mt-[80px] sm:mt-[48px]">

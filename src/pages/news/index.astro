@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import Icon from "../../components/atoms/icon.astro";
 import { getNews } from "../../libs/notion";
 import { formatDate } from "../../utils/date";
+import { SITE_ORIGIN } from "../../libs/constants";
 
 const news = await getNews();
 ---
@@ -19,7 +20,7 @@ const news = await getNews();
 		<ul class="mt-[64px] sm:mt-[40px] flex flex-col">
 			{
 				news.map((item) => {
-					const isExternal = !!item.url && !item.url.startsWith("https://shumiyata.com/");
+					const isExternal = !!item.url && !item.url.startsWith(SITE_ORIGIN);
 					const href = item.url || `/news/${item.id}`;
 					return (
 						<li class="border-b border-[#eee] first:border-t">

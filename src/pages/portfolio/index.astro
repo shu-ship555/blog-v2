@@ -6,21 +6,20 @@ import IconCard from "../../components/molecules/iconCard.astro";
 import GraphicCard from "../../components/molecules/graphicCard.astro";
 import ProductCard from "../../components/molecules/productCard.astro";
 import { getContents } from "../../libs/microcms";
+import { WORK_FILTERS } from "../../libs/constants";
+import { buildPortfolioNavItems } from "../../libs/portfolio";
 import type { Icon, Product } from "../../types";
 
-const iconRes = await getContents<Icon>("works", { limit: 8, filters: "type[contains]アイコン" });
-const icons = iconRes.contents;
-
-const graphicRes = await getContents<Icon>("works", { limit: 4, filters: "type[contains]グラフィック" });
-const graphics = graphicRes.contents;
-
-const illustRes = await getContents<Icon>("works", { limit: 4, filters: "type[contains]イラスト" });
-const illusts = illustRes.contents;
-
-const [websiteFetch, productFetch] = await Promise.all([
-	getContents<Product>("works", { limit: 4, filters: "type[contains]ウェブサイト" }),
-	getContents<Product>("works", { limit: 4, filters: "type[contains]プロダクト" }),
+const [iconRes, graphicRes, illustRes, websiteFetch, productFetch] = await Promise.all([
+	getContents<Icon>("works", { limit: 8, filters: WORK_FILTERS.ICON }),
+	getContents<Icon>("works", { limit: 4, filters: WORK_FILTERS.GRAPHIC }),
+	getContents<Icon>("works", { limit: 4, filters: WORK_FILTERS.ILLUSTRATION }),
+	getContents<Product>("works", { limit: 4, filters: WORK_FILTERS.WEBSITE }),
+	getContents<Product>("works", { limit: 4, filters: WORK_FILTERS.PRODUCT }),
 ]);
+const icons = iconRes.contents;
+const graphics = graphicRes.contents;
+const illusts = illustRes.contents;
 const websites: Product[] = websiteFetch.contents;
 const products: Product[] = productFetch.contents;
 
@@ -39,13 +38,7 @@ const hasIcon = icons.length > 0;
 		<h1 class="text-[32px] sm:text-[24px] font-black leading-none tracking-[0.04em]">Portfolio<span class="sm:hidden">｜ポートフォリオ</span></h1>
 		<div class="mt-[48px] sm:mt-[24px]">
 			<Navigation
-				items={[
-					{ href: "/portfolio/website", label: "Website", tooltip: "ウェブサイト", isActive: hasWebsite },
-					...(hasProduct ? [{ href: "/portfolio/product", label: "Product", tooltip: "プロダクト", isActive: true }] : []),
-					...(hasGraphic ? [{ href: "/portfolio/graphic", label: "Graphic", tooltip: "グラフィック", isActive: true }] : []),
-					...(hasIllust ? [{ href: "/portfolio/illustration", label: "Illustration", tooltip: "イラスト", isActive: true }] : []),
-					...(hasIcon ? [{ href: "/portfolio/icon", label: "Icon", tooltip: "アイコン", isActive: true }] : []),
-				]}
+				items={buildPortfolioNavItems({ hasWebsite, hasProduct, hasGraphic, hasIllust, hasIcon })}
 			/>
 		</div>
 

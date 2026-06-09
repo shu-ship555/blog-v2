@@ -5,9 +5,10 @@ import IconCard from "../../components/molecules/iconCard.astro";
 import WorkImageGridItem from "../../components/molecules/workImageGridItem.astro";
 import ViewMoreButton from "../../components/atoms/viewMoreButton.astro";
 import { getContents } from "../../libs/microcms";
+import { WORK_FILTERS } from "../../libs/constants";
 import type { Icon, Image } from "../../types";
 
-const iconRes = await getContents<Icon>("works", { limit: 8, filters: "type[contains]アイコン" });
+const iconRes = await getContents<Icon>("works", { limit: 8, filters: WORK_FILTERS.ICON });
 const icons = iconRes.contents;
 
 const imageRes = await getContents<Image>("images", {

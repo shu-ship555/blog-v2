@@ -4,6 +4,7 @@ import NoteSlider from "../components/organisms/noteSlider.astro";
 import ProductCard from "../components/molecules/productCard.astro";
 import Icon from "../components/atoms/icon.astro";
 import { getAllContents, getBlogs, getContents } from "../libs/microcms";
+import { WORK_FILTERS, SITE_ORIGIN } from "../libs/constants";
 import type { Blog, Category, Tag, MicroCMSResponse, Product } from "../types";
 import Card from "../components/molecules/card.astro";
 import CategoryTagSidebar from "../components/organisms/categoryTagSidebar.astro";
@@ -21,7 +22,7 @@ const [allBlogsResponse, allCategoriesResponse, allTagsResponse, productsRespons
 	getAllContents<Blog>("blogs"),
 	getAllContents<Category>("categories"),
 	getAllContents<Tag>("tags"),
-	getContents<Product>("works", { filters: "type[contains]プロダクト[or]type[contains]ウェブサイト" }),
+	getContents<Product>("works", { filters: `${WORK_FILTERS.PRODUCT}[or]${WORK_FILTERS.WEBSITE}` }),
 	getNews(),
 ]);
 
@@ -57,7 +58,7 @@ const tagCounts = getCountedTags(tags, allBlogs);
 					<div class="swiper-wrapper">
 						{
 							recentNews.map((item) => {
-								const isExternal = !!item.url && !item.url.startsWith("https://shumiyata.com/");
+								const isExternal = !!item.url && !item.url.startsWith(SITE_ORIGIN);
 								const href = item.url || `/news/${item.id}`;
 								return (
 									<div class="swiper-slide">

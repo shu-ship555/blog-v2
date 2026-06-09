@@ -2,6 +2,7 @@
 import Layout from "../../../layouts/Layout.astro";
 import BlogListByFilter from "../../../components/organisms/blogListByFilter.astro";
 import { getCategoryList, getAllContents } from "../../../libs/microcms";
+import { PAGE_SIZES } from "../../../libs/constants";
 import type { Blog, Category } from "../../../types";
 import type { GetStaticPathsOptions } from "astro";
 import { getCategoryAndTagCounts } from "../../../utils/countingUtils";
@@ -16,7 +17,7 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
 		const blogsInThisCategory = allBlogs.filter((blog) => blog.category.id === category.id);
 
 		return paginate(blogsInThisCategory, {
-			pageSize: 10,
+			pageSize: PAGE_SIZES.BLOGS,
 			params: { slug: category.slug },
 			props: {
 				category: category,

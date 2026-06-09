@@ -5,12 +5,13 @@ import Card from "../../components/molecules/card.astro";
 import CategoryTagSidebar from "../../components/organisms/categoryTagSidebar.astro";
 import type { GetStaticPathsOptions } from "astro";
 import { getAllContents } from "../../libs/microcms";
+import { PAGE_SIZES } from "../../libs/constants";
 import type { Blog } from "../../types";
 import { getCategoryAndTagCounts } from "../../utils/countingUtils";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const allBlogsResponse = await getAllContents<Blog>("blogs");
-  return paginate(allBlogsResponse.contents, { pageSize: 10 });
+  return paginate(allBlogsResponse.contents, { pageSize: PAGE_SIZES.BLOGS });
 }
 
 const { page } = Astro.props;
