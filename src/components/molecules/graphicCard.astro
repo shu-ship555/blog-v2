@@ -12,13 +12,16 @@ const { icon, showExpandBtn = false } = Astro.props;
 
 <li class="relative text-center">
 	<div class="aspect-square bg-[#FAFAFA] flex items-center justify-center p-[16px] sm:p-[12px] overflow-hidden">
-		<div class="expand-img ei-s w-full h-full flex items-center justify-center duration">
-			<img src={icon.image.url} alt={icon.title} class="max-w-full max-h-full object-contain" />
+		<div class="flex items-center justify-center w-full h-full expand-img ei-s duration">
+			<img src={icon.image.url} alt={icon.title} class="object-contain max-w-full max-h-full" />
 		</div>
 	</div>
-	<p class="whitespace-nowrap mt-[12px] text-[12px] sm:text-[10px] leading-none tracking-[0.06em] font-black">
+	<p class="whitespace-nowrap mt-[14px] text-[12px] sm:text-[10px] leading-none tracking-[0.06em] font-black">
 		{icon.title}
 	</p>
+			{icon.enTitle && (
+						<p class="whitespace-nowrap mt-[6px] bracket text-[12px] sm:text-[10px] leading-none tracking-[0.06em] font-bold">{icon.enTitle}</p>
+		)}
 {
 		showExpandBtn && (
 			<button class="expand-btn bg-[#F8F8F8] text-[12px] sm:text-[10px] font-bold leading-none tracking-[0.04em] pt-[4px] pb-[6px] mt-[12px] block w-full text-[#0079C9] opacity-hover duration">
