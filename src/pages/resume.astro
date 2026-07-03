@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import ContactButton from "../components/atoms/contactButton.astro";
+import Button from "../components/atoms/button.astro";
 import Icon from "../components/atoms/icon.astro";
 import WorkProjectCard from "../components/atoms/workProjectCard.astro";
 import { getProfile, getWorkHistory, getSelfPR, getCareerPlan, getAccounts, getSkills, getQualifications } from "../libs/notion";
@@ -454,18 +454,21 @@ const toc: TocItem[] = [
 				<!-- Contact CTA -->
 				<section class="mt-[80px] sm:mt-[48px] scroll-mt-[120px] sm:scroll-mt-[80px]">
 					<div
-						class="bg-[#EBF7FF] rounded-2xl px-[64px] sm:px-[28px] py-[56px] sm:py-[40px] flex flex-col items-center sm:items-start"
+						class="bg-[#EBF7FF] rounded-2xl px-[64px] sm:px-[28px] py-[56px] sm:py-[40px] flex flex-col items-start"
 					>
 						<h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-bold text-center">
 							Contact｜お問い合わせ
 						</h2>
 						<p
-							class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] text-center sm:text-left mt-[16px] sm:mt-[12px]"
+							class="text-[16px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] text-left mt-[16px] sm:mt-[12px]"
 						>
-							お仕事のご依頼・ご質問など、お気軽にご連絡ください。<br class="sm:hidden" />
+							お仕事のご依頼・ご質問など、お気軽にご連絡ください。</br>
 							内容を確認の上、2〜3営業日以内にご連絡いたします。
 						</p>
-						<ContactButton class="text-center sm:w-full mt-[32px] sm:mt-[24px]" />
+						<div class="flex gap-[24px] sm:flex-col-reverse sm:gap-[12px] mt-[32px] sm:mt-[24px] w-full">
+						<Button variant="outline" text="料金料をみる" href="/price" class="text-center sm:w-full" />
+						<Button class="text-center sm:w-full" />
+						</div>
 					</div>
 				</section>
 			</div>

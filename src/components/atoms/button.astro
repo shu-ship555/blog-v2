@@ -1,0 +1,30 @@
+---
+export interface Props {
+	variant?: "fill" | "outline" | "fixed";
+	class?: string;
+	text?: string;
+	href?: string;
+}
+
+const {
+	variant = "fill",
+	class: extraClass = "",
+	text = 'Contact<span class="bracket ml-[0.4em]">お問い合わせ</span>',
+	href = "/contact",
+} = Astro.props;
+
+const baseClass =
+	"font-bold text-[16px] sm:text-[14px] tracking-[0.06em] rounded-lg px-[48px] sm:px-[32px] pt-[16px] pb-[18px] sm:pt-[12px] sm:pb-[14px] duration opacity-hover";
+
+const colorClass =
+	variant === "outline" ? "bg-[#FAFAFA] text-[#0079C9] border-2 border-[#0079C9]" : "bg-[#0079C9] text-[#FFF]";
+
+const inlineClass = `inline-block whitespace-nowrap shrink-0 ${colorClass} ${baseClass}`;
+const fixedClass = `fixed bottom-[40px] right-[40px] sm:bottom-[24px] sm:left-1/2 sm:right-auto sm:w-[calc(100%-48px)] sm:max-w-[430px] sm:rounded-lg sm:py-[16px] sm:text-center z-[100] block opacity-0 pointer-events-none translate-y-[8px] sm:-translate-x-1/2 sm:translate-y-[24px] transition-[opacity,transform] duration-300 ease-in-out [&.is-visible]:opacity-100 [&.is-visible]:pointer-events-auto [&.is-visible]:translate-y-0 [&.is-visible:hover]:opacity-[0.64] ${colorClass} ${baseClass}`;
+
+const variantClass = variant === "fixed" ? fixedClass : inlineClass;
+const idAttr = variant === "fixed" ? "fixedContactBtn" : "heroContactBtn";
+const finalClass = `${variantClass} ${extraClass}`.trim();
+---
+
+<a id={idAttr} href={href} class={finalClass} aria-hidden={variant === "fixed" ? "true" : undefined} set:html={text} />

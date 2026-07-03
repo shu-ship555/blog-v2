@@ -25,7 +25,12 @@ const STEPS = ['入力', '確認', '完了'];
     </h1>
     <p class="text-[16px] sm:text-[14px] text-[#666] leading-[1.8] tracking-[0.06em] mt-[16px] sm:mt-[12px]">
       お仕事のご依頼、ご質問などお気軽にどうぞ。<br />
-      内容を確認の上、2〜3営業日以内にご連絡いたします。
+      内容を確認の上、2〜3営業日以内にご連絡いたします。<br />
+      制作費用の目安は&nbsp;<a href="/price"
+				class="relative opacity-hover duration whitespace-nowrap text-[#0079C9]"
+				>料金表<span class="w-full absolute left-1/2 -translate-x-1/2 top-5 sm:top-4 h-[1px] bg-[#0079C9]"
+				></span></a
+			>&nbsp;をご覧ください。
     </p>
 
     <!-- ステップインジケーター -->
@@ -141,7 +146,7 @@ const STEPS = ['入力', '確認', '完了'];
           <div class="mt-[40px] sm:mt-[32px]">
             <button
               type="submit"
-              class="bg-[#0079C9] text-[#FFF] font-bold text-[16px] sm:text-[14px] tracking-[0.06em] rounded-lg px-[48px] sm:px-[32px] py-[16px] sm:py-[12px] duration hover:bg-[#0079C9]/[0.8]"
+              class="bg-[#0079C9] text-[#FFF] font-bold text-[16px] sm:text-[14px] tracking-[0.06em] rounded-lg px-[48px] sm:px-[32px] py-[16px] sm:py-[12px] duration opacity-hover"
             >
               確認する
             </button>
@@ -190,7 +195,7 @@ const STEPS = ['入力', '確認', '完了'];
           <button
             id="submitBtn"
             type="button"
-            class="bg-[#0079C9] text-[#FFF] font-bold text-[16px] sm:text-[14px] tracking-[0.06em] rounded-lg min-w-[180px] sm:min-w-[140px] px-[48px] sm:px-[32px] py-[16px] sm:py-[12px] duration hover:bg-[#0079C9]/[0.8] disabled:opacity-[0.48] disabled:cursor-not-allowed  leading-none"
+            class="bg-[#0079C9] text-[#FFF] font-bold text-[16px] sm:text-[14px] tracking-[0.06em] rounded-lg min-w-[180px] sm:min-w-[140px] px-[48px] sm:px-[32px] py-[16px] sm:py-[12px] duration opacity-hover disabled:opacity-[0.48] disabled:cursor-not-allowed  leading-none"
           >
             送信する
           </button>

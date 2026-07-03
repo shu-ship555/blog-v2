@@ -291,6 +291,8 @@ const setupScrollHeader = () => {
 		locked = true;
 		setTimeout(() => {
 			locked = false;
+			// ロック中にスクロールが止まるとイベントが来ないため、確定位置で再判定する
+			update();
 		}, LOCK_MS);
 		header.classList.toggle("is-scrolled", isScrolled);
 		if (fixedBtn) {

@@ -8,7 +8,7 @@ import { WORK_FILTERS, SITE_ORIGIN } from "../libs/constants";
 import type { Blog, Category, Tag, MicroCMSResponse, Product } from "../types";
 import Card from "../components/molecules/card.astro";
 import CategoryTagSidebar from "../components/organisms/categoryTagSidebar.astro";
-import ContactButton from "../components/atoms/contactButton.astro";
+import Button from "../components/atoms/button.astro";
 import { getCountedCategories, getCountedTags } from "../utils/countingUtils";
 import { getNews } from "../libs/notion";
 import { formatDate } from "../utils/date";
@@ -49,7 +49,7 @@ const tagCounts = getCountedTags(tags, allBlogs);
 						<span class="bracket whitespace-nowrap"><span class="hashtag">フロントエンドエンジニア</span></span> <span class="bracket whitespace-nowrap"><span class="hashtag">デザイナー</span></span> <span class="bracket whitespace-nowrap"><span class="hashtag">ミステリー</span></span> <span class="bracket whitespace-nowrap"><span class="hashtag">双極性障害</span></span><br>このサイトは&nbsp;<a href="/resume" class="text-[#0079C9] hover:opacity-[0.64] duration">ミヤタシュウ</a>&nbsp;のポートフォリオ兼ブログです。<br class="sm:hidden" />フロントエンドエンジニア兼デザイナーとしての思想や日々の開発で感じたことを書いています。<br>制作物に関する技術的な話は&nbsp;<a href="https://zenn.dev/fune" target="_blank" class="relative  hover:opacity-[0.64] duration">Zenn<span class="w-full absolute left-1/2 -translate-x-1/2 top-5 sm:top-4 h-[1px] bg-[#666]"></span></a>&nbsp;に、趣味のミステリーや、双極性障害の日常は&nbsp;<a href="https://note.com/miyata_note" target="_blank" class="relative hover:opacity-[0.64] duration">note<span class="w-full absolute left-1/2 -translate-x-1/2 top-5 sm:top-4 h-[1px] bg-[#666]"></span></a>&nbsp;に書いています。
 					</p>
 				</div>
-				<ContactButton variant="hero" />
+				<Button />
 			</div>
 		</section>
 		{recentNews.length > 0 ? <section class="mt-[48px] sm:mt-[32px] bg-[#FAFAFA]">
@@ -156,7 +156,7 @@ const tagCounts = getCountedTags(tags, allBlogs);
 		</section>
 	</main>
 
-	<ContactButton variant="fixed" />
+	<Button variant="fixed" />
 
 	<div id="js-splash" class="fixed inset-0 z-[200] bg-[#0079C9] flex items-center justify-center">
 		<span id="js-splash-text" class="text-[64px] sm:text-[40px] font-black font-en tracking-[0.04em] text-white"></span>
