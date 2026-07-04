@@ -42,17 +42,23 @@ const PLANS = [
 			},
 			{
 				name: "イラスト制作",
-				price: "¥20,000〜",
+				price: "¥15,000〜",
 				desc: "Webサイトや資料に使用するイラストを1点から制作します。",
 			},
 			{
 				name: "アイコン制作",
-				price: "¥10,000〜",
+				price: "¥5,000〜",
 				desc: "アプリ・Webサイト用のアイコンを1点から制作します。セット割引もご相談ください。",
 			},
 		],
 	},
 ];
+
+// 元の価格文字列から半額の表記を生成する（例: "¥300,000〜" → "¥150,000〜"）
+const halfPrice = (price: string) =>
+	price.replace(/[\d,]+/, (m) =>
+		(Number(m.replaceAll(",", "")) / 2).toLocaleString("en-US"),
+	);
 
 const NOTES = [
 	"表示価格はすべて税別・目安です。内容やスケジュールにより変動しますので、正式なお見積りはお問い合わせ後にご提示します。",
@@ -74,6 +80,10 @@ const NOTES = [
 			ご依頼にかかる制作費用の目安をご案内します。<br />
 			内容に応じて柔軟にお見積りしますので、まずはお気軽にご相談ください。
 		</p>
+		<p class="bg-[#EBF7FF] px-[24px] pt-[24px] pb-[28px] sm:px-[16px] sm:pt-[16px] sm:pb-[20px] text-[12px] sm:text-[10px] rounded-md font-bold text-[#0079C9] tracking-[0.06em] leading-[1.8] mt-[16px] sm:mt-[12px]">
+			<span class="bracket">キャンペーン</span><br>
+			制作実績として本サイトへの掲載をご了承いただける場合は、通常価格の半額でお受けしています。
+		</p>
 
 		<div class="mt-[64px] sm:mt-[40px] flex flex-col gap-[48px] sm:gap-[36px]">
 			{
@@ -88,9 +98,16 @@ const NOTES = [
 									<dt class="text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333] shrink-0 w-[200px] sm:w-auto">
 										{item.name}
 									</dt>
-									<dd class="flex gap-[24px] sm:flex-col sm:gap-[4px] flex-1">
-										<span class="text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#0079C9] shrink-0 w-[120px] sm:w-auto">
-											{item.price}
+									<dd class="flex gap-[24px] sm:flex-col sm:gap-[12px] flex-1 sm:mt-[8px]">
+										<span class="flex-col tracking-[0.06em] shrink-0 w-[200px] sm:w-auto flex gap-[10px] sm:gap-[8px]">
+											<span class="flex flex-col gap-[4px]">
+												<span class="text-[10px] font-bold text-[#333] leading-none">通常価格</span>
+												<span class="text-[16px] sm:text-[14px] font-bold text-[#333] leading-none">{item.price}</span>
+											</span>
+											<span class="flex flex-col gap-[4px]">
+												<span class="text-[10px] font-bold text-[#0079C9] leading-none">実績掲載OKの場合</span>
+												<span class="text-[16px] sm:text-[14px] font-bold text-[#0079C9] leading-none">{halfPrice(item.price)}</span>
+											</span>
 										</span>
 										<span class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8]">
 											{item.desc}
@@ -112,7 +129,7 @@ const NOTES = [
 			<ul class="mt-[16px] sm:mt-[12px] flex flex-col gap-[8px] sm:gap-[6px]">
 				{
 					NOTES.map((note) => (
-						<li class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] pl-[16px] relative before:content-['・'] before:absolute before:left-0">
+						<li class="text-[14px] sm:text-[12px] text-[#666] tracking-[0.06em] leading-[1.8] pl-[14px] sm:pl-[10px] relative before:content-['・'] before:absolute before:left-0">
 							{note}
 						</li>
 					))

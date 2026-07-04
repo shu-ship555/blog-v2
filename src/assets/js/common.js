@@ -280,35 +280,21 @@ const setupScrollHeader = () => {
 	const fixedBtn = document.getElementById("fixedContactBtn");
 	if (!header) return;
 
-	const getThreshold = () => (window.innerWidth >= 640 ? 108 : 200);
-	const HYSTERESIS = 8;
-	const LOCK_MS = 640; // CSS transition is 240ms; lock longer to absorb sticky scroll correction
+	// ヘッダー縮小で高さが変わると（PC: 44px / SP: 24px）、スクロールアンカリングが
+	// scrollY を差分だけ補正する。縮小と復帰のしきい値の間隔を高さの変化量より
+	// 広く取ることで、境界付近で止めても縮小・復帰を繰り返さないようにする。
+	const getThresholds = () => (window.innerWidth >= 640 ? { shrink: 108, expand: 48 } : { shrink: 200, expand: 160 });
 	let isScrolled = false;
-	let locked = false;
 
-	const apply = (newState) => {
-		isScrolled = newState;
-		locked = true;
-		setTimeout(() => {
-			locked = false;
-			// ロック中にスクロールが止まるとイベントが来ないため、確定位置で再判定する
-			update();
-		}, LOCK_MS);
+	const update = () => {
+		const { shrink, expand } = getThresholds();
+		const next = isScrolled ? window.scrollY >= expand : window.scrollY >= shrink;
+		if (next === isScrolled) return;
+		isScrolled = next;
 		header.classList.toggle("is-scrolled", isScrolled);
 		if (fixedBtn) {
 			fixedBtn.classList.toggle("is-visible", isScrolled);
 			fixedBtn.setAttribute("aria-hidden", isScrolled ? "false" : "true");
-		}
-	};
-
-	const update = () => {
-		if (locked) return;
-		const threshold = getThreshold();
-		const scrollY = window.scrollY;
-		if (!isScrolled && scrollY >= threshold + HYSTERESIS) {
-			apply(true);
-		} else if (isScrolled && scrollY < threshold - HYSTERESIS) {
-			apply(false);
 		}
 	};
 
