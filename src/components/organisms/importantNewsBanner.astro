@@ -16,11 +16,11 @@ const href = item.url || `/news/${item.id}`;
 		rel={isExternal ? "noopener noreferrer" : undefined}
 		class="inner flex items-center gap-[12px] sm:gap-[8px] py-[12px] sm:py-[10px] opacity-hover duration"
 	>
-		<span class="shrink-0 text-[12px] sm:text-[10px] font-bold text-[#0079C9] tracking-[0.06em] whitespace-nowrap">
+		<span class="shrink-0 text-[12px] sm:text-[10px] font-bold text-[#0079C9] tracking-[0.06em] whitespace-nowrap leading-none">
 			お知らせ
 		</span>
-		<span class="w-px h-[12px] bg-[#0079C9] opacity-30 shrink-0"></span>
-		<p class="text-[14px] sm:text-[12px] font-bold text-[#333] tracking-[0.04em] leading-[1.48] line-clamp-1 flex-1 min-w-0">
+		<span class="w-[1px] h-[12px] sm:h-[10px] bg-[#0079C9] shrink-0"></span>
+		<p class="text-[12px] sm:text-[10px] font-bold text-[#333] tracking-[0.06em] line-clamp-1 flex-1 min-w-0  leading-none">
 			{item.title}
 		</p>
 		{isExternal ?
