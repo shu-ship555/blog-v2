@@ -123,6 +123,23 @@ export type Product = {
 	purpose: boolean;
 } & MicroCMSListContent;
 
+// works エンドポイントの全作品タイプを横断して扱うための型
+// （Webサイト・プロダクトは url、グラフィック等の画像作品は image を持つ）
+export type Work = {
+	title: string;
+	type: string[];
+	description?: string;
+	url?: string;
+	purpose?: boolean;
+	tag?: ImageTag[];
+	enTitle?: string;
+	image?: {
+		url: string;
+		width: number;
+		height: number;
+	};
+} & MicroCMSListContent;
+
 // ============================================
 // カウント付きの派生型（サイドバー等で使用）
 // ============================================

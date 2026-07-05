@@ -1,0 +1,62 @@
+---
+import Icon from "../atoms/icon.astro";
+import type { Work } from "../../types";
+
+export interface Props {
+	work: Work;
+}
+
+const { work } = Astro.props;
+
+// 作品タイプごとの表示ラベルと、画像作品のリンク先（ポートフォリオの各一覧ページ）
+const TYPE_META: Record<string, { label: string; href: string }> = {
+	ウェブサイト: { label: "Webサイト", href: "/portfolio/website" },
+	プロダクト: { label: "プロダクト", href: "/portfolio/product" },
+	グラフィック: { label: "グラフィック", href: "/portfolio/graphic" },
+	タイポグラフィ: { label: "タイポグラフィ", href: "/portfolio/typography" },
+	イラスト: { label: "イラスト", href: "/portfolio/illustration" },
+	アイコン: { label: "アイコン", href: "/portfolio/icon" },
+};
+
+const typeKey = work.type.find((t) => t in TYPE_META);
+const meta = typeKey ? TYPE_META[typeKey] : { label: "作品", href: "/portfolio" };
+const isExternal = !!work.url;
+const href = work.url ?? meta.href;
+---
+
+<li>
+	<a
+		href={href}
+		target={isExternal ? "_blank" : undefined}
+		rel={isExternal ? "noopener noreferrer" : undefined}
+		class="block opacity-hover duration"
+	>
+		<div class="w-full aspect-[4/3] rounded-md sm:rounded-sm bg-[#FAFAFA] overflow-hidden relative">
+			{
+				work.image ? (
+					<div class="absolute inset-0 flex items-center justify-center p-[20px] sm:p-[16px]">
+						<img src={work.image.url} alt={work.title} loading="lazy" class="object-contain max-w-full max-h-full" />
+					</div>
+				) : work.url ? (
+					<iframe
+						src={work.url}
+						title={work.title}
+						class="w-[200%] h-[200%] origin-top-left scale-50 pointer-events-none border-none"
+						loading="lazy"
+						sandbox="allow-scripts allow-same-origin"
+						tabindex="-1"
+					/>
+				) : null
+			}
+		</div>
+		<div class="mt-[12px] sm:mt-[8px]">
+			<span class="inline-block text-[11px] sm:text-[10px] font-medium leading-[1] tracking-[0.06em] px-[10px] py-[5px] rounded-sm whitespace-nowrap bg-[#EBF7FF] text-[#0079C9]">
+				{meta.label}
+			</span>
+			<h3 class="flex items-center gap-[4px] text-[14px] sm:text-[12px] font-bold leading-[1.4] tracking-[0.04em] text-[#333] mt-[8px] sm:mt-[6px]">
+				<span class="line-clamp-1">{work.title}</span>
+				{isExternal && <Icon filename="icon_open_in_new" color="#333" customClass="w-[14px] h-[14px] sm:w-[12px] sm:h-[12px] shrink-0" />}
+			</h3>
+		</div>
+	</a>
+</li>

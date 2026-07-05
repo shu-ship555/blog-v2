@@ -1,11 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import NoteSlider from "../components/organisms/noteSlider.astro";
-import ProductCard from "../components/molecules/productCard.astro";
+import WorkCard from "../components/molecules/workCard.astro";
 import Icon from "../components/atoms/icon.astro";
 import { getAllContents, getBlogs, getContents } from "../libs/microcms";
-import { WORK_FILTERS, SITE_ORIGIN } from "../libs/constants";
-import type { Blog, Category, Tag, MicroCMSResponse, Product } from "../types";
+import { SITE_ORIGIN } from "../libs/constants";
+import type { Blog, Category, Tag, MicroCMSResponse, Work } from "../types";
 import Card from "../components/molecules/card.astro";
 import CategoryTagSidebar from "../components/organisms/categoryTagSidebar.astro";
 import Button from "../components/atoms/button.astro";
@@ -18,11 +18,12 @@ const recentBlogsResponse: MicroCMSResponse<Blog> = await getBlogs({
 	offset: 0,
 });
 
-const [allBlogsResponse, allCategoriesResponse, allTagsResponse, productsResponse, allNews] = await Promise.all([
+const [allBlogsResponse, allCategoriesResponse, allTagsResponse, worksResponse, allNews] = await Promise.all([
 	getAllContents<Blog>("blogs"),
 	getAllContents<Category>("categories"),
 	getAllContents<Tag>("tags"),
-	getContents<Product>("works", { filters: `${WORK_FILTERS.PRODUCT}[or]${WORK_FILTERS.WEBSITE}` }),
+	// 全作品タイプを横断して最新5件（デフォルトの公開日降順）
+	getContents<Work>("works", { limit: 5 }),
 	getNews(),
 ]);
 
@@ -31,7 +32,7 @@ const allBlogs = allBlogsResponse.contents;
 const categories = allCategoriesResponse.contents;
 const tags = allTagsResponse.contents;
 
-const products = productsResponse.contents;
+const works = worksResponse.contents;
 const recentNews = allNews.slice(0, 3);
 
 const categoryCounts = getCountedCategories(categories, allBlogs);
@@ -101,11 +102,11 @@ const tagCounts = getCountedTags(tags, allBlogs);
 		<hr class="mt-[80px] sm:mt-[48px] border-b border-[#eee]">
 		<section class="mt-[80px] sm:mt-[48px]">
 			<h2 class="text-[32px] sm:text-[24px] leading-none tracking-[0.04em] font-bold">Portfolio｜ポートフォリオ</h2>
-			<p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">個人で手がけた制作物をまとめています。</p>
-			<ul class="grid grid-cols-3 gap-[32px] sm:grid-cols-1 sm:gap-[24px] mt-[40px] sm:mt-[20px]">
+			<p class="text-[16px] sm:text-[14px] text-[#666] tracking-[0.06em] leading-[1.6] mt-[12px] sm:mt-[8px]">個人で手がけた制作物のうち、最新のものを掲載しています。</p>
+			<ul class="grid grid-cols-5 gap-[24px] sm:grid-cols-2 sm:gap-x-[16px] sm:gap-y-[24px] mt-[40px] sm:mt-[20px]">
 				{
-					products.map((product) => (
-						<ProductCard product={product} />
+					works.map((work) => (
+						<WorkCard work={work} />
 					))
 				}
 			</ul>
