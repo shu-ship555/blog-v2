@@ -1,0 +1,61 @@
+---
+import Icon from "../atoms/icon.astro";
+import { getProfile, getAccounts } from "../../libs/notion";
+
+const [profile, accounts] = await Promise.all([getProfile(), getAccounts()]);
+---
+
+<section class="mt-[120px] sm:mt-[64px] border-t border-[#eee] pt-[120px] sm:pt-[64px]">
+	<h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">
+		About me&nbsp;<span class="font-normal bracket">私について</span>
+	</h2>
+	<div class="mt-[40px] sm:mt-[24px]">
+		<div class="flex items-center gap-[28px] sm:gap-[20px]">
+			{
+				profile.avatarUrl && (
+					<img
+						src={profile.avatarUrl}
+						alt={profile.nameJp || profile.nameEn}
+						class="w-[96px] aspect-square sm:w-[64px] rounded-full object-cover shrink-0"
+					/>
+				)
+			}
+			<div>
+				<p class="text-[24px] sm:text-[16px] font-black font-en leading-none tracking-[0.04em]">{profile.nameEn}｜{profile.nameJp}</p>
+				{
+					profile.tagline && (
+						<p class="text-[14px] sm:text-[12px] font-black font-en tracking-[0.06em] mt-[10px] sm:mt-[8px]">
+							{profile.tagline}
+						</p>
+					)
+				}
+			</div>
+		</div>
+		{
+			profile.bio && (
+				<p class="text-[16px] sm:text-[14px] text-[#333] leading-[1.8] tracking-[0.06em] mt-[20px] sm:mt-[16px] max-w-[560px]">
+					{profile.bio}
+				</p>
+			)
+		}
+		{
+			accounts.length > 0 && (
+				<ul class="mt-[24px] sm:mt-[16px] flex flex-wrap gap-[16px] sm:gap-[12px]">
+					{accounts.map((account) => (
+						<li>
+							<a
+								href={account.url}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex items-center gap-[8px] sm:gap-[6px] border border-[#eee] rounded-lg px-[20px] sm:px-[14px] py-[12px] sm:py-[10px] opacity-hover duration"
+							>
+								<span class="text-[14px] sm:text-[12px] font-bold tracking-[0.04em] text-[#333]">{account.platform}</span>
+								<Icon filename="icon_open_in_new" color="#999" customClass="w-[14px] sm:w-[12px]" />
+							</a>
+						</li>
+					))}
+				</ul>
+			)
+		}
+	</div>
+</section>

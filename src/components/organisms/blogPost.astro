@@ -2,6 +2,8 @@
 import Icon from "../atoms/icon.astro";
 import Badge from "../atoms/badge.astro";
 import EyecatchImage from "../atoms/eyecatchImage.astro";
+import AboutMe from "./aboutMe.astro";
+import RecommendPost from "./recommendPost.astro";
 import { formatDate } from "../../utils/date";
 import { wrapTablesWithDiv, processHeadings } from "../../utils/htmlProcessor";
 import type { Blog } from "../../types";
@@ -88,12 +90,15 @@ const updatedDate = formatDate(blog.updatedAt);
 		<EyecatchImage eyecatch={blog.eyecatch} alt={blog.title} class="w-full rounded-3xl sm:rounded-sm" />
 	</div>
 	<div class="flex justify-between gap-[80px] sm:gap-[64px] inner mt-[160px] sm:mt-[80px] sm:flex-col-reverse">
-		<div class="max-w-[784px] w-full sm:max-w-full post" set:html={finalHtml} />
+		<div class="max-w-[784px] w-full sm:max-w-full">
+			<div class="post" set:html={finalHtml} />
+			<AboutMe />
+		</div>
 		{
 			toc.length > 0 && (
 				<aside class="max-w-[320px] w-full sm:max-w-full">
-					<div class="sticky top-[24vh] sm:relative sm:top-0">
-						<h2 class="text-[32px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-black">目次｜Index</h2>
+					<div class="sticky top-1/4 sm:top-0 sm:relative">
+						<h2 class="text-[24px] sm:text-[20px] leading-[1.48] tracking-[0.04em] font-bold">目次｜Index</h2>
 						<nav class="relative px-[32px] sm:px-[28px] pt-[32px] sm:pt-[28px] pb-[36px] sm:pb-[32px] bg-[#FAFAFA] rounded-xl mt-[16px] sm:mt-[8px]">
 							<ul id="scrollContainer" class="max-h-[320px] sm:max-h-[240px] overflow-y-scroll">
 								{toc.map((item) => (
@@ -118,4 +123,5 @@ const updatedDate = formatDate(blog.updatedAt);
 			)
 		}
 	</div>
+	<RecommendPost blog={blog} />
 </main>

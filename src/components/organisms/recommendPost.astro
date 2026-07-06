@@ -1,0 +1,43 @@
+---
+import Card from "../molecules/card.astro";
+import Icon from "../atoms/icon.astro";
+import { getBlogs } from "../../libs/microcms";
+import type { Blog } from "../../types";
+
+export interface Props {
+	blog: Blog;
+}
+
+const { blog } = Astro.props;
+
+// 同じカテゴリの記事から、現在の記事を除いた最新3件を取得
+const response = await getBlogs({
+	limit: 3,
+	filters: `category[equals]${blog.category.id}[and]id[not_equals]${blog.id}`,
+});
+const recommendPosts = response.contents;
+---
+
+{
+	recommendPosts.length > 0 && (
+		<section class="inner mt-[160px] sm:mt-[80px]">
+			<h2 class="text-[24px] sm:text-[20px] leading-none tracking-[0.04em] font-black">
+				Recommend&nbsp;<span class="font-normal bracket">オススメの記事</span>
+			</h2>
+			<ul class="grid grid-cols-3 sm:grid-cols-1 gap-[32px] sm:gap-[28px] mt-[40px] sm:mt-[24px]">
+				{recommendPosts.map((post) => (
+					<Card blog={post} />
+				))}
+			</ul>
+			<div class="mt-[48px] sm:mt-[32px] flex justify-end">
+				<a
+					href={`/categories/${blog.category.slug}`}
+					class="inline-flex items-center gap-[8px] text-[#0079C9] font-bold text-[16px] sm:text-[14px] tracking-[0.06em] duration hover:opacity-70"
+				>
+					<span class="bracket">{blog.category.name}</span>の記事をもっと見る
+					<Icon filename="icon_arrow_forward" color="#0079C9" customClass="w-[20px] h-[20px]" />
+				</a>
+			</div>
+		</section>
+	)
+}

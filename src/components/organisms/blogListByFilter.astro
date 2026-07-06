@@ -26,7 +26,7 @@ const pagerProps = filterType === "category"
 	: { tagSlug: filterSlug };
 ---
 
-<main class="inner pt-[96px] sm:pt-[48px] pb-[120px] gap-[48px] sm:pb-[64px]">
+<main class="inner pt-[160px] sm:pt-[48px] pb-[200px] sm:pb-[64px]">
 	<h1 class="text-[32px] sm:text-[24px] leading-none sm:leading-[1.4] tracking-[0.04em] font-black">
 		{filterType === "category" ? "Category" : "Tag"} <span class="font-normal bracket">{filterType === "tag" && <span class="hashtag"></span>}{filterLabel}</span>
 	</h1>
