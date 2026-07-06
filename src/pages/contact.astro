@@ -103,10 +103,10 @@ const STEPS = ['入力', '確認', '完了'];
 
           <!-- お問い合わせ内容 -->
           <div class="mt-[32px] sm:mt-[24px]">
-            <p class="text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333]">
-              お問い合わせ内容 <span class="text-[#E81F00]">*</span>
+            <p class="text-[14px] sm:text-[12px] font-bold tracking-[0.06em] leading-none text-[#333]">
+              お問い合わせ内容 <span class="text-[#E81F00] text-[10px] px-[4px] py-[2px] bg-[#FFEDEB] ml-[4px]">必須</span>
             </p>
-            <div class="mt-[12px] sm:mt-[8px] flex flex-wrap gap-[12px] sm:gap-[8px]">
+            <div class="mt-[16px] sm:mt-[12px] flex flex-wrap gap-[12px] sm:gap-[8px]">
               {
                 CATEGORIES.map((category) => (
                   <label class="flex items-center gap-[8px] sm:gap-[6px] cursor-pointer group">

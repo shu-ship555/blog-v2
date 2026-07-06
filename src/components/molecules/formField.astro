@@ -26,12 +26,12 @@ const {
 } = Astro.props;
 
 const fieldClass =
-	"mt-[8px] sm:mt-[6px] w-full border border-[#ccc] rounded-md px-[16px] py-[12px] sm:py-[10px] text-[16px] sm:text-[14px] tracking-[0.06em] text-[#333] placeholder-[#ccc] focus:outline-none focus:border-[#0079C9] transition-colors duration-[240ms]";
+	"mt-[16px] sm:mt-[12px] w-full border border-[#ccc] rounded-md px-[16px] py-[12px] sm:py-[10px] text-[16px] sm:text-[14px] tracking-[0.06em] text-[#333] placeholder-[#ccc] focus:outline-none focus:border-[#0079C9] transition-colors duration-[240ms]";
 ---
 
 <div>
-	<label for={id} class="block text-[14px] sm:text-[12px] font-bold tracking-[0.06em] text-[#333]">
-		{label} {required && <span class="text-[#E81F00]">*</span>}
+	<label for={id} class="block text-[14px] sm:text-[12px] font-bold tracking-[0.06em] leading-none text-[#333]">
+		{label} {required && <span class="text-[#E81F00] text-[10px] px-[4px] py-[2px] bg-[#FFEDEB] ml-[4px]">必須</span>}
 	</label>
 	{
 		tag === "textarea" ? (
