@@ -7,7 +7,7 @@ export interface Props {
 }
 
 const { product } = Astro.props;
-const { title, description, url, tag = [], type = [], purpose } = product;
+const { title, description, url, type = [], purpose } = product;
 
 const typeLabel = type.includes("ウェブサイト") ? "Webサイト" : type.includes("プロダクト") ? "プロダクト" : null;
 ---
@@ -50,17 +50,6 @@ const typeLabel = type.includes("ウェブサイト") ? "Webサイト" : type.in
 			<p class="text-[14px] sm:text-[12px] leading-[1.8] tracking-[0.06em] text-[#666] line-clamp-2 mt-[6px] sm:mt-[4px]">
 				{description}
 			</p>
-			<!-- {
-				tag.length > 0 && (
-					<div class="flex gap-[8px] sm:gap-[6px] flex-wrap mt-[16px] sm:mt-[12px]">
-						{tag.map((t) => (
-							<span class="text-[12px] sm:text-[10px] font-medium leading-[1] tracking-[0.06em] px-[12px] py-[6px] bg-[#F6F6F6] rounded-full text-[#666]">
-								{t.title}
-							</span>
-						))}
-					</div>
-				)
-			} -->
 		</div>
 	</a>
 </li>

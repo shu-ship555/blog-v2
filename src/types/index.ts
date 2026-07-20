@@ -74,13 +74,6 @@ export type ImageCategory = {
 	enTitle: string;
 };
 
-export type ImageTag = {
-	id: string;
-	slug: string;
-	title: string;
-	enTitle: string;
-};
-
 export type ImageItem = {
 	url: string;
 	width?: number;
@@ -95,7 +88,6 @@ export type Image = {
 	sizeVertical: number;
 	isPrivate: boolean;
 	category: ImageCategory;
-	tag: ImageTag[];
 };
 
 export type Icon = {
@@ -118,7 +110,6 @@ export type Product = {
 	title: string;
 	description: string;
 	url: string;
-	tag: ImageTag[];
 	type: string[];
 	purpose: boolean;
 } & MicroCMSListContent;
@@ -131,7 +122,6 @@ export type Work = {
 	description?: string;
 	url?: string;
 	purpose?: boolean;
-	tag?: ImageTag[];
 	enTitle?: string;
 	image?: {
 		url: string;

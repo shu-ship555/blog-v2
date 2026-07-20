@@ -12,7 +12,6 @@ export type {
 	SiteSettings,
 	Image,
 	ImageCategory,
-	ImageTag,
 	ImageItem,
 	Icon,
 	Product,
